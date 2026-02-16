@@ -1,0 +1,2272 @@
+{
+  "metadata": {
+    "map_heights_file": "records\\Hooked 1_20260210_181311_map_heights.csv",
+    "map_spots_file": "records\\Hooked 1_20260210_181311_map_spots.csv",
+    "runtime_file": "records\\Hooked 1_20260210_181311_runtime_data.txt",
+    "map_width": 3072,
+    "map_height": 2048
+  },
+  "samples": [
+    {
+      "timestamp": 2.53333354,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 135.0,
+          "y": 6.72,
+          "z": 1779.0,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 135.0,
+        "y": 6.72,
+        "z": 1779.0
+      }
+    },
+    {
+      "timestamp": 6.56666708,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 126.32,
+          "y": 6.23,
+          "z": 1809.04,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 77.8083115,
+        "y": 4.18774414,
+        "z": 1974.84436,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 8.56666756,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 105.22,
+          "y": 5.12,
+          "z": 1881.01,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 105.22,
+        "y": 5.12,
+        "z": 1881.01
+      }
+    },
+    {
+      "timestamp": 10.6000004,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 83.84,
+          "y": 4.32,
+          "z": 1954.2,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 83.84,
+        "y": 4.32,
+        "z": 1954.2
+      }
+    },
+    {
+      "timestamp": 12.6000004,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 79.6,
+          "y": 4.22,
+          "z": 1968.71,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 79.6,
+        "y": 4.22,
+        "z": 1968.71
+      }
+    },
+    {
+      "timestamp": 13.6000004,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 78.7,
+          "y": 4.2,
+          "z": 1970.53,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1066.70752,
+        "y": 9.81103516,
+        "z": 692.234192,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 21.6666679,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 64.07,
+          "y": 6.64,
+          "z": 1687.92,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 64.07,
+        "y": 6.64,
+        "z": 1687.92
+      }
+    },
+    {
+      "timestamp": 24.6666679,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 64.0,
+          "y": 7.42,
+          "z": 1575.44,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 64.0,
+        "y": 7.42,
+        "z": 1575.44
+      }
+    },
+    {
+      "timestamp": 25.6666679,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 64.0,
+          "y": 7.67,
+          "z": 1537.95,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 64.0,
+        "y": 7.67,
+        "z": 1537.95
+      }
+    },
+    {
+      "timestamp": 38.7000008,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 92.78,
+          "y": 10.51,
+          "z": 1050.54,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 92.78,
+        "y": 10.51,
+        "z": 1050.54
+      }
+    },
+    {
+      "timestamp": 42.7333374,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 126.28,
+          "y": 11.41,
+          "z": 903.19,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 126.28,
+        "y": 11.41,
+        "z": 903.19
+      }
+    },
+    {
+      "timestamp": 44.7333374,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 176.56,
+          "y": 12.78,
+          "z": 848.32,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 176.56,
+        "y": 12.78,
+        "z": 848.32
+      }
+    },
+    {
+      "timestamp": 52.7666702,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 409.11,
+          "y": 27.04,
+          "z": 704.06,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 409.11,
+        "y": 27.04,
+        "z": 704.06
+      }
+    },
+    {
+      "timestamp": 60.8000031,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 675.43,
+          "y": 14.77,
+          "z": 640.95,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "NOOP",
+        "x": 675.43,
+        "y": 14.77,
+        "z": 640.95
+      }
+    },
+    {
+      "timestamp": 64.8000031,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 818.6,
+          "y": 12.78,
+          "z": 663.3,
+          "range": 300.0,
+          "health": 3700.0
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1131.31,
+          "y": 11.44,
+          "z": 619.31,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 933.87854,
+        "y": 15.3638916,
+        "z": 832.057739,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 65.8000031,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 838.59,
+          "y": 13.76,
+          "z": 694.62,
+          "range": 300.0,
+          "health": 3584.17
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1104.83,
+          "y": 12.35,
+          "z": 592.83,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 878.398254,
+        "y": 48.0238037,
+        "z": 841.221375,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 66.8000031,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 844.15,
+          "y": 16.82,
+          "z": 730.34,
+          "range": 300.0,
+          "health": 3456.74
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1078.33,
+          "y": 13.01,
+          "z": 566.33,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 846.4646,
+        "y": 38.4350586,
+        "z": 797.635986,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 67.8333359,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 845.23,
+          "y": 23.22,
+          "z": 763.7,
+          "range": 300.0,
+          "health": 3364.6
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1050.95,
+          "y": 13.5,
+          "z": 538.94,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 890.108582,
+        "y": 47.6879883,
+        "z": 854.225098,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 68.8333359,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 864.32,
+          "y": 25.76,
+          "z": 793.05,
+          "range": 300.0,
+          "health": 3300.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1025.06,
+          "y": 13.9,
+          "z": 511.94,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 969.699707,
+        "y": 12.2989502,
+        "z": 850.537415,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 69.8333359,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 898.42,
+          "y": 18.74,
+          "z": 804.86,
+          "range": 300.0,
+          "health": 3305.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1005.03,
+          "y": 14.37,
+          "z": 480.28,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1055.0061,
+        "y": 8.71325684,
+        "z": 785.114258,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 71.8333359,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 972.57,
+          "y": 10.15,
+          "z": 794.06,
+          "range": 300.0,
+          "health": 3315.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 964.74,
+          "y": 16.16,
+          "z": 417.16,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1103.05383,
+        "y": 8.32836914,
+        "z": 765.058716,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 74.8333359,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1082.4,
+          "y": 8.47,
+          "z": 769.65,
+          "range": 300.0,
+          "health": 3330.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 961.36,
+          "y": 16.49,
+          "z": 411.82,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1082.4,
+        "y": 8.47,
+        "z": 769.65
+      }
+    },
+    {
+      "timestamp": 75.8333359,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1108.27,
+          "y": 8.21,
+          "z": 783.36,
+          "range": 300.0,
+          "health": 3335.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 961.36,
+          "y": 16.49,
+          "z": 411.82,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1138.46655,
+        "y": 6.86083984,
+        "z": 1391.45923,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 82.8666687,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1121.2,
+          "y": 8.15,
+          "z": 1046.78,
+          "range": 300.0,
+          "health": 3370.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 954.83,
+          "y": 26.76,
+          "z": 418.29,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1121.2,
+        "y": 8.15,
+        "z": 1046.78
+      }
+    },
+    {
+      "timestamp": 83.8666687,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1123.04,
+          "y": 7.76,
+          "z": 1084.24,
+          "range": 300.0,
+          "health": 3375.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 968.93,
+          "y": 24.31,
+          "z": 451.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1123.04,
+        "y": 7.76,
+        "z": 1084.24
+      }
+    },
+    {
+      "timestamp": 89.9000015,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1134.35,
+          "y": 6.79,
+          "z": 1310.19,
+          "range": 300.0,
+          "health": 3405.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1054.2,
+          "y": 9.7,
+          "z": 649.1,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1134.35,
+        "y": 6.79,
+        "z": 1310.19
+      }
+    },
+    {
+      "timestamp": 90.9000015,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1136.42,
+          "y": 6.86,
+          "z": 1347.63,
+          "range": 300.0,
+          "health": 3410.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1068.83,
+          "y": 8.25,
+          "z": 683.63,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1867.54395,
+        "y": 6.56005859,
+        "z": 1328.86792,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 93.933342,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1245.72,
+          "y": 5.45,
+          "z": 1352.94,
+          "range": 300.0,
+          "health": 3425.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1113.15,
+          "y": 5.54,
+          "z": 788.36,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1245.72,
+        "y": 5.45,
+        "z": 1352.94
+      }
+    },
+    {
+      "timestamp": 96.933342,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1358.14,
+          "y": 4.95,
+          "z": 1349.09,
+          "range": 300.0,
+          "health": 3440.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 1152.0,
+          "y": 7.2,
+          "z": 1072.0,
+          "range": 0.0,
+          "health": 72.43
+        },
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1140.23,
+          "y": 3.32,
+          "z": 840.99,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1925.46143,
+        "y": 7.13720703,
+        "z": 1337.50122,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 100.966675,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1509.35,
+          "y": 5.76,
+          "z": 1346.07,
+          "range": 300.0,
+          "health": 3460.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 1152.0,
+          "y": 7.2,
+          "z": 1072.0,
+          "range": 0.0,
+          "health": 385.02
+        },
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1130.46,
+          "y": -1.38,
+          "z": 856.92,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1509.35,
+        "y": 5.76,
+        "z": 1346.07
+      }
+    },
+    {
+      "timestamp": 103.966675,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1621.83,
+          "y": 5.67,
+          "z": 1343.83,
+          "range": 300.0,
+          "health": 3475.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 1152.0,
+          "y": 7.2,
+          "z": 1072.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1621.83,
+        "y": 5.67,
+        "z": 1343.83
+      }
+    },
+    {
+      "timestamp": 104.966675,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1659.32,
+          "y": 5.51,
+          "z": 1343.09,
+          "range": 300.0,
+          "health": 3480.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1137.98,
+          "y": -5.56,
+          "z": 897.61,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 1152.0,
+          "y": 7.2,
+          "z": 1072.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1659.32,
+        "y": 5.51,
+        "z": 1343.09
+      }
+    },
+    {
+      "timestamp": 109.000008,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1810.53,
+          "y": 5.98,
+          "z": 1339.97,
+          "range": 300.0,
+          "health": 3500.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1237.01,
+          "y": -6.32,
+          "z": 1011.52,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1810.53,
+        "y": 5.98,
+        "z": 1339.97
+      }
+    },
+    {
+      "timestamp": 110.000008,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1848.01,
+          "y": 6.32,
+          "z": 1339.17,
+          "range": 300.0,
+          "health": 3505.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1271.4,
+          "y": -6.28,
+          "z": 1028.16,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1848.01,
+        "y": 6.32,
+        "z": 1339.17
+      }
+    },
+    {
+      "timestamp": 113.000008,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1928.52,
+          "y": 7.29,
+          "z": 1315.05,
+          "range": 300.0,
+          "health": 3520.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1372.23,
+          "y": -3.76,
+          "z": 1088.15,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2022.84912,
+        "y": 11.1547852,
+        "z": 746.700989,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 118.000008,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1959.43,
+          "y": 8.13,
+          "z": 1130.14,
+          "range": 300.0,
+          "health": 3545.8
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1522.43,
+          "y": 4.93,
+          "z": 1187.71,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1959.43,
+        "y": 8.13,
+        "z": 1130.14
+      }
+    },
+    {
+      "timestamp": 121.03334,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1978.02,
+          "y": 7.95,
+          "z": 1017.92,
+          "range": 300.0,
+          "health": 3563.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1630.94,
+          "y": 5.17,
+          "z": 1221.77,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 1978.02,
+        "y": 7.95,
+        "z": 1017.92
+      }
+    },
+    {
+      "timestamp": 129.03334,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2037.88,
+          "y": 11.07,
+          "z": 756.58,
+          "range": 300.0,
+          "health": 3608.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 1953.56,
+          "y": 16.73,
+          "z": 1238.35,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1984.94824,
+        "y": 8.16455078,
+        "z": 1077.48462,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 131.066681,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2027.69,
+          "y": 10.38,
+          "z": 831.53,
+          "range": 300.0,
+          "health": 3628.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2003.65,
+          "y": 13.56,
+          "z": 1252.03,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2027.69,
+        "y": 10.38,
+        "z": 831.53
+      }
+    },
+    {
+      "timestamp": 132.066681,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2012.12,
+          "y": 9.86,
+          "z": 863.68,
+          "range": 300.0,
+          "health": 3638.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2030.67,
+          "y": 8.29,
+          "z": 1321.72,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1882.82532,
+        "y": 7.1027832,
+        "z": 975.855591,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 133.066681,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1991.47,
+          "y": 9.19,
+          "z": 894.56,
+          "range": 300.0,
+          "health": 3648.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2065.81,
+          "y": 8.47,
+          "z": 1334.82,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1876.87329,
+        "y": 7.37231445,
+        "z": 1101.48889,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 135.066681,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1958.28,
+          "y": 7.99,
+          "z": 961.68,
+          "range": 300.0,
+          "health": 3668.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2136.02,
+          "y": 8.61,
+          "z": 1361.19,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1843.60876,
+        "y": 6.84521484,
+        "z": 1240.34644,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 136.066681,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1941.97,
+          "y": 7.58,
+          "z": 995.38,
+          "range": 300.0,
+          "health": 3678.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2171.18,
+          "y": 8.55,
+          "z": 1374.2,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1774.979,
+        "y": 5.76611328,
+        "z": 1301.93994,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 137.066681,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1931.67,
+          "y": 7.46,
+          "z": 1031.28,
+          "range": 300.0,
+          "health": 3688.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2207.53,
+          "y": 8.59,
+          "z": 1383.43,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1828.92798,
+        "y": 6.18823242,
+        "z": 1446.87793,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 138.100006,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1925.49,
+          "y": 7.58,
+          "z": 1069.28,
+          "range": 300.0,
+          "health": 3698.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2245.06,
+          "y": 8.8,
+          "z": 1393.02,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1917.42639,
+        "y": 6.43261719,
+        "z": 1489.36926,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 139.100006,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1926.84,
+          "y": 7.8,
+          "z": 1106.67,
+          "range": 300.0,
+          "health": 3708.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2281.39,
+          "y": 9.12,
+          "z": 1402.29,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 1973.64221,
+        "y": 6.33740234,
+        "z": 1508.07263,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 140.100006,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1931.59,
+          "y": 7.99,
+          "z": 1143.83,
+          "range": 300.0,
+          "health": 3718.3
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2319.58,
+          "y": -2.9,
+          "z": 1376.89,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2069.26709,
+        "y": 7.05078125,
+        "z": 1479.09778,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 143.100006,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 1979.76,
+          "y": 8.2,
+          "z": 1244.03,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2435.04,
+          "y": -5.89,
+          "z": 1432.23,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2194.06323,
+        "y": 8.18029785,
+        "z": 1415.25305,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 145.133347,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2043.33,
+          "y": 8.62,
+          "z": 1284.57,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2506.34,
+          "y": -4.59,
+          "z": 1463.64,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2304.47046,
+        "y": 9.9017334,
+        "z": 1381.24097,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 147.133347,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2113.89,
+          "y": 8.97,
+          "z": 1309.7,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2576.8,
+          "y": -2.65,
+          "z": 1493.29,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2419.3313,
+        "y": 14.9125977,
+        "z": 1364.21533,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 149.166672,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2188.93,
+          "y": 9.15,
+          "z": 1323.2,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2650.33,
+          "y": -0.26,
+          "z": 1516.69,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2188.93,
+        "y": 9.15,
+        "z": 1323.2
+      }
+    },
+    {
+      "timestamp": 150.166672,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2225.3,
+          "y": 9.42,
+          "z": 1332.0,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2686.88,
+          "y": 2.11,
+          "z": 1521.76,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2663.11475,
+        "y": 20.9241943,
+        "z": 1333.18384,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 152.166672,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2296.8,
+          "y": 10.71,
+          "z": 1354.21,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2756.51,
+          "y": 11.08,
+          "z": 1531.98,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2296.8,
+        "y": 10.71,
+        "z": 1354.21
+      }
+    },
+    {
+      "timestamp": 153.166672,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2332.71,
+          "y": 11.79,
+          "z": 1364.09,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 2792.08,
+          "y": 14.2,
+          "z": 1534.95,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2824.56738,
+        "y": 17.0708008,
+        "z": 1227.44763,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 161.200012,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2630.86,
+          "y": 15.97,
+          "z": 1356.8,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2877.58765,
+        "y": 19.0784912,
+        "z": 862.122498,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 163.200012,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2705.1,
+          "y": 16.13,
+          "z": 1354.89,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "MOVE",
+        "x": 2988.96436,
+        "y": 11.5627441,
+        "z": 99.5366211,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 165.200012,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2770.77,
+          "y": 16.3,
+          "z": 1324.41,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2770.77,
+        "y": 16.3,
+        "z": 1324.41
+      }
+    },
+    {
+      "timestamp": 169.233337,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2837.04,
+          "y": 16.9,
+          "z": 1194.54,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2837.04,
+        "y": 16.9,
+        "z": 1194.54
+      }
+    },
+    {
+      "timestamp": 177.266678,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2901.73,
+          "y": 15.75,
+          "z": 902.52,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2901.73,
+        "y": 15.75,
+        "z": 902.52
+      }
+    },
+    {
+      "timestamp": 180.266678,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2936.8,
+          "y": 13.2,
+          "z": 795.77,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2936.8,
+        "y": 13.2,
+        "z": 795.77
+      }
+    },
+    {
+      "timestamp": 188.300003,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 3006.94,
+          "y": 11.86,
+          "z": 503.19,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 3006.94,
+        "y": 11.86,
+        "z": 503.19
+      }
+    },
+    {
+      "timestamp": 196.333344,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2996.88,
+          "y": 10.85,
+          "z": 202.28,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2996.88,
+        "y": 10.85,
+        "z": 202.28
+      }
+    },
+    {
+      "timestamp": 198.333344,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2992.06,
+          "y": 11.31,
+          "z": 127.45,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2992.06,
+        "y": 11.31,
+        "z": 127.45
+      }
+    },
+    {
+      "timestamp": 201.000015,
+      "unit_id": 27352,
+      "friendly_units": [
+        {
+          "id": 27352,
+          "name": "unit",
+          "x": 2989.67,
+          "y": 11.5,
+          "z": 105.97,
+          "range": 300.0,
+          "health": 3732.45
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 4726,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        },
+        {
+          "id": 14348,
+          "name": "unit",
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "range": 0.0,
+          "health": 0.0
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2989.67,
+        "y": 11.5,
+        "z": 105.97
+      }
+    }
+  ]
+}

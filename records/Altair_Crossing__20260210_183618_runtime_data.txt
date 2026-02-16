@@ -1,0 +1,3751 @@
+UPDATE: 0
+Commands:
+Enemy Units:
+Friendly Units:
+Known Enemy Units:
+END
+UPDATE: 0
+Commands:
+Enemy Units:
+Friendly Units:
+Known Enemy Units:
+END
+UPDATE: 0
+Commands:
+Enemy Units:
+Friendly Units:
+Known Enemy Units:
+END
+UPDATE: 0
+Commands:
+Enemy Units:
+Friendly Units:
+Known Enemy Units:
+END
+UPDATE: 0
+Commands:
+Enemy Units:
+Friendly Units:
+Known Enemy Units:
+END
+UPDATE: 0
+Commands:
+Enemy Units:
+Friendly Units:
+Known Enemy Units:
+END
+UPDATE: 0
+Commands:
+Enemy Units:
+Friendly Units:
+Known Enemy Units:
+END
+UPDATE: 0
+Commands:
+Enemy Units:
+Friendly Units:
+Known Enemy Units:
+END
+UPDATE: 0.9666667
+Commands:
+Command 1: UnitID: 6704, CmdID: 45, CmdParams: 2, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (179.00, 263.53, 3933.00)
+Known Enemy Units:
+END
+UPDATE: 2
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (179.00, 263.53, 3933.00)
+Known Enemy Units:
+END
+UPDATE: 3.00000024
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (179.00, 263.53, 3933.00)
+Known Enemy Units:
+END
+UPDATE: 4
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 85.8192291,262.789795,4001.70044, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (160.80, 263.43, 3949.28)
+Known Enemy Units:
+END
+UPDATE: 5.00000048
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (130.16, 263.19, 3970.91)
+Known Enemy Units:
+END
+UPDATE: 6.00000048
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 880.679565,163.551758,4007.94336, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (124.78, 262.93, 3994.59)
+Known Enemy Units:
+END
+UPDATE: 7.03333378
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (162.64, 263.36, 3988.55)
+Known Enemy Units:
+END
+UPDATE: 8.03333378
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (199.26, 263.49, 3980.50)
+Known Enemy Units:
+END
+UPDATE: 9.03333378
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (235.88, 263.62, 3972.44)
+Known Enemy Units:
+END
+UPDATE: 10.0333338
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (270.86, 263.79, 3959.68)
+Known Enemy Units:
+END
+UPDATE: 11.0333338
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (304.62, 262.81, 3943.35)
+Known Enemy Units:
+END
+UPDATE: 12.0333338
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (339.40, 255.24, 3929.44)
+Known Enemy Units:
+END
+UPDATE: 13.0333338
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (376.16, 224.43, 3928.71)
+Known Enemy Units:
+END
+UPDATE: 14.0333338
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (412.23, 219.79, 3938.87)
+Known Enemy Units:
+END
+UPDATE: 15.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (449.41, 212.57, 3949.78)
+Known Enemy Units:
+END
+UPDATE: 16.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (485.41, 180.27, 3960.31)
+Known Enemy Units:
+END
+UPDATE: 17.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (521.73, 169.54, 3969.49)
+Known Enemy Units:
+END
+UPDATE: 18.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (558.47, 164.94, 3977.03)
+Known Enemy Units:
+END
+UPDATE: 19.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (595.21, 163.63, 3984.52)
+Known Enemy Units:
+END
+UPDATE: 20.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (631.96, 163.57, 3991.99)
+Known Enemy Units:
+END
+UPDATE: 21.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (668.96, 163.76, 3997.32)
+Known Enemy Units:
+END
+UPDATE: 22.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (706.44, 163.98, 3998.54)
+Known Enemy Units:
+END
+UPDATE: 23.0666676
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (743.92, 164.11, 3999.75)
+Known Enemy Units:
+END
+UPDATE: 24.1000004
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (782.65, 163.95, 4001.00)
+Known Enemy Units:
+END
+UPDATE: 25.1000004
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (820.13, 163.85, 4002.20)
+Known Enemy Units:
+END
+UPDATE: 26.1000023
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 1584.21899,262.735596,4007.03369, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (857.49, 163.70, 4002.21)
+Known Enemy Units:
+END
+UPDATE: 27.1000023
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (894.12, 163.72, 3994.17)
+Known Enemy Units:
+END
+UPDATE: 28.1000023
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (930.88, 163.77, 3986.78)
+Known Enemy Units:
+END
+UPDATE: 29.1000023
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (967.64, 163.78, 3979.37)
+Known Enemy Units:
+END
+UPDATE: 30.1000023
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1004.40, 163.42, 3971.95)
+Known Enemy Units:
+END
+UPDATE: 31.1000023
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1036.06, 163.15, 3954.50)
+Known Enemy Units:
+END
+UPDATE: 32.1000023
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1062.84, 163.18, 3928.25)
+Known Enemy Units:
+END
+UPDATE: 33.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1090.48, 163.35, 3901.09)
+Known Enemy Units:
+END
+UPDATE: 34.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1117.18, 163.44, 3874.76)
+Known Enemy Units:
+END
+UPDATE: 35.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1143.73, 163.29, 3848.28)
+Known Enemy Units:
+END
+UPDATE: 36.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1173.03, 163.01, 3824.95)
+Known Enemy Units:
+END
+UPDATE: 37.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1202.86, 162.60, 3802.24)
+Known Enemy Units:
+END
+UPDATE: 38.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1232.73, 161.88, 3779.56)
+Known Enemy Units:
+END
+UPDATE: 39.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1262.64, 161.24, 3756.95)
+Known Enemy Units:
+END
+UPDATE: 40.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1292.45, 162.89, 3734.55)
+Known Enemy Units:
+END
+UPDATE: 41.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1323.48, 166.65, 3717.83)
+Known Enemy Units:
+END
+UPDATE: 42.1333351
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1346.43, 179.99, 3713.47)
+Known Enemy Units:
+END
+UPDATE: 43.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1367.02, 194.07, 3713.00)
+Known Enemy Units:
+END
+UPDATE: 44.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1387.76, 207.96, 3712.50)
+Known Enemy Units:
+END
+UPDATE: 45.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1405.82, 220.09, 3714.55)
+Known Enemy Units:
+END
+UPDATE: 46.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1414.29, 239.07, 3728.11)
+Known Enemy Units:
+END
+UPDATE: 47.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1423.68, 251.68, 3743.06)
+Known Enemy Units:
+END
+UPDATE: 48.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1439.27, 262.01, 3767.86)
+Known Enemy Units:
+END
+UPDATE: 49.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1458.10, 265.64, 3797.92)
+Known Enemy Units:
+END
+UPDATE: 50.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1477.89, 264.75, 3829.77)
+Known Enemy Units:
+END
+UPDATE: 51.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1497.25, 263.73, 3861.89)
+Known Enemy Units:
+END
+UPDATE: 52.1666679
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1516.62, 263.34, 3893.99)
+Known Enemy Units:
+END
+UPDATE: 53.2000046
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1536.62, 263.17, 3927.19)
+Known Enemy Units:
+END
+UPDATE: 54.2000046
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1555.92, 263.12, 3959.34)
+Known Enemy Units:
+END
+UPDATE: 55.2000046
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 1934.5155,262.684082,4055.45996, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1583.02, 263.03, 3981.37)
+Known Enemy Units:
+END
+UPDATE: 56.2000046
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1619.71, 263.07, 3989.14)
+Known Enemy Units:
+END
+UPDATE: 57.2000046
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1656.39, 263.11, 3996.90)
+Known Enemy Units:
+END
+UPDATE: 58.2000046
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1693.08, 263.09, 4004.66)
+Known Enemy Units:
+END
+UPDATE: 59.2000046
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1729.77, 263.16, 4012.43)
+Known Enemy Units:
+END
+UPDATE: 60.2000046
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1766.45, 263.27, 4020.19)
+Known Enemy Units:
+END
+UPDATE: 61.2000046
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1803.14, 263.28, 4027.93)
+Known Enemy Units:
+END
+UPDATE: 62.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1841.07, 263.19, 4035.90)
+Known Enemy Units:
+END
+UPDATE: 63.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1877.76, 262.81, 4043.61)
+Known Enemy Units:
+END
+UPDATE: 64.2333374
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 2355.38867,262.831299,4026.85229, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1914.71, 262.41, 4048.23)
+Known Enemy Units:
+END
+UPDATE: 65.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1952.15, 262.96, 4046.45)
+Known Enemy Units:
+END
+UPDATE: 66.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (1989.60, 263.25, 4044.67)
+Known Enemy Units:
+END
+UPDATE: 67.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2027.06, 263.25, 4042.89)
+Known Enemy Units:
+END
+UPDATE: 68.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2064.51, 263.38, 4041.11)
+Known Enemy Units:
+END
+UPDATE: 69.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2101.97, 263.49, 4039.30)
+Known Enemy Units:
+END
+UPDATE: 70.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2139.42, 263.31, 4037.47)
+Known Enemy Units:
+END
+UPDATE: 71.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2176.88, 263.01, 4035.63)
+Known Enemy Units:
+END
+UPDATE: 72.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2214.34, 262.90, 4033.79)
+Known Enemy Units:
+END
+UPDATE: 73.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2251.79, 262.92, 4031.95)
+Known Enemy Units:
+END
+UPDATE: 74.2333374
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2289.25, 262.84, 4030.11)
+Known Enemy Units:
+END
+UPDATE: 75.2666702
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3230.51221,163.622559,3969.36792, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2327.95, 262.75, 4028.17)
+Known Enemy Units:
+END
+UPDATE: 76.2666702
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2332.16, 262.89, 3997.11)
+Known Enemy Units:
+END
+UPDATE: 77.2666702
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2322.86, 263.19, 3961.08)
+Known Enemy Units:
+END
+UPDATE: 78.2666702
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2320.96, 264.06, 3923.70)
+Known Enemy Units:
+END
+UPDATE: 79.2666702
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2315.35, 266.23, 3887.10)
+Known Enemy Units:
+END
+UPDATE: 80.2666702
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2306.65, 266.26, 3850.88)
+Known Enemy Units:
+END
+UPDATE: 81.2666702
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2284.30, 265.47, 3821.75)
+Known Enemy Units:
+END
+UPDATE: 82.2666702
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2258.03, 265.21, 3794.99)
+Known Enemy Units:
+END
+UPDATE: 83.3000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2230.85, 264.66, 3767.38)
+Known Enemy Units:
+END
+UPDATE: 84.3000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2204.52, 264.16, 3740.68)
+Known Enemy Units:
+END
+UPDATE: 85.3000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2178.43, 263.71, 3713.78)
+Known Enemy Units:
+END
+UPDATE: 86.3000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2161.22, 263.72, 3680.47)
+Known Enemy Units:
+END
+UPDATE: 87.3000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2144.08, 264.65, 3647.19)
+Known Enemy Units:
+END
+UPDATE: 88.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2126.47, 265.51, 3612.77)
+Known Enemy Units:
+END
+UPDATE: 89.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2111.56, 266.03, 3578.59)
+Known Enemy Units:
+END
+UPDATE: 90.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2102.04, 268.05, 3542.86)
+Known Enemy Units:
+END
+UPDATE: 91.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2100.25, 253.46, 3507.96)
+Known Enemy Units:
+END
+UPDATE: 92.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2108.54, 220.39, 3471.38)
+Known Enemy Units:
+END
+UPDATE: 93.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2133.45, 203.12, 3452.84)
+Known Enemy Units:
+END
+UPDATE: 94.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2170.85, 190.36, 3455.58)
+Known Enemy Units:
+END
+UPDATE: 95.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2208.35, 169.14, 3455.69)
+Known Enemy Units:
+END
+UPDATE: 96.3333359
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2245.85, 164.09, 3455.83)
+Known Enemy Units:
+END
+UPDATE: 97.3666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2284.60, 162.34, 3455.95)
+Known Enemy Units:
+END
+UPDATE: 98.3666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2320.87, 162.59, 3463.18)
+Known Enemy Units:
+END
+UPDATE: 99.3666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2356.17, 162.56, 3475.83)
+Known Enemy Units:
+END
+UPDATE: 100.366669
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2391.32, 162.51, 3488.90)
+Known Enemy Units:
+END
+UPDATE: 101.366669
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2426.45, 162.95, 3501.98)
+Known Enemy Units:
+END
+UPDATE: 102.366669
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2462.76, 163.40, 3511.26)
+Known Enemy Units:
+END
+UPDATE: 103.366669
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2499.09, 163.53, 3520.54)
+Known Enemy Units:
+END
+UPDATE: 104.366669
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2532.39, 163.54, 3536.98)
+Known Enemy Units:
+END
+UPDATE: 105.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2565.23, 163.67, 3557.56)
+Known Enemy Units:
+END
+UPDATE: 106.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2597.00, 163.78, 3577.47)
+Known Enemy Units:
+END
+UPDATE: 107.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2628.77, 163.75, 3597.39)
+Known Enemy Units:
+END
+UPDATE: 108.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2660.57, 163.76, 3617.27)
+Known Enemy Units:
+END
+UPDATE: 109.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2692.37, 163.88, 3637.13)
+Known Enemy Units:
+END
+UPDATE: 110.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2724.17, 163.86, 3657.00)
+Known Enemy Units:
+END
+UPDATE: 111.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2755.97, 163.81, 3676.87)
+Known Enemy Units:
+END
+UPDATE: 112.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2787.78, 163.80, 3696.73)
+Known Enemy Units:
+END
+UPDATE: 113.400009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2819.62, 163.79, 3716.55)
+Known Enemy Units:
+END
+UPDATE: 114.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2852.52, 163.72, 3737.03)
+Known Enemy Units:
+END
+UPDATE: 115.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2884.35, 163.80, 3756.85)
+Known Enemy Units:
+END
+UPDATE: 116.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2916.21, 164.00, 3776.62)
+Known Enemy Units:
+END
+UPDATE: 117.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2948.07, 164.14, 3796.39)
+Known Enemy Units:
+END
+UPDATE: 118.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2979.95, 164.17, 3816.14)
+Known Enemy Units:
+END
+UPDATE: 119.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3011.84, 164.09, 3835.87)
+Known Enemy Units:
+END
+UPDATE: 120.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3043.75, 163.97, 3855.58)
+Known Enemy Units:
+END
+UPDATE: 121.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3075.68, 163.88, 3875.25)
+Known Enemy Units:
+END
+UPDATE: 122.433342
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3107.63, 163.80, 3894.88)
+Known Enemy Units:
+END
+UPDATE: 123.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3140.67, 163.85, 3915.12)
+Known Enemy Units:
+END
+UPDATE: 124.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3172.68, 164.03, 3934.64)
+Known Enemy Units:
+END
+UPDATE: 125.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3204.76, 163.91, 3954.06)
+Known Enemy Units:
+END
+UPDATE: 126.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3224.42, 163.70, 3965.82)
+Known Enemy Units:
+END
+UPDATE: 127.466675
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3960.35571,262.657715,3980.42944, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3240.33, 163.68, 3961.35)
+Known Enemy Units:
+END
+UPDATE: 128.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3271.64, 163.87, 3940.72)
+Known Enemy Units:
+END
+UPDATE: 129.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3303.00, 163.85, 3920.16)
+Known Enemy Units:
+END
+UPDATE: 130.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3335.18, 163.86, 3901.01)
+Known Enemy Units:
+END
+UPDATE: 131.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3368.61, 163.99, 3884.03)
+Known Enemy Units:
+END
+UPDATE: 132.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3402.06, 164.03, 3867.08)
+Known Enemy Units:
+END
+UPDATE: 133.5
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3436.66, 163.94, 3849.63)
+Known Enemy Units:
+END
+UPDATE: 134.5
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3466.96, 163.70, 3828.13)
+Known Enemy Units:
+END
+UPDATE: 135.5
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3494.79, 163.43, 3802.99)
+Known Enemy Units:
+END
+UPDATE: 136.5
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3522.61, 163.43, 3777.85)
+Known Enemy Units:
+END
+UPDATE: 137.5
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3551.09, 163.33, 3753.48)
+Known Enemy Units:
+END
+UPDATE: 138.5
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3580.80, 163.14, 3730.61)
+Known Enemy Units:
+END
+UPDATE: 139.5
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3612.10, 163.19, 3709.96)
+Known Enemy Units:
+END
+UPDATE: 140.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3644.63, 163.34, 3688.92)
+Known Enemy Units:
+END
+UPDATE: 141.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3676.16, 163.31, 3668.61)
+Known Enemy Units:
+END
+UPDATE: 142.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3707.79, 163.05, 3648.47)
+Known Enemy Units:
+END
+UPDATE: 143.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3739.98, 162.99, 3629.25)
+Known Enemy Units:
+END
+UPDATE: 144.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3774.65, 162.13, 3617.74)
+Known Enemy Units:
+END
+UPDATE: 145.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3812.11, 161.00, 3616.25)
+Known Enemy Units:
+END
+UPDATE: 146.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3849.61, 156.17, 3616.04)
+Known Enemy Units:
+END
+UPDATE: 147.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3886.42, 154.02, 3621.19)
+Known Enemy Units:
+END
+UPDATE: 148.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3922.91, 154.11, 3629.06)
+Known Enemy Units:
+END
+UPDATE: 149.53334
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3956.00, 157.92, 3642.55)
+Known Enemy Units:
+END
+UPDATE: 150.566681
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3547.88916,163.313965,3300.44189, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3970.31, 161.17, 3628.04)
+Known Enemy Units:
+END
+UPDATE: 151.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3941.14, 161.13, 3604.92)
+Known Enemy Units:
+END
+UPDATE: 152.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3912.15, 162.71, 3582.29)
+Known Enemy Units:
+END
+UPDATE: 153.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3882.63, 163.41, 3559.33)
+Known Enemy Units:
+END
+UPDATE: 154.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3853.06, 163.82, 3536.32)
+Known Enemy Units:
+END
+UPDATE: 155.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3823.47, 163.90, 3513.29)
+Known Enemy Units:
+END
+UPDATE: 156.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3793.87, 163.91, 3490.27)
+Known Enemy Units:
+END
+UPDATE: 157.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3763.27, 163.93, 3466.49)
+Known Enemy Units:
+END
+UPDATE: 158.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3733.64, 163.98, 3443.51)
+Known Enemy Units:
+END
+UPDATE: 159.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3704.00, 163.96, 3420.53)
+Known Enemy Units:
+END
+UPDATE: 160.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3674.35, 163.83, 3397.57)
+Known Enemy Units:
+END
+UPDATE: 161.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3644.68, 163.67, 3374.64)
+Known Enemy Units:
+END
+UPDATE: 162.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3614.98, 163.75, 3351.74)
+Known Enemy Units:
+END
+UPDATE: 163.600006
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3737.8103,163.098145,3087.979, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3586.80, 163.77, 3327.53)
+Known Enemy Units:
+END
+UPDATE: 164.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3603.10, 163.91, 3294.97)
+Known Enemy Units:
+END
+UPDATE: 165.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3623.72, 164.14, 3263.65)
+Known Enemy Units:
+END
+UPDATE: 166.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3644.31, 163.98, 3232.31)
+Known Enemy Units:
+END
+UPDATE: 167.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3664.85, 163.89, 3200.94)
+Known Enemy Units:
+END
+UPDATE: 168.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3685.35, 163.80, 3169.54)
+Known Enemy Units:
+END
+UPDATE: 169.633347
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3706.46, 163.62, 3137.04)
+Known Enemy Units:
+END
+UPDATE: 170.633347
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3726.76, 163.05, 3105.51)
+Known Enemy Units:
+END
+UPDATE: 171.633347
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3882.75635,163.216309,2153.25488, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3735.30, 163.06, 3091.09)
+Known Enemy Units:
+END
+UPDATE: 172.633347
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3741.04, 163.86, 3054.24)
+Known Enemy Units:
+END
+UPDATE: 173.633347
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3746.88, 164.19, 3017.20)
+Known Enemy Units:
+END
+UPDATE: 174.633347
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3752.73, 164.22, 2980.17)
+Known Enemy Units:
+END
+UPDATE: 175.633347
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3758.57, 164.13, 2943.13)
+Known Enemy Units:
+END
+UPDATE: 176.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3764.61, 164.11, 2904.85)
+Known Enemy Units:
+END
+UPDATE: 177.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3770.46, 164.05, 2867.82)
+Known Enemy Units:
+END
+UPDATE: 178.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3776.30, 163.89, 2830.78)
+Known Enemy Units:
+END
+UPDATE: 179.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3782.15, 163.73, 2793.74)
+Known Enemy Units:
+END
+UPDATE: 180.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3787.99, 163.68, 2756.70)
+Known Enemy Units:
+END
+UPDATE: 181.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3793.84, 163.67, 2719.66)
+Known Enemy Units:
+END
+UPDATE: 182.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3799.68, 163.72, 2682.62)
+Known Enemy Units:
+END
+UPDATE: 183.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3805.53, 163.91, 2645.58)
+Known Enemy Units:
+END
+UPDATE: 184.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3811.37, 163.88, 2608.55)
+Known Enemy Units:
+END
+UPDATE: 185.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3817.22, 163.71, 2571.51)
+Known Enemy Units:
+END
+UPDATE: 186.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3823.06, 163.70, 2534.47)
+Known Enemy Units:
+END
+UPDATE: 187.666672
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3828.91, 163.94, 2497.43)
+Known Enemy Units:
+END
+UPDATE: 188.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3834.94, 164.11, 2459.16)
+Known Enemy Units:
+END
+UPDATE: 189.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3840.79, 164.13, 2422.12)
+Known Enemy Units:
+END
+UPDATE: 190.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3846.60, 163.98, 2385.07)
+Known Enemy Units:
+END
+UPDATE: 191.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3852.39, 163.93, 2348.02)
+Known Enemy Units:
+END
+UPDATE: 192.733337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3858.37, 163.94, 2309.73)
+Known Enemy Units:
+END
+UPDATE: 193.733337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3864.15, 163.97, 2272.68)
+Known Enemy Units:
+END
+UPDATE: 194.733337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3869.94, 164.02, 2235.63)
+Known Enemy Units:
+END
+UPDATE: 195.733337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3875.73, 163.92, 2198.57)
+Known Enemy Units:
+END
+UPDATE: 196.733337
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3642.93433,163.223022,2058.7334, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3869.17, 163.40, 2165.86)
+Known Enemy Units:
+END
+UPDATE: 197.733337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3835.33, 163.51, 2149.72)
+Known Enemy Units:
+END
+UPDATE: 198.766678
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3800.34, 163.88, 2133.08)
+Known Enemy Units:
+END
+UPDATE: 199.766678
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3766.47, 164.08, 2117.00)
+Known Enemy Units:
+END
+UPDATE: 200.766678
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3732.59, 164.13, 2100.92)
+Known Enemy Units:
+END
+UPDATE: 201.766678
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3698.69, 164.03, 2084.89)
+Known Enemy Units:
+END
+UPDATE: 202.766678
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3664.77, 163.47, 2068.91)
+Known Enemy Units:
+END
+UPDATE: 203.766678
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3861.8418,163.573975,1843.2876, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3645.52, 163.21, 2057.30)
+Known Enemy Units:
+END
+UPDATE: 204.766678
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3665.00, 163.46, 2028.28)
+Known Enemy Units:
+END
+UPDATE: 205.766678
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3692.35, 163.74, 2002.64)
+Known Enemy Units:
+END
+UPDATE: 206.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3720.62, 163.68, 1976.14)
+Known Enemy Units:
+END
+UPDATE: 207.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3747.98, 163.81, 1950.49)
+Known Enemy Units:
+END
+UPDATE: 208.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3775.33, 164.00, 1924.84)
+Known Enemy Units:
+END
+UPDATE: 209.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3802.64, 164.00, 1899.15)
+Known Enemy Units:
+END
+UPDATE: 210.800018
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3748.58862,163.197021,913.766418, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3829.93, 163.52, 1873.42)
+Known Enemy Units:
+END
+UPDATE: 211.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3830.60, 163.36, 1836.85)
+Known Enemy Units:
+END
+UPDATE: 212.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3827.16, 163.79, 1798.27)
+Known Enemy Units:
+END
+UPDATE: 213.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3823.82, 163.89, 1760.92)
+Known Enemy Units:
+END
+UPDATE: 214.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3820.49, 163.92, 1723.57)
+Known Enemy Units:
+END
+UPDATE: 215.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3817.16, 163.93, 1686.22)
+Known Enemy Units:
+END
+UPDATE: 216.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3813.83, 163.72, 1648.87)
+Known Enemy Units:
+END
+UPDATE: 217.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3810.49, 163.57, 1611.52)
+Known Enemy Units:
+END
+UPDATE: 218.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3807.16, 163.67, 1574.17)
+Known Enemy Units:
+END
+UPDATE: 219.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3803.83, 163.80, 1536.82)
+Known Enemy Units:
+END
+UPDATE: 220.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3800.50, 163.93, 1499.47)
+Known Enemy Units:
+END
+UPDATE: 221.866684
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3797.05, 163.99, 1460.87)
+Known Enemy Units:
+END
+UPDATE: 222.866684
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3793.72, 163.98, 1423.52)
+Known Enemy Units:
+END
+UPDATE: 223.866684
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3790.39, 163.91, 1386.17)
+Known Enemy Units:
+END
+UPDATE: 224.866684
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3787.06, 163.82, 1348.82)
+Known Enemy Units:
+END
+UPDATE: 225.866684
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3783.72, 163.79, 1311.47)
+Known Enemy Units:
+END
+UPDATE: 226.866684
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3780.39, 163.92, 1274.12)
+Known Enemy Units:
+END
+UPDATE: 227.866684
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3777.06, 163.90, 1236.77)
+Known Enemy Units:
+END
+UPDATE: 228.900009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3773.61, 163.75, 1198.18)
+Known Enemy Units:
+END
+UPDATE: 229.900009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3770.28, 163.84, 1160.83)
+Known Enemy Units:
+END
+UPDATE: 230.900009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3766.96, 164.13, 1123.48)
+Known Enemy Units:
+END
+UPDATE: 231.900009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3763.69, 164.28, 1086.13)
+Known Enemy Units:
+END
+UPDATE: 232.900009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3760.41, 164.11, 1048.77)
+Known Enemy Units:
+END
+UPDATE: 233.900009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3757.14, 163.88, 1011.41)
+Known Enemy Units:
+END
+UPDATE: 234.900009
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3753.87, 163.84, 974.05)
+Known Enemy Units:
+END
+UPDATE: 235.93335
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3525.58838,163.588867,767.983154, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3731.85, 163.76, 944.51)
+Known Enemy Units:
+END
+UPDATE: 236.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3703.38, 163.63, 920.10)
+Known Enemy Units:
+END
+UPDATE: 237.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3674.92, 164.04, 895.71)
+Known Enemy Units:
+END
+UPDATE: 238.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3646.45, 164.15, 871.30)
+Known Enemy Units:
+END
+UPDATE: 239.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3617.98, 164.10, 846.89)
+Known Enemy Units:
+END
+UPDATE: 240.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3589.51, 164.07, 822.50)
+Known Enemy Units:
+END
+UPDATE: 241.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3561.00, 163.83, 798.14)
+Known Enemy Units:
+END
+UPDATE: 242.93335
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3929.92285,262.799316,182.038391, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3549.86, 163.57, 768.50)
+Known Enemy Units:
+END
+UPDATE: 243.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3570.40, 164.01, 737.15)
+Known Enemy Units:
+END
+UPDATE: 244.966675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3591.63, 163.75, 704.73)
+Known Enemy Units:
+END
+UPDATE: 245.966675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3612.18, 163.36, 673.36)
+Known Enemy Units:
+END
+UPDATE: 246.966675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3632.72, 163.42, 641.99)
+Known Enemy Units:
+END
+UPDATE: 247.966675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3652.78, 166.25, 611.32)
+Known Enemy Units:
+END
+UPDATE: 248.966675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3669.17, 177.39, 586.21)
+Known Enemy Units:
+END
+UPDATE: 249.966675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3683.93, 189.79, 563.61)
+Known Enemy Units:
+END
+UPDATE: 250.966675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3699.93, 200.48, 539.09)
+Known Enemy Units:
+END
+UPDATE: 252.000015
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3719.97, 206.06, 508.36)
+Known Enemy Units:
+END
+UPDATE: 253.000015
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3739.62, 210.60, 478.16)
+Known Enemy Units:
+END
+UPDATE: 254.000015
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3759.13, 215.18, 448.17)
+Known Enemy Units:
+END
+UPDATE: 255.000015
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3778.72, 218.56, 417.98)
+Known Enemy Units:
+END
+UPDATE: 256
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3796.94, 225.54, 389.88)
+Known Enemy Units:
+END
+UPDATE: 257
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3813.45, 236.19, 364.36)
+Known Enemy Units:
+END
+UPDATE: 258
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3828.78, 248.44, 340.65)
+Known Enemy Units:
+END
+UPDATE: 259
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3845.21, 258.74, 315.17)
+Known Enemy Units:
+END
+UPDATE: 260
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3865.05, 262.31, 284.33)
+Known Enemy Units:
+END
+UPDATE: 261.033356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3885.88, 263.36, 251.81)
+Known Enemy Units:
+END
+UPDATE: 262.033356
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 3080.73022,163.693359,146.40271, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3904.11, 263.43, 219.44)
+Known Enemy Units:
+END
+UPDATE: 263.033356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3872.91, 263.35, 206.37)
+Known Enemy Units:
+END
+UPDATE: 264.033356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3836.14, 263.53, 200.45)
+Known Enemy Units:
+END
+UPDATE: 265.033356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3801.54, 264.32, 186.14)
+Known Enemy Units:
+END
+UPDATE: 266.033356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3766.94, 265.26, 171.87)
+Known Enemy Units:
+END
+UPDATE: 267.033356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3733.10, 268.71, 157.95)
+Known Enemy Units:
+END
+UPDATE: 268.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3698.86, 274.60, 145.28)
+Known Enemy Units:
+END
+UPDATE: 269.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3664.23, 261.21, 133.50)
+Known Enemy Units:
+END
+UPDATE: 270.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3628.73, 226.39, 127.87)
+Known Enemy Units:
+END
+UPDATE: 271.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3591.73, 190.85, 133.41)
+Known Enemy Units:
+END
+UPDATE: 272.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3555.04, 170.44, 141.19)
+Known Enemy Units:
+END
+UPDATE: 273.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3518.36, 163.98, 148.95)
+Known Enemy Units:
+END
+UPDATE: 274.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3481.67, 163.05, 156.72)
+Known Enemy Units:
+END
+UPDATE: 275.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3444.78, 163.34, 163.32)
+Known Enemy Units:
+END
+UPDATE: 276.100006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3406.45, 163.82, 168.89)
+Known Enemy Units:
+END
+UPDATE: 277.100006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3369.34, 164.09, 174.27)
+Known Enemy Units:
+END
+UPDATE: 278.100006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3332.22, 163.97, 179.56)
+Known Enemy Units:
+END
+UPDATE: 279.100006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3294.87, 163.80, 176.42)
+Known Enemy Units:
+END
+UPDATE: 280.100006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3257.74, 163.89, 171.25)
+Known Enemy Units:
+END
+UPDATE: 281.100006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3220.60, 163.99, 166.04)
+Known Enemy Units:
+END
+UPDATE: 282.100006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3183.47, 164.00, 160.82)
+Known Enemy Units:
+END
+UPDATE: 283.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3145.09, 163.98, 155.44)
+Known Enemy Units:
+END
+UPDATE: 284.133362
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 2388.62549,263.140625,148.656128, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3109.48, 163.67, 144.93)
+Known Enemy Units:
+END
+UPDATE: 285.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3075.25, 163.75, 129.64)
+Known Enemy Units:
+END
+UPDATE: 286.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3037.79, 163.85, 128.97)
+Known Enemy Units:
+END
+UPDATE: 287.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (3000.29, 163.82, 128.61)
+Known Enemy Units:
+END
+UPDATE: 288.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2962.79, 163.77, 128.20)
+Known Enemy Units:
+END
+UPDATE: 289.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2927.43, 163.85, 137.67)
+Known Enemy Units:
+END
+UPDATE: 290.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2893.78, 163.91, 154.22)
+Known Enemy Units:
+END
+UPDATE: 291.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2860.10, 163.91, 170.71)
+Known Enemy Units:
+END
+UPDATE: 292.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2826.37, 164.00, 187.08)
+Known Enemy Units:
+END
+UPDATE: 293.133362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2792.83, 164.09, 203.85)
+Known Enemy Units:
+END
+UPDATE: 294.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2758.20, 163.94, 221.24)
+Known Enemy Units:
+END
+UPDATE: 295.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2724.65, 163.54, 237.99)
+Known Enemy Units:
+END
+UPDATE: 296.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2691.10, 162.65, 254.73)
+Known Enemy Units:
+END
+UPDATE: 297.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2664.24, 161.59, 280.89)
+Known Enemy Units:
+END
+UPDATE: 298.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2637.52, 160.92, 307.20)
+Known Enemy Units:
+END
+UPDATE: 299.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2610.82, 159.91, 333.53)
+Known Enemy Units:
+END
+UPDATE: 300.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2584.24, 160.48, 359.81)
+Known Enemy Units:
+END
+UPDATE: 301.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2557.07, 162.73, 384.43)
+Known Enemy Units:
+END
+UPDATE: 302.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2524.30, 160.96, 402.57)
+Known Enemy Units:
+END
+UPDATE: 303.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2488.18, 160.53, 410.92)
+Known Enemy Units:
+END
+UPDATE: 304.166687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2452.02, 159.74, 420.42)
+Known Enemy Units:
+END
+UPDATE: 305.200012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2419.07, 165.55, 431.13)
+Known Enemy Units:
+END
+UPDATE: 306.200012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2389.63, 174.31, 440.90)
+Known Enemy Units:
+END
+UPDATE: 307.200012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2365.90, 188.40, 446.60)
+Known Enemy Units:
+END
+UPDATE: 308.200012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2343.57, 201.91, 447.65)
+Known Enemy Units:
+END
+UPDATE: 309.200012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2321.29, 212.97, 431.70)
+Known Enemy Units:
+END
+UPDATE: 310.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2309.05, 229.96, 420.56)
+Known Enemy Units:
+END
+UPDATE: 311.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2305.82, 247.77, 404.75)
+Known Enemy Units:
+END
+UPDATE: 312.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2304.45, 259.73, 383.27)
+Known Enemy Units:
+END
+UPDATE: 313.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2304.32, 268.90, 353.33)
+Known Enemy Units:
+END
+UPDATE: 314.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2304.18, 267.16, 316.72)
+Known Enemy Units:
+END
+UPDATE: 315.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2304.06, 265.70, 279.22)
+Known Enemy Units:
+END
+UPDATE: 316.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2313.72, 264.46, 244.77)
+Known Enemy Units:
+END
+UPDATE: 317.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2336.89, 263.70, 215.29)
+Known Enemy Units:
+END
+UPDATE: 318.233337
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2360.00, 263.30, 185.75)
+Known Enemy Units:
+END
+UPDATE: 319.266693
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 2004.021,262.642578,114.766663, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2383.59, 263.15, 155.02)
+Known Enemy Units:
+END
+UPDATE: 320.266693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2359.71, 263.11, 137.20)
+Known Enemy Units:
+END
+UPDATE: 321.266693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2322.28, 263.11, 134.85)
+Known Enemy Units:
+END
+UPDATE: 322.266693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2284.85, 263.03, 132.49)
+Known Enemy Units:
+END
+UPDATE: 323.266693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2247.43, 263.05, 130.13)
+Known Enemy Units:
+END
+UPDATE: 324.300018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2208.75, 263.21, 127.70)
+Known Enemy Units:
+END
+UPDATE: 325.300018
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 620.00, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2171.33, 263.34, 125.34)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 620.00, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 326.300018
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 620.00, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3700.00, Position: (2133.90, 263.17, 122.98)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 620.00, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 327.300018
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 646.87, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3635.60, Position: (2096.48, 262.95, 120.63)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 646.87, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 328.333344
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 717.98, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3451.64, Position: (2057.80, 263.02, 118.19)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 717.98, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 329.333344
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 750.63, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3279.97, Position: (2020.38, 262.76, 115.83)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 750.63, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 330.333344
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 694.47, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 3127.61, Position: (2010.27, 262.67, 115.17)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 694.47, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 331.333344
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 1796.02673,263.059448,216.733154, CmdOptions: 
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 597.22, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2973.21, Position: (1986.38, 262.76, 125.75)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 597.22, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 332.333344
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 514.14, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2726.15, Position: (1952.61, 263.15, 142.04)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 514.14, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 333.333344
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 422.30, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2464.36, Position: (1918.82, 263.09, 158.31)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 422.30, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 334.333344
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 273.03, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2251.89, Position: (1885.02, 262.98, 174.54)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 273.03, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 335.333344
+Commands:
+Enemy Units:
+Enemy 1: 10162, Range: 0.00, Health: 100.78, Position: (1712.00, 263.03, 144.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1965.41, Position: (1851.19, 263.08, 190.71)
+Known Enemy Units:
+Known Enemy 1: 10162, Range: 0.00, Health: 100.78, Position: (1712.00, 263.03, 144.00)
+END
+UPDATE: 336.333344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1768.42, Position: (1817.31, 263.10, 206.80)
+Known Enemy Units:
+END
+UPDATE: 337.333344
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 942.72229,163.86084,264.348206, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1749.55, Position: (1790.70, 263.09, 230.44)
+Known Enemy Units:
+END
+UPDATE: 338.366699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1754.55, Position: (1775.39, 263.03, 266.02)
+Known Enemy Units:
+END
+UPDATE: 339.366699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1759.55, Position: (1761.36, 263.17, 300.80)
+Known Enemy Units:
+END
+UPDATE: 340.366699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1764.55, Position: (1747.37, 263.62, 335.58)
+Known Enemy Units:
+END
+UPDATE: 341.366699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1769.55, Position: (1733.44, 264.69, 370.32)
+Known Enemy Units:
+END
+UPDATE: 342.366699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1774.55, Position: (1728.76, 265.87, 406.98)
+Known Enemy Units:
+END
+UPDATE: 343.400024
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1779.55, Position: (1728.11, 265.08, 445.71)
+Known Enemy Units:
+END
+UPDATE: 344.43335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1784.55, Position: (1728.05, 262.49, 484.46)
+Known Enemy Units:
+END
+UPDATE: 345.43335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1789.55, Position: (1720.04, 236.14, 519.22)
+Known Enemy Units:
+END
+UPDATE: 346.43335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1794.55, Position: (1692.41, 201.36, 543.75)
+Known Enemy Units:
+END
+UPDATE: 347.43335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1799.55, Position: (1655.31, 183.53, 540.77)
+Known Enemy Units:
+END
+UPDATE: 348.43335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1804.55, Position: (1618.85, 177.07, 531.99)
+Known Enemy Units:
+END
+UPDATE: 349.43335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1809.55, Position: (1582.39, 169.79, 523.21)
+Known Enemy Units:
+END
+UPDATE: 350.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1814.55, Position: (1544.72, 167.41, 514.11)
+Known Enemy Units:
+END
+UPDATE: 351.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1819.55, Position: (1516.06, 162.91, 490.81)
+Known Enemy Units:
+END
+UPDATE: 352.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1824.55, Position: (1489.11, 161.58, 464.74)
+Known Enemy Units:
+END
+UPDATE: 353.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1829.55, Position: (1458.37, 161.75, 444.64)
+Known Enemy Units:
+END
+UPDATE: 354.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1834.55, Position: (1423.11, 162.41, 432.04)
+Known Enemy Units:
+END
+UPDATE: 355.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1839.55, Position: (1387.71, 163.38, 419.97)
+Known Enemy Units:
+END
+UPDATE: 356.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1844.55, Position: (1352.15, 163.56, 408.08)
+Known Enemy Units:
+END
+UPDATE: 357.466675
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1849.55, Position: (1316.58, 163.51, 396.21)
+Known Enemy Units:
+END
+UPDATE: 358.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1854.55, Position: (1280.10, 163.44, 383.26)
+Known Enemy Units:
+END
+UPDATE: 359.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1859.55, Position: (1246.52, 163.61, 366.57)
+Known Enemy Units:
+END
+UPDATE: 360.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1864.55, Position: (1212.93, 164.08, 349.93)
+Known Enemy Units:
+END
+UPDATE: 361.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1869.55, Position: (1179.31, 164.23, 333.34)
+Known Enemy Units:
+END
+UPDATE: 362.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1874.55, Position: (1145.70, 163.96, 316.70)
+Known Enemy Units:
+END
+UPDATE: 363.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1879.55, Position: (1112.18, 163.72, 299.89)
+Known Enemy Units:
+END
+UPDATE: 364.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1884.55, Position: (1078.64, 163.63, 283.11)
+Known Enemy Units:
+END
+UPDATE: 365.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1889.55, Position: (1045.08, 163.68, 266.38)
+Known Enemy Units:
+END
+UPDATE: 366.500031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1894.55, Position: (1009.68, 163.89, 258.40)
+Known Enemy Units:
+END
+UPDATE: 367.533356
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 556.788025,163.19751,867.877502, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1902.05, Position: (971.09, 163.98, 261.88)
+Known Enemy Units:
+END
+UPDATE: 368.533356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1907.05, Position: (947.46, 164.11, 289.88)
+Known Enemy Units:
+END
+UPDATE: 369.533356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1912.05, Position: (926.34, 164.12, 320.87)
+Known Enemy Units:
+END
+UPDATE: 370.533356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1917.05, Position: (905.22, 163.98, 351.86)
+Known Enemy Units:
+END
+UPDATE: 371.533356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1922.05, Position: (884.10, 163.85, 382.84)
+Known Enemy Units:
+END
+UPDATE: 372.533356
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1927.05, Position: (862.99, 163.79, 413.83)
+Known Enemy Units:
+END
+UPDATE: 373.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1932.05, Position: (841.22, 163.97, 445.88)
+Known Enemy Units:
+END
+UPDATE: 374.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1937.05, Position: (820.15, 164.09, 476.90)
+Known Enemy Units:
+END
+UPDATE: 375.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1942.05, Position: (799.07, 164.01, 507.92)
+Known Enemy Units:
+END
+UPDATE: 376.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1947.05, Position: (778.00, 163.88, 538.94)
+Known Enemy Units:
+END
+UPDATE: 377.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1952.05, Position: (756.95, 163.81, 569.98)
+Known Enemy Units:
+END
+UPDATE: 378.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1957.05, Position: (735.93, 163.84, 601.03)
+Known Enemy Units:
+END
+UPDATE: 379.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1962.05, Position: (714.91, 164.09, 632.07)
+Known Enemy Units:
+END
+UPDATE: 380.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1967.05, Position: (693.90, 164.18, 663.14)
+Known Enemy Units:
+END
+UPDATE: 381.566681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1972.05, Position: (672.92, 163.97, 694.22)
+Known Enemy Units:
+END
+UPDATE: 382.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1977.05, Position: (651.26, 163.78, 726.35)
+Known Enemy Units:
+END
+UPDATE: 383.600006
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1982.05, Position: (630.33, 163.91, 757.46)
+Known Enemy Units:
+END
+UPDATE: 384.633362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1987.05, Position: (608.74, 164.02, 789.64)
+Known Enemy Units:
+END
+UPDATE: 385.633362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1992.05, Position: (587.89, 163.90, 820.81)
+Known Enemy Units:
+END
+UPDATE: 386.633362
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 367.700439,163.305664,976.873901, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1997.05, Position: (560.59, 163.34, 845.62)
+Known Enemy Units:
+END
+UPDATE: 387.633362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2002.05, Position: (529.55, 163.38, 866.64)
+Known Enemy Units:
+END
+UPDATE: 388.633362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2007.05, Position: (498.50, 163.90, 887.64)
+Known Enemy Units:
+END
+UPDATE: 389.633362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2012.05, Position: (467.40, 163.86, 908.60)
+Known Enemy Units:
+END
+UPDATE: 390.633362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2017.05, Position: (436.27, 163.56, 929.50)
+Known Enemy Units:
+END
+UPDATE: 391.633362
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2022.05, Position: (405.08, 163.26, 950.31)
+Known Enemy Units:
+END
+UPDATE: 392.666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2027.05, Position: (375.70, 163.17, 969.99)
+Known Enemy Units:
+END
+UPDATE: 393.666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2032.05, Position: (373.43, 163.20, 971.95)
+Known Enemy Units:
+END
+UPDATE: 394.666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2037.05, Position: (373.43, 163.20, 971.95)
+Known Enemy Units:
+END
+UPDATE: 395.666687
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 352.605499,163.271973,1813.36523, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2042.05, Position: (370.10, 163.87, 1003.67)
+Known Enemy Units:
+END
+UPDATE: 396.666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2047.05, Position: (369.29, 164.13, 1041.16)
+Known Enemy Units:
+END
+UPDATE: 397.666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2054.55, Position: (368.49, 164.11, 1078.65)
+Known Enemy Units:
+END
+UPDATE: 398.666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2064.55, Position: (367.68, 164.06, 1116.14)
+Known Enemy Units:
+END
+UPDATE: 399.666687
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2074.55, Position: (366.88, 164.01, 1153.63)
+Known Enemy Units:
+END
+UPDATE: 400.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2084.55, Position: (366.04, 164.05, 1192.37)
+Known Enemy Units:
+END
+UPDATE: 401.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2094.55, Position: (365.24, 164.07, 1229.86)
+Known Enemy Units:
+END
+UPDATE: 402.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2104.55, Position: (364.43, 163.96, 1267.36)
+Known Enemy Units:
+END
+UPDATE: 403.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2114.55, Position: (363.63, 163.91, 1304.85)
+Known Enemy Units:
+END
+UPDATE: 404.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2124.55, Position: (362.82, 163.98, 1342.34)
+Known Enemy Units:
+END
+UPDATE: 405.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2134.55, Position: (362.01, 163.92, 1379.83)
+Known Enemy Units:
+END
+UPDATE: 406.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2144.55, Position: (361.21, 163.87, 1417.32)
+Known Enemy Units:
+END
+UPDATE: 407.700012
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2154.55, Position: (360.40, 163.98, 1454.81)
+Known Enemy Units:
+END
+UPDATE: 408.733368
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2164.55, Position: (359.57, 164.07, 1493.55)
+Known Enemy Units:
+END
+UPDATE: 409.733368
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2174.55, Position: (358.77, 164.14, 1531.04)
+Known Enemy Units:
+END
+UPDATE: 410.733368
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2184.55, Position: (357.96, 164.05, 1568.53)
+Known Enemy Units:
+END
+UPDATE: 411.733368
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2194.55, Position: (357.15, 163.77, 1606.03)
+Known Enemy Units:
+END
+UPDATE: 412.733368
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2204.55, Position: (356.35, 163.70, 1643.52)
+Known Enemy Units:
+END
+UPDATE: 413.766693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2214.55, Position: (355.52, 163.88, 1682.26)
+Known Enemy Units:
+END
+UPDATE: 414.766693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2224.55, Position: (354.71, 164.02, 1719.75)
+Known Enemy Units:
+END
+UPDATE: 415.766693
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 569.99054,163.330811,1919.26318, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2234.55, Position: (354.08, 163.89, 1757.23)
+Known Enemy Units:
+END
+UPDATE: 416.766693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2244.55, Position: (381.46, 163.61, 1781.72)
+Known Enemy Units:
+END
+UPDATE: 417.766693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2254.55, Position: (411.64, 163.84, 1803.96)
+Known Enemy Units:
+END
+UPDATE: 418.766693
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2264.55, Position: (441.84, 164.00, 1826.18)
+Known Enemy Units:
+END
+UPDATE: 419.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2274.55, Position: (473.09, 164.11, 1849.10)
+Known Enemy Units:
+END
+UPDATE: 420.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2284.55, Position: (503.36, 164.08, 1871.23)
+Known Enemy Units:
+END
+UPDATE: 421.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2294.55, Position: (533.69, 163.85, 1893.28)
+Known Enemy Units:
+END
+UPDATE: 422.800018
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 336.535675,163.192261,2021.95349, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2304.55, Position: (525.13, 163.76, 1919.84)
+Known Enemy Units:
+END
+UPDATE: 423.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2314.55, Position: (492.23, 163.93, 1937.84)
+Known Enemy Units:
+END
+UPDATE: 424.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2324.55, Position: (459.32, 163.88, 1955.81)
+Known Enemy Units:
+END
+UPDATE: 425.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2334.55, Position: (426.38, 163.86, 1973.73)
+Known Enemy Units:
+END
+UPDATE: 426.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2344.55, Position: (393.41, 163.77, 1991.59)
+Known Enemy Units:
+END
+UPDATE: 427.800018
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 343.108765,163.469482,3001.38721, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2354.55, Position: (377.62, 163.37, 2021.28)
+Known Enemy Units:
+END
+UPDATE: 428.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2364.55, Position: (376.36, 163.60, 2058.75)
+Known Enemy Units:
+END
+UPDATE: 429.800018
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2374.55, Position: (375.06, 164.00, 2096.21)
+Known Enemy Units:
+END
+UPDATE: 430.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2384.55, Position: (373.69, 164.15, 2134.94)
+Known Enemy Units:
+END
+UPDATE: 431.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2394.55, Position: (372.37, 164.10, 2172.42)
+Known Enemy Units:
+END
+UPDATE: 432.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2404.55, Position: (371.05, 163.90, 2209.89)
+Known Enemy Units:
+END
+UPDATE: 433.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2414.55, Position: (369.72, 163.84, 2247.37)
+Known Enemy Units:
+END
+UPDATE: 434.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2424.55, Position: (368.40, 164.03, 2284.84)
+Known Enemy Units:
+END
+UPDATE: 435.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2434.55, Position: (367.08, 164.17, 2322.32)
+Known Enemy Units:
+END
+UPDATE: 436.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2444.55, Position: (365.75, 164.08, 2359.80)
+Known Enemy Units:
+END
+UPDATE: 437.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2454.55, Position: (364.43, 163.96, 2397.27)
+Known Enemy Units:
+END
+UPDATE: 438.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2464.55, Position: (363.11, 163.84, 2434.75)
+Known Enemy Units:
+END
+UPDATE: 439.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2474.55, Position: (361.79, 163.80, 2472.23)
+Known Enemy Units:
+END
+UPDATE: 440.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2484.55, Position: (360.46, 163.94, 2509.71)
+Known Enemy Units:
+END
+UPDATE: 441.833344
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2494.55, Position: (359.14, 164.09, 2547.18)
+Known Enemy Units:
+END
+UPDATE: 442.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2504.55, Position: (357.78, 164.09, 2585.91)
+Known Enemy Units:
+END
+UPDATE: 443.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2514.55, Position: (356.45, 164.03, 2623.39)
+Known Enemy Units:
+END
+UPDATE: 444.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2524.55, Position: (355.13, 163.99, 2660.86)
+Known Enemy Units:
+END
+UPDATE: 445.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2534.55, Position: (353.81, 163.96, 2698.34)
+Known Enemy Units:
+END
+UPDATE: 446.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2544.55, Position: (352.48, 163.85, 2735.82)
+Known Enemy Units:
+END
+UPDATE: 447.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2554.55, Position: (351.16, 163.81, 2773.30)
+Known Enemy Units:
+END
+UPDATE: 448.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2564.55, Position: (349.84, 163.95, 2810.78)
+Known Enemy Units:
+END
+UPDATE: 449.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2574.55, Position: (348.52, 164.02, 2848.25)
+Known Enemy Units:
+END
+UPDATE: 450.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2584.55, Position: (347.19, 163.93, 2885.73)
+Known Enemy Units:
+END
+UPDATE: 451.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2594.55, Position: (345.87, 163.81, 2923.21)
+Known Enemy Units:
+END
+UPDATE: 452.866699
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 578.336548,163.851318,3090.6355, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2604.55, Position: (349.18, 163.83, 2959.41)
+Known Enemy Units:
+END
+UPDATE: 453.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2614.55, Position: (381.56, 163.65, 2978.32)
+Known Enemy Units:
+END
+UPDATE: 454.866699
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2624.55, Position: (414.04, 163.64, 2997.06)
+Known Enemy Units:
+END
+UPDATE: 455.900024
+Commands:
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 620.00, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2634.55, Position: (447.63, 163.64, 3016.39)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 620.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 456.900024
+Commands:
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 620.00, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2644.55, Position: (480.15, 163.69, 3035.06)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 620.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 457.900024
+Commands:
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 672.13, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2519.79, Position: (512.70, 163.72, 3053.67)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 672.13, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 458.900024
+Commands:
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 723.40, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2385.38, Position: (545.31, 163.81, 3072.19)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 723.40, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 459.900024
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 709.215942,163.81958,2762.23657, CmdOptions: 
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 773.45, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2244.46, Position: (578.99, 163.86, 3085.82)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 773.45, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 460.900024
+Commands:
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 819.09, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 2106.95, Position: (595.46, 163.97, 3052.96)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 819.09, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 461.900024
+Commands:
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 859.40, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1977.83, Position: (609.22, 164.01, 3018.08)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 859.40, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 462.900024
+Commands:
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 906.63, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1814.77, Position: (622.99, 163.94, 2983.19)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 906.63, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 463.900024
+Commands:
+Enemy Units:
+Enemy 1: 540, Range: 0.00, Health: 912.12, Position: (640.00, 164.02, 3424.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1799.42, Position: (636.70, 163.83, 2948.28)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 912.12, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 464.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1804.42, Position: (650.87, 163.72, 2912.21)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 465.93335
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 1746.94421,164.018066,2135.82422, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1809.42, Position: (674.30, 163.64, 2883.46)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 466.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1814.42, Position: (700.12, 163.56, 2856.26)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 467.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1819.42, Position: (725.98, 163.54, 2829.10)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 468.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1824.42, Position: (751.59, 163.69, 2801.71)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 469.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1829.42, Position: (780.75, 163.89, 2778.97)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 470.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1834.42, Position: (814.09, 163.98, 2761.80)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (640.00, 164.02, 3424.00)
+END
+UPDATE: 471.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1839.42, Position: (847.45, 164.09, 2744.68)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 472.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1844.42, Position: (880.85, 164.08, 2727.63)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 473.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1849.42, Position: (896.81, 163.95, 2699.08)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 474.93335
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1854.42, Position: (919.23, 163.90, 2674.36)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 475.966705
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1859.42, Position: (954.12, 163.92, 2657.50)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 476.966705
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1864.42, Position: (987.90, 163.93, 2641.23)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 477.966705
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1869.42, Position: (1021.70, 163.91, 2624.98)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 478.966705
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1874.42, Position: (1055.22, 163.88, 2608.17)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 479.966705
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1879.42, Position: (1088.76, 163.85, 2591.39)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 480.966705
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1884.42, Position: (1122.32, 163.85, 2574.65)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 481.966705
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1889.42, Position: (1154.58, 163.88, 2556.05)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 483.000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1894.42, Position: (1182.23, 163.73, 2528.91)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 484.000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1899.42, Position: (1208.96, 163.36, 2502.61)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 485.000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1904.42, Position: (1235.65, 163.24, 2476.28)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 486.000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1909.42, Position: (1262.18, 163.46, 2449.81)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 487.000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1914.42, Position: (1288.71, 162.01, 2423.30)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 488.000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1919.42, Position: (1315.20, 161.41, 2396.81)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 489.000031
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1924.42, Position: (1338.45, 162.56, 2373.55)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+END
+UPDATE: 490.000031
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1929.42, Position: (1364.71, 162.44, 2347.29)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+END
+UPDATE: 491.000031
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 1782.1001,163.818359,2198.03076, CmdOptions: 
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1934.42, Position: (1397.12, 160.78, 2330.02)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+END
+UPDATE: 492.000031
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 620.00, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1939.42, Position: (1432.52, 160.98, 2317.85)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 620.00, Position: (1904.00, 163.79, 2336.00)
+END
+UPDATE: 493.033356
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 620.00, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1946.92, Position: (1469.09, 161.65, 2305.26)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 620.00, Position: (1904.00, 163.79, 2336.00)
+END
+UPDATE: 494.033356
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 646.51, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1885.78, Position: (1504.48, 162.34, 2293.09)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 646.51, Position: (1904.00, 163.79, 2336.00)
+END
+UPDATE: 495.033356
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 698.98, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1752.86, Position: (1539.89, 162.84, 2280.91)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 698.98, Position: (1904.00, 163.79, 2336.00)
+END
+UPDATE: 496.033356
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 750.41, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1612.77, Position: (1575.35, 163.10, 2268.77)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 750.41, Position: (1904.00, 163.79, 2336.00)
+END
+UPDATE: 497.033356
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 759.78, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1465.44, Position: (1610.82, 163.38, 2256.63)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 759.78, Position: (1904.00, 163.79, 2336.00)
+END
+UPDATE: 498.033356
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 671.74, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1310.34, Position: (1646.30, 163.65, 2244.49)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 671.74, Position: (1904.00, 163.79, 2336.00)
+END
+UPDATE: 499.033356
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 595.90, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 1061.64, Position: (1681.78, 163.81, 2232.34)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 595.90, Position: (1904.00, 163.79, 2336.00)
+Known Enemy 4: 16198, Range: 0.00, Health: 0.00, Position: (1520.00, 270.32, 1728.00)
+END
+UPDATE: 500.033356
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 508.33, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 860.37, Position: (1717.25, 163.78, 2220.20)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 508.33, Position: (1904.00, 163.79, 2336.00)
+Known Enemy 4: 16198, Range: 0.00, Health: 0.00, Position: (1520.00, 270.32, 1728.00)
+END
+UPDATE: 501.066681
+Commands:
+Command 1: UnitID: 6704, CmdID: 10, CmdParams: 2390.77881,262.334595,2413.95996, CmdOptions: 
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 449.42, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 557.49, Position: (1753.95, 163.61, 2225.74)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 449.42, Position: (1904.00, 163.79, 2336.00)
+Known Enemy 4: 16198, Range: 0.00, Health: 0.00, Position: (1520.00, 270.32, 1728.00)
+END
+UPDATE: 502.066681
+Commands:
+Enemy Units:
+Enemy 1: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Enemy 2: 4126, Range: 0.00, Health: 310.09, Position: (1904.00, 163.79, 2336.00)
+Friendly Units:
+Friendly 1: 6704, Range: 300.00, Health: 271.45, Position: (1789.02, 163.52, 2239.00)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy 2: 30849, Range: 0.00, Health: 0.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 4126, Range: 0.00, Health: 310.09, Position: (1904.00, 163.79, 2336.00)
+Known Enemy 4: 16198, Range: 0.00, Health: 0.00, Position: (1520.00, 270.32, 1728.00)
+END
+UPDATE: 503.033356
+Commands:
+Command 1: UnitID: 6704, CmdID: 45, CmdParams: 0, CmdOptions: 
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 0.00, Health: -28.31, Position: (1822.58, 163.66, 2252.70)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 430.00, Health: 912.12, Position: (640.00, 164.02, 3424.00)
+Known Enemy 2: 30849, Range: 300.00, Health: 3700.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 16198, Range: 430.00, Health: 620.00, Position: (1520.00, 270.32, 1728.00)
+END
+UPDATE: 504.066681
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 430.00, Health: 912.12, Position: (640.00, 164.02, 3424.00)
+Known Enemy 2: 30849, Range: 300.00, Health: 3700.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 16198, Range: 430.00, Health: 620.00, Position: (1520.00, 270.32, 1728.00)
+END
+UPDATE: 504.733368
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 430.00, Health: 912.12, Position: (640.00, 164.02, 3424.00)
+Known Enemy 2: 30849, Range: 300.00, Health: 3700.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 16198, Range: 430.00, Health: 620.00, Position: (1520.00, 270.32, 1728.00)
+END
+UPDATE: 504.733368
+Commands:
+Enemy Units:
+Friendly Units:
+Friendly 1: 6704, Range: 0.00, Health: 0.00, Position: (0.00, 0.00, 0.00)
+Known Enemy Units:
+Known Enemy 1: 540, Range: 430.00, Health: 912.12, Position: (640.00, 164.02, 3424.00)
+Known Enemy 2: 30849, Range: 300.00, Health: 3700.00, Position: (1451.45, 161.02, 1877.38)
+Known Enemy 3: 16198, Range: 430.00, Health: 620.00, Position: (1520.00, 270.32, 1728.00)
+END
