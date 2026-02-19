@@ -23,6 +23,10 @@ map_height_max = 1.0
 cached_map_embedding = None
 cached_map_embedding_device = None
 
+# Cost field for mass point pathfinding
+terrain_cost_map = None
+mass_cost_fields = {}
+
 run_name = f"feature_based_agent_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
 writer = SummaryWriter(f"runs/{run_name}")
 step_counter = 0

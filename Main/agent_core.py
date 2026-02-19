@@ -145,6 +145,12 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         unit_nx = map_utils.normalize_x(unit_x)
         unit_nz = map_utils.normalize_z(unit_z)
         unit_ny = map_utils.normalize_y(unit_y)
+        enemy_range_image = map_utils.generate_enemy_range_image(
+            state.eUnits,
+            state.map_width,
+            state.map_height,
+            state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
+        )
 
         unvisited_mass = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
         mass_destination = select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass)
@@ -158,16 +164,36 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 tz = unit_nz + dz
                 tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                 tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                candidates.append((tx, tz))
+                # Only add reachable candidates
+                if map_utils.is_position_reachable(tx, tz):
+                    candidates.append((tx, tz))
 
+        # Current position is always valid
         candidates.append((unit_nx, unit_nz))
 
         if mass_destination is not None:
             dest_world_x = map_utils.denormalize_x(mass_destination[0])
             dest_world_z = map_utils.denormalize_z(mass_destination[1])
             dist_to_dest = ((dest_world_x - unit_x) ** 2 + (dest_world_z - unit_z) ** 2) ** 0.5
-            if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS:
+            # Only add mass destination if reachable and within approach radius
+            if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
                 candidates.append(mass_destination)
+            
+            # Extract terrain-guided waypoints from cost field
+            terrain_waypoints = map_utils.extract_terrain_waypoints(
+                mass_destination,
+                unit_nx,
+                unit_nz,
+                count=config.TERRAIN_WAYPOINT_COUNT,
+                search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
+            )
+            candidates.extend(terrain_waypoints)
+            if terrain_waypoints:
+                state.writer.add_scalar(
+                    'Action_Selection/terrain_waypoints_generated',
+                    len(terrain_waypoints),
+                    state.step_counter
+                )
 
         action_scores = []
         best_score = -float('inf')
@@ -185,7 +211,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         unit_nx,
                         unit_nz,
                         unit_ny,
-                        active_mass
+                        active_mass,
+                        enemy_range_image=enemy_range_image,
                     )
                 else:
                     features = MoveJudger.compute_action_features(
@@ -195,7 +222,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         unit_ny,
                         active_mass,
                         tx,
-                        tz
+                        tz,
+                        enemy_range_image=enemy_range_image,
                     )
 
                 if features is None:
@@ -233,7 +261,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 unit_nx,
                 unit_nz,
                 unit_ny,
-                unvisited_mass
+                unvisited_mass,
+                enemy_range_image=enemy_range_image,
             )
             if noop_features is not None:
                 chosen_action_features = noop_features
@@ -285,6 +314,12 @@ def train_agent(
     unit_ny = map_utils.normalize_y(unit_y)
     target_nx = map_utils.normalize_x(target_x) if target_x is not None else unit_nx
     target_nz = map_utils.normalize_z(target_z) if target_z is not None else unit_nz
+    enemy_range_image = map_utils.generate_enemy_range_image(
+        state.eUnits,
+        state.map_width,
+        state.map_height,
+        state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
+    )
 
     action_features = MoveJudger.compute_action_features(
         action,
@@ -293,8 +328,13 @@ def train_agent(
         unit_ny,
         active_mass,
         target_nx,
-        target_nz
+        target_nz,
+        enemy_range_image=enemy_range_image,
     )
+    
+    # Validate features don't contain inf/nan
+    action_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in action_features]
+    
     features_tensor = torch.tensor(action_features, dtype=torch.float32)
 
     current_q = torch.dot(current_weights, features_tensor)
@@ -313,18 +353,40 @@ def train_agent(
                     tz = unit_nz + dz
                     tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                    candidates.append((tx, tz))
+                    # Only add reachable candidates
+                    if map_utils.is_position_reachable(tx, tz):
+                        candidates.append((tx, tz))
+            # Current next position is always valid
             candidates.append((map_utils.normalize_x(next_unit_x), map_utils.normalize_z(next_unit_z)))
 
             if mass_destination is not None:
                 dest_world_x = map_utils.denormalize_x(mass_destination[0])
                 dest_world_z = map_utils.denormalize_z(mass_destination[1])
                 dist_to_dest = ((dest_world_x - next_unit_x) ** 2 + (dest_world_z - next_unit_z) ** 2) ** 0.5
-                if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS:
+                # Only add mass destination if reachable and within approach radius
+                if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
                     candidates.append(mass_destination)
+                
+                # Add terrain waypoints for TD target calculation
+                next_nx_norm = map_utils.normalize_x(next_unit_x)
+                next_nz_norm = map_utils.normalize_z(next_unit_z)
+                terrain_waypoints = map_utils.extract_terrain_waypoints(
+                    mass_destination,
+                    next_nx_norm,
+                    next_nz_norm,
+                    count=config.TERRAIN_WAYPOINT_COUNT,
+                    search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
+                )
+                candidates.extend(terrain_waypoints)
 
             next_unvisited = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
             next_active_mass = [mass_destination] if mass_destination is not None else next_unvisited
+            next_enemy_range_image = map_utils.generate_enemy_range_image(
+                state.eUnits,
+                state.map_width,
+                state.map_height,
+                state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
+            )
 
             for (tx, tz) in candidates:
                 next_nx = map_utils.normalize_x(next_unit_x)
@@ -337,7 +399,8 @@ def train_agent(
                     next_ny,
                     next_active_mass,
                     tx,
-                    tz
+                    tz,
+                    enemy_range_image=next_enemy_range_image,
                 )
                 next_features_tensor = torch.tensor(next_features, dtype=torch.float32)
                 next_q = torch.dot(next_weights, next_features_tensor)
@@ -347,6 +410,12 @@ def train_agent(
 
     current_q_val = current_q.detach().item()
     target_raw = reward + 0.99 * max_next_q
+    
+    # Validate reward doesn't contain inf/nan
+    if np.isinf(target_raw) or np.isnan(target_raw):
+        print(f"[WARNING] Invalid target_raw: {target_raw} (reward={reward}, max_next_q={max_next_q})")
+        target_raw = np.clip(target_raw, -1e6, 1e6)
+    
     td_raw = np.clip(target_raw - current_q_val, -config.td_cap, config.td_cap)
     target_value = current_q_val + td_raw
     target_tensor = torch.tensor(target_value, dtype=torch.float32, device=current_q.device)

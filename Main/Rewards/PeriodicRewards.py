@@ -1,10 +1,13 @@
 import time
 from collections import deque
 
+import numpy as np
+
 import config
 import map_utils
 import runtime_state as state
 import agent_core
+from Rewards import MoveJudger
 
 
 def compute_reward(agent_unit, prev_health):
@@ -167,7 +170,49 @@ def terrain_adjusted_distance(prev_pos, curr_pos, prev_y, curr_y):
 	return raw_dist + height_delta * config.HEIGHT_DISTANCE_FACTOR
 
 
-def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass):
+def _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image):
+	if enemy_range_image is None:
+		return 0.0
+
+	prev_nx = map_utils.normalize_x(prev_pos[0])
+	prev_nz = map_utils.normalize_z(prev_pos[1])
+	curr_nx = map_utils.normalize_x(curr_pos[0])
+	curr_nz = map_utils.normalize_z(curr_pos[1])
+
+	path_values = map_utils.sample_path_values(
+		enemy_range_image,
+		prev_nx,
+		prev_nz,
+		curr_nx,
+		curr_nz,
+		sample_count=config.PATH_SAMPLE_COUNT,
+	)
+	if path_values is None or path_values.size == 0:
+		return 0.0
+
+	danger_ratio = float((path_values > 0).mean())
+	if danger_ratio <= 0.0:
+		return 0.0
+
+	return -(danger_ratio * config.PATH_DANGER_PENALTY_SCALE + config.PATH_DANGER_MIN_HIT_PENALTY)
+
+
+def _compute_path_terrain_penalty(prev_pos, curr_pos):
+	prev_nx = map_utils.normalize_x(prev_pos[0])
+	prev_nz = map_utils.normalize_z(prev_pos[1])
+	curr_nx = map_utils.normalize_x(curr_pos[0])
+	curr_nz = map_utils.normalize_z(curr_pos[1])
+
+	return map_utils.estimate_path_terrain_penalty(
+		prev_nx,
+		prev_nz,
+		curr_nx,
+		curr_nz,
+		sample_count=config.PATH_SAMPLE_COUNT,
+	)
+
+
+def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, enemy_range_image=None):
 	unit_nx = map_utils.normalize_x(prev_pos[0])
 	unit_nz = map_utils.normalize_z(prev_pos[1])
 	curr_nx = map_utils.normalize_x(curr_pos[0])
@@ -178,11 +223,39 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass):
 	move_dist = (move_dx ** 2 + move_dz ** 2) ** 0.5
 
 	if not unvisited_mass:
-		return 0.0, {'distance': 0.0, 'direction': 0.0, 'height_jump': 0.0}
+		path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
+		path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
+		total = path_danger_penalty + path_terrain_penalty
+		return total, {
+			'distance': 0.0,
+			'direction': 0.0,
+			'height_jump': 0.0,
+			'path_danger': path_danger_penalty,
+			'path_terrain': path_terrain_penalty,
+		}
 
-	nearest = min(unvisited_mass, key=lambda p: (p[0] - unit_nx) ** 2 + (p[1] - unit_nz) ** 2)
-	prev_dist = ((nearest[0] - unit_nx) ** 2 + (nearest[1] - unit_nz) ** 2) ** 0.5
-	curr_dist = ((nearest[0] - curr_nx) ** 2 + (nearest[1] - curr_nz) ** 2) ** 0.5
+	nearest = MoveJudger.select_best_mass_spot(unit_nx, unit_nz, unvisited_mass)
+	
+	# If no reachable mass spot, treat like no mass spots
+	if nearest is None:
+		path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
+		path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
+		total = path_danger_penalty + path_terrain_penalty
+		return total, {
+			'distance': 0.0,
+			'direction': 0.0,
+			'height_jump': 0.0,
+			'path_danger': path_danger_penalty,
+			'path_terrain': path_terrain_penalty,
+		}
+	
+	prev_dist = MoveJudger.compute_mass_spot_score(unit_nx, unit_nz, nearest)
+	curr_dist = MoveJudger.compute_mass_spot_score(curr_nx, curr_nz, nearest)
+
+	# Clamp infinite values to prevent NaN in loss computation
+	MAX_DIST = 10000.0
+	prev_dist = min(prev_dist, MAX_DIST) if not np.isinf(prev_dist) else MAX_DIST
+	curr_dist = min(curr_dist, MAX_DIST) if not np.isinf(curr_dist) else MAX_DIST
 
 	distance_reduction = prev_dist - curr_dist
 	distance_reward = distance_reduction * config.POTENTIAL_DISTANCE_SCALE
@@ -198,12 +271,16 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass):
 
 	height_delta = abs(map_utils.normalize_y(curr_y) - map_utils.normalize_y(prev_y))
 	height_jump_penalty = -max(0.0, height_delta - config.HEIGHT_JUMP_TOLERANCE) * config.HEIGHT_JUMP_PENALTY_SCALE
+	path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
+	path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
 
-	total = distance_reward + direction_reward + height_jump_penalty
+	total = distance_reward + direction_reward + height_jump_penalty + path_danger_penalty + path_terrain_penalty
 	components = {
 		'distance': distance_reward,
 		'direction': direction_reward,
-		'height_jump': height_jump_penalty
+		'height_jump': height_jump_penalty,
+		'path_danger': path_danger_penalty,
+		'path_terrain': path_terrain_penalty,
 	}
 	return total, components
 

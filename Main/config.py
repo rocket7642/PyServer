@@ -31,6 +31,9 @@ POTENTIAL_DISTANCE_SCALE = 0.1
 POTENTIAL_DIRECTION_SCALE = 0.05
 HEIGHT_JUMP_TOLERANCE = 15.0
 HEIGHT_JUMP_PENALTY_SCALE = 0.2
+IMMEDIATE_DAMAGE_PENALTY_SCALE = 2.0
+PATH_DANGER_PENALTY_SCALE = 10.0
+PATH_DANGER_MIN_HIT_PENALTY = 2.0
 
 # Segment (mass-spot) rewards
 SEGMENT_BASE_REWARD = 200.0
@@ -47,6 +50,16 @@ NUM_ACTION_FEATURES = 4
 PATH_TERRAIN_WEIGHT = 0.25
 PATH_SPIKE_THRESHOLD = 5.0
 PATH_SAMPLE_COUNT = 6
+TERRAIN_WAYPOINT_COUNT = 8
+TERRAIN_WAYPOINT_SEARCH_RADIUS = 300
+
+# Maximum traversable slope (height delta between adjacent cells in normalized space)
+# Corresponds to 0.412 slope in real space assuming 4:1 aspect ratio (1024:256)
+MAX_TRAVERSABLE_SLOPE = 0.412
+
+# Persistent cache for map pathfinding precomputations
+MAP_CACHE_DIR = "cache/map_fields"
+MAP_CACHE_VERSION = 1
 
 # === ENCODER SETTINGS ===
 SELF_FEATURES_SIZE = 6

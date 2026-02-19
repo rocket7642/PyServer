@@ -1,50 +1,25 @@
 import config
 import map_utils
+import numpy as np
 
 
 def compute_mass_spot_score(unit_x, unit_z, spot):
-	terrain_weight = config.PATH_TERRAIN_WEIGHT
-	spike_threshold = config.PATH_SPIKE_THRESHOLD
-	sample_count = config.PATH_SAMPLE_COUNT
-	path_penalty = 0.0
-	try:
-		prev_height = None
-		max_delta = 0.0
-		for step in range(sample_count + 1):
-			step_ratio = step / float(sample_count)
-			sample_x = unit_x + (spot[0] - unit_x) * step_ratio
-			sample_z = unit_z + (spot[1] - unit_z) * step_ratio
-			sample_height = map_utils.height_at_normalized(sample_x, sample_z)
-			if prev_height is not None:
-				delta = abs(sample_height - prev_height)
-				if delta > max_delta:
-					max_delta = delta
-			prev_height = sample_height
-
-		if max_delta > spike_threshold:
-			path_penalty = (max_delta - spike_threshold) * terrain_weight
-	except (IndexError, TypeError):
-		path_penalty = 0.0
-
-	dist = ((spot[0] - unit_x) ** 2 + (spot[1] - unit_z) ** 2) ** 0.5
-	return dist + path_penalty
+	"""Compute terrain-aware cost to reach a mass spot using precomputed cost field."""
+	return map_utils.get_mass_cost_at(spot, unit_x, unit_z)
 
 
 def select_best_mass_spot(unit_x, unit_z, unvisited_mass, return_score=False):
 	if not unvisited_mass:
 		return (None, None) if return_score else None
-	spots_with_dist = []
-	for spot in unvisited_mass:
-		dist = ((spot[0] - unit_x) ** 2 + (spot[1] - unit_z) ** 2) ** 0.5
-		spots_with_dist.append((dist, spot))
-	spots_with_dist.sort(key=lambda item: item[0])
-	closest_spots = spots_with_dist[:4]
-
+	
 	best_score = None
 	best_spot = None
 
-	for dist, spot in closest_spots:
+	for spot in unvisited_mass:
 		score = compute_mass_spot_score(unit_x, unit_z, spot)
+		# Skip unreachable mass spots
+		if np.isinf(score):
+			continue
 		if best_score is None or score < best_score:
 			best_score = score
 			best_spot = spot
@@ -58,20 +33,15 @@ def get_top_mass_spots(unit_x, unit_z, unvisited_mass, limit=4):
 	if not unvisited_mass:
 		return []
 
-	spots_with_dist = []
-	for spot in unvisited_mass:
-		dist = ((spot[0] - unit_x) ** 2 + (spot[1] - unit_z) ** 2) ** 0.5
-		spots_with_dist.append((dist, spot))
-	spots_with_dist.sort(key=lambda item: item[0])
-	closest_spots = spots_with_dist[:max(1, limit)]
-
 	ranked = []
-	for _, spot in closest_spots:
+	for spot in unvisited_mass:
 		score = compute_mass_spot_score(unit_x, unit_z, spot)
-		ranked.append((spot, score))
+		# Skip unreachable mass spots
+		if not np.isinf(score):
+			ranked.append((spot, score))
 
 	ranked.sort(key=lambda item: item[1])
-	return ranked
+	return ranked[:limit]
 
 
 def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, target_x=None, target_z=None, enemy_range_image=None):
@@ -94,9 +64,13 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 	# unvisted mass reduction which is the prime goal
 	best_spot = select_best_mass_spot(unit_x, unit_z, unvisited_mass)
 	if best_spot is not None:
-		current_dist = ((best_spot[0] - unit_x) ** 2 + (best_spot[1] - unit_z) ** 2) ** 0.5
-		target_dist = ((best_spot[0] - target_x) ** 2 + (best_spot[1] - target_z) ** 2) ** 0.5
-		dist_reduction = current_dist - target_dist
+		current_cost = compute_mass_spot_score(unit_x, unit_z, best_spot)
+		target_cost = compute_mass_spot_score(target_x, target_z, best_spot)
+		# Handle unreachable paths - assign large negative penalty to discourage unreachable moves
+		if np.isinf(current_cost) or np.isinf(target_cost):
+			dist_reduction = -1000.0
+		else:
+			dist_reduction = current_cost - target_cost
 		features.append(dist_reduction)
 	else:
 		features.append(0.0)
@@ -113,7 +87,14 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 
 	# perfer closer targets
 	move_magnitude = ((target_x - unit_x) ** 2 + (target_z - unit_z) ** 2) ** 0.5
-	magnitude_feature = -move_magnitude / 100.0
+	terrain_path_penalty = map_utils.estimate_path_terrain_penalty(
+		unit_x,
+		unit_z,
+		target_x,
+		target_z,
+		sample_count=config.PATH_SAMPLE_COUNT,
+	)
+	magnitude_feature = -move_magnitude / 100.0 + terrain_path_penalty
 	features.append(magnitude_feature)
 
 	# Remove terrain penalty for now since heights don't matter, only path up them, which this does not convey
@@ -142,12 +123,17 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 	# Danger feature based on enemy range image, might be worth moving to a seperate weight system
 	# as to allow the agent to train seperate actions correctly
 	if enemy_range_image is not None and target_x is not None and target_z is not None:
-		map_x = int(target_x)
-		map_z = int(target_z)
-		if 0 <= map_z < enemy_range_image.shape[0] and 0 <= map_x < enemy_range_image.shape[1]:
-			danger_value = enemy_range_image[map_z, map_x]
-			danger_feature = -danger_value
-			features.append(danger_feature)
+		path_values = map_utils.sample_path_values(
+			enemy_range_image,
+			unit_x,
+			unit_z,
+			target_x,
+			target_z,
+			sample_count=config.PATH_SAMPLE_COUNT,
+		)
+		if path_values is not None and path_values.size > 0:
+			danger_ratio = float((path_values > 0).mean())
+			features.append(-danger_ratio)
 		else:
 			features.append(0.0)
 	else:

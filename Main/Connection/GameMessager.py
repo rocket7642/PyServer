@@ -61,6 +61,11 @@ def receive_messages(conn, addr, window):
 
 			friendly_units = state.units
 			enemy_units = state.eUnits
+
+			for unit in state.eKUnits:
+				if all(unit['id'] != eu['id'] for eu in enemy_units):
+					enemy_units.append(unit)
+
 			print(f"Parsed {len(friendly_units)} friendly units, {len(enemy_units)} enemy units")
 			if friendly_units:
 				print(f"Sample unit: {friendly_units[0]}")
@@ -80,6 +85,13 @@ def receive_messages(conn, addr, window):
 						prev_action = state.previous_actions.get(unit['id'], None)
 						prev_pos = state.previous_positions.get(unit['id'], (unit['x'], unit['z']))
 						prev_y = state.previous_y_positions.get(unit['id'], unit['y'])
+						damage_taken = max(0.0, prev_health - unit['health'])
+						enemy_range_image = map_utils.generate_enemy_range_image(
+							enemy_units,
+							state.map_width,
+							state.map_height,
+							state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
+						)
 
 						if prev_state is not None and prev_action is not None:
 							unvisited_mass = [
@@ -91,8 +103,14 @@ def receive_messages(conn, addr, window):
 								(unit['x'], unit['z']),
 								prev_y,
 								unit['y'],
-								unvisited_mass
+								unvisited_mass,
+								enemy_range_image=enemy_range_image,
 							)
+
+							if damage_taken > 0.0:
+								damage_penalty = damage_taken * config.IMMEDIATE_DAMAGE_PENALTY_SCALE
+								potential_reward -= damage_penalty
+								components['damage_taken'] = -damage_penalty
 
 							cancel_penalty = state.cancel_command_penalties.pop(unit['id'], 0.0)
 							if cancel_penalty:
@@ -109,8 +127,8 @@ def receive_messages(conn, addr, window):
 							state.segment_stats[unit['id']]['height_change'] += abs(
 								map_utils.normalize_y(unit['y']) - map_utils.normalize_y(prev_y)
 							)
-							if unit['health'] < prev_health:
-								state.segment_stats[unit['id']]['damage_taken'] += (prev_health - unit['health'])
+							if damage_taken > 0.0:
+								state.segment_stats[unit['id']]['damage_taken'] += damage_taken
 							state.segment_stats[unit['id']]['steps'] += 1
 
 							state.segment_buffers[unit['id']].append({
@@ -133,6 +151,9 @@ def receive_messages(conn, addr, window):
 							state.writer.add_scalar('Move_Potential/distance', components['distance'], state.step_counter)
 							state.writer.add_scalar('Move_Potential/direction', components['direction'], state.step_counter)
 							state.writer.add_scalar('Move_Potential/height_jump', components['height_jump'], state.step_counter)
+							state.writer.add_scalar('Move_Potential/path_danger', components.get('path_danger', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/path_terrain', components.get('path_terrain', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/damage_taken', components.get('damage_taken', 0.0), state.step_counter)
 						elif unit['id'] not in state.previous_actions:
 							print(
 								f"[INFO] Skipping move potential for unit {unit['id']} "

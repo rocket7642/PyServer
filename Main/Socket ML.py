@@ -74,6 +74,20 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         ]
         state.visited_mass_spots_norm = set()
 
+        # Check to see if we have cached cost fields for this map to save time on future runs
+
+        cache_loaded = map_utils.load_cached_cost_fields()
+
+        if not cache_loaded:
+            # Build cost fields for pathfinding
+            print("Building terrain cost map...")
+            map_utils.build_terrain_cost_map()
+            print("Building mass point cost fields...")
+            map_utils.build_mass_cost_fields()
+
+            # Save cost fields for reuse on the same map in the future to save time
+            map_utils.save_cached_cost_fields()
+
         server_thread = threading.Thread(target=receive_messages, args=(conn, addr, window), daemon=True)
         server_thread.start()
         print(f"[NEW CONNECTION] {addr} connected.")
