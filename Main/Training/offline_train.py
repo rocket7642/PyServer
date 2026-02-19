@@ -1,6 +1,7 @@
 import json
 import math
 import random
+import sys
 from pathlib import Path
 from typing import Dict, List
 
@@ -9,9 +10,17 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+# Add parent directory to path to import main modules
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import config
+import map_utils
+import runtime_state as state
+from Rewards import MoveJudger
+
 # === ACTION SETTINGS ===
 NOOP_ACTION = "NOOP"
-NUM_ACTION_FEATURES = 7
+NUM_ACTION_FEATURES = 4
 
 # === STANDARDIZED MAP SETTINGS ===
 STANDARD_MAP_WIDTH = 1024
@@ -39,11 +48,16 @@ NEGATIVE_SAMPLES = 8
 
 map_heights = {}
 normalized_map_heights = None
+terrain_cost_map = None
+mass_cost_fields = {}
 map_spots = []
+map_spots_norm = []
+visited_mass_spots_norm = set()
 map_width = 0
 map_height = 0
 map_height_min = 0.0
 map_height_max = 1.0
+eUnits = []
 
 
 class RTSAgent(nn.Module):
@@ -349,41 +363,31 @@ def danger_zone_feature(target_x: float, target_z: float, enemy_units: List[Dict
 def compute_action_features(action_type: str, unit_x: float, unit_z: float, unit_y: float,
                             target_x: float, target_z: float, enemy_units: List[Dict]) -> List[float]:
     if action_type == NOOP_ACTION:
-        return [0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0]
-
-    # Feature 1: Distance reduction to nearest mass spot
-    if map_spots:
-        nearest = min(map_spots, key=lambda p: (p[0] - unit_x) ** 2 + (p[1] - unit_z) ** 2)
-        current_dist = ((nearest[0] - unit_x) ** 2 + (nearest[1] - unit_z) ** 2) ** 0.5
-        target_dist = ((nearest[0] - target_x) ** 2 + (nearest[1] - target_z) ** 2) ** 0.5
-        dist_reduction = current_dist - target_dist
-    else:
-        dist_reduction = 0.0
-
-    # Feature 2: Boundary proximity
-    dist_to_boundary = min(target_x, target_z, map_width - target_x, map_height - target_z)
-    boundary_feature = -max(0, 100 - dist_to_boundary)
-
-    # Feature 3: Move magnitude
-    move_magnitude = ((target_x - unit_x) ** 2 + (target_z - unit_z) ** 2) ** 0.5
-    magnitude_feature = -move_magnitude / 100.0
-
-    # Feature 4: Terrain steepness penalty
-    target_height = height_at(target_x, target_z)
-    current_height = height_at(unit_x, unit_z)
-    height_diff = abs(target_height - current_height)
-    terrain_penalty = -(height_diff / max(move_magnitude, 1.0)) * 0.1
-
-    # Feature 5: Is NOOP
-    is_noop = 0.0
-
-    # Feature 6: Height change
-    height_change = target_height - unit_y
-
-    # Feature 7: Danger zone
-    danger_feature = danger_zone_feature(target_x, target_z, enemy_units)
-
-    return [dist_reduction, boundary_feature, magnitude_feature, terrain_penalty, is_noop, height_change, danger_feature]
+        return [0.0, 0.0, 0.0, 0.0]
+    
+    # Normalize coordinates
+    unit_nx = map_utils.normalize_x(unit_x) if map_width > 0 else unit_x
+    unit_nz = map_utils.normalize_z(unit_z) if map_height > 0 else unit_z
+    unit_ny = map_utils.normalize_y(unit_y)
+    target_nx = map_utils.normalize_x(target_x) if map_width > 0 else target_x
+    target_nz = map_utils.normalize_z(target_z) if map_height > 0 else target_z
+    
+    # Get unvisited mass spots
+    unvisited_mass = [p for p in map_spots_norm if p not in visited_mass_spots_norm]
+    
+    # Use MoveJudger to compute features consistent with main training
+    features = MoveJudger.compute_action_features(
+        action_type,
+        unit_nx,
+        unit_nz,
+        unit_ny,
+        unvisited_mass,
+        target_nx,
+        target_nz,
+        enemy_range_image=None
+    )
+    
+    return features
 
 
 def load_imitation_data(filepath: str) -> Dict:
@@ -410,6 +414,34 @@ def train_imitation(dataset_file: str, epochs: int = 10, shuffle: bool = True):
         load_map_heights(meta['map_heights_file'])
     if meta.get('map_spots_file'):
         load_map_spots(meta['map_spots_file'])
+    
+    # Set up state attributes for map_utils
+    state.map_heights = map_heights
+    state.map_width = map_width
+    state.map_height = map_height
+    state.map_height_min = map_height_min
+    state.map_height_max = map_height_max
+    state.mass_spots = map_spots
+    
+    # Build normalized height map
+    build_normalized_height_map()
+    state.normalized_map_heights = normalized_map_heights
+    
+    # Build terrain cost map and mass cost fields for new pathfinding system
+    if state.normalized_map_heights is not None:
+        print("Building terrain cost map...")
+        map_utils.build_terrain_cost_map()
+        print("Building mass point cost fields...")
+        map_utils.build_mass_cost_fields()
+    
+    # Convert mass spots to normalized coordinates
+    global map_spots_norm
+    map_spots_norm = [
+        (map_utils.normalize_x(x) if map_width > 0 else x, 
+         map_utils.normalize_z(z) if map_height > 0 else z)
+        for x, z in map_spots
+    ]
+    state.map_spots_norm = map_spots_norm
 
     print(f"Training for {epochs} epochs...")
 
@@ -429,14 +461,14 @@ def train_imitation(dataset_file: str, epochs: int = 10, shuffle: bool = True):
                 continue
 
             seed = int(sample.get('timestamp', 0) * 1000) ^ unit_id
-            state = agent.encode_state(agent_unit, friendly_units, enemy_units, seed=seed)
+            state_vec = agent.encode_state(agent_unit, friendly_units, enemy_units, seed=seed)
 
             action = sample['action']
             action_type = action.get('type', NOOP_ACTION)
             target_x = action.get('x', agent_unit['x'])
             target_z = action.get('z', agent_unit['z'])
 
-            input_seq = state.unsqueeze(0).unsqueeze(0)
+            input_seq = state_vec.unsqueeze(0).unsqueeze(0)
             feature_weights, _ = agent(input_seq)
             feature_weights = feature_weights.squeeze(0)
 
