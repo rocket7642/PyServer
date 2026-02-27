@@ -9,6 +9,7 @@ from Rewards import PeriodicRewards
 
 
 def parse_units(message, header):
+	"""Parse a socket message into a list of unit dictionaries by extracting lines between a header and END marker."""
 	units_list = []
 	lines = message.strip().split('\n')
 	i = 0
@@ -26,6 +27,7 @@ def parse_units(message, header):
 							'x': float(parts[2]),
 							'y': float(parts[3]),
 							'z': float(parts[4]),
+							'range': float(parts[5]),
 							'health': float(parts[6]),
 							'speed': float(parts[7])
 						}
@@ -36,6 +38,7 @@ def parse_units(message, header):
 
 
 def format_action(action, unit_id, unit_x, unit_z, unit_y, target_x=None, target_z=None):
+	"""Format a move action into a command string to send to the game, choosing queued or immediate based on distance."""
 	if action == config.NOOP_ACTION or target_x is None or target_z is None:
 		return None
 	distance = ((target_x - unit_x) ** 2 + (target_z - unit_z) ** 2) ** 0.5
@@ -44,6 +47,7 @@ def format_action(action, unit_id, unit_x, unit_z, unit_y, target_x=None, target
 
 
 def receive_messages(conn, addr, window):
+	"""Main loop that receives game state messages, runs the agent's decision-making, trains on transitions, and sends commands back."""
 	while True:
 		try:
 			data = conn.recv(1024)
@@ -153,6 +157,7 @@ def receive_messages(conn, addr, window):
 							state.writer.add_scalar('Move_Potential/height_jump', components['height_jump'], state.step_counter)
 							state.writer.add_scalar('Move_Potential/path_danger', components.get('path_danger', 0.0), state.step_counter)
 							state.writer.add_scalar('Move_Potential/path_terrain', components.get('path_terrain', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/enemy_avoidance', components.get('enemy_avoidance', 0.0), state.step_counter)
 							state.writer.add_scalar('Move_Potential/damage_taken', components.get('damage_taken', 0.0), state.step_counter)
 						elif unit['id'] not in state.previous_actions:
 							print(

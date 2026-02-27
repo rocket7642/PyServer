@@ -11,6 +11,7 @@ from Rewards import MoveJudger
 
 
 def compute_reward(agent_unit, prev_health):
+	"""Calculate the total step reward for a unit based on damage, mass collection, distance, inactivity, and danger."""
 	reward = 0
 	unit_id = agent_unit['id']
 
@@ -148,6 +149,7 @@ def compute_reward(agent_unit, prev_health):
 
 
 def init_segment_tracking(unit):
+	"""Initialize per-unit segment tracking stats and buffer if not already present."""
 	unit_id = unit['id']
 	if unit_id not in state.segment_stats:
 		now = time.time()
@@ -164,6 +166,7 @@ def init_segment_tracking(unit):
 
 
 def terrain_adjusted_distance(prev_pos, curr_pos, prev_y, curr_y):
+	"""Compute the movement distance between positions, adding a height-change penalty factor."""
 	raw_dist = ((prev_pos[0] - curr_pos[0]) ** 2 + (prev_pos[1] - curr_pos[1]) ** 2) ** 0.5
 	raw_dist = map_utils.normalize_distance(raw_dist)
 	height_delta = abs(map_utils.normalize_y(curr_y) - map_utils.normalize_y(prev_y))
@@ -171,6 +174,7 @@ def terrain_adjusted_distance(prev_pos, curr_pos, prev_y, curr_y):
 
 
 def _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image):
+	"""Compute a penalty based on the fraction of the movement path that passes through enemy weapon range."""
 	if enemy_range_image is None:
 		return 0.0
 
@@ -198,6 +202,7 @@ def _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image):
 
 
 def _compute_path_terrain_penalty(prev_pos, curr_pos):
+	"""Compute a terrain traversal penalty along the movement path using the cost map."""
 	prev_nx = map_utils.normalize_x(prev_pos[0])
 	prev_nz = map_utils.normalize_z(prev_pos[1])
 	curr_nx = map_utils.normalize_x(curr_pos[0])
@@ -213,6 +218,7 @@ def _compute_path_terrain_penalty(prev_pos, curr_pos):
 
 
 def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, enemy_range_image=None):
+	"""Compute the potential-based shaping reward for a movement step, combining distance, direction, height, danger, terrain, and enemy avoidance."""
 	unit_nx = map_utils.normalize_x(prev_pos[0])
 	unit_nz = map_utils.normalize_z(prev_pos[1])
 	curr_nx = map_utils.normalize_x(curr_pos[0])
@@ -222,16 +228,36 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	move_dz = curr_nz - unit_nz
 	move_dist = (move_dx ** 2 + move_dz ** 2) ** 0.5
 
+	# Combine all known enemies for avoidance calculations
+	all_enemies = list(state.eUnits)
+	for u in state.eKUnits:
+		if all(u['id'] != eu['id'] for eu in all_enemies):
+			all_enemies.append(u)
+
+	# Proactive enemy avoidance: reward for increasing distance from nearest enemy when in danger
+	enemy_avoidance_reward = 0.0
+	if all_enemies:
+		prev_enemy_info = map_utils.find_nearest_enemy(unit_nx, unit_nz, all_enemies)
+		curr_enemy_info = map_utils.find_nearest_enemy(curr_nx, curr_nz, all_enemies)
+		if prev_enemy_info is not None and curr_enemy_info is not None:
+			prev_enemy_dist = prev_enemy_info[0]
+			curr_enemy_dist = curr_enemy_info[0]
+			# Only reward avoidance when the unit is within the proximity threshold
+			if prev_enemy_dist < config.ENEMY_PROXIMITY_THRESHOLD:
+				dist_change = curr_enemy_dist - prev_enemy_dist
+				enemy_avoidance_reward = dist_change * config.ENEMY_AVOIDANCE_REWARD_SCALE
+
 	if not unvisited_mass:
 		path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
 		path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
-		total = path_danger_penalty + path_terrain_penalty
+		total = path_danger_penalty + path_terrain_penalty + enemy_avoidance_reward
 		return total, {
 			'distance': 0.0,
 			'direction': 0.0,
 			'height_jump': 0.0,
 			'path_danger': path_danger_penalty,
 			'path_terrain': path_terrain_penalty,
+			'enemy_avoidance': enemy_avoidance_reward,
 		}
 
 	nearest = MoveJudger.select_best_mass_spot(unit_nx, unit_nz, unvisited_mass)
@@ -240,13 +266,14 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	if nearest is None:
 		path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
 		path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
-		total = path_danger_penalty + path_terrain_penalty
+		total = path_danger_penalty + path_terrain_penalty + enemy_avoidance_reward
 		return total, {
 			'distance': 0.0,
 			'direction': 0.0,
 			'height_jump': 0.0,
 			'path_danger': path_danger_penalty,
 			'path_terrain': path_terrain_penalty,
+			'enemy_avoidance': enemy_avoidance_reward,
 		}
 	
 	prev_dist = MoveJudger.compute_mass_spot_score(unit_nx, unit_nz, nearest)
@@ -274,18 +301,20 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
 	path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
 
-	total = distance_reward + direction_reward + height_jump_penalty + path_danger_penalty + path_terrain_penalty
+	total = distance_reward + direction_reward + height_jump_penalty + path_danger_penalty + path_terrain_penalty + enemy_avoidance_reward
 	components = {
 		'distance': distance_reward,
 		'direction': direction_reward,
 		'height_jump': height_jump_penalty,
 		'path_danger': path_danger_penalty,
 		'path_terrain': path_terrain_penalty,
+		'enemy_avoidance': enemy_avoidance_reward,
 	}
 	return total, components
 
 
 def check_mass_reached(unit):
+	"""Check if the unit is close enough to any unvisited mass spot to mark it as collected."""
 	unit_id = unit['id']
 	for spot in state.mass_spots:
 		if spot not in state.visited_mass_spots:
@@ -302,6 +331,7 @@ def check_mass_reached(unit):
 
 
 def compute_segment_reward(unit_id, success, now):
+	"""Compute the end-of-segment reward or penalty based on time, distance traveled, and damage sustained."""
 	stats = state.segment_stats.get(unit_id, None)
 	if not stats:
 		return 0.0
@@ -319,6 +349,7 @@ def compute_segment_reward(unit_id, success, now):
 
 
 def finalize_segment_training(unit_id, success, reason):
+	"""Train the agent on all buffered transitions for a segment, distributing the segment reward evenly across steps."""
 	buffer = state.segment_buffers.get(unit_id, [])
 	if not buffer:
 		return
@@ -360,5 +391,6 @@ def finalize_segment_training(unit_id, success, reason):
 
 
 def finalize_all_units(success, reason):
+	"""Finalize segment training for every tracked unit, used when all mass spots are reached."""
 	for uid in list(state.segment_buffers.keys()):
 		finalize_segment_training(uid, success, reason)

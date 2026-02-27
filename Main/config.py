@@ -35,6 +35,14 @@ IMMEDIATE_DAMAGE_PENALTY_SCALE = 2.0
 PATH_DANGER_PENALTY_SCALE = 10.0
 PATH_DANGER_MIN_HIT_PENALTY = 2.0
 
+# Enemy avoidance settings
+ENEMY_PROXIMITY_THRESHOLD = 400.0  # normalized distance within which enemy avoidance kicks in
+ENEMY_AVOIDANCE_REWARD_SCALE = 0.15  # reward scale for increasing distance from enemies
+ENEMY_RANGE_FALLOFF_BUFFER = 1.3  # multiplier on enemy weapon range for gradient falloff
+ESCAPE_CANDIDATE_COUNT = 8  # number of escape direction candidates to generate
+ESCAPE_CANDIDATE_DISTANCE = 150  # how far escape candidates are placed from the unit
+DEFAULT_ENEMY_RANGE = 300  # fallback range if a unit has no range data
+
 # Segment (mass-spot) rewards
 SEGMENT_BASE_REWARD = 200.0
 FAILURE_BASE_PENALTY = 150.0
@@ -44,7 +52,7 @@ SEGMENT_DAMAGE_PENALTY = 1.0
 HEIGHT_DISTANCE_FACTOR = 0.2
 
 # Number of action features for the potential field
-NUM_ACTION_FEATURES = 4
+NUM_ACTION_FEATURES = 7
 
 # Terrain sampling for path-based penalties
 PATH_TERRAIN_WEIGHT = 0.25
@@ -61,7 +69,7 @@ MAP_CACHE_DIR = "cache/map_fields"
 MAP_CACHE_VERSION = 11
 
 # === ENCODER SETTINGS ===
-SELF_FEATURES_SIZE = 6
+SELF_FEATURES_SIZE = 9
 SELF_EMBED_SIZE = 16
 MASS_FEATURES_SIZE = 3
 MASS_EMBED_SIZE = 8
@@ -94,4 +102,7 @@ FEATURE_NAMES = [
     "is_noop",
     #"height_change",
     "danger_zone",
+    "enemy_distance_change",
+    "nearest_enemy_proximity",
+    "escape_alignment",
 ]

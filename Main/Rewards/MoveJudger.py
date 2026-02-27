@@ -9,6 +9,7 @@ def compute_mass_spot_score(unit_x, unit_z, spot):
 
 
 def select_best_mass_spot(unit_x, unit_z, unvisited_mass, return_score=False):
+	"""Find the unvisited mass spot with the lowest terrain-aware cost from the unit's position."""
 	if not unvisited_mass:
 		return (None, None) if return_score else None
 	
@@ -30,6 +31,7 @@ def select_best_mass_spot(unit_x, unit_z, unvisited_mass, return_score=False):
 
 
 def get_top_mass_spots(unit_x, unit_z, unvisited_mass, limit=4):
+	"""Return the top N nearest reachable mass spots ranked by terrain-aware cost."""
 	if not unvisited_mass:
 		return []
 
@@ -44,17 +46,29 @@ def get_top_mass_spots(unit_x, unit_z, unvisited_mass, limit=4):
 	return ranked[:limit]
 
 
-def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, target_x=None, target_z=None, enemy_range_image=None):
+def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, target_x=None, target_z=None, enemy_range_image=None, enemy_units=None):
+	"""Compute the feature vector for an action (NOOP or MOVE) used to score candidates via dot product with learned weights."""
 	features = []
 
 	if action == config.NOOP_ACTION:
-		features.append(0.0)
-		#features.append(0.0)
-		features.append(0.0)
-		#features.append(0.0)
-		features.append(1.0)
-		#features.append(0.0)
-		features.append(0.0)
+		features.append(0.0)  # distance_reduction
+		#features.append(0.0)  # boundary_proximity
+		features.append(0.0)  # move_magnitude
+		#features.append(0.0)  # terrain_steepness
+		features.append(1.0)  # is_noop
+		#features.append(0.0)  # height_change
+		features.append(0.0)  # danger_zone
+		features.append(0.0)  # enemy_distance_change
+		# nearest_enemy_proximity: even while standing still, report how close the nearest enemy is
+		nearest_info = map_utils.find_nearest_enemy(unit_x, unit_z, enemy_units) if enemy_units else None
+		if nearest_info is not None:
+			nearest_dist = nearest_info[0]
+			# Negative value when close (penalizes staying near enemies), 0 when far
+			proximity_feature = -max(0.0, config.ENEMY_PROXIMITY_THRESHOLD - nearest_dist) / config.ENEMY_PROXIMITY_THRESHOLD
+		else:
+			proximity_feature = 0.0
+		features.append(proximity_feature)  # nearest_enemy_proximity
+		features.append(0.0)  # escape_alignment
 		return features
 
 	if target_x is None or target_z is None:
@@ -120,8 +134,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 	# except (IndexError, TypeError):
 	# 	features.append(0.0)
 
-	# Danger feature based on enemy range image, might be worth moving to a seperate weight system
-	# as to allow the agent to train seperate actions correctly
+	# Danger feature based on enemy range image - now uses gradient intensity
 	if enemy_range_image is not None and target_x is not None and target_z is not None:
 		path_values = map_utils.sample_path_values(
 			enemy_range_image,
@@ -132,11 +145,53 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 			sample_count=config.PATH_SAMPLE_COUNT,
 		)
 		if path_values is not None and path_values.size > 0:
-			danger_ratio = float((path_values > 0).mean())
-			features.append(-danger_ratio)
+			# Use mean danger intensity along the path (gradient, not binary)
+			danger_intensity = float(np.mean(path_values))
+			features.append(-danger_intensity)
 		else:
 			features.append(0.0)
 	else:
 		features.append(0.0)
+
+	# === NEW ENEMY AVOIDANCE FEATURES ===
+
+	# enemy_distance_change: positive when moving away from nearest enemy, negative when approaching
+	nearest_info = map_utils.find_nearest_enemy(unit_x, unit_z, enemy_units) if enemy_units else None
+	if nearest_info is not None:
+		current_enemy_dist = nearest_info[0]
+		target_enemy_dist_info = map_utils.find_nearest_enemy(target_x, target_z, enemy_units)
+		if target_enemy_dist_info is not None:
+			target_enemy_dist = target_enemy_dist_info[0]
+			enemy_dist_change = target_enemy_dist - current_enemy_dist
+		else:
+			enemy_dist_change = 0.0
+		features.append(enemy_dist_change / 100.0)  # scale down
+	else:
+		features.append(0.0)
+
+	# nearest_enemy_proximity: how close the target position is to the nearest enemy
+	# Negative when close (within threshold), 0 when far away
+	if nearest_info is not None:
+		target_enemy_info = map_utils.find_nearest_enemy(target_x, target_z, enemy_units) if enemy_units else None
+		if target_enemy_info is not None:
+			target_nearest_dist = target_enemy_info[0]
+			proximity_feature = -max(0.0, config.ENEMY_PROXIMITY_THRESHOLD - target_nearest_dist) / config.ENEMY_PROXIMITY_THRESHOLD
+		else:
+			proximity_feature = 0.0
+		features.append(proximity_feature)
+	else:
+		features.append(0.0)
+
+	# escape_alignment: how well the move direction aligns with the escape direction (away from enemies)
+	escape_dx, escape_dz = map_utils.compute_enemy_escape_direction(unit_x, unit_z, enemy_units) if enemy_units else (0.0, 0.0)
+	move_dx = target_x - unit_x
+	move_dz = target_z - unit_z
+	move_mag = (move_dx ** 2 + move_dz ** 2) ** 0.5
+	escape_mag = (escape_dx ** 2 + escape_dz ** 2) ** 0.5
+	if move_mag > 1e-6 and escape_mag > 1e-6:
+		escape_alignment = (move_dx * escape_dx + move_dz * escape_dz) / (move_mag * escape_mag + 1e-6)
+	else:
+		escape_alignment = 0.0
+	features.append(escape_alignment)
 
 	return features

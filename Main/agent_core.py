@@ -25,22 +25,26 @@ optimizer = optim.Adam(agent.parameters(), lr=0.0001, weight_decay=0.05)
 criterion = nn.SmoothL1Loss() # swapped from MSELoss to SmoothL1Loss for better stability with TD targets
 
 def init_lstm_hidden(batch_size=1):
+    """Create zero-initialized LSTM hidden and cell states for the given batch size."""
     h0 = torch.zeros(config.LSTM_NUM_LAYERS, batch_size, config.LSTM_HIDDEN_SIZE)
     c0 = torch.zeros(config.LSTM_NUM_LAYERS, batch_size, config.LSTM_HIDDEN_SIZE)
     return (h0, c0)
 
 
 def get_state(agent_unit, friendly_units, enemy_units):
+    """Encode the full game state (including map embedding) into a feature vector for the given unit."""
     with torch.no_grad():
         return agent.encode_state(agent_unit, friendly_units, enemy_units).detach()
 
 
 def get_state_no_map(agent_unit, friendly_units, enemy_units):
+    """Encode the game state without the map embedding, used for lightweight storage in replay buffers."""
     with torch.no_grad():
         return agent.encode_state_no_map(agent_unit, friendly_units, enemy_units).detach()
 
 
 def select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass):
+    """Select or maintain a target mass spot for a unit, swapping only if a significantly better option appears."""
     if not unvisited_mass:
         state.mass_destinations.pop(unit_id, None)
         state.mass_destination_distances.pop(unit_id, None)
@@ -127,6 +131,7 @@ def select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass):
 
 
 def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
+    """Run the agent's policy to select the best action and move target for a unit given its encoded state."""
     with torch.no_grad():
         hidden = state.lstm_hidden_states.get(unit_id, init_lstm_hidden())
         state.previous_lstm_hidden_states[unit_id] = (hidden[0].detach(), hidden[1].detach())
@@ -156,6 +161,12 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         mass_destination = select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass)
         active_mass = [mass_destination] if mass_destination is not None else unvisited_mass
 
+        # Combine all known enemies for feature computation
+        all_enemies = list(state.eUnits)
+        for u in state.eKUnits:
+            if all(u['id'] != eu['id'] for eu in all_enemies):
+                all_enemies.append(u)
+
         candidates = []
 
         for dx in np.linspace(-200, 200, num=10):
@@ -170,6 +181,22 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         # Current position is always valid
         candidates.append((unit_nx, unit_nz))
+
+        # Generate escape candidates pointing away from nearby enemies
+        escape_dx, escape_dz = map_utils.compute_enemy_escape_direction(unit_nx, unit_nz, all_enemies)
+        if abs(escape_dx) > 1e-6 or abs(escape_dz) > 1e-6:
+            for dist_mult in [0.5, 1.0, 1.5]:
+                esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
+                    import math
+                    base_angle = math.atan2(escape_dz, escape_dx)
+                    angle = base_angle + angle_offset * math.pi
+                    tx = unit_nx + math.cos(angle) * esc_dist
+                    tz = unit_nz + math.sin(angle) * esc_dist
+                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                    if map_utils.is_position_reachable(tx, tz):
+                        candidates.append((tx, tz))
 
         if mass_destination is not None:
             dest_world_x = map_utils.denormalize_x(mass_destination[0])
@@ -213,6 +240,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         unit_ny,
                         active_mass,
                         enemy_range_image=enemy_range_image,
+                        enemy_units=all_enemies,
                     )
                 else:
                     features = MoveJudger.compute_action_features(
@@ -224,6 +252,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         tx,
                         tz,
                         enemy_range_image=enemy_range_image,
+                        enemy_units=all_enemies,
                     )
 
                 if features is None:
@@ -263,6 +292,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 unit_ny,
                 unvisited_mass,
                 enemy_range_image=enemy_range_image,
+                enemy_units=all_enemies,
             )
             if noop_features is not None:
                 chosen_action_features = noop_features
@@ -299,6 +329,7 @@ def train_agent(
     mass_destination=None,
     unit_id=None,
 ):
+    """Perform a single TD (temporal difference) training step using the transition data and clamped Q-targets."""
     if unit_id is not None:
         hidden = state.previous_lstm_hidden_states.get(unit_id, init_lstm_hidden())
     else:
@@ -314,6 +345,13 @@ def train_agent(
     unit_ny = map_utils.normalize_y(unit_y)
     target_nx = map_utils.normalize_x(target_x) if target_x is not None else unit_nx
     target_nz = map_utils.normalize_z(target_z) if target_z is not None else unit_nz
+
+    # Combine all known enemies for feature computation
+    all_enemies = list(state.eUnits)
+    for u in state.eKUnits:
+        if all(u['id'] != eu['id'] for eu in all_enemies):
+            all_enemies.append(u)
+
     enemy_range_image = map_utils.generate_enemy_range_image(
         state.eUnits,
         state.map_width,
@@ -330,6 +368,7 @@ def train_agent(
         target_nx,
         target_nz,
         enemy_range_image=enemy_range_image,
+        enemy_units=all_enemies,
     )
     
     # Validate features don't contain inf/nan
@@ -357,7 +396,25 @@ def train_agent(
                     if map_utils.is_position_reachable(tx, tz):
                         candidates.append((tx, tz))
             # Current next position is always valid
-            candidates.append((map_utils.normalize_x(next_unit_x), map_utils.normalize_z(next_unit_z)))
+            next_nx_pos = map_utils.normalize_x(next_unit_x)
+            next_nz_pos = map_utils.normalize_z(next_unit_z)
+            candidates.append((next_nx_pos, next_nz_pos))
+
+            # Generate escape candidates for TD target calculation
+            esc_dx, esc_dz = map_utils.compute_enemy_escape_direction(next_nx_pos, next_nz_pos, all_enemies)
+            if abs(esc_dx) > 1e-6 or abs(esc_dz) > 1e-6:
+                import math
+                for dist_mult in [0.5, 1.0, 1.5]:
+                    esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                    for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
+                        base_angle = math.atan2(esc_dz, esc_dx)
+                        angle = base_angle + angle_offset * math.pi
+                        tx = next_nx_pos + math.cos(angle) * esc_dist
+                        tz = next_nz_pos + math.sin(angle) * esc_dist
+                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                        if map_utils.is_position_reachable(tx, tz):
+                            candidates.append((tx, tz))
 
             if mass_destination is not None:
                 dest_world_x = map_utils.denormalize_x(mass_destination[0])
@@ -401,6 +458,7 @@ def train_agent(
                     tx,
                     tz,
                     enemy_range_image=next_enemy_range_image,
+                    enemy_units=all_enemies,
                 )
                 next_features_tensor = torch.tensor(next_features, dtype=torch.float32)
                 next_q = torch.dot(next_weights, next_features_tensor)
@@ -449,11 +507,13 @@ def train_agent(
 
 
 def save_agent():
+    """Save the agent's neural network weights to disk."""
     torch.save(agent.state_dict(), 'agent_weights_feature_based.pth')
     print("Feature-based agent weights saved.")
 
 
 def _reset_agent_parameters(model: nn.Module):
+    """Reinitialize all learnable parameters of the model, including CNN-specific weight init."""
     for module in model.modules():
         if hasattr(module, "reset_parameters"):
             module.reset_parameters()
@@ -462,6 +522,7 @@ def _reset_agent_parameters(model: nn.Module):
 
 
 def load_agent():
+    """Load saved agent weights from disk, reinitializing if weights are missing, incompatible, or contain NaN."""
     try:
         agent.load_state_dict(torch.load('agent_weights_feature_based.pth'))
         print("Feature-based agent weights loaded.")
@@ -479,6 +540,7 @@ def load_agent():
     log_model_graph_once()
 
 def log_model_graph_once():
+    """Log the model's computation graph to TensorBoard once for visualization."""
     if not getattr(config, 'ENABLE_MODEL_GRAPH_LOG', True):
         return
     if state.model_graph_logged:

@@ -8,22 +8,27 @@ import runtime_state as state
 
 
 def normalize_x(x):
+    """Convert a world X coordinate to the standardized map coordinate space."""
     return (x / state.map_width) * config.STANDARD_MAP_WIDTH if state.map_width > 0 else x
 
 
 def normalize_z(z):
+    """Convert a world Z coordinate to the standardized map coordinate space."""
     return (z / state.map_height) * config.STANDARD_MAP_HEIGHT if state.map_height > 0 else z
 
 
 def denormalize_x(nx):
+    """Convert a standardized X coordinate back to world space."""
     return (nx / config.STANDARD_MAP_WIDTH) * state.map_width if state.map_width > 0 else nx
 
 
 def denormalize_z(nz):
+    """Convert a standardized Z coordinate back to world space."""
     return (nz / config.STANDARD_MAP_HEIGHT) * state.map_height if state.map_height > 0 else nz
 
 
 def normalize_range(rng):
+    """Scale a range value (e.g. weapon range) to the standardized map coordinate space."""
     if state.map_width > 0 and state.map_height > 0:
         scale = (config.STANDARD_MAP_WIDTH / state.map_width + config.STANDARD_MAP_HEIGHT / state.map_height) / 2.0
         return rng * scale
@@ -31,6 +36,7 @@ def normalize_range(rng):
 
 
 def normalize_distance(dist):
+    """Scale a distance value to the standardized map coordinate space."""
     if state.map_width > 0 and state.map_height > 0:
         scale = (config.STANDARD_MAP_WIDTH / state.map_width + config.STANDARD_MAP_HEIGHT / state.map_height) / 2.0
         return dist * scale
@@ -38,18 +44,21 @@ def normalize_distance(dist):
 
 
 def normalize_y(y):
+    """Normalize a world Y (height) value to the standard range using the map's min/max heights."""
     if np.isfinite(state.map_height_min) and np.isfinite(state.map_height_max) and state.map_height_max > state.map_height_min:
         return (y - state.map_height_min) / (state.map_height_max - state.map_height_min) * config.STANDARD_MAP_Y
     return y
 
 
 def denormalize_y(ny):
+    """Convert a normalized Y (height) value back to the original world height."""
     if np.isfinite(state.map_height_min) and np.isfinite(state.map_height_max) and state.map_height_max > state.map_height_min:
         return state.map_height_min + (ny / config.STANDARD_MAP_Y) * (state.map_height_max - state.map_height_min)
     return ny
 
 
 def build_normalized_height_map():
+    """Resample the raw height map to the standard resolution and normalize heights for the neural network."""
     if state.map_heights is None or state.map_heights.size == 0:
         state.normalized_map_heights = None
         return
@@ -77,6 +86,7 @@ def build_normalized_height_map():
 
 
 def height_at_normalized(nx, nz):
+    """Look up the normalized height value at a given standardized (x, z) position."""
     if state.normalized_map_heights is None:
         return -1000.0
 
@@ -86,6 +96,7 @@ def height_at_normalized(nx, nz):
 
 
 def get_cached_map_embedding(agent, device):
+    """Return the CNN-encoded map embedding, computing and caching it on the first call per device."""
     if state.normalized_map_heights is None:
         return torch.zeros(config.MAP_EMBED_SIZE, dtype=torch.float32, device=device)
 
@@ -115,6 +126,7 @@ def get_cached_map_embedding(agent, device):
 
 
 def reconstruct_state_with_map(agent, state_no_map):
+    """Reinsert the cached map embedding into a state vector that was stored without it."""
     split_idx = config.SELF_EMBED_SIZE + config.MASS_EMBED_SIZE
     device = state_no_map.device
     map_emb = get_cached_map_embedding(agent, device)
@@ -124,6 +136,7 @@ def reconstruct_state_with_map(agent, state_no_map):
 
 
 def normalize_image(img_array):
+    """Min-max normalize an image array to [0, 1] for visualization."""
     if img_array.size == 0:
         return img_array
     min_val = np.min(img_array)
@@ -133,7 +146,8 @@ def normalize_image(img_array):
     return ((img_array - min_val) / (max_val - min_val)).astype(np.float32)
 
 
-def generate_enemy_range_image(enemy_units, map_w, map_h, map_heights_shape, enemy_range=300):
+def generate_enemy_range_image(enemy_units, map_w, map_h, map_heights_shape, enemy_range=None):
+    """Generate a gradient danger image using per-unit weapon range with intensity falloff from each enemy."""
     if map_heights_shape is None:
         return None
     h, w = map_heights_shape
@@ -145,19 +159,75 @@ def generate_enemy_range_image(enemy_units, map_w, map_h, map_heights_shape, ene
     for enemy in enemy_units:
         ex = int(normalize_x(enemy['x']))
         ez = int(normalize_z(enemy['z']))
-        r = int(enemy_range * range_scale)
+        # Use the unit's actual weapon range if available, otherwise fall back to default
+        unit_range = enemy.get('range', config.DEFAULT_ENEMY_RANGE)
+        if unit_range <= 0:
+            unit_range = config.DEFAULT_ENEMY_RANGE
+        r = int(unit_range * range_scale * config.ENEMY_RANGE_FALLOFF_BUFFER)
+        r_inner = int(unit_range * range_scale)
         x_min = max(0, ex - r)
         x_max = min(w - 1, ex + r)
         z_min = max(0, ez - r)
         z_max = min(h - 1, ez + r)
+        r_sq = r * r
+        r_inner_sq = r_inner * r_inner
         for z in range(z_min, z_max + 1):
             for x in range(x_min, x_max + 1):
-                if (x - ex) ** 2 + (z - ez) ** 2 <= r ** 2:
-                    img[z, x] = 1.0
+                dist_sq = (x - ex) ** 2 + (z - ez) ** 2
+                if dist_sq <= r_sq:
+                    if dist_sq <= r_inner_sq:
+                        # Full danger inside actual weapon range
+                        intensity = 1.0
+                    else:
+                        # Linear falloff in the buffer zone between weapon range and outer radius
+                        dist = dist_sq ** 0.5
+                        intensity = max(0.0, 1.0 - (dist - r_inner) / max(1.0, r - r_inner))
+                    img[z, x] = max(img[z, x], intensity)
     return img
 
 
+def find_nearest_enemy(unit_nx, unit_nz, enemy_units):
+    """Find the nearest enemy to a normalized position, returning (distance, enemy_nx, enemy_nz) or None if no enemies."""
+    if not enemy_units:
+        return None
+    best_dist = float('inf')
+    best_ex, best_ez = 0.0, 0.0
+    for enemy in enemy_units:
+        ex = normalize_x(enemy['x'])
+        ez = normalize_z(enemy['z'])
+        dist = ((ex - unit_nx) ** 2 + (ez - unit_nz) ** 2) ** 0.5
+        if dist < best_dist:
+            best_dist = dist
+            best_ex = ex
+            best_ez = ez
+    return best_dist, best_ex, best_ez
+
+
+def compute_enemy_escape_direction(unit_nx, unit_nz, enemy_units):
+    """Compute the best escape direction (dx, dz) as a unit vector pointing away from nearby enemies."""
+    if not enemy_units:
+        return 0.0, 0.0
+    flee_dx = 0.0
+    flee_dz = 0.0
+    for enemy in enemy_units:
+        ex = normalize_x(enemy['x'])
+        ez = normalize_z(enemy['z'])
+        dx = unit_nx - ex
+        dz = unit_nz - ez
+        dist = (dx ** 2 + dz ** 2) ** 0.5
+        if dist < config.ENEMY_PROXIMITY_THRESHOLD and dist > 1e-6:
+            # Weight contribution inversely by distance (closer enemies matter more)
+            weight = 1.0 / (dist + 1e-6)
+            flee_dx += dx * weight
+            flee_dz += dz * weight
+    mag = (flee_dx ** 2 + flee_dz ** 2) ** 0.5
+    if mag > 1e-6:
+        return flee_dx / mag, flee_dz / mag
+    return 0.0, 0.0
+
+
 def sample_path_values(grid, start_x, start_z, end_x, end_z, sample_count=None):
+    """Sample values from a grid along a straight line between two points."""
     if grid is None:
         return None
 
@@ -173,6 +243,7 @@ def sample_path_values(grid, start_x, start_z, end_x, end_z, sample_count=None):
 
 
 def estimate_path_terrain_penalty(start_x, start_z, end_x, end_z, sample_count=None):
+    """Estimate a terrain traversal penalty along a path by sampling the cost map between two points."""
     if state.terrain_cost_map is None:
         return 0.0
 
@@ -205,6 +276,7 @@ def estimate_path_terrain_penalty(start_x, start_z, end_x, end_z, sample_count=N
 
 
 def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500):
+    """Extract a local height-map patch centered on the unit's position for TensorBoard visualization."""
     if map_heights_array is None:
         return None
     h, w = map_heights_array.shape
@@ -250,6 +322,7 @@ def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500):
 
 
 def _get_map_signature():
+    """Compute a SHA-256 hash of the map data and config to uniquely identify cached cost fields."""
     if state.map_heights is None:
         return None
 
@@ -273,6 +346,7 @@ def _get_map_signature():
 
 
 def _get_map_cache_path():
+    """Return the filesystem path for the cached cost fields file based on the map's signature hash."""
     map_signature = _get_map_signature()
     if map_signature is None:
         return None
@@ -283,6 +357,7 @@ def _get_map_cache_path():
 
 
 def load_cached_cost_fields():
+    """Load previously saved terrain and mass cost fields from the cache if the map signature matches."""
     cache_path = _get_map_cache_path()
     if cache_path is None or not cache_path.exists():
         return False
@@ -331,6 +406,7 @@ def load_cached_cost_fields():
 
 
 def save_cached_cost_fields():
+    """Save the current terrain and mass cost fields to disk so they can be reused on the same map."""
     cache_path = _get_map_cache_path()
     if cache_path is None or state.terrain_cost_map is None:
         return False

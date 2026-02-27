@@ -9,6 +9,7 @@ import runtime_state as state
 
 class RTSAgent(nn.Module):
     def __init__(self, input_size, num_features):
+        """Initialize the RTS agent with encoder networks, CNN map processor, LSTM, and output layers."""
         super().__init__()
         self.self_encoder = nn.Sequential(
             nn.Linear(config.SELF_FEATURES_SIZE, 32),
@@ -67,6 +68,7 @@ class RTSAgent(nn.Module):
         self.fc2 = nn.Linear(64, num_features)
 
     def _initialize_cnn_weights(self):
+        """Apply Kaiming normal init to Conv2d layers and Xavier uniform init to the map FC layer."""
         for module in self.map_cnn.modules():
             if isinstance(module, nn.Conv2d):
                 nn.init.kaiming_normal_(module.weight, mode='fan_out', nonlinearity='relu')
@@ -83,6 +85,7 @@ class RTSAgent(nn.Module):
                     nn.init.constant_(module.bias, 0)
 
     def forward(self, x, hidden=None):
+        """Forward pass: run encoded state through the LSTM and FC layers to produce action feature weights."""
         lstm_out, new_hidden = self.lstm(x, hidden)
         last_out = lstm_out[:, -1, :]
         x = torch.relu(self.fc1(last_out))
@@ -97,18 +100,34 @@ class RTSAgent(nn.Module):
         return feature_weights, new_hidden
 
     def encode_state_parts(self, agent_unit, friendly_units, enemy_units):
+        """Encode self, mass, map, friendly, and enemy observations into separate embedding vectors."""
         device = next(self.parameters()).device
 
         unit_nx = map_utils.normalize_x(agent_unit['x'])
         unit_nz = map_utils.normalize_z(agent_unit['z'])
         unit_ny = map_utils.normalize_y(agent_unit['y'])
+
+        # Compute nearest-enemy features for direct signal in self_encoder
+        nearest_enemy_info = map_utils.find_nearest_enemy(unit_nx, unit_nz, enemy_units)
+        if nearest_enemy_info is not None:
+            nearest_enemy_dist, nearest_ex, nearest_ez = nearest_enemy_info
+            nearest_enemy_dx = nearest_ex - unit_nx
+            nearest_enemy_dz = nearest_ez - unit_nz
+        else:
+            nearest_enemy_dx = 0.0
+            nearest_enemy_dz = 0.0
+            nearest_enemy_dist = config.ENEMY_PROXIMITY_THRESHOLD
+
         self_features = torch.tensor([
             unit_nx,
             unit_nz,
             unit_ny,
             agent_unit['health'],
             float(len(friendly_units)),
-            float(len(enemy_units))
+            float(len(enemy_units)),
+            nearest_enemy_dx,
+            nearest_enemy_dz,
+            nearest_enemy_dist,
         ], dtype=torch.float32, device=device)
         self_emb = self.self_encoder(self_features)
 
@@ -161,6 +180,7 @@ class RTSAgent(nn.Module):
         return self_emb, mass_emb, map_emb, friendly_emb, enemy_emb
 
     def encode_state(self, agent_unit, friendly_units, enemy_units):
+        """Produce a full state vector by concatenating all encoder outputs including the map embedding."""
         self_emb, mass_emb, map_emb, friendly_emb, enemy_emb = self.encode_state_parts(
             agent_unit, friendly_units, enemy_units
         )
@@ -169,6 +189,7 @@ class RTSAgent(nn.Module):
         return state_vec
 
     def encode_state_no_map(self, agent_unit, friendly_units, enemy_units):
+        """Produce a state vector without the map embedding, for lightweight replay buffer storage."""
         self_emb, mass_emb, _, friendly_emb, enemy_emb = self.encode_state_parts(
             agent_unit, friendly_units, enemy_units
         )
