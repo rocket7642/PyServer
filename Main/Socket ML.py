@@ -3,6 +3,7 @@ import sys
 import threading
 
 import FreeSimpleGUI as sg
+import numpy as np
 import pandas as pd
 
 import config
@@ -87,6 +88,63 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             # Save cost fields for reuse on the same map in the future to save time
             map_utils.save_cached_cost_fields()
+
+        # Print the terrain cost map to tensorboard for visualization
+        # used to verify that the map is being generated correctly as to determine where impassable terrain is and where the agent should prefer to move
+        if state.terrain_cost_map is not None:
+
+            terrain_cost = state.terrain_cost_map
+            passable_mask = np.isfinite(terrain_cost)
+
+            terrain_cost_rgb = np.zeros((terrain_cost.shape[0], terrain_cost.shape[1], 3), dtype=np.float32)
+            terrain_cost_rgb[~passable_mask] = np.array([1.0, 0.0, 0.0], dtype=np.float32)
+
+            if np.any(passable_mask):
+                passable_vals = terrain_cost[passable_mask]
+                min_cost = float(np.min(passable_vals))
+                max_cost = float(np.max(passable_vals))
+
+                passable_norm = np.zeros_like(terrain_cost, dtype=np.float32)
+                if max_cost > min_cost:
+                    passable_norm[passable_mask] = (
+                        (terrain_cost[passable_mask] - min_cost) /
+                        (max_cost - min_cost)
+                    ).astype(np.float32)
+
+                terrain_cost_rgb[..., 0][passable_mask] = passable_norm[passable_mask]
+                terrain_cost_rgb[..., 1][passable_mask] = 1.0
+
+            state.writer.add_image('Map/terrain_passability_map', terrain_cost_rgb, 0, dataformats='HWC')
+
+        # Print combined mass cost field reachability to tensorboard
+        if state.mass_cost_fields:
+            h, w = state.terrain_cost_map.shape
+            # Combine all mass cost fields: take the minimum cost across all mass points per cell
+            combined = np.full((h, w), np.inf, dtype=np.float32)
+            for cf in state.mass_cost_fields.values():
+                combined = np.minimum(combined, cf)
+
+            reachable_mask = np.isfinite(combined)
+            mass_rgb = np.zeros((h, w, 3), dtype=np.float32)
+            mass_rgb[~reachable_mask] = np.array([1.0, 0.0, 0.0], dtype=np.float32)
+
+            if np.any(reachable_mask):
+                reachable_vals = combined[reachable_mask]
+                min_val = float(np.min(reachable_vals))
+                max_val = float(np.max(reachable_vals))
+
+                cost_norm = np.zeros_like(combined, dtype=np.float32)
+                if max_val > min_val:
+                    cost_norm[reachable_mask] = (
+                        (combined[reachable_mask] - min_val) /
+                        (max_val - min_val)
+                    ).astype(np.float32)
+
+                # Green (near a mass point) → Yellow (far from all mass points)
+                mass_rgb[..., 0][reachable_mask] = cost_norm[reachable_mask]
+                mass_rgb[..., 1][reachable_mask] = 1.0
+
+            state.writer.add_image('Map/mass_reachability_map', mass_rgb, 0, dataformats='HWC')
 
         server_thread = threading.Thread(target=receive_messages, args=(conn, addr, window), daemon=True)
         server_thread.start()

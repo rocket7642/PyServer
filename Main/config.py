@@ -20,7 +20,7 @@ OVERRIDE_SCORE_THRESHOLD = 10.0
 CANCEL_COMMAND_PENALTY = 2.0
 
 # === EPISODIC TRAINING SETTINGS ===
-EPISODE_TIMEOUT_SECONDS = 60
+EPISODE_TIMEOUT_SECONDS = 120
 MASS_REACH_RADIUS = 100
 MASS_FINAL_APPROACH_RADIUS = 140
 MASS_DESTINATION_SWAP_THRESHOLD = 0.10
@@ -53,13 +53,12 @@ PATH_SAMPLE_COUNT = 6
 TERRAIN_WAYPOINT_COUNT = 8
 TERRAIN_WAYPOINT_SEARCH_RADIUS = 300
 
-# Maximum traversable slope (height delta between adjacent cells in normalized space)
-# Corresponds to 0.412 slope in real space assuming 4:1 aspect ratio (1024:256)
-MAX_TRAVERSABLE_SLOPE = 0.412
+# Maximum traversable slope (height delta between adjacent cells in real space)
+MAX_TRAVERSABLE_SLOPE = 1.0217
 
 # Persistent cache for map pathfinding precomputations
 MAP_CACHE_DIR = "cache/map_fields"
-MAP_CACHE_VERSION = 1
+MAP_CACHE_VERSION = 11
 
 # === ENCODER SETTINGS ===
 SELF_FEATURES_SIZE = 6

@@ -27,6 +27,12 @@ cached_map_embedding_device = None
 terrain_cost_map = None
 mass_cost_fields = {}
 
+# Per-edge slope arrays (set by build_terrain_cost_map)
+edge_slope_zn = None  # slope toward z-1
+edge_slope_zp = None  # slope toward z+1
+edge_slope_xn = None  # slope toward x-1
+edge_slope_xp = None  # slope toward x+1
+
 run_name = f"feature_based_agent_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
 writer = SummaryWriter(f"runs/{run_name}")
 step_counter = 0

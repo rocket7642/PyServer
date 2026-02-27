@@ -187,6 +187,16 @@ def estimate_path_terrain_penalty(start_x, start_z, end_x, end_z, sample_count=N
     if path_costs is None or path_costs.size == 0:
         return 0.0
 
+    # Replace inf (impassable) samples with a large but finite penalty
+    # so that paths crossing impassable terrain are strongly discouraged
+    # without producing inf/nan in downstream Q-value calculations.
+    finite_mask = np.isfinite(path_costs)
+    if not np.any(finite_mask):
+        # Entire path is impassable — return a large finite penalty
+        return -float(config.PATH_TERRAIN_WEIGHT * 100.0)
+
+    path_costs = np.where(finite_mask, path_costs, np.max(path_costs[finite_mask]) * 10.0)
+
     excess_cost = np.maximum(path_costs - 1.0, 0.0)
     if excess_cost.size == 0:
         return 0.0
@@ -194,7 +204,7 @@ def estimate_path_terrain_penalty(start_x, start_z, end_x, end_z, sample_count=N
     return -float(excess_cost.mean() * config.PATH_TERRAIN_WEIGHT)
 
 
-def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=250):
+def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500):
     if map_heights_array is None:
         return None
     h, w = map_heights_array.shape
@@ -364,48 +374,130 @@ def save_cached_cost_fields():
 
 
 def build_terrain_cost_map():
-    """Build a cost map where each cell represents traversal difficulty based on height gradients."""
+    """Build a cost map and per-edge slope arrays for terrain traversal.
+
+    Slope is an *edge* property: whether a unit can move from cell A to adjacent
+    cell B depends on the height difference between A and B divided by the
+    real-world horizontal distance of that step.
+
+    A cell is marked impassable (inf) only when **every** adjacent edge exceeds
+    ``MAX_TRAVERSABLE_SLOPE``.  This prevents cliff bases, dips and gradual
+    slopes from being falsely blocked just because one neighbouring cell is a
+    cliff face.
+
+    The per-edge slope arrays (``state.edge_slope_*``) are stored so that
+    Dijkstra can reject individual steep edges without needing to mark cells.
+    """
     if state.normalized_map_heights is None:
         state.terrain_cost_map = None
         return
-    
+
     h, w = state.normalized_map_heights.shape
     cost_map = np.ones((h, w), dtype=np.float32)
-    
-    # Compute height gradients (steepness)
-    impassable_count = 0
-    for z in range(h):
-        for x in range(w):
-            neighbors = []
+
+    height_range = float(state.map_height_max - state.map_height_min)
+    # if not np.isfinite(height_range) or height_range <= 0.0:
+    #     state.terrain_cost_map = cost_map
+    #     state.edge_slope_zp = state.edge_slope_zn = None
+    #     state.edge_slope_xp = state.edge_slope_xn = None
+    #     print(f"Terrain cost map built: {w}x{h}, cost range [1.00, 1.00]")
+    #     print("  Impassable cells: 0 (100.0% passable)")
+    #     return
+
+    y_world_per_norm = height_range / float(config.STANDARD_MAP_Y)
+    x_world_step = max(((state.map_width/8) / float(config.STANDARD_MAP_WIDTH)) if state.map_width > 0 else 1.0, 1e-6)
+    z_world_step = max(((state.map_height/8) / float(config.STANDARD_MAP_HEIGHT)) if state.map_height > 0 else 1.0, 1e-6)
+
+    for z in range(h) :
+        for x in range(w) :
+            neighbor_heights = []
+            zPos = z * z_world_step
+            xPos = x * x_world_step
             if z > 0:
-                neighbors.append(state.normalized_map_heights[z-1, x])
+                neighbor_heights.append(state.map_heights[(int)(zPos - z_world_step), (int)(xPos)])
+            else : neighbor_heights.append(0.0)
             if z < h - 1:
-                neighbors.append(state.normalized_map_heights[z+1, x])
+                neighbor_heights.append(state.map_heights[(int)(zPos + z_world_step), (int)(xPos)])
+            else : neighbor_heights.append(0.0)
             if x > 0:
-                neighbors.append(state.normalized_map_heights[z, x-1])
+                neighbor_heights.append(state.map_heights[(int)(zPos), (int)(xPos - x_world_step)])
+            else : neighbor_heights.append(0.0)
             if x < w - 1:
-                neighbors.append(state.normalized_map_heights[z, x+1])
-            
-            if neighbors:
-                current_h = state.normalized_map_heights[z, x]
-                max_delta = max(abs(current_h - n) for n in neighbors)
-                
-                # Mark as impassable if slope exceeds unit's climbing capability
-                if max_delta > config.MAX_TRAVERSABLE_SLOPE:
-                    cost_map[z, x] = np.inf
-                    impassable_count += 1
-                else:
-                    # Cost increases with steepness: 1 + (height_delta / threshold)
-                    cost_map[z, x] = 1.0 + (max_delta / config.PATH_SPIKE_THRESHOLD)
-    
+                neighbor_heights.append(state.map_heights[(int)(zPos), (int)(xPos + x_world_step)])
+            else : neighbor_heights.append(0.0)
+            changeLeft = (neighbor_heights[0] - neighbor_heights[1]) / (z_world_step * 2)
+            changeRight = (neighbor_heights[2] - neighbor_heights[3]) / (x_world_step * 2)
+            averageChange = (abs(changeLeft) + abs(changeRight)) / 2
+            if averageChange > config.MAX_TRAVERSABLE_SLOPE*8:
+                cost_map[z, x] = np.inf
+            else:
+                # Base cost of 1.0 ensures Dijkstra accounts for distance on flat ground.
+                # Slope adds a proportional premium scaled by PATH_SPIKE_THRESHOLD.
+                # Without the 1.0 base, flat paths cost ~0 regardless of length,
+                # making the agent aggressively avoid any slope even when it's shorter.
+                cost_map[z, x] = 1.0 + (averageChange / config.PATH_SPIKE_THRESHOLD)
+    # heights = state.normalized_map_heights
+
+    # # --- Vectorised per-edge slope computation (world units) ---
+    # # slope = abs(delta_height_world) / horizontal_world_step
+    # # Each array is (h, w); boundary edges are set to inf (no neighbour).
+
+    # slope_zn = np.full((h, w), np.inf, dtype=np.float32)  # edge toward z-1
+    # slope_zp = np.full((h, w), np.inf, dtype=np.float32)  # edge toward z+1
+    # slope_xn = np.full((h, w), np.inf, dtype=np.float32)  # edge toward x-1
+    # slope_xp = np.full((h, w), np.inf, dtype=np.float32)  # edge toward x+1
+
+    # slope_zn[1:, :] = np.abs(heights[1:, :] - heights[:-1, :]) * y_world_per_norm / z_world_step
+    # slope_zp[:-1, :] = np.abs(heights[:-1, :] - heights[1:, :]) * y_world_per_norm / z_world_step
+    # slope_xn[:, 1:] = np.abs(heights[:, 1:] - heights[:, :-1]) * y_world_per_norm / x_world_step
+    # slope_xp[:, :-1] = np.abs(heights[:, :-1] - heights[:, 1:]) * y_world_per_norm / x_world_step
+
+    # # Store for Dijkstra edge checks
+    # state.edge_slope_zn = slope_zn
+    # state.edge_slope_zp = slope_zp
+    # state.edge_slope_xn = slope_xn
+    # state.edge_slope_xp = slope_xp
+
+    # threshold = config.MAX_TRAVERSABLE_SLOPE
+
+    # # A cell is impassable only if ALL edges leaving it are too steep
+    # all_edges_blocked = (
+    #     (slope_zn > threshold) &
+    #     (slope_zp > threshold) &
+    #     (slope_xn > threshold) &
+    #     (slope_xp > threshold)
+    # )
+
+    # # Minimum traversable edge slope per cell (used for cost scaling)
+    # min_edge_slope = np.minimum(
+    #     np.minimum(slope_zn, slope_zp),
+    #     np.minimum(slope_xn, slope_xp),
+    # )
+
+    # impassable_count = int(np.sum(all_edges_blocked))
+    # cost_map[all_edges_blocked] = np.inf
+
+    # # For passable cells, cost scales with the gentlest available edge
+    # passable = ~all_edges_blocked
+    # passable_min = np.where(np.isfinite(min_edge_slope) & passable, min_edge_slope, 0.0)
+    # cost_map[passable] = 1.0 + (passable_min[passable] / config.PATH_SPIKE_THRESHOLD)
+
     state.terrain_cost_map = cost_map
-    passable_pct = 100.0 * (1.0 - impassable_count / (h * w))
-    print(f"Terrain cost map built: {w}x{h}, cost range [{np.min(cost_map[np.isfinite(cost_map)]):.2f}, {np.max(cost_map[np.isfinite(cost_map)]):.2f}]")
-    print(f"  Impassable cells: {impassable_count} ({passable_pct:.1f}% passable)")
+    # passable_pct = 100.0 * (1.0 - impassable_count / (h * w))
+    # finite_costs = cost_map[np.isfinite(cost_map)]
+    # if finite_costs.size > 0:
+    #     print(f"Terrain cost map built: {w}x{h}, cost range [{np.min(finite_costs):.2f}, {np.max(finite_costs):.2f}]")
+    # else:
+    #     print(f"Terrain cost map built: {w}x{h}, all cells impassable")
+    # print(f"  Impassable cells: {impassable_count} ({passable_pct:.1f}% passable)")
 
 
 def build_mass_cost_fields():
-    """Precompute cost fields from each mass point using Dijkstra."""
+    """Precompute cost fields from each mass point using Dijkstra.
+
+    Edge slope is checked per move: even if both cells are passable, the
+    transition is blocked when the edge slope exceeds MAX_TRAVERSABLE_SLOPE.
+    """
     if state.terrain_cost_map is None or not state.map_spots_norm:
         state.mass_cost_fields = {}
         return
@@ -414,6 +506,20 @@ def build_mass_cost_fields():
     
     h, w = state.terrain_cost_map.shape
     state.mass_cost_fields = {}
+
+    threshold = config.MAX_TRAVERSABLE_SLOPE
+
+    # Edge slope arrays (may be None if height range was degenerate)
+    eslope_zn = state.edge_slope_zn
+    eslope_zp = state.edge_slope_zp
+    eslope_xn = state.edge_slope_xn
+    eslope_xp = state.edge_slope_xp
+    has_edge_slopes = eslope_zn is not None
+
+    # Direction offsets and corresponding edge slope lookup:
+    #   dz, dx  →  which edge array to check at (z, x) for that move
+    # Moving z-1: we leave current cell in the z-negative direction
+    # Moving z+1: z-positive direction, etc.
     
     for mass_idx, (mx, mz) in enumerate(state.map_spots_norm):
         # Convert normalized coords to grid coords
@@ -435,10 +541,23 @@ def build_mass_cost_fields():
                 continue
             visited.add((z, x))
             
-            # Check 4-connected neighbors
+            # Check 4-connected neighbors with edge-slope gating
             for dz, dx in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
                 nz, nx = z + dz, x + dx
                 if 0 <= nz < h and 0 <= nx < w and (nz, nx) not in visited:
+                    # Gate: reject moves across edges steeper than threshold
+                    if has_edge_slopes:
+                        if dz == -1:
+                            edge_slope = eslope_zn[z, x]
+                        elif dz == 1:
+                            edge_slope = eslope_zp[z, x]
+                        elif dx == -1:
+                            edge_slope = eslope_xn[z, x]
+                        else:
+                            edge_slope = eslope_xp[z, x]
+                        if edge_slope > threshold:
+                            continue
+                    
                     move_cost = state.terrain_cost_map[nz, nx]
                     new_cost = current_cost + move_cost
                     if new_cost < cost_field[nz, nx]:
@@ -448,6 +567,20 @@ def build_mass_cost_fields():
         state.mass_cost_fields[(mx, mz)] = cost_field
     
     print(f"Built {len(state.mass_cost_fields)} mass cost fields")
+
+    # --- Second pass: mark cells unreachable from ALL mass points as impassable ---
+    # If no mass point's Dijkstra can reach a cell, that cell is isolated
+    # (e.g. an island mountain top) and should be treated as impassable.
+    if state.mass_cost_fields:
+        reachable = np.zeros((h, w), dtype=bool)
+        for cf in state.mass_cost_fields.values():
+            reachable |= np.isfinite(cf)
+
+        newly_blocked = (~reachable) & np.isfinite(state.terrain_cost_map)
+        blocked_count = int(np.sum(newly_blocked))
+        if blocked_count > 0:
+            state.terrain_cost_map[newly_blocked] = np.inf
+            print(f"  Second pass: marked {blocked_count} isolated cells as impassable")
 
 
 def is_position_reachable(pos_nx, pos_nz):
