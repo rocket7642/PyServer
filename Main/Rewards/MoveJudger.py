@@ -1,5 +1,6 @@
 import config
 import map_utils
+import unit_defs
 import numpy as np
 
 
@@ -69,6 +70,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 			proximity_feature = 0.0
 		features.append(proximity_feature)  # nearest_enemy_proximity
 		features.append(0.0)  # escape_alignment
+		features.append(0.0)  # dodge_viability (standing still = no dodge)
 		return features
 
 	if target_x is None or target_z is None:
@@ -193,5 +195,32 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 	else:
 		escape_alignment = 0.0
 	features.append(escape_alignment)
+
+	# dodge_viability: scores lateral (perpendicular) movement relative to projectile/missile enemies.
+	# Hitscan/beam enemies can't be dodged, so only dodgeable enemies contribute.
+	dodge_score = 0.0
+	if enemy_units and move_mag > 1e-6:
+		dodgeable_count = 0
+		for eu in enemy_units:
+			wtype = eu.get('weapon_type', 'projectile')
+			if wtype in ('projectile', 'missile'):
+				# Vector from enemy to our current position
+				eu_nx = map_utils.normalize_x(eu['x'])
+				eu_nz = map_utils.normalize_z(eu['z'])
+				fire_dx = unit_x - eu_nx
+				fire_dz = unit_z - eu_nz
+				fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+				if fire_mag > 1e-6:
+					# Perpendicular component of move relative to incoming fire line
+					# dot = parallel, cross magnitude = perpendicular
+					cross = abs(move_dx * fire_dz - move_dz * fire_dx) / (move_mag * fire_mag + 1e-6)
+					# Scale by inverse of projectile speed (slower = easier to dodge)
+					proj_speed = eu.get('projectile_speed', 200)
+					speed_factor = 1.0 - unit_defs.normalize_projectile_speed(proj_speed)
+					dodge_score += cross * (1.0 + speed_factor)
+					dodgeable_count += 1
+		if dodgeable_count > 0:
+			dodge_score /= dodgeable_count
+	features.append(dodge_score)
 
 	return features

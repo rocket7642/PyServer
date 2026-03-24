@@ -1,6 +1,10 @@
 HOST = "127.0.0.1"
 PORT = 25000
 
+# == TRAINING PERIOD SETTINGS ==
+# When should training occur, at each mass point or once all are reached?
+TRAIN_AT_EACH_MASS_POINT = False
+
 # === STANDARDIZED MAP SETTINGS ===
 STANDARD_MAP_WIDTH = 1024
 STANDARD_MAP_HEIGHT = 1024
@@ -43,6 +47,19 @@ ESCAPE_CANDIDATE_COUNT = 8  # number of escape direction candidates to generate
 ESCAPE_CANDIDATE_DISTANCE = 150  # how far escape candidates are placed from the unit
 DEFAULT_ENEMY_RANGE = 300  # fallback range if a unit has no range data
 
+# === WEAPON TYPE SETTINGS ===
+UNIT_DEFS_PATH = "data/unit_defs.json"
+WEAPON_HITSCAN = 0
+WEAPON_PROJECTILE = 1
+WEAPON_MISSILE = 2
+WEAPON_BEAM = 3
+NUM_WEAPON_TYPES = 4
+MAX_PROJECTILE_SPEED = 600.0  # normalization ceiling for projectile speed
+MAX_AOE_RADIUS = 200.0  # normalization ceiling for AoE radius
+MAX_DPS = 400.0  # normalization ceiling for DPS
+DODGE_LATERAL_BONUS = 0.3  # bonus for perpendicular movement vs projectile enemies
+DPS_THREAT_SCALE = 0.2  # scaling factor for DPS-weighted avoidance rewards
+
 # Segment (mass-spot) rewards
 SEGMENT_BASE_REWARD = 200.0
 FAILURE_BASE_PENALTY = 150.0
@@ -52,7 +69,7 @@ SEGMENT_DAMAGE_PENALTY = 1.0
 HEIGHT_DISTANCE_FACTOR = 0.2
 
 # Number of action features for the potential field
-NUM_ACTION_FEATURES = 7
+NUM_ACTION_FEATURES = 8
 
 # Terrain sampling for path-based penalties
 PATH_TERRAIN_WEIGHT = 0.25
@@ -76,7 +93,7 @@ MASS_EMBED_SIZE = 8
 MAP_FEATURES_SIZE = 6
 MAP_EMBED_SIZE = 16
 UNIT_FEATURES_SIZE = 3
-ENEMY_FEATURES_SIZE = 4
+ENEMY_FEATURES_SIZE = 11
 FRIENDLY_EMBED_SIZE = 16
 ENEMY_EMBED_SIZE = 16
 
@@ -105,4 +122,5 @@ FEATURE_NAMES = [
     "enemy_distance_change",
     "nearest_enemy_proximity",
     "escape_alignment",
+    "dodge_viability",
 ]

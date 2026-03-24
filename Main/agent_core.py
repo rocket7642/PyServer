@@ -183,6 +183,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         candidates.append((unit_nx, unit_nz))
 
         # Generate escape candidates pointing away from nearby enemies
+        # Also add lateral dodge candidates for projectile/missile enemies
         escape_dx, escape_dz = map_utils.compute_enemy_escape_direction(unit_nx, unit_nz, all_enemies)
         if abs(escape_dx) > 1e-6 or abs(escape_dz) > 1e-6:
             for dist_mult in [0.5, 1.0, 1.5]:
@@ -197,6 +198,30 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                     if map_utils.is_position_reachable(tx, tz):
                         candidates.append((tx, tz))
+
+        # Lateral dodge candidates perpendicular to incoming fire from projectile/missile enemies
+        import math
+        for eu in all_enemies:
+            wtype = eu.get('weapon_type', 'projectile')
+            if wtype in ('projectile', 'missile'):
+                eu_nx = map_utils.normalize_x(eu['x'])
+                eu_nz = map_utils.normalize_z(eu['z'])
+                fire_dx = unit_nx - eu_nx
+                fire_dz = unit_nz - eu_nz
+                fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+                if fire_mag > 1e-6:
+                    # Perpendicular directions (90 degrees to fire line)
+                    perp_dx = -fire_dz / fire_mag
+                    perp_dz = fire_dx / fire_mag
+                    for sign in [1.0, -1.0]:
+                        for dist_mult in [0.5, 1.0]:
+                            d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                            tx = unit_nx + sign * perp_dx * d
+                            tz = unit_nz + sign * perp_dz * d
+                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                            if map_utils.is_position_reachable(tx, tz):
+                                candidates.append((tx, tz))
 
         if mass_destination is not None:
             dest_world_x = map_utils.denormalize_x(mass_destination[0])
@@ -415,6 +440,28 @@ def train_agent(
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                         if map_utils.is_position_reachable(tx, tz):
                             candidates.append((tx, tz))
+
+            # Lateral dodge candidates for TD target (projectile/missile enemies)
+            for eu in all_enemies:
+                wtype = eu.get('weapon_type', 'projectile')
+                if wtype in ('projectile', 'missile'):
+                    eu_nx = map_utils.normalize_x(eu['x'])
+                    eu_nz = map_utils.normalize_z(eu['z'])
+                    fire_dx = next_nx_pos - eu_nx
+                    fire_dz = next_nz_pos - eu_nz
+                    fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+                    if fire_mag > 1e-6:
+                        perp_dx = -fire_dz / fire_mag
+                        perp_dz = fire_dx / fire_mag
+                        for sign in [1.0, -1.0]:
+                            for dist_mult in [0.5, 1.0]:
+                                d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                                tx = next_nx_pos + sign * perp_dx * d
+                                tz = next_nz_pos + sign * perp_dz * d
+                                tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                                tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                                if map_utils.is_position_reachable(tx, tz):
+                                    candidates.append((tx, tz))
 
             if mass_destination is not None:
                 dest_world_x = map_utils.denormalize_x(mass_destination[0])

@@ -7,6 +7,7 @@ import config
 import map_utils
 import runtime_state as state
 import agent_core
+import unit_defs
 from Rewards import MoveJudger
 
 
@@ -235,6 +236,7 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 			all_enemies.append(u)
 
 	# Proactive enemy avoidance: reward for increasing distance from nearest enemy when in danger
+	# Scaled by the nearest enemy's DPS so higher-threat enemies produce stronger avoidance signal
 	enemy_avoidance_reward = 0.0
 	if all_enemies:
 		prev_enemy_info = map_utils.find_nearest_enemy(unit_nx, unit_nz, all_enemies)
@@ -245,7 +247,19 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 			# Only reward avoidance when the unit is within the proximity threshold
 			if prev_enemy_dist < config.ENEMY_PROXIMITY_THRESHOLD:
 				dist_change = curr_enemy_dist - prev_enemy_dist
-				enemy_avoidance_reward = dist_change * config.ENEMY_AVOIDANCE_REWARD_SCALE
+				# Find DPS of the nearest enemy for threat scaling
+				_, nearest_ex, nearest_ez = prev_enemy_info
+				nearest_dps = 50.0  # default
+				best_match_dist = float('inf')
+				for eu in all_enemies:
+					eu_nx = map_utils.normalize_x(eu['x'])
+					eu_nz = map_utils.normalize_z(eu['z'])
+					d = (eu_nx - nearest_ex) ** 2 + (eu_nz - nearest_ez) ** 2
+					if d < best_match_dist:
+						best_match_dist = d
+						nearest_dps = eu.get('dps', 50.0)
+				dps_multiplier = 1.0 + unit_defs.normalize_dps(nearest_dps) * config.DPS_THREAT_SCALE
+				enemy_avoidance_reward = dist_change * config.ENEMY_AVOIDANCE_REWARD_SCALE * dps_multiplier
 
 	if not unvisited_mass:
 		path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
@@ -348,16 +362,9 @@ def compute_segment_reward(unit_id, success, now):
 	return -config.FAILURE_BASE_PENALTY - time_penalty - distance_penalty - damage_penalty
 
 
-def finalize_segment_training(unit_id, success, reason):
-	"""Train the agent on all buffered transitions for a segment, distributing the segment reward evenly across steps."""
-	buffer = state.segment_buffers.get(unit_id, [])
-	if not buffer:
-		return
-
-	now = time.time()
-	segment_reward = compute_segment_reward(unit_id, success, now)
+def _train_buffer(buffer, unit_id, segment_reward):
+	"""Run TD training on a list of transitions with a pre-computed segment reward."""
 	per_step_bonus = segment_reward / max(1, len(buffer))
-
 	for i, transition in enumerate(list(buffer)):
 		state_full = map_utils.reconstruct_state_with_map(agent_core.agent, transition['state'])
 		next_state_full = map_utils.reconstruct_state_with_map(agent_core.agent, transition['next_state'])
@@ -376,6 +383,34 @@ def finalize_segment_training(unit_id, success, reason):
 			unit_id
 		)
 
+
+def finalize_segment_training(unit_id, success, reason):
+	"""Train the agent on all buffered transitions for a segment, distributing the segment reward evenly across steps.
+	When TRAIN_AT_EACH_MASS_POINT is False, transitions are deferred to the match buffer instead of being trained immediately."""
+	buffer = state.segment_buffers.get(unit_id, [])
+	if not buffer:
+		return
+
+	# Track time it takes to finish the full training loop for this segment
+	start_time = time.time()
+
+	now = time.time()
+	segment_reward = compute_segment_reward(unit_id, success, now)
+
+	if config.TRAIN_AT_EACH_MASS_POINT:
+		# Immediate training mode: train on the segment now
+		_train_buffer(list(buffer), unit_id, segment_reward)
+	else:
+		# Deferred training mode: stash transitions with their computed reward for end-of-match training
+		state.match_buffer.append({
+			'unit_id': unit_id,
+			'transitions': list(buffer),
+			'segment_reward': segment_reward,
+			'success': success,
+			'reason': reason,
+		})
+		print(f"Deferred segment for unit {unit_id} ({len(buffer)} steps, reward {segment_reward:.2f}) to match buffer. Reason: {reason}")
+
 	state.writer.add_scalar('Segment/segment_reward', segment_reward, state.step_counter)
 	state.writer.add_scalar('Segment/segment_steps', len(buffer), state.step_counter)
 	state.writer.add_scalar('Segment/success', 1.0 if success else 0.0, state.step_counter)
@@ -389,8 +424,26 @@ def finalize_segment_training(unit_id, success, reason):
 		state.segment_stats[unit_id]['steps'] = 0
 		state.segment_stats[unit_id]['last_mass_time'] = now
 
+	end_time = time.time()
+	state.process_times.append(end_time - start_time)
+	state.pause_time = sum(state.process_times) / len(state.process_times)
+	print(f"Finalized segment for unit {unit_id} with reward {segment_reward:.2f} in {end_time - start_time:.2f} seconds. Reason: {reason}")
+
 
 def finalize_all_units(success, reason):
-	"""Finalize segment training for every tracked unit, used when all mass spots are reached."""
+	"""Finalize segment training for every tracked unit, used when all mass spots are reached.
+	When TRAIN_AT_EACH_MASS_POINT is False, this also drains the deferred match buffer."""
+	# Finalize any in-progress segments (will defer if TRAIN_AT_EACH_MASS_POINT is False)
 	for uid in list(state.segment_buffers.keys()):
 		finalize_segment_training(uid, success, reason)
+
+	# In deferred mode, now train on the entire accumulated match buffer
+	if not config.TRAIN_AT_EACH_MASS_POINT and state.match_buffer:
+		start_time = time.time()
+		total_transitions = sum(len(seg['transitions']) for seg in state.match_buffer)
+		print(f"[Deferred Training] Training on {len(state.match_buffer)} segments, {total_transitions} total transitions.")
+		for seg in state.match_buffer:
+			_train_buffer(seg['transitions'], seg['unit_id'], seg['segment_reward'])
+		state.match_buffer.clear()
+		end_time = time.time()
+		print(f"[Deferred Training] Completed in {end_time - start_time:.2f} seconds.")

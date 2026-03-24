@@ -6,6 +6,7 @@ import FreeSimpleGUI as sg
 import numpy as np
 import pandas as pd
 
+from Rewards import PeriodicRewards
 import config
 import runtime_state as state
 import map_utils
@@ -146,16 +147,34 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             state.writer.add_image('Map/mass_reachability_map', mass_rgb, 0, dataformats='HWC')
 
+        
+
         server_thread = threading.Thread(target=receive_messages, args=(conn, addr, window), daemon=True)
         server_thread.start()
         print(f"[NEW CONNECTION] {addr} connected.")
+
+        
+
     except Exception as exc:
         print(f"An error occurred: {exc}")
         sys.exit(1)
 
+    def finalize_match(success, reason):
+        if state.match_finalized:
+            return
+
+        PeriodicRewards.finalize_all_units(success, reason)
+        agent_core.save_agent()
+        state.match_finalized = True
+
+    cancel_requested = False
     while True:
         event, values = window.read()
-        if event == sg.WIN_CLOSED or event == 'Cancel':
+        if event == 'Cancel' or event == sg.WIN_CLOSED:
+            cancel_requested = True
+            state.forced_terminal_success = True
+            print("Cancel received. Finalizing match as success.")
+            finalize_match(True, "user_cancelled")
             break
 
         if event == 'Ok':
@@ -165,12 +184,26 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
         if event == '-SOCKET-':
             window['-LOG-'].update(
-                f"{state.units}{state.eUnits}{state.eKUnits}",
+                f"{state.units}\n\n{state.eUnits}\n\n{state.eKUnits}",
                 append=False
             )
 
+    # Finalize/close down before exiting
+    if cancel_requested:
+        try:
+            conn.shutdown(socket.SHUT_RDWR)
+        except OSError:
+            pass
+        conn.close()
+
+    if not state.match_finalized:
+        print("Closing connection and saving agent (no terminal result finalized).")
+        agent_core.save_agent()
+    else:
+        print("Match outcome already finalized; skipping duplicate save.")
+
+    
     window.close()
-    agent_core.save_agent()
 
     print("Closing TensorBoard writer...")
     state.writer.close()

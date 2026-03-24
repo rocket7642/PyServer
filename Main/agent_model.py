@@ -5,6 +5,7 @@ import torch.nn.functional as F
 import config
 import map_utils
 import runtime_state as state
+import unit_defs
 
 
 class RTSAgent(nn.Module):
@@ -164,12 +165,25 @@ class RTSAgent(nn.Module):
 
         enemy_vectors = []
         for u in enemy_units:
-            enemy_vectors.append([
+            # Base spatial features
+            evec = [
                 map_utils.normalize_x(u['x']) - unit_nx,
                 map_utils.normalize_z(u['z']) - unit_nz,
                 u['health'],
-                map_utils.normalize_range(u['range']) if 'range' in u else 0.0
-            ])
+                map_utils.normalize_range(u['range']) if 'range' in u else 0.0,
+            ]
+            # Weapon type one-hot (4 values)
+            if 'weapon_one_hot' in u:
+                evec.extend(u['weapon_one_hot'])
+            else:
+                # Fallback: get from unit_defs by name, or default projectile
+                winfo = unit_defs.get_weapon_info(u.get('name', ''))
+                evec.extend(winfo['weapon_one_hot'])
+            # Normalized continuous weapon properties
+            evec.append(unit_defs.normalize_projectile_speed(u.get('projectile_speed', 200)))
+            evec.append(unit_defs.normalize_aoe(u.get('aoe_radius', 16)))
+            evec.append(unit_defs.normalize_dps(u.get('dps', 50)))
+            enemy_vectors.append(evec)
         if enemy_vectors:
             enemy_tensor = torch.tensor(enemy_vectors, dtype=torch.float32, device=device)
             enemy_embeds = self.enemy_unit_encoder(enemy_tensor)

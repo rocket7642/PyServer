@@ -1,12 +1,13 @@
 import traceback
 import time
+import socket
 
 import config
 import runtime_state as state
 import map_utils
 import agent_core
+import unit_defs
 from Rewards import PeriodicRewards
-
 
 def parse_units(message, header):
 	"""Parse a socket message into a list of unit dictionaries by extracting lines between a header and END marker."""
@@ -20,20 +21,29 @@ def parse_units(message, header):
 				line = lines[i]
 				if line.strip():
 					parts = line.split(' ')
-					if len(parts) >= 8:
+					if len(parts) >= 7:
 						unit = {
 							'id': int(parts[0]),
 							'name': parts[1],
 							'x': float(parts[2]),
 							'y': float(parts[3]),
 							'z': float(parts[4]),
-							'range': float(parts[5]),
-							'health': float(parts[6]),
-							'speed': float(parts[7])
+							#'range': float(parts[5]),
+							'health': float(parts[5]),
+							'speed': float(parts[6])
 						}
+						# Enrich with weapon type data from unit definitions
+						weapon_info = unit_defs.get_weapon_info(unit['name'])
+						unit.update(weapon_info)
 						units_list.append(unit)
+					else:
+						print(f"[WARNING] Malformed unit line: '{line}'")
 				i += 1
 		i += 1
+
+	# Clear out duplicates based on id, keeping the last occurrence (which should be the most recent state)
+	units_list = list({unit['id']: unit for unit in units_list}.values())
+
 	return units_list
 
 
@@ -46,13 +56,68 @@ def format_action(action, unit_id, unit_x, unit_z, unit_y, target_x=None, target
 	return f"{command} {unit_id} {target_x} {target_z} {unit_y}\n"
 
 
+def perform_handshake(conn, addr):
+	"""Send START first and wait for READY with a timeout before entering the main receive loop."""
+	handshake_timeout = getattr(config, 'HANDSHAKE_TIMEOUT_SECONDS', 5.0)
+	handshake_retries = getattr(config, 'HANDSHAKE_MAX_RETRIES', 30)
+	original_timeout = conn.gettimeout()
+
+	try:
+		conn.settimeout(handshake_timeout)
+		for attempt in range(1, handshake_retries + 1):
+			conn.sendall("START\n".encode('utf-8'))
+			print(f"[HANDSHAKE] Sent START to {addr} (attempt {attempt}/{handshake_retries})")
+
+			try:
+				data = conn.recv(1024)
+			except socket.timeout:
+				print(f"[HANDSHAKE] Timeout waiting for READY from {addr}")
+				continue
+
+			if not data:
+				print(f"[HANDSHAKE] {addr} closed the connection during handshake")
+				return False
+
+			response = data.decode('utf-8', errors='ignore').strip()
+			print(f"[HANDSHAKE] Received from {addr}: {response}")
+
+			if response:
+				return True
+
+		print(f"[HANDSHAKE FAILED] No message from {addr} after {handshake_retries} attempts")
+		return False
+	finally:
+		conn.settimeout(original_timeout)
+
+
 def receive_messages(conn, addr, window):
 	"""Main loop that receives game state messages, runs the agent's decision-making, trains on transitions, and sends commands back."""
+	def finalize_match(success, reason):
+		if state.match_finalized:
+			return
+
+		PeriodicRewards.finalize_all_units(success, reason)
+		agent_core.save_agent()
+		state.match_finalized = True
+
+	# Load unit definitions once on first connection
+	if not state.unit_defs_loaded:
+		unit_defs.load_unit_defs()
+		state.unit_defs_loaded = True
+
+	if not perform_handshake(conn, addr):
+		print(f"[DISCONNECTED] {addr} failed handshake.")
+		conn.close()
+		return
+
 	while True:
 		try:
 			data = conn.recv(1024)
+			
 			if not data:
+				print(f"[DISCONNECTED] {addr} closed the connection.")
 				break
+
 			message = data.decode('utf-8')
 			print(f"[{addr}] {message}")
 
@@ -62,6 +127,26 @@ def receive_messages(conn, addr, window):
 				state.eUnits = parse_units(message, "ENEMY_UNITS")
 			if "KNOWN_ENEMY_UNITS" in message:
 				state.eKUnits = parse_units(message, "KNOWN_ENEMY_UNITS")
+
+			# Verify if enemy in eUnits and eKUnits, if so remove from known enemy units (to avoid duplicates)
+			# IE known is a subset of enemy, but may have some units not currently visible (fog of war)
+			for unit in state.eUnits:
+				if any(unit['id'] == eu['id'] for eu in state.eKUnits):
+					state.eUnits.remove(unit)
+
+			# Remove from known if the enemy location has been passed and thus, their location is entirely unknown
+			# Requires distance checks between enemy unit loc and friendly LOS
+
+			if "GAMESTOP" in message or "GAME_ENDED" in message:
+				# End state, close connection and save agent
+				print(f"[GAME STOPPED] {addr} sent GAMESTOP. Closing connection.")
+				finalize_match(True, "game_ended")
+				break
+
+			if "AI_KILLED" in message or "TEAM_DIED" in message:
+				print(f"[AI KILLED] {addr} sent AI_KILLED. Finalizing results and closing connection.")
+				finalize_match(False, "death")
+				break
 
 			friendly_units = state.units
 			enemy_units = state.eUnits
@@ -169,11 +254,19 @@ def receive_messages(conn, addr, window):
 						if reached_mass:
 							state.mass_destinations.pop(unit['id'], None)
 							state.mass_destination_distances.pop(unit['id'], None)
-							PeriodicRewards.finalize_segment_training(unit['id'], True, "mass_reached")
-							print(f"Unit {unit['id']} reached a mass spot. Segment trained.")
+							if config.TRAIN_AT_EACH_MASS_POINT:
+								conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8'))
+								PeriodicRewards.finalize_segment_training(unit['id'], True, "mass_reached")
+								conn.sendall("C: UNPAUSE\n".encode('utf-8'))
+								print(f"Unit {unit['id']} reached a mass spot. Segment trained.")
+							else:
+								PeriodicRewards.finalize_segment_training(unit['id'], True, "mass_reached")
+								print(f"Unit {unit['id']} reached a mass spot. Segment deferred.")
 
 						if state.mass_spots and len(state.visited_mass_spots) == len(state.mass_spots):
+							conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8')) # Resume Game
 							PeriodicRewards.finalize_all_units(True, "all_mass_reached")
+							conn.sendall("C: UNPAUSE\n".encode('utf-8')) # Resume Game
 							state.visited_mass_spots.clear()
 							state.visited_mass_spots_norm.clear()
 							state.mass_destinations.clear()
@@ -182,10 +275,14 @@ def receive_messages(conn, addr, window):
 						else:
 							last_time = state.segment_stats[unit['id']]['last_mass_time']
 							if now - last_time >= config.EPISODE_TIMEOUT_SECONDS:
+								if config.TRAIN_AT_EACH_MASS_POINT:
+									conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8'))
 								PeriodicRewards.finalize_segment_training(unit['id'], False, "timeout")
+								if config.TRAIN_AT_EACH_MASS_POINT:
+									conn.sendall("C: UNPAUSE\n".encode('utf-8'))
 								print(
 									f"Unit {unit['id']} timed out without reaching a mass spot. "
-									"Segment punished."
+									f"Segment {'trained' if config.TRAIN_AT_EACH_MASS_POINT else 'deferred'}."
 								)
 
 						print(f"Visited mass spots: {len(state.visited_mass_spots)}/{len(state.mass_spots)}")
@@ -319,6 +416,19 @@ def receive_messages(conn, addr, window):
 			print("Full traceback:")
 			traceback.print_exc()
 			print("!!!\n")
+
+			if not state.match_finalized and not state.forced_terminal_success:
+				print("Finalizing unit results, assuming a loss.")
+				finalize_match(False, "disconnect/death")
+			else:
+				print("Skipping loss finalization because match outcome is already finalized.")
+			# conn.sendall("C: UNPAUSE\n".encode('utf-8')) # Resume Game
+			state.visited_mass_spots.clear()
+			state.visited_mass_spots_norm.clear()
+			state.mass_destinations.clear()
+			state.mass_destination_distances.clear()
+			print("All mass spots reached. Epoch ended and reset.")
+
 			break
 	print(f"[DISCONNECTED] {addr} disconnected.")
 	conn.close()

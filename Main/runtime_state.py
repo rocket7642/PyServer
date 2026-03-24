@@ -65,3 +65,14 @@ last_mass_visit = {}
 
 segment_buffers = {}
 segment_stats = {}
+match_buffer = []
+
+# Match finalization guards
+match_finalized = False
+forced_terminal_success = False
+
+pause_time = 5
+process_times = [5]
+
+# Unit definition data loaded from JSON at startup
+unit_defs_loaded = False

@@ -1,0 +1,268 @@
+{
+    "_comment": "Unit definitions for weapon type awareness. weapon_type: hitscan|projectile|missile|beam. Fill in actual BAR unitDef values as needed.",
+
+    "armcom": {
+        "display_name": "ARM Commander",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 12,
+        "reload_time": 0.4,
+        "dps": 187.5,
+        "range": 300
+    },
+    "corcom": {
+        "display_name": "CORE Commander",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 12,
+        "reload_time": 0.4,
+        "dps": 187.5,
+        "range": 300
+    },
+
+    "armpw": {
+        "display_name": "Peewee",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 0,
+        "reload_time": 0.3,
+        "dps": 50,
+        "range": 240
+    },
+    "corak": {
+        "display_name": "A.K.",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 0,
+        "reload_time": 0.3,
+        "dps": 50,
+        "range": 240
+    },
+
+    "armrock": {
+        "display_name": "Rocketeer",
+        "weapon_type": "missile",
+        "projectile_speed": 190,
+        "aoe_radius": 48,
+        "reload_time": 3.80,
+        "dps": 41,
+        "range": 475
+    },
+    "armjanus": {
+        "display_name": "Janus",
+        "weapon_type": "missile",
+        "projectile_speed": 230,
+        "aoe_radius": 128,
+        "reload_time": 7.50,
+        "dps": 88,
+        "range": 380
+    },
+    "armsam": {
+        "display_name": "Whistler",
+        "weapon_type": "missile",
+        "projectile_speed": 350,
+        "aoe_radius": 48,
+        "reload_time": 3.33,
+        "dps": 26,
+        "range": 550
+    },
+    "corstorm": {
+        "display_name": "Storm",
+        "weapon_type": "projectile",
+        "projectile_speed": 210,
+        "aoe_radius": 36,
+        "reload_time": 3.0,
+        "dps": 45,
+        "range": 470
+    },
+
+    "armham": {
+        "display_name": "Hammer",
+        "weapon_type": "projectile",
+        "projectile_speed": 250,
+        "aoe_radius": 80,
+        "reload_time": 2.0,
+        "dps": 80,
+        "range": 380
+    },
+    "corthud": {
+        "display_name": "Thug",
+        "weapon_type": "projectile",
+        "projectile_speed": 286,
+        "aoe_radius": 36,
+        "reload_time": 1.73,
+        "dps": 60,
+        "range": 380
+    },
+
+    "armjeth": {
+        "display_name": "Jethro",
+        "weapon_type": "missile",
+        "projectile_speed": 500,
+        "aoe_radius": 0,
+        "reload_time": 1.5,
+        "dps": 60,
+        "range": 600
+    },
+    "corcrash": {
+        "display_name": "Crasher",
+        "weapon_type": "missile",
+        "projectile_speed": 500,
+        "aoe_radius": 0,
+        "reload_time": 1.5,
+        "dps": 60,
+        "range": 600
+    },
+
+    "armllt": {
+        "display_name": "LLT",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 0,
+        "reload_time": 0.25,
+        "dps": 120,
+        "range": 460
+    },
+    "corllt": {
+        "display_name": "LLT",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 0,
+        "reload_time": 0.25,
+        "dps": 120,
+        "range": 460
+    },
+
+    "armhlt": {
+        "display_name": "HLT",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 0,
+        "reload_time": 0.8,
+        "dps": 250,
+        "range": 600
+    },
+    "corhlt": {
+        "display_name": "HLT",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 0,
+        "reload_time": 0.8,
+        "dps": 250,
+        "range": 600
+    },
+
+    "armbeamer": {
+        "display_name": "Beamer",
+        "weapon_type": "beam",
+        "projectile_speed": 0,
+        "aoe_radius": 0,
+        "reload_time": 0.1,
+        "dps": 180,
+        "range": 500
+    },
+    "corvipe": {
+        "display_name": "Viper",
+        "weapon_type": "missile",
+        "projectile_speed": 400,
+        "aoe_radius": 48,
+        "reload_time": 5.0,
+        "dps": 35,
+        "range": 700
+    },
+
+    "armstump": {
+        "display_name": "Stout",
+        "weapon_type": "projectile",
+        "projectile_speed": 225,
+        "aoe_radius": 48,
+        "reload_time": 1.17,
+        "dps": 83,
+        "range": 350
+    },
+    "armcroc": {
+        "display_name": "Turtle",
+        "weapon_type": "projectile",
+        "projectile_speed": 450,
+        "aoe_radius": 64,
+        "reload_time": 1.60,
+        "dps": 141,
+        "range": 480
+    },
+    "corraid": {
+        "display_name": "Brute",
+        "weapon_type": "projectile",
+        "projectile_speed": 225,
+        "aoe_radius": 48,
+        "reload_time": 1.17,
+        "dps": 83,
+        "range": 350
+    },
+
+    "armflash": {
+        "display_name": "Flash",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 0,
+        "reload_time": 0.4,
+        "dps": 90,
+        "range": 260
+    },
+    "corgator": {
+        "display_name": "Incisor",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 8,
+        "reload_time": 0.8,
+        "dps": 93.75,
+        "range": 230
+    },
+    "corsumo": {
+        "display_name": "Mammoth",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 12,
+        "reload_time": 0.6,
+        "dps": 503,
+        "range": 650
+    },
+    "armwar": {
+        "display_name": "Centurion",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 8,
+        "reload_time": 0.3,
+        "dps": 183,
+        "range": 325
+    },
+
+
+    "armmart": {
+        "display_name": "Luger",
+        "weapon_type": "projectile",
+        "projectile_speed": 350,
+        "aoe_radius": 120,
+        "reload_time": 4.0,
+        "dps": 60,
+        "range": 900
+    },
+    "cormart": {
+        "display_name": "Pillager",
+        "weapon_type": "projectile",
+        "projectile_speed": 350,
+        "aoe_radius": 120,
+        "reload_time": 4.0,
+        "dps": 60,
+        "range": 900
+    },
+
+    "_default": {
+        "display_name": "Unknown Unit",
+        "weapon_type": "projectile",
+        "projectile_speed": 200,
+        "aoe_radius": 16,
+        "reload_time": 2.0,
+        "dps": 50,
+        "range": 300
+    }
+}
