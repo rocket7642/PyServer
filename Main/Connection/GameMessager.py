@@ -254,6 +254,7 @@ def receive_messages(conn, addr, window):
 						if reached_mass:
 							state.mass_destinations.pop(unit['id'], None)
 							state.mass_destination_distances.pop(unit['id'], None)
+							state.mass_spot_blocked_until.pop(unit['id'], None)
 							if config.TRAIN_AT_EACH_MASS_POINT:
 								conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8'))
 								PeriodicRewards.finalize_segment_training(unit['id'], True, "mass_reached")
@@ -264,14 +265,27 @@ def receive_messages(conn, addr, window):
 								print(f"Unit {unit['id']} reached a mass spot. Segment deferred.")
 
 						if state.mass_spots and len(state.visited_mass_spots) == len(state.mass_spots):
-							conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8')) # Resume Game
-							PeriodicRewards.finalize_all_units(True, "all_mass_reached")
+							state.mass_cycle_completions += 1
+							state.writer.add_scalar(
+								'Game_State/mass_cycles_completed',
+								state.mass_cycle_completions,
+								state.step_counter
+							)
+							conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8')) # Pause during bookkeeping
+							if config.END_MATCH_WHEN_ALL_MASS_REACHED:
+								PeriodicRewards.finalize_all_units(True, "all_mass_reached")
+							else:
+								PeriodicRewards.finalize_cycle_segments(True, "all_mass_cycle_complete")
 							conn.sendall("C: UNPAUSE\n".encode('utf-8')) # Resume Game
 							state.visited_mass_spots.clear()
 							state.visited_mass_spots_norm.clear()
 							state.mass_destinations.clear()
 							state.mass_destination_distances.clear()
-							print("All mass spots reached. Epoch ended and reset.")
+							state.mass_spot_blocked_until.clear()
+							if config.END_MATCH_WHEN_ALL_MASS_REACHED:
+								print("All mass spots reached. Match finalized and reset.")
+							else:
+								print("All mass spots reached. Cycle reset; continuing match/training set.")
 						else:
 							last_time = state.segment_stats[unit['id']]['last_mass_time']
 							if now - last_time >= config.EPISODE_TIMEOUT_SECONDS:
@@ -344,6 +358,29 @@ def receive_messages(conn, addr, window):
 					last_target = state.previous_targets.get(unit['id'], None)
 					state.previous_command_steps[unit['id']] = state.previous_command_steps.get(unit['id'], 0) + 1
 
+					if action == config.NOOP_ACTION:
+						sample_target_x = unit['x']
+						sample_target_y = unit['y']
+						sample_target_z = unit['z']
+						sample_cmd_id = None
+					else:
+						sample_target_x = best_target_world[0]
+						sample_target_y = unit['y']
+						sample_target_z = best_target_world[1]
+						sample_cmd_id = 10
+
+					PeriodicRewards.record_match_sample(
+						unit_id=unit['id'],
+						friendly_units=friendly_units,
+						enemy_units=enemy_units,
+						action_type=action,
+						target_x=sample_target_x,
+						target_y=sample_target_y,
+						target_z=sample_target_z,
+						action_score=best_score,
+						cmd_id=sample_cmd_id,
+					)
+
 					action_command = format_action(
 						action,
 						unit['id'],
@@ -385,7 +422,9 @@ def receive_messages(conn, addr, window):
 							unit['x'],
 							unit['z'],
 							state.normalized_map_heights,
-							view_size=256
+							view_size=256,
+							unit_id=unit['id'],
+							enemy_units=enemy_units,
 						)
 						if local_view is not None:
 							local_view_norm = map_utils.normalize_image(local_view)
@@ -403,6 +442,17 @@ def receive_messages(conn, addr, window):
 						)
 						if enemy_img is not None:
 							state.writer.add_image('Enemy_Ranges/map', enemy_img, state.step_counter, dataformats='HW')
+
+						if local_view is not None and enemy_img is not None:
+							# use the new map utilities to create a combined visualization of local terrain and enemy ranges
+							total_view_img = map_utils.get_total_map_view_image(unit['x'], unit['z'], state.normalized_map_heights, enemy_units)
+							if total_view_img is not None:
+								state.writer.add_image(
+									'Agent_View/local_total',
+									total_view_img,
+									state.step_counter,
+									dataformats='HWC'
+								)
 				except Exception as img_err:
 					print(f"[ERROR during image logging for unit {unit['id']}]")
 					print(f"  Exception: {img_err}")
@@ -422,12 +472,50 @@ def receive_messages(conn, addr, window):
 				finalize_match(False, "disconnect/death")
 			else:
 				print("Skipping loss finalization because match outcome is already finalized.")
+
+			local_view = map_utils.get_local_view_image(
+				unit['x'],
+				unit['z'],
+				state.normalized_map_heights,
+				view_size=256,
+				unit_id=unit['id'],
+				enemy_units=enemy_units,
+			)
+			if local_view is not None:
+				local_view_norm = map_utils.normalize_image(local_view)
+				state.writer.add_image(
+					'Agent_View/local_heights',
+					local_view_norm,
+					state.step_counter,
+					dataformats='HW'
+				)
+			enemy_img = map_utils.generate_enemy_range_image(
+				enemy_units,
+				state.map_width,
+				state.map_height,
+				state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
+			)
+			if enemy_img is not None:
+				state.writer.add_image('Enemy_Ranges/map', enemy_img, state.step_counter, dataformats='HW')
+
+			if local_view is not None and enemy_img is not None:
+				# use the new map utilities to create a combined visualization of local terrain and enemy ranges
+				total_view_img = map_utils.get_total_map_view_image(unit['x'], unit['z'], state.normalized_map_heights, enemy_units)
+				if total_view_img is not None:
+					state.writer.add_image(
+						'Agent_View/local_total',
+						total_view_img,
+						state.step_counter,
+						dataformats='HWC'
+					)
+
 			# conn.sendall("C: UNPAUSE\n".encode('utf-8')) # Resume Game
 			state.visited_mass_spots.clear()
 			state.visited_mass_spots_norm.clear()
 			state.mass_destinations.clear()
 			state.mass_destination_distances.clear()
-			print("All mass spots reached. Epoch ended and reset.")
+			state.mass_spot_blocked_until.clear()
+			# print("All mass spots reached. Epoch ended and reset.")
 
 			break
 	print(f"[DISCONNECTED] {addr} disconnected.")

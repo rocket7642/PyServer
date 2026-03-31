@@ -29,6 +29,15 @@
         "dps": 50,
         "range": 240
     },
+    "corcan": {
+        "display_name": "Sumo",
+        "weapon_type": "hitscan",
+        "projectile_speed": 0,
+        "aoe_radius": 8,
+        "reload_time": 0.80,
+        "dps": 344,
+        "range": 275
+    },
     "corak": {
         "display_name": "A.K.",
         "weapon_type": "hitscan",

@@ -35,11 +35,18 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
         conn, addr = s.accept()
 
-        state.map_heights = pd.read_csv('F:/BAR Beyond All Reason/Beyond-All-Reason/data/mapHeightInfo.txt', header=None).values
+        map_heights_path = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data/mapHeightInfo.txt'
+        map_info_path = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data/mapInfo.txt'
+        mass_info_path = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data/massInfo.txt'
+
+        state.map_heights_source = map_heights_path
+        state.map_spots_source = mass_info_path
+
+        state.map_heights = pd.read_csv(map_heights_path, header=None).values
         map_size = state.map_heights.shape[0]
 
         try:
-            with open('F:/BAR Beyond All Reason/Beyond-All-Reason/data/mapInfo.txt', 'r') as f:
+            with open(map_info_path, 'r') as f:
                 for line in f:
                     line = line.strip()
                     if line.startswith('Map Width:'):
@@ -61,7 +68,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
         state.mass_spots = []
         try:
-            with open('F:/BAR Beyond All Reason/Beyond-All-Reason/data/massInfo.txt', 'r') as f:
+            with open(mass_info_path, 'r') as f:
                 for line in f:
                     if line.strip():
                         x, y, z = map(float, line.strip().split(','))
@@ -75,6 +82,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             for x, z in state.mass_spots
         ]
         state.visited_mass_spots_norm = set()
+        state.mass_cycle_completions = 0
+        state.writer.add_scalar('Game_State/mass_cycles_completed', state.mass_cycle_completions, 0)
 
         # Check to see if we have cached cost fields for this map to save time on future runs
 
@@ -173,7 +182,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         if event == 'Cancel' or event == sg.WIN_CLOSED:
             cancel_requested = True
             state.forced_terminal_success = True
-            print("Cancel received. Finalizing match as success.")
+            print("Cancel received. Stopping socket thread before finalizing match.")
+            try:
+                conn.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+            conn.close()
+            if server_thread.is_alive():
+                server_thread.join(timeout=3.0)
+
+            print("Finalizing match as success.")
             finalize_match(True, "user_cancelled")
             break
 

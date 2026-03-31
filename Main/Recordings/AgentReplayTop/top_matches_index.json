@@ -1,0 +1,139 @@
+{
+  "top_matches": [
+    {
+      "file": "agent_match_20260330_085209_score_19653p02.json",
+      "match_score": 19653.020400668553,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 4609,
+      "segments": 113,
+      "exported_at": "2026-03-30T08:52:09.137342"
+    },
+    {
+      "file": "agent_match_20260330_105135_score_18819p34.json",
+      "match_score": 18819.340862203862,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 4404,
+      "segments": 108,
+      "exported_at": "2026-03-30T10:51:35.273513"
+    },
+    {
+      "file": "agent_match_20260330_101901_score_18583p01.json",
+      "match_score": 18583.01001924054,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 4325,
+      "segments": 107,
+      "exported_at": "2026-03-30T10:19:01.185459"
+    },
+    {
+      "file": "agent_match_20260330_082940_score_18167p05.json",
+      "match_score": 18167.052272138575,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 4246,
+      "segments": 105,
+      "exported_at": "2026-03-30T08:29:40.663541"
+    },
+    {
+      "file": "agent_match_20260330_092740_score_13497p56.json",
+      "match_score": 13497.563046738664,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 4032,
+      "segments": 106,
+      "exported_at": "2026-03-30T09:27:40.242638"
+    },
+    {
+      "file": "agent_match_20260330_100014_score_12943p58.json",
+      "match_score": 12943.584481154268,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 3987,
+      "segments": 105,
+      "exported_at": "2026-03-30T10:00:14.156455"
+    },
+    {
+      "file": "agent_match_20260330_070923_score_10512p70.json",
+      "match_score": 10512.696764785342,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 3135,
+      "segments": 84,
+      "exported_at": "2026-03-30T07:09:23.591235"
+    },
+    {
+      "file": "agent_match_20260325_015834_score_8642p28.json",
+      "match_score": 8642.278034000397,
+      "success": false,
+      "reason": "disconnect/death",
+      "samples": 1909,
+      "segments": 45,
+      "exported_at": "2026-03-25T01:58:34.138098"
+    },
+    {
+      "file": "agent_match_20260330_061940_score_7101p66.json",
+      "match_score": 7101.6606264140555,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 3209,
+      "segments": 88,
+      "exported_at": "2026-03-30T06:19:40.000826"
+    },
+    {
+      "file": "agent_match_20260330_064244_score_6036p31.json",
+      "match_score": 6036.306022924234,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 3003,
+      "segments": 84,
+      "exported_at": "2026-03-30T06:42:44.156765"
+    },
+    {
+      "file": "agent_match_20260330_074619_score_5273p58.json",
+      "match_score": 5273.576247056938,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 2622,
+      "segments": 77,
+      "exported_at": "2026-03-30T07:46:19.510829"
+    },
+    {
+      "file": "agent_match_20260325_104837_score_5003p59.json",
+      "match_score": 5003.5897127023045,
+      "success": false,
+      "reason": "death",
+      "samples": 2886,
+      "segments": 72,
+      "exported_at": "2026-03-25T10:48:37.358071"
+    },
+    {
+      "file": "agent_match_20260330_052826_score_4762p58.json",
+      "match_score": 4762.575501255907,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 3140,
+      "segments": 90,
+      "exported_at": "2026-03-30T05:28:26.525022"
+    },
+    {
+      "file": "agent_match_20260330_050741_score_4394p10.json",
+      "match_score": 4394.103791888696,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 3012,
+      "segments": 88,
+      "exported_at": "2026-03-30T05:07:41.457582"
+    },
+    {
+      "file": "agent_match_20260325_112619_score_4133p70.json",
+      "match_score": 4133.698177145781,
+      "success": true,
+      "reason": "user_cancelled",
+      "samples": 1715,
+      "segments": 46,
+      "exported_at": "2026-03-25T11:26:19.201099"
+    }
+  ]
+}

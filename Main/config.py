@@ -5,6 +5,14 @@ PORT = 25000
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
 
+# === ONLINE REPLAY EXPORT SETTINGS ===
+# Save replay-style datasets from live agent runs and keep only the top matches by score.
+SAVE_TOP_MATCH_DATASET = True
+TOP_MATCHES_TO_KEEP = 15
+AGENT_REPLAY_EXPORT_DIR = "Recordings/AgentReplayTop"
+# Keep only a fraction of NOOP samples to better match human replay distribution.
+AGENT_REPLAY_NOOP_KEEP_RATIO = 0.2
+
 # === STANDARDIZED MAP SETTINGS ===
 STANDARD_MAP_WIDTH = 1024
 STANDARD_MAP_HEIGHT = 1024
@@ -25,6 +33,7 @@ CANCEL_COMMAND_PENALTY = 2.0
 
 # === EPISODIC TRAINING SETTINGS ===
 EPISODE_TIMEOUT_SECONDS = 120
+END_MATCH_WHEN_ALL_MASS_REACHED = False  # if True, finalize full match/training set at 100% mass completion; if False, reset spots and continue
 MASS_REACH_RADIUS = 100
 MASS_FINAL_APPROACH_RADIUS = 140
 MASS_DESTINATION_SWAP_THRESHOLD = 0.10
@@ -46,6 +55,14 @@ ENEMY_RANGE_FALLOFF_BUFFER = 1.3  # multiplier on enemy weapon range for gradien
 ESCAPE_CANDIDATE_COUNT = 8  # number of escape direction candidates to generate
 ESCAPE_CANDIDATE_DISTANCE = 150  # how far escape candidates are placed from the unit
 DEFAULT_ENEMY_RANGE = 300  # fallback range if a unit has no range data
+DEFAULT_UNIT_SPEED = 37.5  # fallback unit move speed if speed is unavailable
+MIN_EFFECTIVE_SPEED_NORM = 1.0  # minimum normalized speed to avoid huge time estimates
+DIRECT_APPROACH_SAMPLE_SPACING = 24.0  # normalized units between path samples for danger-time estimation
+DIRECT_APPROACH_DPS_SECONDS_SCALE = 1  # converts DPS*seconds-in-range into score penalty
+DIRECT_APPROACH_DANGER_WEIGHT_SCALE = 1.5  # amplifies penalty in high-intensity danger zones
+MASS_SPOT_BLOCK_RISK_THRESHOLD = 75.0  # block a mass destination when estimated risk exceeds this value
+MASS_SPOT_UNBLOCK_RISK_THRESHOLD = 30.0  # unblock only after risk drops below this lower threshold
+MASS_SPOT_BLOCK_COOLDOWN_STEPS = 10  # minimum steps to keep a risky mass spot blocked
 
 # === WEAPON TYPE SETTINGS ===
 UNIT_DEFS_PATH = "data/unit_defs.json"
@@ -83,7 +100,7 @@ MAX_TRAVERSABLE_SLOPE = 1.0217
 
 # Persistent cache for map pathfinding precomputations
 MAP_CACHE_DIR = "cache/map_fields"
-MAP_CACHE_VERSION = 11
+MAP_CACHE_VERSION = 12
 
 # === ENCODER SETTINGS ===
 SELF_FEATURES_SIZE = 9

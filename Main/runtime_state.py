@@ -18,6 +18,8 @@ map_width = 0
 map_height = 0
 map_height_min = 0.0
 map_height_max = 1.0
+map_heights_source = ""
+map_spots_source = ""
 
 # Cached map embedding
 cached_map_embedding = None
@@ -38,6 +40,7 @@ writer = SummaryWriter(f"runs/{run_name}")
 step_counter = 0
 
 previous_healths = {}
+unit_max_healths = {}
 previous_states = {}
 previous_states_no_map = {}
 previous_actions = {}
@@ -54,11 +57,13 @@ previous_lstm_hidden_states = {}
 
 mass_destinations = {}
 mass_destination_distances = {}
+mass_spot_blocked_until = {}
 
 model_graph_logged = False
 
 visited_mass_spots = set()
 visited_mass_spots_norm = set()
+mass_cycle_completions = 0
 
 consecutive_inactive = {}
 last_mass_visit = {}
@@ -66,6 +71,8 @@ last_mass_visit = {}
 segment_buffers = {}
 segment_stats = {}
 match_buffer = []
+match_segment_summaries = []
+current_match_samples = []
 
 # Match finalization guards
 match_finalized = False

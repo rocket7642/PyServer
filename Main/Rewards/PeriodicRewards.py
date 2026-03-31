@@ -1,5 +1,9 @@
 import time
+import json
+import random
+import datetime
 from collections import deque
+from pathlib import Path
 
 import numpy as np
 
@@ -9,6 +13,171 @@ import runtime_state as state
 import agent_core
 import unit_defs
 from Rewards import MoveJudger
+
+
+def _sanitize_units_for_json(units):
+	"""Return a JSON-safe shallow copy of unit dicts, converting tuple values to lists."""
+	clean_units = []
+	for unit in units:
+		clean = {}
+		for key, value in unit.items():
+			if isinstance(value, tuple):
+				clean[key] = list(value)
+			else:
+				clean[key] = value
+		clean_units.append(clean)
+	return clean_units
+
+
+def record_match_sample(unit_id, friendly_units, enemy_units, action_type, target_x, target_y, target_z, action_score, cmd_id=None):
+	"""Record one live decision in replay-compatible format for optional top-match export."""
+	if not getattr(config, 'SAVE_TOP_MATCH_DATASET', False):
+		return
+
+	action_payload = {
+		'type': action_type,
+		'x': float(target_x),
+		'y': float(target_y),
+		'z': float(target_z),
+		'score': float(action_score),
+	}
+	if cmd_id is not None:
+		action_payload['cmd_id'] = int(cmd_id)
+
+	state.current_match_samples.append({
+		'timestamp': float(time.time()),
+		'step': int(state.step_counter),
+		'unit_id': int(unit_id),
+		'friendly_units': _sanitize_units_for_json(friendly_units),
+		'enemy_units': _sanitize_units_for_json(enemy_units),
+		'action': action_payload,
+	})
+
+
+def _compute_match_score():
+	"""Compute a scalar match score from finalized segment rewards."""
+	if not state.match_segment_summaries:
+		return 0.0
+	return float(sum(seg['segment_reward'] for seg in state.match_segment_summaries))
+
+
+def _filtered_samples_for_export(samples, seed_value):
+	"""Downsample NOOP actions to align online exports with manual replay class balance."""
+	noop_ratio = max(0.0, min(1.0, float(getattr(config, 'AGENT_REPLAY_NOOP_KEEP_RATIO', 0.2))))
+	rng = random.Random(seed_value)
+	filtered = []
+	for sample in samples:
+		action_type = sample.get('action', {}).get('type', config.NOOP_ACTION)
+		if action_type == config.NOOP_ACTION and rng.random() > noop_ratio:
+			continue
+		filtered.append(sample)
+	return filtered
+
+
+def _save_top_match_dataset(success, reason):
+	"""Save this match in replay JSON format and keep only the top-K matches by score."""
+	if not getattr(config, 'SAVE_TOP_MATCH_DATASET', False):
+		state.current_match_samples.clear()
+		state.match_segment_summaries.clear()
+		return
+
+	if not state.current_match_samples:
+		state.match_segment_summaries.clear()
+		return
+
+	main_dir = Path(__file__).resolve().parents[1]
+	export_dir = main_dir / getattr(config, 'AGENT_REPLAY_EXPORT_DIR', 'Recordings/AgentReplayTop')
+	export_dir.mkdir(parents=True, exist_ok=True)
+	index_path = export_dir / 'top_matches_index.json'
+
+	match_score = _compute_match_score()
+	now = datetime.datetime.now()
+	timestamp = now.strftime('%Y%m%d_%H%M%S')
+	seed_value = f"{timestamp}_{match_score:.4f}_{len(state.current_match_samples)}"
+
+	samples_to_save = _filtered_samples_for_export(state.current_match_samples, seed_value)
+	if not samples_to_save:
+		samples_to_save = list(state.current_match_samples)
+
+	score_token = f"{match_score:.2f}".replace('-', 'm').replace('.', 'p')
+	match_filename = f"agent_match_{timestamp}_score_{score_token}.json"
+	match_path = export_dir / match_filename
+
+	dataset = {
+		'metadata': {
+			'source': 'online_agent_export',
+			'exported_at': now.isoformat(),
+			'match_score': match_score,
+			'success': bool(success),
+			'reason': reason,
+			'total_segments': len(state.match_segment_summaries),
+			'total_samples': len(samples_to_save),
+			'map_width': int(state.map_width),
+			'map_height': int(state.map_height),
+			'map_heights_file': state.map_heights_source,
+			'map_spots_file': state.map_spots_source,
+			'runtime_file': 'online_agent_runtime',
+		},
+		'samples': samples_to_save,
+	}
+
+	with match_path.open('w', encoding='utf-8') as f:
+		json.dump(dataset, f, indent=2)
+
+	max_keep = max(1, int(getattr(config, 'TOP_MATCHES_TO_KEEP', 15)))
+	index_entries = []
+	if index_path.exists():
+		try:
+			with index_path.open('r', encoding='utf-8') as f:
+				loaded = json.load(f)
+				if isinstance(loaded, dict):
+					index_entries = loaded.get('top_matches', [])
+				elif isinstance(loaded, list):
+					index_entries = loaded
+		except Exception:
+			index_entries = []
+
+	new_entry = {
+		'file': match_filename,
+		'match_score': match_score,
+		'success': bool(success),
+		'reason': reason,
+		'samples': len(samples_to_save),
+		'segments': len(state.match_segment_summaries),
+		'exported_at': now.isoformat(),
+	}
+	index_entries.append(new_entry)
+	index_entries.sort(key=lambda item: float(item.get('match_score', 0.0)), reverse=True)
+	kept_entries = index_entries[:max_keep]
+	kept_files = {entry.get('file') for entry in kept_entries if entry.get('file')}
+
+	if match_filename not in kept_files:
+		if match_path.exists():
+			match_path.unlink()
+		print(
+			f"[Replay Export] Match score {match_score:.2f} not in top {max_keep}. "
+			f"Discarded {match_filename}."
+		)
+	else:
+		print(
+			f"[Replay Export] Saved top-match dataset {match_filename} "
+			f"with {len(samples_to_save)} samples (score={match_score:.2f})."
+		)
+
+	# Remove stale files not present in the top list.
+	for entry in index_entries[max_keep:]:
+		stale_name = entry.get('file')
+		if not stale_name:
+			continue
+		stale_path = export_dir / stale_name
+		if stale_path.exists():
+			stale_path.unlink()
+
+	with index_path.open('w', encoding='utf-8') as f:
+		json.dump({'top_matches': kept_entries}, f, indent=2)
+
+	state.current_match_samples.clear()
+	state.match_segment_summaries.clear()
 
 
 def compute_reward(agent_unit, prev_health):
@@ -44,10 +213,10 @@ def compute_reward(agent_unit, prev_health):
 			if map_utils.normalize_distance(dist_to_spot) < map_utils.normalize_distance(200):
 				state.visited_mass_spots.add(spot)
 				state.visited_mass_spots_norm.add((map_utils.normalize_x(spot[0]), map_utils.normalize_z(spot[1])))
-				reward += 1000
+				reward += 100
 				#mass_reward = 100
-				reward_components['mass_reward'] = 1000
-				print(f"Unit {unit_id} mass reward: +1000")
+				reward_components['mass_reward'] = 100
+				print(f"Unit {unit_id} mass reward: +100")
 				state.last_mass_visit[unit_id] = 0
 				break
 
@@ -396,6 +565,13 @@ def finalize_segment_training(unit_id, success, reason):
 
 	now = time.time()
 	segment_reward = compute_segment_reward(unit_id, success, now)
+	state.match_segment_summaries.append({
+		'unit_id': unit_id,
+		'segment_reward': float(segment_reward),
+		'success': bool(success),
+		'reason': reason,
+		'steps': len(buffer),
+	})
 
 	if config.TRAIN_AT_EACH_MASS_POINT:
 		# Immediate training mode: train on the segment now
@@ -447,3 +623,11 @@ def finalize_all_units(success, reason):
 		state.match_buffer.clear()
 		end_time = time.time()
 		print(f"[Deferred Training] Completed in {end_time - start_time:.2f} seconds.")
+
+	_save_top_match_dataset(success, reason)
+
+
+def finalize_cycle_segments(success, reason):
+	"""Finalize active segment buffers for a cycle boundary without ending the full match."""
+	for uid in list(state.segment_buffers.keys()):
+		finalize_segment_training(uid, success, reason)

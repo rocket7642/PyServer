@@ -139,11 +139,30 @@ def normalize_image(img_array):
     """Min-max normalize an image array to [0, 1] for visualization."""
     if img_array.size == 0:
         return img_array
-    min_val = np.min(img_array)
-    max_val = np.max(img_array)
-    if max_val - min_val == 0:
-        return np.zeros_like(img_array, dtype=np.float32)
-    return ((img_array - min_val) / (max_val - min_val)).astype(np.float32)
+    arr = np.array(img_array, dtype=np.float32, copy=True)
+    finite_mask = np.isfinite(arr)
+    if not np.any(finite_mask):
+        return np.zeros_like(arr, dtype=np.float32)
+
+    finite_vals = arr[finite_mask]
+    min_val = float(np.min(finite_vals))
+    max_val = float(np.max(finite_vals))
+    if max_val - min_val <= 1e-8:
+        out = np.zeros_like(arr, dtype=np.float32)
+        out[~finite_mask] = 1.0
+        return out
+
+    arr[~finite_mask] = max_val
+    return ((arr - min_val) / (max_val - min_val)).astype(np.float32)
+
+
+def reward_map_to_rgb(reward_map):
+    """Convert a scalar reward map [0,1] into an RGB heatmap (red=bad, green=good)."""
+    reward = np.clip(np.array(reward_map, dtype=np.float32), 0.0, 1.0)
+    red = 1.0 - reward
+    green = reward
+    blue = np.clip(0.25 * (1.0 - np.abs(2.0 * reward - 1.0)), 0.0, 0.25)
+    return np.stack([red, green, blue], axis=-1).astype(np.float32)
 
 
 def generate_enemy_range_image(enemy_units, map_w, map_h, map_heights_shape, enemy_range=None):
@@ -275,8 +294,122 @@ def estimate_path_terrain_penalty(start_x, start_z, end_x, end_z, sample_count=N
     return -float(excess_cost.mean() * config.PATH_TERRAIN_WEIGHT)
 
 
-def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500):
-    """Extract a local height-map patch centered on the unit's position for TensorBoard visualization."""
+def _collect_action_candidates_for_view(unit_nx, unit_nz, enemies, mass_destination):
+    """Collect candidate points using the same generation logic used during action selection."""
+    candidates = []
+
+    for dx in np.linspace(-200, 200, num=10):
+        for dz in np.linspace(-200, 200, num=10):
+            tx = unit_nx + dx
+            tz = unit_nz + dz
+            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+            if is_position_reachable(tx, tz):
+                candidates.append((tx, tz, 'grid'))
+
+    # Current position candidate (NOOP)
+    candidates.append((unit_nx, unit_nz, 'noop'))
+
+    # Escape candidates
+    escape_dx, escape_dz = compute_enemy_escape_direction(unit_nx, unit_nz, enemies)
+    if abs(escape_dx) > 1e-6 or abs(escape_dz) > 1e-6:
+        import math
+        for dist_mult in [0.5, 1.0, 1.5]:
+            esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+            for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
+                base_angle = math.atan2(escape_dz, escape_dx)
+                angle = base_angle + angle_offset * math.pi
+                tx = unit_nx + math.cos(angle) * esc_dist
+                tz = unit_nz + math.sin(angle) * esc_dist
+                tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+
+                outside_enemy_range = True
+                for enemy in enemies:
+                    ex = normalize_x(enemy['x'])
+                    ez = normalize_z(enemy['z'])
+                    enemy_range = normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
+                    dist_to_enemy = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
+                    if dist_to_enemy <= enemy_range:
+                        outside_enemy_range = False
+                        break
+
+                if is_position_reachable(tx, tz) and outside_enemy_range:
+                    candidates.append((tx, tz, 'escape'))
+
+    # Lateral dodge candidates
+    for enemy in enemies:
+        wtype = enemy.get('weapon_type', 'projectile')
+        if wtype in ('projectile', 'missile'):
+            ex = normalize_x(enemy['x'])
+            ez = normalize_z(enemy['z'])
+            fire_dx = unit_nx - ex
+            fire_dz = unit_nz - ez
+            fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+            if fire_mag > 1e-6:
+                perp_dx = -fire_dz / fire_mag
+                perp_dz = fire_dx / fire_mag
+                for sign in [1.0, -1.0]:
+                    for dist_mult in [0.5, 1.0]:
+                        d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                        tx = unit_nx + sign * perp_dx * d
+                        tz = unit_nz + sign * perp_dz * d
+                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+
+                        # Match intended dodge logic: keep points that increase distance from shooter.
+                        new_fire_mag = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
+                        further_from_enemy = new_fire_mag >= fire_mag
+
+                        if is_position_reachable(tx, tz) and further_from_enemy:
+                            candidates.append((tx, tz, 'strafe'))
+
+    # Short-range scatter candidates for throwing off predictive projectiles.
+    # These stay close to the current position to avoid large path deviations.
+    for enemy in enemies:
+        wtype = enemy.get('weapon_type', 'projectile')
+        if wtype in ('projectile', 'missile'):
+            ex = normalize_x(enemy['x'])
+            ez = normalize_z(enemy['z'])
+            fire_dx = unit_nx - ex
+            fire_dz = unit_nz - ez
+            fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+            if fire_mag > 1e-6:
+                perp_dx = -fire_dz / fire_mag
+                perp_dz = fire_dx / fire_mag
+                # Prefer tiny lateral jinks plus slight forward/back offsets.
+                # This creates a compact scatter pattern around the unit.
+                forward_dx = fire_dx / fire_mag
+                forward_dz = fire_dz / fire_mag
+                for lateral_sign in [1.0, -1.0]:
+                    for forward_sign in [0.0, 1.0, -1.0]:
+                        for dist_mult in [0.08, 0.14, 0.2]:
+                            d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                            tx = unit_nx + (lateral_sign * perp_dx + 0.45 * forward_sign * forward_dx) * d
+                            tz = unit_nz + (lateral_sign * perp_dz + 0.45 * forward_sign * forward_dz) * d
+                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                            if is_position_reachable(tx, tz):
+                                candidates.append((tx, tz, 'dodge'))
+
+    if mass_destination is not None:
+        if is_position_reachable(mass_destination[0], mass_destination[1]):
+            candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
+
+        terrain_waypoints = extract_terrain_waypoints(
+            mass_destination,
+            unit_nx,
+            unit_nz,
+            count=config.TERRAIN_WAYPOINT_COUNT,
+            search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS,
+        )
+        candidates.extend((wx, wz, 'terrain_waypoint') for wx, wz in terrain_waypoints)
+
+    return candidates
+
+
+def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500, unit_id=None, enemy_units=None):
+    """Extract a local height-map patch with overlaid action candidates for TensorBoard visualization."""
     if map_heights_array is None:
         return None
     h, w = map_heights_array.shape
@@ -292,34 +425,75 @@ def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500):
     padded = np.zeros((view_size, view_size), dtype=np.float32)
     padded[0:patch.shape[0], 0:patch.shape[1]] = patch
 
-    unit_local_x = min(half, max(0, int(normalize_x(unit_x) - x_min)))
-    unit_local_z = min(half, max(0, int(normalize_z(unit_z) - z_min)))
+    base_max = float(np.max(padded)) if padded.size > 0 else 0.0
+
+    unit_local_x = min(view_size - 1, max(0, int(normalize_x(unit_x) - x_min)))
+    unit_local_z = min(view_size - 1, max(0, int(normalize_z(unit_z) - z_min)))
     if 0 <= unit_local_z < view_size and 0 <= unit_local_x < view_size:
-        padded[unit_local_z, unit_local_x] = np.max(padded) + 10.0
+        padded[unit_local_z, unit_local_x] = base_max + 8.0
 
-    for dx in np.linspace(-200, 200, num=10):
-        for dz in np.linspace(-200, 200, num=10):
-            tx = normalize_x(unit_x) + dx
-            tz = normalize_z(unit_z) + dz
-            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-            sense_local_x = min(half, max(0, int(tx - x_min)))
-            sense_local_z = min(half, max(0, int(tz - z_min)))
-            if 0 <= sense_local_z < view_size and 0 <= sense_local_x < view_size:
-                padded[sense_local_z, sense_local_x] = np.max(padded) + 1.0
+    if enemy_units is None:
+        enemies = list(state.eUnits)
+        for eu in state.eKUnits:
+            if all(eu['id'] != existing['id'] for existing in enemies):
+                enemies.append(eu)
+    else:
+        enemies = list(enemy_units)
 
-    # for radius in [100, 200]:
-    #     step_count = 6 if radius == 100 else 12
-    #     for angle in np.linspace(0, 2 * np.pi, num=step_count, endpoint=False):
-    #         sense_x = normalize_x(unit_x) + (radius / state.map_width * config.STANDARD_MAP_WIDTH if state.map_width > 0 else radius) * np.cos(angle)
-    #         sense_z = normalize_z(unit_z) + (radius / state.map_height * config.STANDARD_MAP_HEIGHT if state.map_height > 0 else radius) * np.sin(angle)
-    #         sense_local_x = min(half, max(0, int(sense_x - x_min)))
-    #         sense_local_z = min(half, max(0, int(sense_z - z_min)))
-    #         if 0 <= sense_local_z < view_size and 0 <= sense_local_x < view_size:
-    #             padded[sense_local_z, sense_local_x] = np.max(padded) + 5.0
+    unit_nx = normalize_x(unit_x)
+    unit_nz = normalize_z(unit_z)
+    mass_destination = state.mass_destinations.get(unit_id) if unit_id is not None else None
+    candidates = _collect_action_candidates_for_view(unit_nx, unit_nz, enemies, mass_destination)
+
+    marker_height = {
+        'grid': base_max + 1.0,
+        'terrain_waypoint': base_max + 2.0,
+        'dodge': base_max + 3.0,
+        'escape': base_max + 4.0,
+        'mass_destination': base_max + 6.0,
+        'noop': base_max + 7.0,
+        'strafe': base_max + 5.0,
+    }
+
+    for tx, tz, kind in candidates:
+        sense_local_x = min(view_size - 1, max(0, int(tx - x_min)))
+        sense_local_z = min(view_size - 1, max(0, int(tz - z_min)))
+        if 0 <= sense_local_z < view_size and 0 <= sense_local_x < view_size:
+            padded[sense_local_z, sense_local_x] = max(
+                padded[sense_local_z, sense_local_x],
+                marker_height.get(kind, base_max + 1.0),
+            )
 
     return padded
 
+def get_total_map_view_image(unit_x, unit_z, map_heights_array, enemy_units):
+    """Generate a full-map view image with cost and enemy positions for TensorBoard visualization."""
+    """This function creates a visualization of the entire map's cost data and overlays enemy positions as bright spots."""
+    """Contains the units current position as a bright spot as well for reference, enemy ranges as light red zones and the terrain cost map as a base layer."""
+    if map_heights_array is None:
+        return None
+    h, w = map_heights_array.shape
+    cost_map = state.terrain_cost_map if state.terrain_cost_map is not None else np.zeros_like(map_heights_array)
+    cost_norm = normalize_image(cost_map)
+    enemy_range_img = generate_enemy_range_image(enemy_units, state.map_width, state.map_height, map_heights_array.shape)
+    if enemy_range_img is not None:
+        enemy_range_norm = normalize_image(enemy_range_img)
+        combined = np.clip(cost_norm + enemy_range_norm, 0.0, 1.0)
+    else:
+        combined = cost_norm
+    # Visualize favorability as a heatmap: red = low reward / high risk, green = high reward / low risk.
+    reward_map = 1.0 - combined
+    combined_rgb = reward_map_to_rgb(reward_map)
+    for enemy in enemy_units:
+        ex = int(normalize_x(enemy['x']))
+        ez = int(normalize_z(enemy['z']))
+        if 0 <= ez < h and 0 <= ex < w:
+            combined_rgb[ez, ex] = np.array([1.0, 0.0, 0.0], dtype=np.float32)
+    unit_ex = int(normalize_x(unit_x))
+    unit_ez = int(normalize_z(unit_z))
+    if 0 <= unit_ez < h and 0 <= unit_ex < w:
+        combined_rgb[unit_ez, unit_ex] = np.array([0.0, 1.0, 0.0], dtype=np.float32)
+    return combined_rgb
 
 def _get_map_signature():
     """Compute a SHA-256 hash of the map data and config to uniquely identify cached cost fields."""

@@ -3,7 +3,7 @@ import math
 import random
 import sys
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List, Tuple
 
 import numpy as np
 import torch
@@ -402,6 +402,73 @@ def load_imitation_data(filepath: str) -> Dict:
     return data
 
 
+def _safe_int(value: Any, default: int = 0) -> int:
+    """Best-effort integer conversion for map metadata values."""
+    try:
+        return int(float(value))
+    except (TypeError, ValueError):
+        return default
+
+
+def _map_signature_from_metadata(meta: Dict[str, Any]) -> Tuple[str, str, int, int]:
+    """Build a stable map signature tuple from dataset-level metadata."""
+    return (
+        str(meta.get('map_heights_file', '') or ''),
+        str(meta.get('map_spots_file', '') or ''),
+        _safe_int(meta.get('map_width', 0), 0),
+        _safe_int(meta.get('map_height', 0), 0),
+    )
+
+
+def _map_signature_from_sample(sample: Dict[str, Any], fallback: Tuple[str, str, int, int]) -> Tuple[str, str, int, int]:
+    """Read per-sample map signature when present, otherwise fallback to dataset metadata."""
+    raw = sample.get('_map_signature')
+    if isinstance(raw, (list, tuple)) and len(raw) == 4:
+        return (
+            str(raw[0] or ''),
+            str(raw[1] or ''),
+            _safe_int(raw[2], 0),
+            _safe_int(raw[3], 0),
+        )
+    return fallback
+
+
+def _apply_map_context(map_signature: Tuple[str, str, int, int]):
+    """Load map assets and rebuild derived map state for the active training group."""
+    global map_spots_norm, visited_mass_spots_norm
+
+    map_heights_file, map_spots_file, _, _ = map_signature
+
+    # Keep loader behavior deterministic: always rebuild from declared files when available.
+    if map_heights_file:
+        load_map_heights(map_heights_file)
+    if map_spots_file:
+        load_map_spots(map_spots_file)
+
+    state.map_heights = map_heights
+    state.map_width = map_width
+    state.map_height = map_height
+    state.map_height_min = map_height_min
+    state.map_height_max = map_height_max
+    state.mass_spots = map_spots
+
+    build_normalized_height_map()
+    state.normalized_map_heights = normalized_map_heights
+
+    if state.normalized_map_heights is not None:
+        map_utils.build_terrain_cost_map()
+        map_utils.build_mass_cost_fields()
+
+    map_spots_norm = [
+        (map_utils.normalize_x(x) if map_width > 0 else x,
+         map_utils.normalize_z(z) if map_height > 0 else z)
+        for x, z in map_spots
+    ]
+    state.map_spots_norm = map_spots_norm
+    # Reset visited state per map group to avoid cross-map contamination.
+    visited_mass_spots_norm = set()
+
+
 def train_imitation(dataset_file: str, epochs: int = 10, shuffle: bool = True):
     data = load_imitation_data(dataset_file)
     samples = data.get('samples', [])
@@ -410,106 +477,103 @@ def train_imitation(dataset_file: str, epochs: int = 10, shuffle: bool = True):
         return
 
     meta = data.get('metadata', {})
-    if meta.get('map_heights_file'):
-        load_map_heights(meta['map_heights_file'])
-    if meta.get('map_spots_file'):
-        load_map_spots(meta['map_spots_file'])
-    
-    # Set up state attributes for map_utils
-    state.map_heights = map_heights
-    state.map_width = map_width
-    state.map_height = map_height
-    state.map_height_min = map_height_min
-    state.map_height_max = map_height_max
-    state.mass_spots = map_spots
-    
-    # Build normalized height map
-    build_normalized_height_map()
-    state.normalized_map_heights = normalized_map_heights
-    
-    # Build terrain cost map and mass cost fields for new pathfinding system
-    if state.normalized_map_heights is not None:
-        print("Building terrain cost map...")
-        map_utils.build_terrain_cost_map()
-        print("Building mass point cost fields...")
-        map_utils.build_mass_cost_fields()
-    
-    # Convert mass spots to normalized coordinates
-    global map_spots_norm
-    map_spots_norm = [
-        (map_utils.normalize_x(x) if map_width > 0 else x, 
-         map_utils.normalize_z(z) if map_height > 0 else z)
-        for x, z in map_spots
-    ]
-    state.map_spots_norm = map_spots_norm
+
+    default_signature = _map_signature_from_metadata(meta)
+
+    # Group samples by map signature so each batch uses the correct terrain/mass context.
+    grouped_samples: Dict[Tuple[str, str, int, int], List[Dict[str, Any]]] = {}
+    for sample in samples:
+        signature = _map_signature_from_sample(sample, default_signature)
+        grouped_samples.setdefault(signature, []).append(sample)
+
+    if not grouped_samples:
+        print("No valid grouped samples to train on.")
+        return
+
+    print(f"Detected {len(grouped_samples)} map group(s) in dataset.")
+    for idx, (signature, group) in enumerate(grouped_samples.items(), start=1):
+        print(
+            f"  Group {idx}: samples={len(group)}, "
+            f"map_heights='{signature[0]}', map_spots='{signature[1]}'"
+        )
 
     print(f"Training for {epochs} epochs...")
 
     for epoch in range(epochs):
+        # Shuffle each map group independently to preserve map-aware batching.
         if shuffle:
-            random.shuffle(samples)
+            for group in grouped_samples.values():
+                random.shuffle(group)
 
         epoch_loss = 0.0
+        sample_count = 0
 
-        for sample in samples:
-            unit_id = sample['unit_id']
-            friendly_units = sample['friendly_units']
-            enemy_units = sample['enemy_units']
+        for group_idx, (signature, group_samples) in enumerate(grouped_samples.items(), start=1):
+            print(f"Epoch {epoch + 1}: loading map context for group {group_idx}/{len(grouped_samples)}")
+            _apply_map_context(signature)
+            print("Building terrain cost map...")
+            print("Building mass point cost fields...")
 
-            agent_unit = next((u for u in friendly_units if u['id'] == unit_id), None)
-            if agent_unit is None:
-                continue
+            for sample in group_samples:
+                unit_id = sample['unit_id']
+                friendly_units = sample['friendly_units']
+                enemy_units = sample['enemy_units']
 
-            seed = int(sample.get('timestamp', 0) * 1000) ^ unit_id
-            state_vec = agent.encode_state(agent_unit, friendly_units, enemy_units, seed=seed)
+                agent_unit = next((u for u in friendly_units if u['id'] == unit_id), None)
+                if agent_unit is None:
+                    continue
 
-            action = sample['action']
-            action_type = action.get('type', NOOP_ACTION)
-            target_x = action.get('x', agent_unit['x'])
-            target_z = action.get('z', agent_unit['z'])
+                seed = int(sample.get('timestamp', 0) * 1000) ^ unit_id
+                state_vec = agent.encode_state(agent_unit, friendly_units, enemy_units, seed=seed)
 
-            input_seq = state_vec.unsqueeze(0).unsqueeze(0)
-            feature_weights, _ = agent(input_seq)
-            feature_weights = feature_weights.squeeze(0)
+                action = sample['action']
+                action_type = action.get('type', NOOP_ACTION)
+                target_x = action.get('x', agent_unit['x'])
+                target_z = action.get('z', agent_unit['z'])
 
-            pos_features = compute_action_features(
-                action_type,
-                agent_unit['x'],
-                agent_unit['z'],
-                agent_unit['y'],
-                target_x,
-                target_z,
-                enemy_units
-            )
-            pos_score = torch.dot(feature_weights, torch.tensor(pos_features, dtype=torch.float32))
+                input_seq = state_vec.unsqueeze(0).unsqueeze(0)
+                feature_weights, _ = agent(input_seq)
+                feature_weights = feature_weights.squeeze(0)
 
-            scores = [pos_score]
-            for _ in range(NEGATIVE_SAMPLES):
-                rx = random.uniform(0, map_width) if map_width > 0 else agent_unit['x']
-                rz = random.uniform(0, map_height) if map_height > 0 else agent_unit['z']
-                neg_features = compute_action_features(
-                    "MOVE",
+                pos_features = compute_action_features(
+                    action_type,
                     agent_unit['x'],
                     agent_unit['z'],
                     agent_unit['y'],
-                    rx,
-                    rz,
+                    target_x,
+                    target_z,
                     enemy_units
                 )
-                neg_score = torch.dot(feature_weights, torch.tensor(neg_features, dtype=torch.float32))
-                scores.append(neg_score)
+                pos_score = torch.dot(feature_weights, torch.tensor(pos_features, dtype=torch.float32))
 
-            scores_tensor = torch.stack(scores)
-            loss = -torch.log_softmax(scores_tensor, dim=0)[0]
+                scores = [pos_score]
+                for _ in range(NEGATIVE_SAMPLES):
+                    rx = random.uniform(0, map_width) if map_width > 0 else agent_unit['x']
+                    rz = random.uniform(0, map_height) if map_height > 0 else agent_unit['z']
+                    neg_features = compute_action_features(
+                        "MOVE",
+                        agent_unit['x'],
+                        agent_unit['z'],
+                        agent_unit['y'],
+                        rx,
+                        rz,
+                        enemy_units
+                    )
+                    neg_score = torch.dot(feature_weights, torch.tensor(neg_features, dtype=torch.float32))
+                    scores.append(neg_score)
 
-            optimizer.zero_grad()
-            loss.backward()
-            epoch_loss += loss.item()
+                scores_tensor = torch.stack(scores)
+                loss = -torch.log_softmax(scores_tensor, dim=0)[0]
+
+                optimizer.zero_grad()
+                loss.backward()
+                epoch_loss += loss.item()
+                sample_count += 1
         # Clip gradients to prevent exploding gradients that cause NaN
         torch.nn.utils.clip_grad_norm_(agent.parameters(), max_norm=1.0)
         optimizer.step()
 
-        avg_loss = epoch_loss / max(1, len(samples))
+        avg_loss = epoch_loss / max(1, sample_count)
         print(f"Epoch {epoch + 1}/{epochs} - Avg Loss: {avg_loss:.4f}")
 
     print("Imitation training complete!")

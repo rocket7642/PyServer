@@ -130,6 +130,192 @@ def select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass):
     return best_spot
 
 
+def _get_unit_speed_norm(unit_id):
+    """Return the unit speed in normalized map units per second with safe fallbacks."""
+    speed_world = None
+    for fu in state.units:
+        if fu.get('id') == unit_id:
+            speed_world = fu.get('speed', None)
+            break
+
+    if speed_world is None:
+        speed_world = config.DEFAULT_UNIT_SPEED
+
+    speed_norm = map_utils.normalize_distance(float(speed_world))
+    return max(speed_norm, config.MIN_EFFECTIVE_SPEED_NORM)
+
+
+def _get_unit_health_context(unit_id):
+    """Return (current_hp, max_hp) for a unit with safe fallbacks and running max tracking."""
+    current_hp = None
+    for fu in state.units:
+        if fu.get('id') == unit_id:
+            raw_health = fu.get('health', None)
+            if raw_health is not None:
+                current_hp = max(0.0, float(raw_health))
+            break
+
+    if current_hp is None:
+        return None, None
+
+    previous_max = state.unit_max_healths.get(unit_id, 0.0)
+    max_hp = max(previous_max, current_hp)
+    state.unit_max_healths[unit_id] = max_hp
+    return current_hp, max_hp
+
+
+def _compute_direct_approach_penalty(
+    unit_nx,
+    unit_nz,
+    target_x,
+    target_z,
+    enemy_units,
+    enemy_range_image,
+    unit_speed_norm,
+    unit_hp=None,
+    unit_max_hp=None,
+    bias=1.0,
+):
+    """Estimate expected incoming damage pressure along a path and convert it into a score penalty."""
+    if not enemy_units:
+        return 0.0
+
+    move_distance = ((target_x - unit_nx) ** 2 + (target_z - unit_nz) ** 2) ** 0.5
+    if move_distance <= 1e-6:
+        return 0.0
+
+    sample_count = max(
+        config.PATH_SAMPLE_COUNT,
+        int(move_distance / max(config.DIRECT_APPROACH_SAMPLE_SPACING, 1.0)) + 1,
+    )
+    xs = np.linspace(unit_nx, target_x, num=sample_count)
+    zs = np.linspace(unit_nz, target_z, num=sample_count)
+
+    total_dps_seconds = 0.0
+    for enemy in enemy_units:
+        ex = map_utils.normalize_x(enemy['x'])
+        ez = map_utils.normalize_z(enemy['z'])
+        enemy_range = map_utils.normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
+        if enemy_range <= 0.0:
+            continue
+
+        dps = max(0.0, float(enemy.get('dps', 50.0)))
+        if dps <= 0.0:
+            continue
+
+        dist = np.sqrt((xs - ex) ** 2 + (zs - ez) ** 2)
+        inside_ratio = float(np.mean(dist <= enemy_range))
+        if inside_ratio <= 0.0:
+            continue
+
+        inside_distance = move_distance * inside_ratio
+        inside_seconds = inside_distance / max(unit_speed_norm, 1e-6)
+        total_dps_seconds += dps * inside_seconds
+
+    if total_dps_seconds <= 0.0:
+        return 0.0
+
+    danger_weight = 0.0
+    if enemy_range_image is not None:
+        path_values = map_utils.sample_path_values(
+            enemy_range_image,
+            unit_nx,
+            unit_nz,
+            target_x,
+            target_z,
+            sample_count=sample_count,
+        )
+        if path_values is not None and path_values.size > 0:
+            danger_weight = float(np.mean(path_values))
+
+    base_penalty = total_dps_seconds * config.DIRECT_APPROACH_DPS_SECONDS_SCALE
+    penalty = base_penalty * (1.0 + danger_weight * config.DIRECT_APPROACH_DANGER_WEIGHT_SCALE)
+
+    # Weight by survivability: paths that consume a large share of max/current HP
+    # become much less attractive, with extra emphasis on potentially lethal paths.
+    if unit_hp is not None and unit_max_hp is not None and unit_hp > 0.0 and unit_max_hp > 0.0:
+        hp_fraction_of_max = total_dps_seconds / max(unit_max_hp, 1e-6)
+        hp_fraction_of_current = total_dps_seconds / max(unit_hp, 1e-6)
+
+        percent_scale = float(getattr(config, 'DIRECT_APPROACH_HP_PERCENT_SCALE', 1.5))
+        lethal_bonus = float(getattr(config, 'DIRECT_APPROACH_LETHAL_BONUS', 1.0))
+        overkill_scale = float(getattr(config, 'DIRECT_APPROACH_OVERKILL_SCALE', 0.75))
+
+        hp_threat_multiplier = 1.0 + hp_fraction_of_current * percent_scale
+        if hp_fraction_of_current >= 1.0:  # lethal
+            hp_threat_multiplier += lethal_bonus
+            hp_threat_multiplier += (hp_fraction_of_current - 1.0) * overkill_scale
+
+        penalty *= hp_threat_multiplier
+        penalty *= bias # This is used for certain moves to be less affected by danger such as dodges, escapes, strafes, etc
+
+    return penalty
+
+
+def _filter_mass_spots_by_threat(
+    unit_id,
+    unit_nx,
+    unit_nz,
+    unvisited_mass,
+    enemy_units,
+    enemy_range_image,
+    unit_speed_norm,
+    unit_hp=None,
+    unit_max_hp=None,
+):
+    """Temporarily block dangerous mass spots using hysteresis and a cooldown window."""
+    if not unvisited_mass:
+        return []
+
+    blocked_until_by_spot = state.mass_spot_blocked_until.setdefault(unit_id, {})
+    unvisited_set = set(unvisited_mass)
+
+    # Remove stale entries for already-visited or removed spots.
+    for spot in list(blocked_until_by_spot.keys()):
+        if spot not in unvisited_set:
+            blocked_until_by_spot.pop(spot, None)
+
+    allowed_spots = []
+    blocked_count = 0
+
+    for spot in unvisited_mass:
+        risk_score = _compute_direct_approach_penalty(
+            unit_nx,
+            unit_nz,
+            spot[0],
+            spot[1],
+            enemy_units,
+            enemy_range_image,
+            unit_speed_norm,
+            unit_hp=unit_hp,
+            unit_max_hp=unit_max_hp,
+            bias=1.0
+        )
+
+        unblock_step = blocked_until_by_spot.get(spot, -1)
+        currently_blocked = state.step_counter < unblock_step
+
+        if currently_blocked:
+            if risk_score <= config.MASS_SPOT_UNBLOCK_RISK_THRESHOLD:
+                blocked_until_by_spot.pop(spot, None)
+                allowed_spots.append(spot)
+            else:
+                blocked_count += 1
+        else:
+            if risk_score >= config.MASS_SPOT_BLOCK_RISK_THRESHOLD:
+                blocked_until_by_spot[spot] = state.step_counter + config.MASS_SPOT_BLOCK_COOLDOWN_STEPS
+                blocked_count += 1
+            else:
+                allowed_spots.append(spot)
+
+    if unvisited_mass:
+        blocked_ratio = blocked_count / float(len(unvisited_mass))
+        state.writer.add_scalar('Mass_Destination/blocked_spots', blocked_count, state.step_counter)
+        state.writer.add_scalar('Mass_Destination/blocked_ratio', blocked_ratio, state.step_counter)
+
+    return allowed_spots
+
+
 def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
     """Run the agent's policy to select the best action and move target for a unit given its encoded state."""
     with torch.no_grad():
@@ -150,22 +336,37 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         unit_nx = map_utils.normalize_x(unit_x)
         unit_nz = map_utils.normalize_z(unit_z)
         unit_ny = map_utils.normalize_y(unit_y)
-        enemy_range_image = map_utils.generate_enemy_range_image(
-            state.eUnits,
-            state.map_width,
-            state.map_height,
-            state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
-        )
-
-        unvisited_mass = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
-        mass_destination = select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass)
-        active_mass = [mass_destination] if mass_destination is not None else unvisited_mass
 
         # Combine all known enemies for feature computation
         all_enemies = list(state.eUnits)
         for u in state.eKUnits:
             if all(u['id'] != eu['id'] for eu in all_enemies):
                 all_enemies.append(u)
+
+        enemy_range_image = map_utils.generate_enemy_range_image(
+            all_enemies,
+            state.map_width,
+            state.map_height,
+            state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
+        )
+
+        unit_speed_norm = _get_unit_speed_norm(unit_id)
+        unit_hp, unit_max_hp = _get_unit_health_context(unit_id)
+        unvisited_mass = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
+        available_mass = _filter_mass_spots_by_threat(
+            unit_id,
+            unit_nx,
+            unit_nz,
+            unvisited_mass,
+            all_enemies,
+            enemy_range_image,
+            unit_speed_norm,
+            unit_hp=unit_hp,
+            unit_max_hp=unit_max_hp,
+        )
+
+        mass_destination = select_mass_destination(unit_id, unit_nx, unit_nz, available_mass)
+        active_mass = [mass_destination] if mass_destination is not None else available_mass
 
         candidates = []
 
@@ -177,10 +378,10 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                 # Only add reachable candidates
                 if map_utils.is_position_reachable(tx, tz):
-                    candidates.append((tx, tz))
+                    candidates.append((tx, tz, 'grid'))
 
         # Current position is always valid
-        candidates.append((unit_nx, unit_nz))
+        candidates.append((unit_nx, unit_nz, 'noop'))
 
         # Generate escape candidates pointing away from nearby enemies
         # Also add lateral dodge candidates for projectile/missile enemies
@@ -196,8 +397,20 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     tz = unit_nz + math.sin(angle) * esc_dist
                     tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                    if map_utils.is_position_reachable(tx, tz):
-                        candidates.append((tx, tz))
+
+                    outsideEnemyRange = True
+                    for enemy in all_enemies:
+                        ex = map_utils.normalize_x(enemy['x'])
+                        ez = map_utils.normalize_z(enemy['z'])
+                        enemy_range = map_utils.normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
+                        dist_to_enemy = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
+                        if dist_to_enemy <= enemy_range:
+                            outsideEnemyRange = False
+                            break
+
+                    # Verify if the canidate is reachable and outside the enemy range before adding
+                    if map_utils.is_position_reachable(tx, tz) and outsideEnemyRange:
+                        candidates.append((tx, tz, 'escape'))
 
         # Lateral dodge candidates perpendicular to incoming fire from projectile/missile enemies
         import math
@@ -220,8 +433,41 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             tz = unit_nz + sign * perp_dz * d
                             tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                             tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                            if map_utils.is_position_reachable(tx, tz):
-                                candidates.append((tx, tz))
+
+                            further_from_enemy = True
+                            if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+                                further_from_enemy = False
+
+                            if map_utils.is_position_reachable(tx, tz) and further_from_enemy:
+                                candidates.append((tx, tz, 'strafe'))
+
+        # Short-range scatter candidates for throwing off predictive projectiles.
+        # These stay close to the current position to avoid large path deviations.
+        for enemy in all_enemies:
+            wtype = enemy.get('weapon_type', 'projectile')
+            if wtype in ('projectile', 'missile'):
+                ex = map_utils.normalize_x(enemy['x'])
+                ez = map_utils.normalize_z(enemy['z'])
+                fire_dx = unit_nx - ex
+                fire_dz = unit_nz - ez
+                fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+                if fire_mag > 1e-6:
+                    perp_dx = -fire_dz / fire_mag
+                    perp_dz = fire_dx / fire_mag
+                    # Prefer tiny lateral jinks plus slight forward/back offsets.
+                    # This creates a compact scatter pattern around the unit.
+                    forward_dx = fire_dx / fire_mag
+                    forward_dz = fire_dz / fire_mag
+                    for lateral_sign in [1.0, -1.0]:
+                        for forward_sign in [0.0, 1.0, -1.0]:
+                            for dist_mult in [0.08, 0.14, 0.2]:
+                                d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                                tx = unit_nx + (lateral_sign * perp_dx + 0.45 * forward_sign * forward_dx) * d
+                                tz = unit_nz + (lateral_sign * perp_dz + 0.45 * forward_sign * forward_dz) * d
+                                tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                                tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                                if map_utils.is_position_reachable(tx, tz):
+                                    candidates.append((tx, tz, 'dodge'))
 
         if mass_destination is not None:
             dest_world_x = map_utils.denormalize_x(mass_destination[0])
@@ -229,7 +475,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             dist_to_dest = ((dest_world_x - unit_x) ** 2 + (dest_world_z - unit_z) ** 2) ** 0.5
             # Only add mass destination if reachable and within approach radius
             if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
-                candidates.append(mass_destination)
+                candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
             
             # Extract terrain-guided waypoints from cost field
             terrain_waypoints = map_utils.extract_terrain_waypoints(
@@ -239,7 +485,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 count=config.TERRAIN_WAYPOINT_COUNT,
                 search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
             )
-            candidates.extend(terrain_waypoints)
+            candidates.extend((wx, wz, 'terrain_waypoint') for wx, wz in terrain_waypoints)
             if terrain_waypoints:
                 state.writer.add_scalar(
                     'Action_Selection/terrain_waypoints_generated',
@@ -254,8 +500,9 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         noop_score = None
         move_scores = []
+        direct_approach_penalties = []
 
-        for (tx, tz) in candidates:
+        for (tx, tz, candidate_kind) in candidates:
             try:
                 if abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3:
                     features = MoveJudger.compute_action_features(
@@ -285,6 +532,40 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
                 features_tensor = torch.tensor(features, dtype=torch.float32)
                 score = torch.dot(feature_weights, features_tensor).item()
+
+                if candidate_kind not in ('noop', 'escape', 'dodge', 'strafe'):
+                    direct_penalty = _compute_direct_approach_penalty(
+                        unit_nx,
+                        unit_nz,
+                        tx,
+                        tz,
+                        all_enemies,
+                        enemy_range_image,
+                        unit_speed_norm,
+                        unit_hp=unit_hp,
+                        unit_max_hp=unit_max_hp,
+                        bias=1.0,  
+                    )
+                    score -= direct_penalty
+                    direct_approach_penalties.append(direct_penalty)
+                elif candidate_kind in ('dodge', 'strafe'):
+                    # Apply a different bias for dodge and strafe actions
+                    direct_penalty = _compute_direct_approach_penalty(
+                        unit_nx,
+                        unit_nz,
+                        tx,
+                        tz,
+                        all_enemies,
+                        enemy_range_image,
+                        unit_speed_norm,
+                        unit_hp=unit_hp,
+                        unit_max_hp=unit_max_hp,
+                        bias=0.5,  # Reduce the impact of direct approach penalties for these actions (safer and required, but still should be avoided if it means death)
+                    )
+                    score -= direct_penalty
+                    direct_approach_penalties.append(direct_penalty)
+
+
                 action_scores.append(score)
 
                 if abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3:
@@ -305,6 +586,18 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 f"Unit {unit_id}: NOOP score={noop_score:.3f}, "
                 f"MOVE scores: min={min(move_scores):.3f}, max={max(move_scores):.3f}, "
                 f"mean={np.mean(move_scores):.3f}"
+            )
+
+        if direct_approach_penalties:
+            state.writer.add_scalar(
+                'Action_Selection/direct_approach_penalty_mean',
+                float(np.mean(direct_approach_penalties)),
+                state.step_counter,
+            )
+            state.writer.add_scalar(
+                'Action_Selection/direct_approach_penalty_max',
+                float(np.max(direct_approach_penalties)),
+                state.step_counter,
             )
 
         is_noop = (abs(best_target[0] - unit_nx) < 1e-3 and abs(best_target[1] - unit_nz) < 1e-3)
