@@ -169,7 +169,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         sys.exit(1)
 
     def finalize_match(success, reason):
-        if state.match_finalized:
+        if state.match_finalized or not config.SHOULD_TRAIN:
             return
 
         PeriodicRewards.finalize_all_units(success, reason)
@@ -216,7 +216,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
     if not state.match_finalized:
         print("Closing connection and saving agent (no terminal result finalized).")
-        agent_core.save_agent()
+        if config.SHOULD_TRAIN:
+            agent_core.save_agent()
     else:
         print("Match outcome already finalized; skipping duplicate save.")
 

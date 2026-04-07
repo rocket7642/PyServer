@@ -93,7 +93,7 @@ def perform_handshake(conn, addr):
 def receive_messages(conn, addr, window):
 	"""Main loop that receives game state messages, runs the agent's decision-making, trains on transitions, and sends commands back."""
 	def finalize_match(success, reason):
-		if state.match_finalized:
+		if state.match_finalized or not config.SHOULD_TRAIN:
 			return
 
 		PeriodicRewards.finalize_all_units(success, reason)
@@ -156,6 +156,8 @@ def receive_messages(conn, addr, window):
 					enemy_units.append(unit)
 
 			print(f"Parsed {len(friendly_units)} friendly units, {len(enemy_units)} enemy units")
+			print(f"Current time: {time.time()}")
+			print(f"Current step counter: {state.step_counter}")
 			if friendly_units:
 				print(f"Sample unit: {friendly_units[0]}")
 
@@ -255,7 +257,7 @@ def receive_messages(conn, addr, window):
 							state.mass_destinations.pop(unit['id'], None)
 							state.mass_destination_distances.pop(unit['id'], None)
 							state.mass_spot_blocked_until.pop(unit['id'], None)
-							if config.TRAIN_AT_EACH_MASS_POINT:
+							if config.TRAIN_AT_EACH_MASS_POINT and config.SHOULD_TRAIN:
 								conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8'))
 								PeriodicRewards.finalize_segment_training(unit['id'], True, "mass_reached")
 								conn.sendall("C: UNPAUSE\n".encode('utf-8'))
@@ -289,7 +291,7 @@ def receive_messages(conn, addr, window):
 						else:
 							last_time = state.segment_stats[unit['id']]['last_mass_time']
 							if now - last_time >= config.EPISODE_TIMEOUT_SECONDS:
-								if config.TRAIN_AT_EACH_MASS_POINT:
+								if config.TRAIN_AT_EACH_MASS_POINT and config.SHOULD_TRAIN:
 									conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8'))
 								PeriodicRewards.finalize_segment_training(unit['id'], False, "timeout")
 								if config.TRAIN_AT_EACH_MASS_POINT:

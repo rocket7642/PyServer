@@ -1,9 +1,18 @@
 HOST = "127.0.0.1"
 PORT = 25000
 
-# == TRAINING PERIOD SETTINGS ==
+# == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
+SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+
+# === EPISODIC TRAINING SETTINGS ===
+EPISODE_TIMEOUT_SECONDS = 120
+END_MATCH_WHEN_ALL_MASS_REACHED = False  # if True, finalize full match/training set at 100% mass completion; if False, reset spots and continue
+MASS_REACH_RADIUS = 100
+MASS_FINAL_APPROACH_RADIUS = 140
+MASS_DESTINATION_SWAP_THRESHOLD = 0.10
+MAX_SEGMENT_STEPS = 300
 
 # === ONLINE REPLAY EXPORT SETTINGS ===
 # Save replay-style datasets from live agent runs and keep only the top matches by score.
@@ -30,14 +39,6 @@ MIN_STEPS_BETWEEN_COMMANDS = 3
 COMMAND_DISTANCE_EPS = 50
 OVERRIDE_SCORE_THRESHOLD = 10.0
 CANCEL_COMMAND_PENALTY = 2.0
-
-# === EPISODIC TRAINING SETTINGS ===
-EPISODE_TIMEOUT_SECONDS = 120
-END_MATCH_WHEN_ALL_MASS_REACHED = False  # if True, finalize full match/training set at 100% mass completion; if False, reset spots and continue
-MASS_REACH_RADIUS = 100
-MASS_FINAL_APPROACH_RADIUS = 140
-MASS_DESTINATION_SWAP_THRESHOLD = 0.10
-MAX_SEGMENT_STEPS = 300
 
 # Potential-based move rewards
 POTENTIAL_DISTANCE_SCALE = 0.1

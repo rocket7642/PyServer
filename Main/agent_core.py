@@ -435,7 +435,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
 
                             further_from_enemy = True
-                            if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+                            candidate_enemy_dist = ((tx - eu_nx) ** 2 + (tz - eu_nz) ** 2) ** 0.5
+                            if candidate_enemy_dist <= fire_mag:
                                 further_from_enemy = False
 
                             if map_utils.is_position_reachable(tx, tz) and further_from_enemy:
@@ -564,6 +565,13 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     )
                     score -= direct_penalty
                     direct_approach_penalties.append(direct_penalty)
+                
+                # Need to calculate what type of enemy it is as retreat from a proj/missile will likely still hit if its a consistent movement.
+                enemy_type = None
+                for enemy in all_enemies:
+                    if enemy.distance_to(unit_nx, unit_nz) < config.ENEMY_PROXIMITY_THRESHOLD:
+                        enemy_type = enemy.type
+                        break
 
 
                 action_scores.append(score)
