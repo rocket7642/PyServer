@@ -567,11 +567,11 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     direct_approach_penalties.append(direct_penalty)
                 
                 # Need to calculate what type of enemy it is as retreat from a proj/missile will likely still hit if its a consistent movement.
-                enemy_type = None
-                for enemy in all_enemies:
-                    if enemy.distance_to(unit_nx, unit_nz) < config.ENEMY_PROXIMITY_THRESHOLD:
-                        enemy_type = enemy.type
-                        break
+                # enemy_type = None
+                # for enemy in all_enemies:
+                #     if enemy.distance_to(unit_nx, unit_nz) < config.ENEMY_PROXIMITY_THRESHOLD:
+                #         enemy_type = enemy.type
+                #         break
 
 
                 action_scores.append(score)

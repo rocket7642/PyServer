@@ -90,7 +90,7 @@ def perform_handshake(conn, addr):
 		conn.settimeout(original_timeout)
 
 
-def receive_messages(conn, addr, window):
+def receive_messages(conn, addr):
 	"""Main loop that receives game state messages, runs the agent's decision-making, trains on transitions, and sends commands back."""
 	def finalize_match(success, reason):
 		if state.match_finalized or not config.SHOULD_TRAIN:
@@ -460,7 +460,10 @@ def receive_messages(conn, addr, window):
 					print(f"  Exception: {img_err}")
 					traceback.print_exc()
 
-			window.write_event_value('-SOCKET-', message)
+			# Log state update to console (replaces GUI event update)
+			print(f"[STATE] Units: {len(state.units) if hasattr(state, 'units') and state.units else 0} | " 
+					f"Enemy Units: {len(state.eUnits) if hasattr(state, 'eUnits') and state.eUnits else 0} | "
+					f"Killed Units: {len(state.eKUnits) if hasattr(state, 'eKUnits') and state.eKUnits else 0}")
 		except Exception as exc:
 			print("\n!!! ERROR in receive_messages !!!")
 			print(f"Exception type: {type(exc).__name__}")
