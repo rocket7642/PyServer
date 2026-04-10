@@ -57,9 +57,9 @@ try:
     server_connection, addr = server_socket.accept()
     logger.info(f"[NEW CONNECTION] {addr} connected.")
 
-    map_heights_path = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data/mapHeightInfo.txt'
-    map_info_path = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data/mapInfo.txt'
-    mass_info_path = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data/massInfo.txt'
+    map_heights_path = f"{config.BAR_DIRECTORY}/mapHeightInfo.txt"
+    map_info_path = f"{config.BAR_DIRECTORY}/mapInfo.txt"
+    mass_info_path = f"{config.BAR_DIRECTORY}/massInfo.txt"
 
     state.map_heights_source = map_heights_path
     state.map_spots_source = mass_info_path
