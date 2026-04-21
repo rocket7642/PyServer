@@ -3,6 +3,7 @@ import json
 import random
 import datetime
 from collections import deque
+import re
 from pathlib import Path
 
 import numpy as np
@@ -74,6 +75,58 @@ def _filtered_samples_for_export(samples, seed_value):
 	return filtered
 
 
+def _sanitize_map_slug(map_name):
+	"""Convert a map label into a filesystem-safe slug."""
+	slug = re.sub(r'[^A-Za-z0-9]+', '_', str(map_name).strip()).strip('_').lower()
+	return slug or 'unknown_map'
+
+
+def _get_current_map_name():
+	"""Resolve the current map name from runtime state or the parsed map metadata file."""
+	map_name = str(getattr(state, 'map_name', '')).strip()
+	if map_name:
+		return map_name
+
+	map_info_source = str(getattr(state, 'map_info_source', '')).strip()
+	if map_info_source:
+		map_info_path = Path(map_info_source)
+		if map_info_path.exists():
+			try:
+				with map_info_path.open('r', encoding='utf-8', errors='ignore') as f:
+					for line in f:
+						stripped = line.strip()
+						if not stripped or ':' not in stripped:
+							continue
+						label, value = stripped.split(':', 1)
+						label = label.strip().lower()
+						value = value.strip()
+						if label in {'map name', 'mapname', 'mission name', 'missionname', 'name'} and value:
+							return value
+			except Exception:
+				pass
+
+	map_heights_source = str(getattr(state, 'map_heights_source', '')).strip()
+	if map_heights_source:
+		map_signature_fn = getattr(map_utils, '_get_map_signature', None)
+		if callable(map_signature_fn):
+			map_signature = map_signature_fn()
+			if map_signature:
+				return map_signature
+		return Path(map_heights_source).stem
+
+	return 'unknown_map'
+
+
+def _get_map_export_paths(main_dir):
+	"""Return the per-map export directory and index path."""
+	map_name = _get_current_map_name()
+	map_slug = _sanitize_map_slug(map_name)
+	export_root = main_dir / getattr(config, 'AGENT_REPLAY_EXPORT_DIR', 'Recordings/AgentReplayTop')
+	map_export_dir = export_root / map_slug
+	index_path = map_export_dir / 'top_matches_index.json'
+	return map_name, map_slug, map_export_dir, index_path
+
+
 def _save_top_match_dataset(success, reason):
 	"""Save this match in replay JSON format and keep only the top-K matches by score."""
 	if not getattr(config, 'SAVE_TOP_MATCH_DATASET', False):
@@ -86,9 +139,8 @@ def _save_top_match_dataset(success, reason):
 		return
 
 	main_dir = Path(__file__).resolve().parents[1]
-	export_dir = main_dir / getattr(config, 'AGENT_REPLAY_EXPORT_DIR', 'Recordings/AgentReplayTop')
+	map_name, map_slug, export_dir, index_path = _get_map_export_paths(main_dir)
 	export_dir.mkdir(parents=True, exist_ok=True)
-	index_path = export_dir / 'top_matches_index.json'
 
 	match_score = _compute_match_score()
 	now = datetime.datetime.now()
@@ -107,6 +159,8 @@ def _save_top_match_dataset(success, reason):
 		'metadata': {
 			'source': 'online_agent_export',
 			'exported_at': now.isoformat(),
+			'map_name': map_name,
+			'map_slug': map_slug,
 			'match_score': match_score,
 			'success': bool(success),
 			'reason': reason,
@@ -139,6 +193,8 @@ def _save_top_match_dataset(success, reason):
 
 	new_entry = {
 		'file': match_filename,
+		'map_name': map_name,
+		'map_slug': map_slug,
 		'match_score': match_score,
 		'success': bool(success),
 		'reason': reason,
@@ -155,12 +211,12 @@ def _save_top_match_dataset(success, reason):
 		if match_path.exists():
 			match_path.unlink()
 		print(
-			f"[Replay Export] Match score {match_score:.2f} not in top {max_keep}. "
+			f"[Replay Export] Match score {match_score:.2f} not in top {max_keep} for {map_name}. "
 			f"Discarded {match_filename}."
 		)
 	else:
 		print(
-			f"[Replay Export] Saved top-match dataset {match_filename} "
+			f"[Replay Export] Saved top-match dataset {match_filename} for {map_name} "
 			f"with {len(samples_to_save)} samples (score={match_score:.2f})."
 		)
 

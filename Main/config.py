@@ -141,5 +141,5 @@ FEATURE_NAMES = [
     "enemy_distance_change",
     "nearest_enemy_proximity",
     "escape_alignment",
-    "dodge_viability",
+    "dodge_viability"
 ]

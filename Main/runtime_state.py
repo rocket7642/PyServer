@@ -18,6 +18,8 @@ map_width = 0
 map_height = 0
 map_height_min = 0.0
 map_height_max = 1.0
+map_name = ""
+map_info_source = ""
 map_heights_source = ""
 map_spots_source = ""
 

@@ -62,7 +62,9 @@ try:
     mass_info_path = f"{config.BAR_DIRECTORY}/massInfo.txt"
 
     state.map_heights_source = map_heights_path
+    state.map_info_source = map_info_path
     state.map_spots_source = mass_info_path
+    state.map_name = ""
 
     state.map_heights = pd.read_csv(map_heights_path, header=None).values
     map_size = state.map_heights.shape[0]
@@ -75,12 +77,15 @@ try:
                     state.map_width = int(line.split(':')[1]) * 8
                 elif line.startswith('Map Height:'):
                     state.map_height = int(line.split(':')[1]) * 8
+                elif line.startswith('Map Name:') and not state.map_name:
+                    state.map_name = line.split(':')[1].strip()
     except FileNotFoundError:
-        logger.warning("mapInfo.txt not found, using height map dimensions")
         state.map_width = map_size
         state.map_height = map_size
 
     logger.info(f"Map dimensions: {state.map_width} x {state.map_height}")
+    if state.map_name:
+        logger.info(f"Map name: {state.map_name}")
 
     map_utils.build_normalized_height_map()
 
