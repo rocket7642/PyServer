@@ -5,7 +5,7 @@ BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = True # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
 # === EPISODIC TRAINING SETTINGS ===
 EPISODE_TIMEOUT_SECONDS = 120
@@ -88,7 +88,7 @@ SEGMENT_DAMAGE_PENALTY = 1.0
 HEIGHT_DISTANCE_FACTOR = 0.2
 
 # Number of action features for the potential field
-NUM_ACTION_FEATURES = 8
+NUM_ACTION_FEATURES = 9
 
 # Terrain sampling for path-based penalties
 PATH_TERRAIN_WEIGHT = 0.25
@@ -141,5 +141,6 @@ FEATURE_NAMES = [
     "enemy_distance_change",
     "nearest_enemy_proximity",
     "escape_alignment",
-    "dodge_viability"
+    "dodge_viability",
+    "hazard_prediction"
 ]

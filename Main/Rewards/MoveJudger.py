@@ -71,6 +71,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		features.append(proximity_feature)  # nearest_enemy_proximity
 		features.append(0.0)  # escape_alignment
 		features.append(0.0)  # dodge_viability (standing still = no dodge)
+		features.append(0.0)  # hazard_prediction (filled by caller in agent_core)
 		return features
 
 	if target_x is None or target_z is None:
@@ -222,5 +223,6 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		if dodgeable_count > 0:
 			dodge_score /= dodgeable_count
 	features.append(dodge_score)
+	features.append(0.0)  # hazard_prediction (filled by caller in agent_core)
 
 	return features

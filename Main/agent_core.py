@@ -70,7 +70,7 @@ def select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass):
             if best_dist < swap_threshold:
                 state.mass_destinations[unit_id] = best_spot
                 state.mass_destination_distances[unit_id] = best_dist
-                state.writer.add_scalar('Mass_Destination/swapped', 1.0, state.step_counter)
+                # state.writer.add_scalar('Mass_Destination/swapped', 1.0, state.step_counter)
                 print(
                     f"Unit {unit_id} swapped destination: "
                     f"old_dist={prev_dist_to_dest:.2f}, "
@@ -79,7 +79,7 @@ def select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass):
                 return best_spot
         
         state.mass_destination_distances[unit_id] = current_dist_to_dest
-        state.writer.add_scalar('Mass_Destination/swapped', 0.0, state.step_counter)
+        # state.writer.add_scalar('Mass_Destination/swapped', 0.0, state.step_counter)
         return current_dest
 
     best_spot, best_score = MoveJudger.select_best_mass_spot(
@@ -96,23 +96,23 @@ def select_mass_destination(unit_id, unit_nx, unit_nz, unvisited_mass):
     dest_dist = MoveJudger.compute_mass_spot_score(unit_nx, unit_nz, best_spot)
     state.mass_destinations[unit_id] = best_spot
     state.mass_destination_distances[unit_id] = dest_dist
-    state.writer.add_scalar('Mass_Destination/terrain_score', best_score, state.step_counter)
-    state.writer.add_scalar('Mass_Destination/x', best_spot[0], state.step_counter)
-    state.writer.add_scalar('Mass_Destination/z', best_spot[1], state.step_counter)
-    state.writer.add_scalar('Mass_Destination/swapped', 0.0, state.step_counter)
+    # state.writer.add_scalar('Mass_Destination/terrain_score', best_score, state.step_counter)
+    # state.writer.add_scalar('Mass_Destination/x', best_spot[0], state.step_counter)
+    # state.writer.add_scalar('Mass_Destination/z', best_spot[1], state.step_counter)
+    # state.writer.add_scalar('Mass_Destination/swapped', 0.0, state.step_counter)
     top_candidates = MoveJudger.get_top_mass_spots(unit_nx, unit_nz, unvisited_mass, limit=4)
     for rank, (spot, score) in enumerate(top_candidates, start=1):
         dist = MoveJudger.compute_mass_spot_score(unit_nx, unit_nz, spot)
-        state.writer.add_scalar(
-            f"Mass_Destination/top_{rank}/score",
-            score,
-            state.step_counter
-        )
-        state.writer.add_scalar(
-            f"Mass_Destination/top_{rank}/distance",
-            dist,
-            state.step_counter
-        )
+        # state.writer.add_scalar(
+        #     f"Mass_Destination/top_{rank}/score",
+        #     score,
+        #     state.step_counter
+        # )
+        # state.writer.add_scalar(
+        #     f"Mass_Destination/top_{rank}/distance",
+        #     dist,
+        #     state.step_counter
+        # )
         # state.writer.add_scalar(
         #     f"Mass_Destination/top_{rank}/x",
         #     spot[0],
@@ -310,10 +310,21 @@ def _filter_mass_spots_by_threat(
 
     if unvisited_mass:
         blocked_ratio = blocked_count / float(len(unvisited_mass))
-        state.writer.add_scalar('Mass_Destination/blocked_spots', blocked_count, state.step_counter)
+        # state.writer.add_scalar('Mass_Destination/blocked_spots', blocked_count, state.step_counter)
         state.writer.add_scalar('Mass_Destination/blocked_ratio', blocked_ratio, state.step_counter)
 
     return allowed_spots
+
+
+def _inject_hazard_prediction_feature(features, hazard_penalty):
+    """Write the hazard prediction value into the final feature slot for learned hazard weighting."""
+    if features is None:
+        features = [0.0] * config.NUM_ACTION_FEATURES
+    if len(features) < config.NUM_ACTION_FEATURES:
+        features = features + [0.0] * (config.NUM_ACTION_FEATURES - len(features))
+    # Hazard prediction uses a positive risk magnitude; the model learns how strongly to weight it.
+    features[-1] = max(0.0, float(hazard_penalty))
+    return features
 
 
 def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
@@ -332,6 +343,11 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         for name, weight in zip(config.FEATURE_NAMES, feature_weights):
             print(f"  {name}: {weight.item():.4f}")
             state.writer.add_scalar(f"Feature_Weights/{name}", weight.item(), state.step_counter)
+
+        # # Log hazard_prediction weight separately for easy monitoring
+        # if len(feature_weights) > 0:
+        #     hazard_weight = feature_weights[-1].item()
+        #     state.writer.add_scalar("Feature_Weights/hazard_prediction_importance", hazard_weight, state.step_counter)
 
         unit_nx = map_utils.normalize_x(unit_x)
         unit_nz = map_utils.normalize_z(unit_z)
@@ -487,12 +503,12 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
             )
             candidates.extend((wx, wz, 'terrain_waypoint') for wx, wz in terrain_waypoints)
-            if terrain_waypoints:
-                state.writer.add_scalar(
-                    'Action_Selection/terrain_waypoints_generated',
-                    len(terrain_waypoints),
-                    state.step_counter
-                )
+            # if terrain_waypoints:
+            #     state.writer.add_scalar(
+            #         'Action_Selection/terrain_waypoints_generated',
+            #         len(terrain_waypoints),
+            #         state.step_counter
+            #     )
 
         action_scores = []
         best_score = -float('inf')
@@ -531,9 +547,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 if features is None:
                     features = [0.0] * config.NUM_ACTION_FEATURES
 
-                features_tensor = torch.tensor(features, dtype=torch.float32)
-                score = torch.dot(feature_weights, features_tensor).item()
-
+                direct_penalty = 0.0
                 if candidate_kind not in ('noop', 'escape', 'dodge', 'strafe'):
                     direct_penalty = _compute_direct_approach_penalty(
                         unit_nx,
@@ -545,12 +559,11 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         unit_speed_norm,
                         unit_hp=unit_hp,
                         unit_max_hp=unit_max_hp,
-                        bias=1.0,  
+                        bias=1.0,
                     )
-                    score -= direct_penalty
                     direct_approach_penalties.append(direct_penalty)
                 elif candidate_kind in ('dodge', 'strafe'):
-                    # Apply a different bias for dodge and strafe actions
+                    # Apply a different bias for dodge and strafe actions.
                     direct_penalty = _compute_direct_approach_penalty(
                         unit_nx,
                         unit_nz,
@@ -561,10 +574,14 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         unit_speed_norm,
                         unit_hp=unit_hp,
                         unit_max_hp=unit_max_hp,
-                        bias=0.5,  # Reduce the impact of direct approach penalties for these actions (safer and required, but still should be avoided if it means death)
+                        bias=0.5,
                     )
-                    score -= direct_penalty
                     direct_approach_penalties.append(direct_penalty)
+
+                features = _inject_hazard_prediction_feature(features, direct_penalty)
+
+                features_tensor = torch.tensor(features, dtype=torch.float32)
+                score = torch.dot(feature_weights, features_tensor).item()
                 
                 # Need to calculate what type of enemy it is as retreat from a proj/missile will likely still hit if its a consistent movement.
                 enemy_type = None
@@ -597,17 +614,17 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 f"mean={np.mean(move_scores):.3f}"
             )
 
-        if direct_approach_penalties:
-            state.writer.add_scalar(
-                'Action_Selection/direct_approach_penalty_mean',
-                float(np.mean(direct_approach_penalties)),
-                state.step_counter,
-            )
-            state.writer.add_scalar(
-                'Action_Selection/direct_approach_penalty_max',
-                float(np.max(direct_approach_penalties)),
-                state.step_counter,
-            )
+        # if direct_approach_penalties:
+        #     state.writer.add_scalar(
+        #         'Action_Selection/direct_approach_penalty_mean',
+        #         float(np.mean(direct_approach_penalties)),
+        #         state.step_counter,
+        #     )
+        #     state.writer.add_scalar(
+        #         'Action_Selection/direct_approach_penalty_max',
+        #         float(np.max(direct_approach_penalties)),
+        #         state.step_counter,
+        #     )
 
         is_noop = (abs(best_target[0] - unit_nx) < 1e-3 and abs(best_target[1] - unit_nz) < 1e-3)
         best_action = config.NOOP_ACTION if is_noop else "MOVE"
@@ -624,11 +641,31 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             if noop_features is not None:
                 chosen_action_features = noop_features
 
-        state.writer.add_scalar('Action_Selection/best_score', best_score, state.step_counter)
-        state.writer.add_scalar('Action_Selection/mean_score', np.mean(action_scores), state.step_counter)
-        state.writer.add_scalar('Action_Selection/std_score', np.std(action_scores), state.step_counter)
-        state.writer.add_scalar('Action_Selection/chosen_action', 1 if best_action == "MOVE" else 0, state.step_counter)
-        state.writer.add_scalar('Action_Selection/is_noop', 1.0 if best_action == config.NOOP_ACTION else 0.0, state.step_counter)
+        # state.writer.add_scalar('Action_Selection/best_score', best_score, state.step_counter)
+        # state.writer.add_scalar('Action_Selection/mean_score', np.mean(action_scores), state.step_counter)
+        # state.writer.add_scalar('Action_Selection/std_score', np.std(action_scores), state.step_counter)
+
+        chosenActionVar = 0
+        match candidate_kind:
+            case 'escape':
+                chosenActionVar = 1
+            case 'strafe':
+                chosenActionVar = 2
+            case 'dodge':
+                chosenActionVar = 3
+            case 'mass_destination':
+                chosenActionVar = 4
+            case 'terrain_waypoint':
+                chosenActionVar = 5
+            case 'grid':
+                chosenActionVar = 6
+            case 'noop':
+                chosenActionVar = 7
+        state.writer.add_scalar('Action_Selection/chosen_action', 
+                                chosenActionVar,
+                                  state.step_counter)
+
+        # state.writer.add_scalar('Action_Selection/is_noop', 1.0 if best_action == config.NOOP_ACTION else 0.0, state.step_counter)
 
         for name, feature_val in zip(config.FEATURE_NAMES, chosen_action_features):
             state.writer.add_scalar(f"Chosen_Action_Features/{name}", feature_val, state.step_counter)
@@ -697,6 +734,28 @@ def train_agent(
         enemy_range_image=enemy_range_image,
         enemy_units=all_enemies,
     )
+
+    unit_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
+    unit_hp, unit_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
+
+    current_direct_penalty = 0.0
+    is_noop_action = action == config.NOOP_ACTION or (
+        abs(target_nx - unit_nx) < 1e-3 and abs(target_nz - unit_nz) < 1e-3
+    )
+    if not is_noop_action:
+        current_direct_penalty = _compute_direct_approach_penalty(
+            unit_nx,
+            unit_nz,
+            target_nx,
+            target_nz,
+            all_enemies,
+            enemy_range_image,
+            unit_speed_norm,
+            unit_hp=unit_hp,
+            unit_max_hp=unit_max_hp,
+            bias=1.0,
+        )
+    action_features = _inject_hazard_prediction_feature(action_features, current_direct_penalty)
     
     # Validate features don't contain inf/nan
     action_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in action_features]
@@ -794,6 +853,9 @@ def train_agent(
                 state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
             )
 
+            next_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
+            next_hp, next_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
+
             for (tx, tz) in candidates:
                 next_nx = map_utils.normalize_x(next_unit_x)
                 next_nz = map_utils.normalize_z(next_unit_z)
@@ -809,6 +871,22 @@ def train_agent(
                     enemy_range_image=next_enemy_range_image,
                     enemy_units=all_enemies,
                 )
+                next_direct_penalty = 0.0
+                is_next_noop = abs(tx - next_nx) < 1e-3 and abs(tz - next_nz) < 1e-3
+                if not is_next_noop:
+                    next_direct_penalty = _compute_direct_approach_penalty(
+                        next_nx,
+                        next_nz,
+                        tx,
+                        tz,
+                        all_enemies,
+                        next_enemy_range_image,
+                        next_speed_norm,
+                        unit_hp=next_hp,
+                        unit_max_hp=next_max_hp,
+                        bias=1.0,
+                    )
+                next_features = _inject_hazard_prediction_feature(next_features, next_direct_penalty)
                 next_features_tensor = torch.tensor(next_features, dtype=torch.float32)
                 next_q = torch.dot(next_weights, next_features_tensor)
                 max_next_q = max(max_next_q, next_q.item())
