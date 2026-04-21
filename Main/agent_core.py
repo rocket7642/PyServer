@@ -386,8 +386,9 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         candidates = []
 
-        for dx in np.linspace(-200, 200, num=10):
-            for dz in np.linspace(-200, 200, num=10):
+        # Swapped from 10 candidates in both directions to 3 x 3 at 200 x 200
+        for dx in np.linspace(-40, 40, num=3):
+            for dz in np.linspace(-40, 40, num=3):
                 tx = unit_nx + dx
                 tz = unit_nz + dz
                 tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
@@ -414,18 +415,19 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
 
-                    outsideEnemyRange = True
-                    for enemy in all_enemies:
-                        ex = map_utils.normalize_x(enemy['x'])
-                        ez = map_utils.normalize_z(enemy['z'])
-                        enemy_range = map_utils.normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
-                        dist_to_enemy = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
-                        if dist_to_enemy <= enemy_range:
-                            outsideEnemyRange = False
-                            break
+                    # outsideEnemyRange = True
+                    # for enemy in all_enemies:
+                    #     ex = map_utils.normalize_x(enemy['x'])
+                    #     ez = map_utils.normalize_z(enemy['z'])
+                    #     enemy_range = map_utils.normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
+                    #     dist_to_enemy = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
+                    #     if dist_to_enemy <= enemy_range:
+                    #         outsideEnemyRange = False
+                    #         break
 
                     # Verify if the canidate is reachable and outside the enemy range before adding
-                    if map_utils.is_position_reachable(tx, tz) and outsideEnemyRange:
+                    # TEMPORARY CHANGE, no longer has to be outside enemy range, just has to be reachable. The threat of being in range of an enemy is now handled by the hazard prediction feature and the model's learned weighting of it, allowing for more nuanced decisions about when to risk being in range for better positioning or mass gathering.
+                    if map_utils.is_position_reachable(tx, tz): #and outsideEnemyRange:
                         candidates.append((tx, tz, 'escape'))
 
         # Lateral dodge candidates perpendicular to incoming fire from projectile/missile enemies
@@ -450,12 +452,13 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                             tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
 
-                            further_from_enemy = True
-                            candidate_enemy_dist = ((tx - eu_nx) ** 2 + (tz - eu_nz) ** 2) ** 0.5
-                            if candidate_enemy_dist <= fire_mag:
-                                further_from_enemy = False
+                            # further_from_enemy = True
+                            # candidate_enemy_dist = ((tx - eu_nx) ** 2 + (tz - eu_nz) ** 2) ** 0.5
+                            # if candidate_enemy_dist <= fire_mag:
+                            #     further_from_enemy = False
 
-                            if map_utils.is_position_reachable(tx, tz) and further_from_enemy:
+                            # Same as above, no longer requiring the dodge candidate to be further from the enemy, just reachable, since the model can learn to weigh the hazard prediction feature to understand the risk of being in range and make more nuanced decisions.
+                            if map_utils.is_position_reachable(tx, tz): #and further_from_enemy:
                                 candidates.append((tx, tz, 'strafe'))
 
         # Short-range scatter candidates for throwing off predictive projectiles.
