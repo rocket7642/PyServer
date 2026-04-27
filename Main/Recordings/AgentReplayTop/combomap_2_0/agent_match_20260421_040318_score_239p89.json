@@ -1,0 +1,924 @@
+{
+  "metadata": {
+    "source": "online_agent_export",
+    "exported_at": "2026-04-21T04:03:18.729756",
+    "map_name": "ComboMap 2.0",
+    "map_slug": "combomap_2_0",
+    "match_score": 239.89141478511786,
+    "success": true,
+    "reason": "game_ended",
+    "total_segments": 3,
+    "total_samples": 24,
+    "map_width": 4096,
+    "map_height": 4096,
+    "map_heights_file": "F:/BAR Beyond All Reason/Beyond-All-Reason/data/mapHeightInfo.txt",
+    "map_spots_file": "F:/BAR Beyond All Reason/Beyond-All-Reason/data/massInfo.txt",
+    "runtime_file": "online_agent_runtime"
+  },
+  "samples": [
+    {
+      "timestamp": 1776769358.6104243,
+      "step": 1,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1132.339966,
+          "y": 30.912956,
+          "z": 1134.0,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1440.0,
+        "y": 30.912956,
+        "z": 1260.0,
+        "score": 61.681678771972656,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769359.4541047,
+      "step": 2,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1132.339966,
+          "y": 30.912956,
+          "z": 1134.0,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1440.0,
+        "y": 30.912956,
+        "z": 1260.0,
+        "score": 59.95397186279297,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769360.6870074,
+      "step": 3,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1132.339966,
+          "y": 30.912956,
+          "z": 1134.0,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1500.2082387013252,
+        "y": 30.912956,
+        "z": 1282.0097439964907,
+        "score": 70.58961486816406,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769361.8627825,
+      "step": 4,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1158.456299,
+          "y": 30.818481,
+          "z": 1151.424072,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1490.306497968343,
+        "y": 30.818481,
+        "z": 1274.5657512772793,
+        "score": 61.59495544433594,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769362.9687738,
+      "step": 5,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1193.421021,
+          "y": 30.672653,
+          "z": 1164.982422,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1500.0,
+        "y": 30.672653,
+        "z": 1260.0,
+        "score": 53.96982192993164,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769364.0549417,
+      "step": 6,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1228.539795,
+          "y": 30.551195,
+          "z": 1178.155151,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1528.0,
+        "y": 30.551195,
+        "z": 1320.0,
+        "score": 54.83324432373047,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769365.1090384,
+      "step": 7,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1264.396484,
+          "y": 30.504784,
+          "z": 1189.249634,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1496.000818230438,
+        "y": 30.504784,
+        "z": 1304.228836357535,
+        "score": 46.32590103149414,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769366.1220276,
+      "step": 8,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1297.995361,
+          "y": 30.593636,
+          "z": 1205.529053,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1536.0,
+        "y": 30.593636,
+        "z": 1324.0,
+        "score": 40.30121612548828,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769367.1498232,
+      "step": 9,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1331.437744,
+          "y": 30.69874,
+          "z": 1222.491943,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1508.0,
+        "y": 30.69874,
+        "z": 1280.0,
+        "score": 31.521564483642578,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769368.22634,
+      "step": 10,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1364.907959,
+          "y": 30.687889,
+          "z": 1239.407715,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1544.0,
+        "y": 30.687889,
+        "z": 1296.0,
+        "score": 26.99781036376953,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769369.1660945,
+      "step": 11,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1400.832764,
+          "y": 30.565819,
+          "z": 1250.372925,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1528.0,
+        "y": 30.565819,
+        "z": 1304.0,
+        "score": 23.79555892944336,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769370.1803133,
+      "step": 12,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1436.484253,
+          "y": 30.523777,
+          "z": 1261.916504,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1528.0,
+        "y": 30.523777,
+        "z": 1304.0,
+        "score": 17.578378677368164,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769371.193327,
+      "step": 13,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1470.418701,
+          "y": 30.596336,
+          "z": 1277.605835,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 1948.0,
+        "y": 30.596336,
+        "z": 1276.0,
+        "score": 62.00188446044922,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769372.1885724,
+      "step": 14,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1504.304199,
+          "y": 30.657372,
+          "z": 1293.673584,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2104.0080099492693,
+        "y": 30.657372,
+        "z": 1303.2840582468232,
+        "score": 78.55223846435547,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769373.189101,
+      "step": 15,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1541.609375,
+          "y": 30.76639,
+          "z": 1294.917358,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2104.5678573698156,
+        "y": 30.76639,
+        "z": 1297.9982994346826,
+        "score": 73.37334442138672,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769374.2106812,
+      "step": 16,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1579.057861,
+          "y": 30.875858,
+          "z": 1295.40564,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2116.0,
+        "y": 30.875858,
+        "z": 1292.0,
+        "score": 69.74626159667969,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769375.1934233,
+      "step": 17,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1616.563232,
+          "y": 30.870995,
+          "z": 1295.667969,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2104.395820116287,
+        "y": 30.870995,
+        "z": 1309.0175505854836,
+        "score": 64.0610122680664,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769376.1908886,
+      "step": 18,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1654.071289,
+          "y": 30.744514,
+          "z": 1295.496582,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2132.0,
+        "y": 30.744514,
+        "z": 1292.0,
+        "score": 61.985565185546875,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769377.1918075,
+      "step": 19,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1691.528076,
+          "y": 30.718132,
+          "z": 1296.620117,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2108.0,
+        "y": 30.718132,
+        "z": 1296.0,
+        "score": 54.24238204956055,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769378.198153,
+      "step": 20,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1729.052368,
+          "y": 30.747879,
+          "z": 1296.376587,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2148.0,
+        "y": 30.747879,
+        "z": 1296.0,
+        "score": 51.124271392822266,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769379.193178,
+      "step": 21,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1766.545288,
+          "y": 30.687889,
+          "z": 1296.405762,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2124.0,
+        "y": 30.687889,
+        "z": 1296.0,
+        "score": 46.48257827758789,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769380.1907978,
+      "step": 22,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1804.045288,
+          "y": 30.657368,
+          "z": 1296.464355,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2164.0,
+        "y": 30.657368,
+        "z": 1296.0,
+        "score": 39.231910705566406,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769381.1969397,
+      "step": 23,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 1841.544556,
+          "y": 30.627384,
+          "z": 1296.522949,
+          "health": 3700.0,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "MOVE",
+        "x": 2140.0,
+        "y": 30.627384,
+        "z": 1296.0,
+        "score": 37.8047981262207,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1776769387.3674917,
+      "step": 29,
+      "unit_id": 3450,
+      "friendly_units": [
+        {
+          "id": 3450,
+          "name": "corcom",
+          "x": 2066.529785,
+          "y": 30.67614,
+          "z": 1296.849731,
+          "health": 3432.945312,
+          "speed": 37.5,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300
+        }
+      ],
+      "enemy_units": [
+        {
+          "id": 13391,
+          "name": "corgator",
+          "x": 2136.092529,
+          "y": 11.474712,
+          "z": 1304.278564,
+          "health": 167.957138,
+          "speed": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 8,
+          "dps": 93.75,
+          "range": 230
+        },
+        {
+          "id": 27382,
+          "name": "armrock",
+          "x": 2332.994141,
+          "y": 20.664768,
+          "z": 1680.963989,
+          "health": 720.0,
+          "speed": 0.0,
+          "weapon_type": "missile",
+          "weapon_one_hot": [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "projectile_speed": 190,
+          "aoe_radius": 48,
+          "dps": 41,
+          "range": 475
+        }
+      ],
+      "action": {
+        "type": "NOOP",
+        "x": 2066.529785,
+        "y": 30.67614,
+        "z": 1296.849731,
+        "score": -Infinity
+      }
+    }
+  ]
+}

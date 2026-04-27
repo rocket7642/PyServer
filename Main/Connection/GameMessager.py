@@ -225,6 +225,7 @@ def receive_messages(conn, addr):
 							state.segment_buffers[unit['id']].append({
 								'state': prev_state,
 								'action': prev_action,
+								'action_kind': state.previous_action_kinds.get(unit['id'], None),
 								'next_state': state_no_map,
 								'unit_x': prev_pos[0],
 								'unit_z': prev_pos[1],
@@ -333,7 +334,7 @@ def receive_messages(conn, addr):
 					state.previous_y_positions[unit['id']] = unit['y']
 					state.previous_positions[unit['id']] = (unit['x'], unit['z'])
 
-					action, best_target, best_score = agent_core.get_action(
+					action, best_target, best_score, best_candidate_kind = agent_core.get_action(
 						state_vec,
 						unit['x'],
 						unit['z'],
@@ -410,6 +411,7 @@ def receive_messages(conn, addr):
 						state.previous_actions[unit['id']] = action
 						state.previous_targets[unit['id']] = best_target_world
 						state.previous_action_scores[unit['id']] = best_score
+						state.previous_action_kinds[unit['id']] = best_candidate_kind
 						state.previous_command_steps[unit['id']] = 0
 					else:
 						print(f"{unit['id']} executing NOOP (no command sent)")

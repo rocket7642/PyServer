@@ -605,6 +605,7 @@ def _train_buffer(buffer, unit_id, segment_reward):
 			transition['next_unit_x'], transition['next_unit_z'], transition['next_unit_y'],
 			transition['target_x'], transition['target_z'],
 			transition.get('mass_destination'),
+			transition.get('action_kind'),
 			unit_id
 		)
 
@@ -679,6 +680,13 @@ def finalize_all_units(success, reason):
 		state.match_buffer.clear()
 		end_time = time.time()
 		print(f"[Deferred Training] Completed in {end_time - start_time:.2f} seconds.")
+
+	# Log explicit run-level summary metrics for cross-run analysis.
+	final_match_score = _compute_match_score()
+	runtime_seconds = max(0.0, float(time.time() - getattr(state, 'run_started_at', time.time())))
+	state.writer.add_scalar('Run/final_match_score', final_match_score, state.step_counter)
+	state.writer.add_scalar('Run/runtime_seconds', runtime_seconds, state.step_counter)
+	state.writer.add_scalar('Run/success', 1.0 if success else 0.0, state.step_counter)
 
 	_save_top_match_dataset(success, reason)
 

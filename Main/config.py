@@ -5,7 +5,7 @@ BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = True # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
 # === EPISODIC TRAINING SETTINGS ===
 EPISODE_TIMEOUT_SECONDS = 120
@@ -144,3 +144,21 @@ FEATURE_NAMES = [
     "dodge_viability",
     "hazard_prediction"
 ]
+
+# === ADAPTIVE CANDIDATE SETTINGS ===
+# Enables context-anchored candidate templates that mutate around base candidates.
+ADAPTIVE_CANDIDATES_ENABLED = True
+# Max persistent templates tracked per unit.
+ADAPTIVE_MAX_TEMPLATES_PER_UNIT = 24
+# Mutated adaptive candidates generated per decision step.
+ADAPTIVE_MUTATIONS_PER_STEP = 8
+# Mutation noise applied to template polar offsets.
+ADAPTIVE_MUTATION_DISTANCE_STD = 25.0
+ADAPTIVE_MUTATION_ANGLE_STD = 0.35
+# Candidate acceptance and lifecycle controls.
+ADAPTIVE_MIN_CANDIDATE_DISTANCE = 8.0
+ADAPTIVE_MAX_CANDIDATE_DISTANCE = 80.0
+ADAPTIVE_SCORE_DECAY = 0.97
+ADAPTIVE_PROMOTION_SCORE = 0.05
+ADAPTIVE_PRUNE_SCORE = -0.5
+ADAPTIVE_PRUNE_MIN_VISITS = 4

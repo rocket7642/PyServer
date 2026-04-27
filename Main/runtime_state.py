@@ -1,4 +1,5 @@
 import datetime
+import time
 from collections import deque
 
 from torch.utils.tensorboard import SummaryWriter
@@ -39,6 +40,7 @@ edge_slope_xp = None  # slope toward x+1
 
 run_name = f"feature_based_agent_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
 writer = SummaryWriter(f"runs/{run_name}")
+run_started_at = time.time()
 step_counter = 0
 
 previous_healths = {}
@@ -51,6 +53,7 @@ previous_y_positions = {}
 previous_distances = {}
 previous_targets = {}
 previous_action_scores = {}
+previous_action_kinds = {}
 previous_command_steps = {}
 cancel_command_penalties = {}
 
@@ -60,6 +63,10 @@ previous_lstm_hidden_states = {}
 mass_destinations = {}
 mass_destination_distances = {}
 mass_spot_blocked_until = {}
+
+# Per-unit adaptive candidate templates used to generate context-relative movement variants.
+adaptive_candidate_templates = {}
+adaptive_template_next_id = 1
 
 model_graph_logged = False
 

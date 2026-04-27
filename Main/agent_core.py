@@ -327,6 +327,268 @@ def _inject_hazard_prediction_feature(features, hazard_penalty):
     return features
 
 
+def _hazard_bias_for_candidate_kind(candidate_kind):
+    """Return hazard penalty bias by candidate kind to keep scoring/training consistent."""
+    if candidate_kind in ('noop', 'escape', None):
+        return 0.0
+    if candidate_kind in ('dodge', 'strafe'):
+        return 0.5
+    return 1.0
+
+
+def _wrap_angle(angle):
+    """Wrap angle to [-pi, pi] for stable polar-offset template storage."""
+    return (angle + np.pi) % (2 * np.pi) - np.pi
+
+
+def _next_adaptive_template_id():
+    """Allocate a unique integer ID for adaptive candidate templates."""
+    next_id = state.adaptive_template_next_id
+    state.adaptive_template_next_id += 1
+    return next_id
+
+
+def _nearest_enemy_anchor(unit_nx, unit_nz, enemy_units):
+    """Return nearest enemy anchor as (x, z) in normalized space, or None."""
+    nearest = map_utils.find_nearest_enemy(unit_nx, unit_nz, enemy_units) if enemy_units else None
+    if nearest is None:
+        return None
+    return nearest[1], nearest[2]
+
+
+def _build_base_candidate_lookup(candidates):
+    """Group candidate positions by kind to support kind-anchored templates."""
+    grouped = {}
+    for tx, tz, kind in candidates:
+        grouped.setdefault(kind, []).append((tx, tz))
+    return grouped
+
+
+def _resolve_template_anchor(template, unit_nx, unit_nz, mass_destination, enemy_units, base_by_kind):
+    """Resolve template anchor point and base heading from current context."""
+    anchor_type = template.get('anchor_type', 'unit')
+    anchor_x, anchor_z = unit_nx, unit_nz
+    heading = 0.0
+
+    if anchor_type == 'enemy':
+        enemy_anchor = _nearest_enemy_anchor(unit_nx, unit_nz, enemy_units)
+        if enemy_anchor is None:
+            return None
+        anchor_x, anchor_z = enemy_anchor
+        # Enemy-anchored heading points from enemy toward unit (escape frame).
+        heading = np.arctan2(unit_nz - anchor_z, unit_nx - anchor_x)
+    elif anchor_type == 'mass':
+        if mass_destination is None:
+            return None
+        anchor_x, anchor_z = mass_destination
+        heading = np.arctan2(anchor_z - unit_nz, anchor_x - unit_nx)
+    elif anchor_type == 'kind':
+        kind = template.get('anchor_kind')
+        kind_points = base_by_kind.get(kind, []) if kind is not None else []
+        if not kind_points:
+            return None
+        anchor_x = float(np.mean([p[0] for p in kind_points]))
+        anchor_z = float(np.mean([p[1] for p in kind_points]))
+        heading = np.arctan2(anchor_z - unit_nz, anchor_x - unit_nx)
+
+    return anchor_x, anchor_z, heading
+
+
+def _candidate_kind_to_anchor_type(candidate_kind):
+    """Pick default anchor type for template promotion based on chosen candidate kind."""
+    if candidate_kind in ('escape', 'strafe', 'dodge'):
+        return 'enemy'
+    if candidate_kind in ('mass_destination', 'terrain_waypoint'):
+        return 'mass'
+    return 'unit'
+
+
+def _promote_candidate_template(
+    unit_id,
+    candidate_kind,
+    tx,
+    tz,
+    score,
+    unit_nx,
+    unit_nz,
+    mass_destination,
+    enemy_units,
+    base_by_kind,
+):
+    """Promote a useful selected candidate into a persistent context-relative template."""
+    templates = state.adaptive_candidate_templates.setdefault(unit_id, [])
+    anchor_type = _candidate_kind_to_anchor_type(candidate_kind)
+
+    if anchor_type == 'enemy':
+        enemy_anchor = _nearest_enemy_anchor(unit_nx, unit_nz, enemy_units)
+        if enemy_anchor is None:
+            anchor_type = 'unit'
+    if anchor_type == 'mass' and mass_destination is None:
+        anchor_type = 'unit'
+
+    anchor_kind = candidate_kind if anchor_type == 'kind' else None
+    temp_template = {
+        'anchor_type': anchor_type,
+        'anchor_kind': anchor_kind,
+    }
+    resolved = _resolve_template_anchor(
+        temp_template,
+        unit_nx,
+        unit_nz,
+        mass_destination,
+        enemy_units,
+        base_by_kind,
+    )
+    if resolved is None:
+        return
+
+    anchor_x, anchor_z, heading = resolved
+    rel_dx = tx - anchor_x
+    rel_dz = tz - anchor_z
+    radius = float((rel_dx ** 2 + rel_dz ** 2) ** 0.5)
+    if radius < config.ADAPTIVE_MIN_CANDIDATE_DISTANCE:
+        return
+
+    target_angle = np.arctan2(rel_dz, rel_dx)
+    offset_angle = _wrap_angle(target_angle - heading)
+
+    templates.append({
+        'id': _next_adaptive_template_id(),
+        'anchor_type': anchor_type,
+        'anchor_kind': anchor_kind,
+        'kind_hint': candidate_kind,
+        'radius': float(np.clip(radius, config.ADAPTIVE_MIN_CANDIDATE_DISTANCE, config.ADAPTIVE_MAX_CANDIDATE_DISTANCE)),
+        'offset_angle': float(offset_angle),
+        'score_ema': float(score),
+        'visits': 1,
+    })
+
+
+def _prune_adaptive_templates(unit_id):
+    """Decay and prune stale/underperforming templates, then cap per-unit count."""
+    templates = state.adaptive_candidate_templates.get(unit_id, [])
+    if not templates:
+        return
+
+    kept = []
+    for t in templates:
+        t['score_ema'] = float(t.get('score_ema', 0.0)) * config.ADAPTIVE_SCORE_DECAY
+        visits = int(t.get('visits', 0))
+        if visits >= config.ADAPTIVE_PRUNE_MIN_VISITS and t['score_ema'] < config.ADAPTIVE_PRUNE_SCORE:
+            continue
+        kept.append(t)
+
+    kept.sort(key=lambda x: x.get('score_ema', 0.0), reverse=True)
+    state.adaptive_candidate_templates[unit_id] = kept[: config.ADAPTIVE_MAX_TEMPLATES_PER_UNIT]
+
+
+def _generate_adaptive_candidates(
+    unit_id,
+    unit_nx,
+    unit_nz,
+    mass_destination,
+    enemy_units,
+    base_candidates,
+):
+    """Generate mutated context-anchored candidates from persistent templates."""
+    if not config.ADAPTIVE_CANDIDATES_ENABLED:
+        return []
+
+    templates = state.adaptive_candidate_templates.get(unit_id, [])
+    if not templates:
+        return []
+
+    adaptive_candidates = []
+    base_by_kind = _build_base_candidate_lookup(base_candidates)
+
+    # Focus mutations on templates with stronger historical utility.
+    order = sorted(templates, key=lambda t: t.get('score_ema', 0.0), reverse=True)
+    for template in order[: config.ADAPTIVE_MUTATIONS_PER_STEP]:
+        resolved = _resolve_template_anchor(
+            template,
+            unit_nx,
+            unit_nz,
+            mass_destination,
+            enemy_units,
+            base_by_kind,
+        )
+        if resolved is None:
+            continue
+
+        anchor_x, anchor_z, heading = resolved
+        radius = float(template.get('radius', config.ESCAPE_CANDIDATE_DISTANCE))
+        offset_angle = float(template.get('offset_angle', 0.0))
+
+        mut_radius = radius + float(np.random.normal(0.0, config.ADAPTIVE_MUTATION_DISTANCE_STD))
+        mut_radius = float(np.clip(mut_radius, config.ADAPTIVE_MIN_CANDIDATE_DISTANCE, config.ADAPTIVE_MAX_CANDIDATE_DISTANCE))
+        mut_offset = offset_angle + float(np.random.normal(0.0, config.ADAPTIVE_MUTATION_ANGLE_STD))
+        world_angle = heading + mut_offset
+
+        tx = anchor_x + np.cos(world_angle) * mut_radius
+        tz = anchor_z + np.sin(world_angle) * mut_radius
+        tx = float(np.clip(tx, 0.0, config.STANDARD_MAP_WIDTH))
+        tz = float(np.clip(tz, 0.0, config.STANDARD_MAP_HEIGHT))
+        if not map_utils.is_position_reachable(tx, tz):
+            continue
+
+        adaptive_candidates.append({
+            'tx': tx,
+            'tz': tz,
+            'kind': 'adaptive',
+            'template_id': template.get('id'),
+            'template_kind_hint': template.get('kind_hint', 'adaptive'),
+        })
+
+    return adaptive_candidates
+
+
+def _update_adaptive_template_feedback(
+    unit_id,
+    selected_kind,
+    selected_tx,
+    selected_tz,
+    selected_score,
+    selected_meta,
+    unit_nx,
+    unit_nz,
+    mass_destination,
+    enemy_units,
+    base_candidates,
+):
+    """Update template statistics for selected candidate and optionally promote new templates."""
+    if not config.ADAPTIVE_CANDIDATES_ENABLED:
+        return
+
+    templates = state.adaptive_candidate_templates.setdefault(unit_id, [])
+    template_id = selected_meta.get('template_id') if selected_meta else None
+    if template_id is not None:
+        for template in templates:
+            if template.get('id') == template_id:
+                visits = int(template.get('visits', 0)) + 1
+                old_ema = float(template.get('score_ema', 0.0))
+                alpha = 0.15
+                template['score_ema'] = (1.0 - alpha) * old_ema + alpha * float(selected_score)
+                template['visits'] = visits
+                break
+    else:
+        if selected_kind != config.NOOP_ACTION and selected_score >= config.ADAPTIVE_PROMOTION_SCORE:
+            base_by_kind = _build_base_candidate_lookup(base_candidates)
+            _promote_candidate_template(
+                unit_id,
+                selected_kind,
+                selected_tx,
+                selected_tz,
+                selected_score,
+                unit_nx,
+                unit_nz,
+                mass_destination,
+                enemy_units,
+                base_by_kind,
+            )
+
+    _prune_adaptive_templates(unit_id)
+
+
 def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
     """Run the agent's policy to select the best action and move target for a unit given its encoded state."""
     with torch.no_grad():
@@ -385,6 +647,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         active_mass = [mass_destination] if mass_destination is not None else available_mass
 
         candidates = []
+        candidate_meta = []
 
         # Swapped from 10 candidates in both directions to 3 x 3 at 200 x 200
         for dx in np.linspace(-40, 40, num=3):
@@ -396,9 +659,11 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 # Only add reachable candidates
                 if map_utils.is_position_reachable(tx, tz):
                     candidates.append((tx, tz, 'grid'))
+                    candidate_meta.append(None)
 
         # Current position is always valid
         candidates.append((unit_nx, unit_nz, 'noop'))
+        candidate_meta.append(None)
 
         # Generate escape candidates pointing away from nearby enemies
         # Also add lateral dodge candidates for projectile/missile enemies
@@ -429,6 +694,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     # TEMPORARY CHANGE, no longer has to be outside enemy range, just has to be reachable. The threat of being in range of an enemy is now handled by the hazard prediction feature and the model's learned weighting of it, allowing for more nuanced decisions about when to risk being in range for better positioning or mass gathering.
                     if map_utils.is_position_reachable(tx, tz): #and outsideEnemyRange:
                         candidates.append((tx, tz, 'escape'))
+                        candidate_meta.append(None)
 
         # Lateral dodge candidates perpendicular to incoming fire from projectile/missile enemies
         import math
@@ -460,6 +726,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             # Same as above, no longer requiring the dodge candidate to be further from the enemy, just reachable, since the model can learn to weigh the hazard prediction feature to understand the risk of being in range and make more nuanced decisions.
                             if map_utils.is_position_reachable(tx, tz): #and further_from_enemy:
                                 candidates.append((tx, tz, 'strafe'))
+                                candidate_meta.append(None)
 
         # Short-range scatter candidates for throwing off predictive projectiles.
         # These stay close to the current position to avoid large path deviations.
@@ -488,6 +755,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                                 tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                                 if map_utils.is_position_reachable(tx, tz):
                                     candidates.append((tx, tz, 'dodge'))
+                                    candidate_meta.append(None)
 
         if mass_destination is not None:
             dest_world_x = map_utils.denormalize_x(mass_destination[0])
@@ -496,6 +764,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             # Only add mass destination if reachable and within approach radius
             if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
                 candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
+                candidate_meta.append(None)
             
             # Extract terrain-guided waypoints from cost field
             terrain_waypoints = map_utils.extract_terrain_waypoints(
@@ -505,7 +774,9 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 count=config.TERRAIN_WAYPOINT_COUNT,
                 search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
             )
-            candidates.extend((wx, wz, 'terrain_waypoint') for wx, wz in terrain_waypoints)
+            for wx, wz in terrain_waypoints:
+                candidates.append((wx, wz, 'terrain_waypoint'))
+                candidate_meta.append(None)
             # if terrain_waypoints:
             #     state.writer.add_scalar(
             #         'Action_Selection/terrain_waypoints_generated',
@@ -513,17 +784,34 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             #         state.step_counter
             #     )
 
+        adaptive_generated = _generate_adaptive_candidates(
+            unit_id,
+            unit_nx,
+            unit_nz,
+            mass_destination,
+            all_enemies,
+            candidates,
+        )
+        for adaptive in adaptive_generated:
+            candidates.append((adaptive['tx'], adaptive['tz'], adaptive['kind']))
+            candidate_meta.append(adaptive)
+
+        state.writer.add_scalar('Action_Selection/adaptive_candidate_count', float(len(adaptive_generated)), state.step_counter)
+
         action_scores = []
         best_score = -float('inf')
         best_target = (unit_nx, unit_nz)
+        best_candidate_kind = 'noop'
+        best_candidate_meta = None
         chosen_action_features = [0.0] * config.NUM_ACTION_FEATURES
 
         noop_score = None
         move_scores = []
         direct_approach_penalties = []
 
-        for (tx, tz, candidate_kind) in candidates:
+        for idx, (tx, tz, candidate_kind) in enumerate(candidates):
             try:
+                this_meta = candidate_meta[idx] if idx < len(candidate_meta) else None
                 if abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3:
                     features = MoveJudger.compute_action_features(
                         config.NOOP_ACTION,
@@ -551,7 +839,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     features = [0.0] * config.NUM_ACTION_FEATURES
 
                 direct_penalty = 0.0
-                if candidate_kind not in ('noop', 'escape', 'dodge', 'strafe'):
+                hazard_bias = _hazard_bias_for_candidate_kind(candidate_kind)
+                if hazard_bias > 0.0:
                     direct_penalty = _compute_direct_approach_penalty(
                         unit_nx,
                         unit_nz,
@@ -562,22 +851,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         unit_speed_norm,
                         unit_hp=unit_hp,
                         unit_max_hp=unit_max_hp,
-                        bias=1.0,
-                    )
-                    direct_approach_penalties.append(direct_penalty)
-                elif candidate_kind in ('dodge', 'strafe'):
-                    # Apply a different bias for dodge and strafe actions.
-                    direct_penalty = _compute_direct_approach_penalty(
-                        unit_nx,
-                        unit_nz,
-                        tx,
-                        tz,
-                        all_enemies,
-                        enemy_range_image,
-                        unit_speed_norm,
-                        unit_hp=unit_hp,
-                        unit_max_hp=unit_max_hp,
-                        bias=0.5,
+                        bias=hazard_bias,
                     )
                     direct_approach_penalties.append(direct_penalty)
 
@@ -587,12 +861,12 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 score = torch.dot(feature_weights, features_tensor).item()
                 
                 # Need to calculate what type of enemy it is as retreat from a proj/missile will likely still hit if its a consistent movement.
-                enemy_type = None
-                for enemy in all_enemies:
-                    enemy_type = enemy.weapon_type
+                # enemy_type = None
+                # for enemy in all_enemies:
+                #     enemy_type = enemy.weapon_type
 
-                    # Once the type is determined, process existing candidates based on this
-                    break
+                #     # Once the type is determined, process existing candidates based on this
+                #     break
 
 
                 action_scores.append(score)
@@ -605,6 +879,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 if score > best_score:
                     best_score = score
                     best_target = (tx, tz)
+                    best_candidate_kind = candidate_kind
+                    best_candidate_meta = this_meta
                     chosen_action_features = features
             except Exception as exc:
                 print(f"Error computing action features: {exc}")
@@ -648,8 +924,26 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         # state.writer.add_scalar('Action_Selection/mean_score', np.mean(action_scores), state.step_counter)
         # state.writer.add_scalar('Action_Selection/std_score', np.std(action_scores), state.step_counter)
 
+        _update_adaptive_template_feedback(
+            unit_id,
+            best_candidate_kind,
+            best_target[0],
+            best_target[1],
+            best_score,
+            best_candidate_meta,
+            unit_nx,
+            unit_nz,
+            mass_destination,
+            all_enemies,
+            candidates,
+        )
+        template_count = len(state.adaptive_candidate_templates.get(unit_id, []))
+        state.writer.add_scalar('Action_Selection/adaptive_template_count', float(template_count), state.step_counter)
+
         chosenActionVar = 0
-        match candidate_kind:
+        match best_candidate_kind:
+            case 'adaptive':
+                chosenActionVar = 0
             case 'escape':
                 chosenActionVar = 1
             case 'strafe':
@@ -664,6 +958,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 chosenActionVar = 6
             case 'noop':
                 chosenActionVar = 7
+            case _:
+                chosenActionVar = 8
         state.writer.add_scalar('Action_Selection/chosen_action', 
                                 chosenActionVar,
                                   state.step_counter)
@@ -676,7 +972,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         if state.step_counter % 100 == 0:
             state.writer.add_histogram('Action_Scores/distribution', np.array(action_scores), state.step_counter)
 
-        return best_action, best_target, best_score
+        return best_action, best_target, best_score, best_candidate_kind
 
 
 def train_agent(
@@ -694,6 +990,7 @@ def train_agent(
     target_x=None,
     target_z=None,
     mass_destination=None,
+    action_kind=None,
     unit_id=None,
 ):
     """Perform a single TD (temporal difference) training step using the transition data and clamped Q-targets."""
@@ -746,18 +1043,21 @@ def train_agent(
         abs(target_nx - unit_nx) < 1e-3 and abs(target_nz - unit_nz) < 1e-3
     )
     if not is_noop_action:
-        current_direct_penalty = _compute_direct_approach_penalty(
-            unit_nx,
-            unit_nz,
-            target_nx,
-            target_nz,
-            all_enemies,
-            enemy_range_image,
-            unit_speed_norm,
-            unit_hp=unit_hp,
-            unit_max_hp=unit_max_hp,
-            bias=1.0,
-        )
+        current_kind = action_kind if action_kind is not None else 'grid'
+        current_bias = _hazard_bias_for_candidate_kind(current_kind)
+        if current_bias > 0.0:
+            current_direct_penalty = _compute_direct_approach_penalty(
+                unit_nx,
+                unit_nz,
+                target_nx,
+                target_nz,
+                all_enemies,
+                enemy_range_image,
+                unit_speed_norm,
+                unit_hp=unit_hp,
+                unit_max_hp=unit_max_hp,
+                bias=current_bias,
+            )
     action_features = _inject_hazard_prediction_feature(action_features, current_direct_penalty)
     
     # Validate features don't contain inf/nan
@@ -783,11 +1083,11 @@ def train_agent(
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                     # Only add reachable candidates
                     if map_utils.is_position_reachable(tx, tz):
-                        candidates.append((tx, tz))
+                        candidates.append((tx, tz, 'grid'))
             # Current next position is always valid
             next_nx_pos = map_utils.normalize_x(next_unit_x)
             next_nz_pos = map_utils.normalize_z(next_unit_z)
-            candidates.append((next_nx_pos, next_nz_pos))
+            candidates.append((next_nx_pos, next_nz_pos, 'noop'))
 
             # Generate escape candidates for TD target calculation
             esc_dx, esc_dz = map_utils.compute_enemy_escape_direction(next_nx_pos, next_nz_pos, all_enemies)
@@ -803,7 +1103,7 @@ def train_agent(
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                         if map_utils.is_position_reachable(tx, tz):
-                            candidates.append((tx, tz))
+                            candidates.append((tx, tz, 'escape'))
 
             # Lateral dodge candidates for TD target (projectile/missile enemies)
             for eu in all_enemies:
@@ -825,7 +1125,7 @@ def train_agent(
                                 tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                                 tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                                 if map_utils.is_position_reachable(tx, tz):
-                                    candidates.append((tx, tz))
+                                    candidates.append((tx, tz, 'strafe'))
 
             if mass_destination is not None:
                 dest_world_x = map_utils.denormalize_x(mass_destination[0])
@@ -833,7 +1133,7 @@ def train_agent(
                 dist_to_dest = ((dest_world_x - next_unit_x) ** 2 + (dest_world_z - next_unit_z) ** 2) ** 0.5
                 # Only add mass destination if reachable and within approach radius
                 if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
-                    candidates.append(mass_destination)
+                    candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
                 
                 # Add terrain waypoints for TD target calculation
                 next_nx_norm = map_utils.normalize_x(next_unit_x)
@@ -845,7 +1145,8 @@ def train_agent(
                     count=config.TERRAIN_WAYPOINT_COUNT,
                     search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
                 )
-                candidates.extend(terrain_waypoints)
+                for wx, wz in terrain_waypoints:
+                    candidates.append((wx, wz, 'terrain_waypoint'))
 
             next_unvisited = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
             next_active_mass = [mass_destination] if mass_destination is not None else next_unvisited
@@ -859,12 +1160,13 @@ def train_agent(
             next_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
             next_hp, next_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
 
-            for (tx, tz) in candidates:
+            for (tx, tz, next_kind) in candidates:
                 next_nx = map_utils.normalize_x(next_unit_x)
                 next_nz = map_utils.normalize_z(next_unit_z)
                 next_ny = map_utils.normalize_y(next_unit_y)
+                next_action = config.NOOP_ACTION if next_kind == 'noop' else "MOVE"
                 next_features = MoveJudger.compute_action_features(
-                    "MOVE",
+                    next_action,
                     next_nx,
                     next_nz,
                     next_ny,
@@ -877,18 +1179,20 @@ def train_agent(
                 next_direct_penalty = 0.0
                 is_next_noop = abs(tx - next_nx) < 1e-3 and abs(tz - next_nz) < 1e-3
                 if not is_next_noop:
-                    next_direct_penalty = _compute_direct_approach_penalty(
-                        next_nx,
-                        next_nz,
-                        tx,
-                        tz,
-                        all_enemies,
-                        next_enemy_range_image,
-                        next_speed_norm,
-                        unit_hp=next_hp,
-                        unit_max_hp=next_max_hp,
-                        bias=1.0,
-                    )
+                    next_bias = _hazard_bias_for_candidate_kind(next_kind)
+                    if next_bias > 0.0:
+                        next_direct_penalty = _compute_direct_approach_penalty(
+                            next_nx,
+                            next_nz,
+                            tx,
+                            tz,
+                            all_enemies,
+                            next_enemy_range_image,
+                            next_speed_norm,
+                            unit_hp=next_hp,
+                            unit_max_hp=next_max_hp,
+                            bias=next_bias,
+                        )
                 next_features = _inject_hazard_prediction_feature(next_features, next_direct_penalty)
                 next_features_tensor = torch.tensor(next_features, dtype=torch.float32)
                 next_q = torch.dot(next_weights, next_features_tensor)
@@ -937,9 +1241,16 @@ def train_agent(
 
 
 def save_agent():
-    """Save the agent's neural network weights to disk."""
-    torch.save(agent.state_dict(), 'agent_weights_feature_based.pth')
-    print("Feature-based agent weights saved.")
+    """Save the agent's neural network weights and adaptive templates as a unified checkpoint."""
+    checkpoint = {
+        'checkpoint_version': 1,
+        'model_state_dict': agent.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'adaptive_candidate_templates': state.adaptive_candidate_templates,
+        'adaptive_template_next_id': state.adaptive_template_next_id,
+    }
+    torch.save(checkpoint, 'agent_weights_feature_based.pth')
+    print(f"Checkpoint saved: {len(state.adaptive_candidate_templates)} units with adaptive templates.")
 
 
 def _reset_agent_parameters(model: nn.Module):
@@ -952,20 +1263,46 @@ def _reset_agent_parameters(model: nn.Module):
 
 
 def load_agent():
-    """Load saved agent weights from disk, reinitializing if weights are missing, incompatible, or contain NaN."""
+    """Load checkpoint with model weights and adaptive templates, with backward compatibility for old weight files."""
     try:
-        agent.load_state_dict(torch.load('agent_weights_feature_based.pth'))
-        print("Feature-based agent weights loaded.")
+        checkpoint_data = torch.load('agent_weights_feature_based.pth')
+        
+        # Detect checkpoint format: new format is dict with 'checkpoint_version', old format is direct state dict
+        if isinstance(checkpoint_data, dict) and 'checkpoint_version' in checkpoint_data:
+            # New unified checkpoint format
+            print(f"Loading unified checkpoint (v{checkpoint_data.get('checkpoint_version', 1)})...")
+            agent.load_state_dict(checkpoint_data['model_state_dict'])
+            
+            if 'optimizer_state_dict' in checkpoint_data:
+                try:
+                    optimizer.load_state_dict(checkpoint_data['optimizer_state_dict'])
+                except Exception as e:
+                    print(f"Warning: could not restore optimizer state: {e}")
+            
+            if 'adaptive_candidate_templates' in checkpoint_data:
+                state.adaptive_candidate_templates = checkpoint_data['adaptive_candidate_templates']
+                print(f"Restored {len(state.adaptive_candidate_templates)} units with adaptive templates.")
+            
+            if 'adaptive_template_next_id' in checkpoint_data:
+                state.adaptive_template_next_id = checkpoint_data['adaptive_template_next_id']
+            
+            print("Unified checkpoint loaded successfully.")
+        else:
+            # Old format: direct state_dict, treat as model-only
+            print("Loading legacy weight format (model only, no templates)...")
+            agent.load_state_dict(checkpoint_data)
+            print("Legacy weights loaded. Adaptive templates will be built fresh.")
+        
         has_nan = any(torch.isnan(p).any().item() for p in agent.parameters())
         if has_nan:
             print("Loaded weights contain NaN. Reinitializing model weights.")
             _reset_agent_parameters(agent)
     except FileNotFoundError:
-        print("No saved feature-based weights found, starting fresh.")
+        print("No saved checkpoint found, starting fresh.")
     except RuntimeError as exc:
-        print("Saved weights are incompatible with the new LSTM architecture.")
+        print("Saved checkpoint is incompatible with the current architecture.")
         print(f"Details: {exc}")
-        print("Starting with fresh weights.")
+        print("Starting with fresh weights and templates.")
         _reset_agent_parameters(agent)
     log_model_graph_once()
 
