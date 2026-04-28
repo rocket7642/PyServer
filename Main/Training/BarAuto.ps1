@@ -6,6 +6,7 @@ $PythonExe = "F:\School\Capstone\Python\PyServer\.venv\Scripts\python.exe"
 $PythonDir = "F:\School\Capstone\Python\PyServer\Main" 
 $PythonScript = "Socket ML.py" 
 $stopFile = "stop.txt"
+$timeFile = "time.txt"
 
 # .\spring-headless.exe --write-dir "F:\BAR Beyond All Reason\Beyond-All-Reason\data" _script.txt
 
@@ -19,10 +20,9 @@ $scriptArg = $engineDIr + "\_scriptL.txt"
 $scriptArgM = "\_scriptM.txt"
 $scriptArgP = "\_scriptP.txt"
 $scriptArgL = "\_scriptL.txt" 
+$scriptArgC = "\_scriptC.txt" 
 
-
-$runDurationMinutes = 1                     # How long the program stays open
-$totalRunTimeHours = 1                       # How long the script should loop
+$totalRunTimeHours = 7                       # How long the script should loop
 
 # --- Script Logic ---
 $endTime = (Get-Date).AddHours($totalRunTimeHours)
@@ -30,12 +30,13 @@ Write-Host "Script started. Will loop until: $endTime" -ForegroundColor Cyan
 
 do {
 
-    
+    $howLongDidItSurvive = 0
 
     # Go to venv location
     Push-Location $PythonDir
 
     Set-Content $stopFile ""
+    Set-Content $timeFile "0"
 
     # Start the program and keep a reference to it
     Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Starting program..."
@@ -43,7 +44,7 @@ do {
 
     Start-Sleep -Seconds (30) 
 
-    $whichScript = Get-Random -InputObject $scriptArgM, $scriptArgP, $scriptArgL
+    $whichScript = Get-Random -InputObject $scriptArgM, $scriptArgP, $scriptArgL, $scriptArgC
     $scriptArg = $engineDIr + $whichScript
 
     $process2 = Start-Process -FilePath $exePath `
@@ -52,6 +53,8 @@ do {
     -PassThru
     
     # Start-Process -FilePath "C:\Path\To\BAR\engine\...\spring.exe" -ArgumentList "C:\Path\To\Script\script.txt" -WindowStyle Hidden
+
+    $howLongDidItSurvive = 0
 
     for ($i = 1; $i -le 10; $i++) {
 
@@ -63,7 +66,13 @@ do {
         Write-Host "[$(Get-Date -Format 'HH:mm:ss')] BAR no longer detected at ID/Process."
             break
         }
+
+        $howLongDidItSurvive += 1
+
+        Set-Content $timeFile "$howLongDidItSurvive"
     }
+
+    Write-Host "[$(Get-Date -Format 'HH:mm:ss')] BAR survived for $howLongDidItSurvive minutes."
 
     # Close the program
     if ($process -and -not $process.HasExited) {
@@ -71,7 +80,10 @@ do {
         # kill -SIGINT $process.Id
         #Stop-Process -Id $process.Id -Force
         Set-Content $stopFile "stop"
+        Set-Content $timeFile "$howLongDidItSurvive"
     }
+
+    Start-Sleep -Seconds 60
 
     if ($process2 -and -not $process2.HasExited) {
         Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Closing BAR."
@@ -80,9 +92,22 @@ do {
         #Set-Content $stopFile "stop"
     }
 
+    # Loop until initial program is done training
+    while ($process -and -not $process.HasExited) {
+        Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Checking if done training."
+        # kill -SIGINT $process.Id
+        #Stop-Process -Id $process.Id -Force
+        Set-Content $stopFile "stop"
+        Set-Content $timeFile "$howLongDidItSurvive"
+        Start-Sleep -Seconds 15
+    }
+
     # Optional: Brief pause before restarting
-    Start-Sleep -Seconds 15 
+    Start-Sleep -Seconds 15
 
 } while ((Get-Date) -lt $endTime)
+
+Set-Content $stopFile ""
+Set-Content $timeFile ""
 
 Write-Host "Total duration of $totalRunTimeHours hours reached. Script complete." -ForegroundColor Green

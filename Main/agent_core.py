@@ -164,6 +164,44 @@ def _get_unit_health_context(unit_id):
     return current_hp, max_hp
 
 
+def _unit_name_for_id(unit_id):
+    """Return the stable `name` for a given runtime `unit_id`, or None if unknown."""
+    for fu in state.units:
+        if fu.get('id') == unit_id:
+            return fu.get('name')
+    return None
+
+
+def _resolve_template_key_for_unit(unit_id):
+    """Return the key to use in `state.adaptive_candidate_templates` for this unit.
+
+    Preference order:
+    - If a template set already exists for the unit `name`, use that (stable).
+    - If templates exist keyed by numeric `unit_id`, migrate them to `name` and return `name`.
+    - Otherwise return the original `unit_id` (fallback).
+    """
+    name = _unit_name_for_id(unit_id)
+    if name:
+        # If already present under name, prefer it
+        if name in state.adaptive_candidate_templates:
+            return name
+
+        # Migrate templates stored under numeric id (or stringified id) to the stable name
+        if unit_id in state.adaptive_candidate_templates:
+            state.adaptive_candidate_templates[name] = state.adaptive_candidate_templates.pop(unit_id)
+            return name
+        sid = str(unit_id)
+        if sid in state.adaptive_candidate_templates:
+            state.adaptive_candidate_templates[name] = state.adaptive_candidate_templates.pop(sid)
+            return name
+
+        # No existing templates found; still use name as the preferred key for any new templates
+        return name
+
+    # No stable name available; fall back to numeric id key
+    return unit_id
+
+
 def _compute_direct_approach_penalty(
     unit_nx,
     unit_nz,
@@ -416,7 +454,8 @@ def _promote_candidate_template(
     base_by_kind,
 ):
     """Promote a useful selected candidate into a persistent context-relative template."""
-    templates = state.adaptive_candidate_templates.setdefault(unit_id, [])
+    key = _resolve_template_key_for_unit(unit_id)
+    templates = state.adaptive_candidate_templates.setdefault(key, [])
     anchor_type = _candidate_kind_to_anchor_type(candidate_kind)
 
     if anchor_type == 'enemy':
@@ -466,7 +505,8 @@ def _promote_candidate_template(
 
 def _prune_adaptive_templates(unit_id):
     """Decay and prune stale/underperforming templates, then cap per-unit count."""
-    templates = state.adaptive_candidate_templates.get(unit_id, [])
+    key = _resolve_template_key_for_unit(unit_id)
+    templates = state.adaptive_candidate_templates.get(key, [])
     if not templates:
         return
 
@@ -479,7 +519,39 @@ def _prune_adaptive_templates(unit_id):
         kept.append(t)
 
     kept.sort(key=lambda x: x.get('score_ema', 0.0), reverse=True)
-    state.adaptive_candidate_templates[unit_id] = kept[: config.ADAPTIVE_MAX_TEMPLATES_PER_UNIT]
+    state.adaptive_candidate_templates[key] = kept[: config.ADAPTIVE_MAX_TEMPLATES_PER_UNIT]
+
+
+def _get_adaptive_mutation_schedule_values():
+    """Return decayed adaptive mutation parameters based on step or epoch progress."""
+    progress_source = str(getattr(config, 'ADAPTIVE_MUTATION_DECAY_SOURCE', 'step')).lower()
+    if progress_source == 'epoch':
+        progress = float(max(0, int(getattr(state, 'mass_cycle_completions', 0))))
+    else:
+        progress = float(max(0, int(getattr(state, 'step_counter', 0))))
+
+    decay_rate = float(max(0.0, getattr(config, 'ADAPTIVE_MUTATION_DECAY_RATE', 0.0)))
+    decay = float(np.exp(-decay_rate * progress)) if decay_rate > 0.0 else 1.0
+
+    start_mutations = int(max(1, config.ADAPTIVE_MUTATIONS_PER_STEP))
+    min_mutations = int(max(1, getattr(config, 'ADAPTIVE_MUTATIONS_PER_STEP_MIN', 1)))
+    high_mutations = max(start_mutations, min_mutations)
+    low_mutations = min(start_mutations, min_mutations)
+    mutations_per_step = int(round(low_mutations + (high_mutations - low_mutations) * decay))
+
+    start_distance_std = float(max(0.0, config.ADAPTIVE_MUTATION_DISTANCE_STD))
+    min_distance_std = float(max(0.0, getattr(config, 'ADAPTIVE_MUTATION_DISTANCE_STD_MIN', 0.0)))
+    high_distance_std = max(start_distance_std, min_distance_std)
+    low_distance_std = min(start_distance_std, min_distance_std)
+    mutation_distance_std = float(low_distance_std + (high_distance_std - low_distance_std) * decay)
+
+    start_angle_std = float(max(0.0, config.ADAPTIVE_MUTATION_ANGLE_STD))
+    min_angle_std = float(max(0.0, getattr(config, 'ADAPTIVE_MUTATION_ANGLE_STD_MIN', 0.0)))
+    high_angle_std = max(start_angle_std, min_angle_std)
+    low_angle_std = min(start_angle_std, min_angle_std)
+    mutation_angle_std = float(low_angle_std + (high_angle_std - low_angle_std) * decay)
+
+    return mutations_per_step, mutation_distance_std, mutation_angle_std
 
 
 def _generate_adaptive_candidates(
@@ -494,16 +566,18 @@ def _generate_adaptive_candidates(
     if not config.ADAPTIVE_CANDIDATES_ENABLED:
         return []
 
-    templates = state.adaptive_candidate_templates.get(unit_id, [])
+    key = _resolve_template_key_for_unit(unit_id)
+    templates = state.adaptive_candidate_templates.get(key, [])
     if not templates:
         return []
 
     adaptive_candidates = []
     base_by_kind = _build_base_candidate_lookup(base_candidates)
+    mutations_per_step, mutation_distance_std, mutation_angle_std = _get_adaptive_mutation_schedule_values()
 
     # Focus mutations on templates with stronger historical utility.
     order = sorted(templates, key=lambda t: t.get('score_ema', 0.0), reverse=True)
-    for template in order[: config.ADAPTIVE_MUTATIONS_PER_STEP]:
+    for template in order[:mutations_per_step]:
         resolved = _resolve_template_anchor(
             template,
             unit_nx,
@@ -519,9 +593,9 @@ def _generate_adaptive_candidates(
         radius = float(template.get('radius', config.ESCAPE_CANDIDATE_DISTANCE))
         offset_angle = float(template.get('offset_angle', 0.0))
 
-        mut_radius = radius + float(np.random.normal(0.0, config.ADAPTIVE_MUTATION_DISTANCE_STD))
+        mut_radius = radius + float(np.random.normal(0.0, mutation_distance_std))
         mut_radius = float(np.clip(mut_radius, config.ADAPTIVE_MIN_CANDIDATE_DISTANCE, config.ADAPTIVE_MAX_CANDIDATE_DISTANCE))
-        mut_offset = offset_angle + float(np.random.normal(0.0, config.ADAPTIVE_MUTATION_ANGLE_STD))
+        mut_offset = offset_angle + float(np.random.normal(0.0, mutation_angle_std))
         world_angle = heading + mut_offset
 
         tx = anchor_x + np.cos(world_angle) * mut_radius
@@ -559,7 +633,8 @@ def _update_adaptive_template_feedback(
     if not config.ADAPTIVE_CANDIDATES_ENABLED:
         return
 
-    templates = state.adaptive_candidate_templates.setdefault(unit_id, [])
+    key = _resolve_template_key_for_unit(unit_id)
+    templates = state.adaptive_candidate_templates.setdefault(key, [])
     template_id = selected_meta.get('template_id') if selected_meta else None
     if template_id is not None:
         for template in templates:
@@ -937,7 +1012,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             all_enemies,
             candidates,
         )
-        template_count = len(state.adaptive_candidate_templates.get(unit_id, []))
+        template_key = _resolve_template_key_for_unit(unit_id)
+        template_count = len(state.adaptive_candidate_templates.get(template_key, []))
         state.writer.add_scalar('Action_Selection/adaptive_template_count', float(template_count), state.step_counter)
 
         chosenActionVar = 0

@@ -5,7 +5,7 @@ BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = True # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
 # === EPISODIC TRAINING SETTINGS ===
 EPISODE_TIMEOUT_SECONDS = 120
@@ -155,6 +155,14 @@ ADAPTIVE_MUTATIONS_PER_STEP = 8
 # Mutation noise applied to template polar offsets.
 ADAPTIVE_MUTATION_DISTANCE_STD = 25.0
 ADAPTIVE_MUTATION_ANGLE_STD = 0.35
+# Lower bounds reached as training progresses.
+ADAPTIVE_MUTATIONS_PER_STEP_MIN = 2
+ADAPTIVE_MUTATION_DISTANCE_STD_MIN = 6.0
+ADAPTIVE_MUTATION_ANGLE_STD_MIN = 0.08
+# Exponential decay schedule: value(t) = min + (start - min) * exp(-rate * t)
+# Decay progress source can be "step" (runtime steps) or "epoch" (mass-cycle completions).
+ADAPTIVE_MUTATION_DECAY_SOURCE = "step"
+ADAPTIVE_MUTATION_DECAY_RATE = 0.0002
 # Candidate acceptance and lifecycle controls.
 ADAPTIVE_MIN_CANDIDATE_DISTANCE = 8.0
 ADAPTIVE_MAX_CANDIDATE_DISTANCE = 80.0
@@ -162,3 +170,11 @@ ADAPTIVE_SCORE_DECAY = 0.97
 ADAPTIVE_PROMOTION_SCORE = 0.05
 ADAPTIVE_PRUNE_SCORE = -0.5
 ADAPTIVE_PRUNE_MIN_VISITS = 4
+
+# === SENTINEL FILE SETTINGS ===
+# Path to the sentinel file that signals the training script to stop.
+SENTINEL_FILE_PATH = "stop.txt"
+# Path to the sentinel file that contains the survival time.
+TIME_FILE_PATH = "time.txt"
+# Min number from TIME_FILE_PATH required for success (minute increments, running at 5x speed, so 1 = 5 real minutes).
+SURVIVAL_TIME_THRESHOLD = 7

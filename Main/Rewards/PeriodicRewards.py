@@ -666,6 +666,33 @@ def finalize_segment_training(unit_id, success, reason):
 def finalize_all_units(success, reason):
 	"""Finalize segment training for every tracked unit, used when all mass spots are reached.
 	When TRAIN_AT_EACH_MASS_POINT is False, this also drains the deferred match buffer."""
+
+	# Check sentinel file for survival time (a number)
+	# This can override success/failure based on whether the agent survived for a certain duration, even if not all mass spots were reached.
+	# However if there is a low or no number, use the original success/failure signal to avoid false negatives.
+	survival_time = None
+	sentinel_path = Path(state.sentinel_time_path)
+	if sentinel_path.exists():
+		try:
+			with sentinel_path.open('r') as f:
+				content = f.read().strip()
+				survival_time = float(content)
+				print(f"Read survival time from sentinel: {survival_time:.2f} seconds")
+		except Exception as e:
+			print(f"Error reading survival time sentinel: {e}")
+			survival_time = None
+
+	if survival_time is not None:
+		if survival_time >= config.SURVIVAL_TIME_THRESHOLD:
+			success = True
+			reason = f"Survived for {survival_time:.2f} seconds (threshold {config.SURVIVAL_TIME_THRESHOLD}s)"
+		else:
+			# No need to set it to failure here, it already is, but we can update the reason to reflect the survival time outcome.
+			# Add survival time onto the existing reason for more context in the logs and replay exports.
+			reason = reason + f" |> Survival time {survival_time:.2f}s below threshold {config.SURVIVAL_TIME_THRESHOLD}s"
+
+		print(f"Overriding match outcome based on survival time: success={success}, reason='{reason}'")
+
 	# Finalize any in-progress segments (will defer if TRAIN_AT_EACH_MASS_POINT is False)
 	for uid in list(state.segment_buffers.keys()):
 		finalize_segment_training(uid, success, reason)

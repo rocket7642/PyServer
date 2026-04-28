@@ -38,6 +38,8 @@ edge_slope_zp = None  # slope toward z+1
 edge_slope_xn = None  # slope toward x-1
 edge_slope_xp = None  # slope toward x+1
 
+evalRun = False
+
 run_name = f"feature_based_agent_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
 writer = SummaryWriter(f"runs/{run_name}")
 run_started_at = time.time()
@@ -92,3 +94,6 @@ process_times = [5]
 
 # Unit definition data loaded from JSON at startup
 unit_defs_loaded = False
+
+# Sentinel Time path for tracking survival time in the training script
+sentinel_time_path = None

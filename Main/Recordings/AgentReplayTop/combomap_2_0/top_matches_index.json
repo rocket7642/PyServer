@@ -1,6 +1,17 @@
 {
   "top_matches": [
     {
+      "file": "agent_match_20260427_090447_score_1589p09.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 1589.09256462685,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 557,
+      "segments": 18,
+      "exported_at": "2026-04-27T09:04:47.886384"
+    },
+    {
       "file": "agent_match_20260424_053708_score_1531p09.json",
       "map_name": "ComboMap 2.0",
       "map_slug": "combomap_2_0",
@@ -32,6 +43,17 @@
       "samples": 523,
       "segments": 16,
       "exported_at": "2026-04-23T10:27:14.425909"
+    },
+    {
+      "file": "agent_match_20260427_101603_score_1234p37.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 1234.369877405165,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 529,
+      "segments": 16,
+      "exported_at": "2026-04-27T10:16:03.545182"
     },
     {
       "file": "agent_match_20260425_062958_score_1077p73.json",
@@ -89,6 +111,28 @@
       "exported_at": "2026-04-22T05:12:18.767716"
     },
     {
+      "file": "agent_match_20260427_084431_score_767p58.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 767.5787669567783,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 531,
+      "segments": 16,
+      "exported_at": "2026-04-27T08:44:31.222885"
+    },
+    {
+      "file": "agent_match_20260427_050056_score_701p25.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 701.25330361067,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 510,
+      "segments": 16,
+      "exported_at": "2026-04-27T05:00:56.678694"
+    },
+    {
       "file": "agent_match_20260424_061637_score_658p02.json",
       "map_name": "ComboMap 2.0",
       "map_slug": "combomap_2_0",
@@ -100,6 +144,17 @@
       "exported_at": "2026-04-24T06:16:37.627214"
     },
     {
+      "file": "agent_match_20260427_071944_score_405p70.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 405.70041809920235,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 514,
+      "segments": 16,
+      "exported_at": "2026-04-27T07:19:44.379624"
+    },
+    {
       "file": "agent_match_20260425_103833_score_403p31.json",
       "map_name": "ComboMap 2.0",
       "map_slug": "combomap_2_0",
@@ -109,61 +164,6 @@
       "samples": 513,
       "segments": 15,
       "exported_at": "2026-04-25T10:38:33.204968"
-    },
-    {
-      "file": "agent_match_20260422_103937_score_357p67.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": 357.6699539589682,
-      "success": false,
-      "reason": "terminated",
-      "samples": 501,
-      "segments": 15,
-      "exported_at": "2026-04-22T10:39:37.919321"
-    },
-    {
-      "file": "agent_match_20260421_040318_score_239p89.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": 239.89141478511786,
-      "success": true,
-      "reason": "game_ended",
-      "samples": 24,
-      "segments": 3,
-      "exported_at": "2026-04-21T04:03:18.729756"
-    },
-    {
-      "file": "agent_match_20260423_090134_score_m3105p60.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": -3105.6012627263917,
-      "success": false,
-      "reason": "death",
-      "samples": 72,
-      "segments": 3,
-      "exported_at": "2026-04-23T09:01:34.304016"
-    },
-    {
-      "file": "agent_match_20260425_065356_score_m3139p58.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": -3139.579335685836,
-      "success": false,
-      "reason": "death",
-      "samples": 82,
-      "segments": 3,
-      "exported_at": "2026-04-25T06:53:56.286567"
-    },
-    {
-      "file": "agent_match_20260425_083514_score_m3147p07.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": -3147.0650932396625,
-      "success": false,
-      "reason": "death",
-      "samples": 74,
-      "segments": 4,
-      "exported_at": "2026-04-25T08:35:14.446032"
     }
   ]
 }

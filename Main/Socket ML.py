@@ -28,7 +28,9 @@ shutdown_event = threading.Event()
 server_connection = None
 server_socket = None
 server_thread = None
-stop_sentinel_path = os.path.join(os.path.dirname(__file__), 'stop.txt')
+stop_sentinel_path = os.path.join(os.path.dirname(__file__), config.SENTINEL_FILE_PATH)
+time_sentinel_path = os.path.join(os.path.dirname(__file__), config.TIME_FILE_PATH)
+state.sentinel_time_path = time_sentinel_path
 
 agent_core.load_agent()
 logger.info(f"TensorBoard logging to: runs/{state.run_name}")
@@ -229,7 +231,7 @@ def sentinel_stop_requested(path):
     """Return True when the sentinel file contains a stop command."""
     try:
         with open(path, 'r', encoding='utf-8') as f:
-            return f.read().strip().lower() in {'stop', '1', 'true'}
+            return f.read().strip().lower() in {'stop'}
     except FileNotFoundError:
         return False
 

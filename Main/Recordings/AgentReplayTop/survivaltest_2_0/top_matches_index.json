@@ -1,6 +1,17 @@
 {
   "top_matches": [
     {
+      "file": "agent_match_20260427_060820_score_18290p10.json",
+      "map_name": "SurvivalTest 2.0",
+      "map_slug": "survivaltest_2_0",
+      "match_score": 18290.09627603618,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 2708,
+      "segments": 126,
+      "exported_at": "2026-04-27T06:08:20.581273"
+    },
+    {
       "file": "agent_match_20260412_061851_score_15421p50.json",
       "map_name": "SurvivalTest 2.0",
       "map_slug": "survivaltest_2_0",
@@ -10,6 +21,17 @@
       "samples": 2313,
       "segments": 117,
       "exported_at": "2026-04-12T06:18:51.547599"
+    },
+    {
+      "file": "agent_match_20260427_073234_score_14204p48.json",
+      "map_name": "SurvivalTest 2.0",
+      "map_slug": "survivaltest_2_0",
+      "match_score": 14204.477047855305,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 2605,
+      "segments": 119,
+      "exported_at": "2026-04-27T07:32:34.843106"
     },
     {
       "file": "agent_match_20260423_053930_score_14102p15.json",
@@ -78,6 +100,17 @@
       "exported_at": "2026-04-24T07:25:41.257207"
     },
     {
+      "file": "agent_match_20260427_070831_score_11845p86.json",
+      "map_name": "SurvivalTest 2.0",
+      "map_slug": "survivaltest_2_0",
+      "match_score": 11845.859971548345,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 2566,
+      "segments": 117,
+      "exported_at": "2026-04-27T07:08:31.556296"
+    },
+    {
       "file": "agent_match_20260424_051241_score_11162p34.json",
       "map_name": "SurvivalTest 2.0",
       "map_slug": "survivaltest_2_0",
@@ -100,6 +133,17 @@
       "exported_at": "2026-04-24T10:22:19.333639"
     },
     {
+      "file": "agent_match_20260427_064312_score_10866p04.json",
+      "map_name": "SurvivalTest 2.0",
+      "map_slug": "survivaltest_2_0",
+      "match_score": 10866.041203250412,
+      "success": true,
+      "reason": "Survived for 10.00 seconds (threshold 7s)",
+      "samples": 2424,
+      "segments": 108,
+      "exported_at": "2026-04-27T06:43:12.961325"
+    },
+    {
       "file": "agent_match_20260411_141100_score_10829p69.json",
       "map_name": "SurvivalTest 2.0",
       "map_slug": "survivaltest_2_0",
@@ -120,50 +164,6 @@
       "samples": 2236,
       "segments": 106,
       "exported_at": "2026-04-12T06:53:29.788396"
-    },
-    {
-      "file": "agent_match_20260412_045106_score_9280p55.json",
-      "map_name": "SurvivalTest 2.0",
-      "map_slug": "survivaltest_2_0",
-      "match_score": 9280.550933890092,
-      "success": false,
-      "reason": "terminated",
-      "samples": 2205,
-      "segments": 104,
-      "exported_at": "2026-04-12T04:51:06.832951"
-    },
-    {
-      "file": "agent_match_20260422_101857_score_9152p91.json",
-      "map_name": "SurvivalTest 2.0",
-      "map_slug": "survivaltest_2_0",
-      "match_score": 9152.90882958515,
-      "success": false,
-      "reason": "terminated",
-      "samples": 2384,
-      "segments": 111,
-      "exported_at": "2026-04-22T10:18:57.457128"
-    },
-    {
-      "file": "agent_match_20260412_073732_score_8090p54.json",
-      "map_name": "SurvivalTest 2.0",
-      "map_slug": "survivaltest_2_0",
-      "match_score": 8090.542839724235,
-      "success": false,
-      "reason": "terminated",
-      "samples": 1906,
-      "segments": 88,
-      "exported_at": "2026-04-12T07:37:32.951468"
-    },
-    {
-      "file": "agent_match_20260421_144953_score_8035p32.json",
-      "map_name": "SurvivalTest 2.0",
-      "map_slug": "survivaltest_2_0",
-      "match_score": 8035.323997573429,
-      "success": false,
-      "reason": "terminated",
-      "samples": 2527,
-      "segments": 113,
-      "exported_at": "2026-04-21T14:49:53.609974"
     }
   ]
 }
