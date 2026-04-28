@@ -39,6 +39,7 @@ edge_slope_xn = None  # slope toward x-1
 edge_slope_xp = None  # slope toward x+1
 
 evalRun = False
+run_counter = 0
 
 run_name = f"feature_based_agent_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}"
 writer = SummaryWriter(f"runs/{run_name}")

@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from pathlib import Path
 
 import config
 import map_utils
@@ -182,6 +183,16 @@ def _resolve_template_key_for_unit(unit_id):
     """
     name = _unit_name_for_id(unit_id)
     if name:
+        if getattr(state, 'evalRun', False):
+            if name in state.adaptive_candidate_templates:
+                return name
+            if unit_id in state.adaptive_candidate_templates:
+                return unit_id
+            sid = str(unit_id)
+            if sid in state.adaptive_candidate_templates:
+                return sid
+            return name
+
         # If already present under name, prefer it
         if name in state.adaptive_candidate_templates:
             return name
@@ -565,6 +576,8 @@ def _generate_adaptive_candidates(
     """Generate mutated context-anchored candidates from persistent templates."""
     if not config.ADAPTIVE_CANDIDATES_ENABLED:
         return []
+    if getattr(state, 'evalRun', False):
+        return []
 
     key = _resolve_template_key_for_unit(unit_id)
     templates = state.adaptive_candidate_templates.get(key, [])
@@ -631,6 +644,8 @@ def _update_adaptive_template_feedback(
 ):
     """Update template statistics for selected candidate and optionally promote new templates."""
     if not config.ADAPTIVE_CANDIDATES_ENABLED:
+        return
+    if getattr(state, 'evalRun', False):
         return
 
     key = _resolve_template_key_for_unit(unit_id)
@@ -1070,6 +1085,9 @@ def train_agent(
     unit_id=None,
 ):
     """Perform a single TD (temporal difference) training step using the transition data and clamped Q-targets."""
+    if getattr(state, 'evalRun', False):
+        return
+
     if unit_id is not None:
         hidden = state.previous_lstm_hidden_states.get(unit_id, init_lstm_hidden())
     else:
@@ -1325,7 +1343,17 @@ def save_agent():
         'adaptive_candidate_templates': state.adaptive_candidate_templates,
         'adaptive_template_next_id': state.adaptive_template_next_id,
     }
-    torch.save(checkpoint, 'agent_weights_feature_based.pth')
+    base_dir = Path(__file__).resolve().parent
+    standard_path = base_dir / 'agent_weights_feature_based.pth'
+    torch.save(checkpoint, standard_path)
+
+    if getattr(state, 'evalRun', False):
+        checkpoint_dir = base_dir / 'Checkpoint'
+        checkpoint_dir.mkdir(parents=True, exist_ok=True)
+        run_id = getattr(state, 'run_counter', 0)
+        snapshot_name = f"{state.run_name}_run_{run_id:04d}_eval.pth"
+        torch.save(checkpoint, checkpoint_dir / snapshot_name)
+
     print(f"Checkpoint saved: {len(state.adaptive_candidate_templates)} units with adaptive templates.")
 
 

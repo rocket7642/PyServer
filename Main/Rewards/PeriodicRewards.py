@@ -62,6 +62,11 @@ def _compute_match_score():
 	return float(sum(seg['segment_reward'] for seg in state.match_segment_summaries))
 
 
+def _run_log_prefix():
+	"""Return the TensorBoard prefix for the current run mode."""
+	return 'Eval' if getattr(state, 'evalRun', False) else 'Run'
+
+
 def _filtered_samples_for_export(samples, seed_value):
 	"""Downsample NOOP actions to align online exports with manual replay class balance."""
 	noop_ratio = max(0.0, min(1.0, float(getattr(config, 'AGENT_REPLAY_NOOP_KEEP_RATIO', 0.2))))
@@ -698,7 +703,7 @@ def finalize_all_units(success, reason):
 		finalize_segment_training(uid, success, reason)
 
 	# In deferred mode, now train on the entire accumulated match buffer
-	if not config.TRAIN_AT_EACH_MASS_POINT and state.match_buffer:
+	if not getattr(state, 'evalRun', False) and not config.TRAIN_AT_EACH_MASS_POINT and state.match_buffer:
 		start_time = time.time()
 		total_transitions = sum(len(seg['transitions']) for seg in state.match_buffer)
 		print(f"[Deferred Training] Training on {len(state.match_buffer)} segments, {total_transitions} total transitions.")
@@ -707,13 +712,17 @@ def finalize_all_units(success, reason):
 		state.match_buffer.clear()
 		end_time = time.time()
 		print(f"[Deferred Training] Completed in {end_time - start_time:.2f} seconds.")
+	elif getattr(state, 'evalRun', False):
+		state.match_buffer.clear()
 
 	# Log explicit run-level summary metrics for cross-run analysis.
 	final_match_score = _compute_match_score()
 	runtime_seconds = max(0.0, float(time.time() - getattr(state, 'run_started_at', time.time())))
-	state.writer.add_scalar('Run/final_match_score', final_match_score, state.step_counter)
-	state.writer.add_scalar('Run/runtime_seconds', runtime_seconds, state.step_counter)
-	state.writer.add_scalar('Run/success', 1.0 if success else 0.0, state.step_counter)
+	prefix = _run_log_prefix()
+	state.writer.add_scalar(f'{prefix}/score', final_match_score, state.step_counter)
+	state.writer.add_scalar(f'{prefix}/final_match_score', final_match_score, state.step_counter)
+	state.writer.add_scalar(f'{prefix}/runtime_seconds', runtime_seconds, state.step_counter)
+	state.writer.add_scalar(f'{prefix}/success', 1.0 if success else 0.0, state.step_counter)
 
 	_save_top_match_dataset(success, reason)
 

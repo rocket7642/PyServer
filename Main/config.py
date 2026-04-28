@@ -178,3 +178,13 @@ SENTINEL_FILE_PATH = "stop.txt"
 TIME_FILE_PATH = "time.txt"
 # Min number from TIME_FILE_PATH required for success (minute increments, running at 5x speed, so 1 = 5 real minutes).
 SURVIVAL_TIME_THRESHOLD = 7
+
+# === EVAL RUN SCHEDULING ===
+# Run one eval match after this many training matches.
+EVAL_TRAIN_RUNS_PER_CYCLE = 5
+# Number of eval matches at the end of each cycle.
+EVAL_RUNS_PER_CYCLE = 1
+# Fixed seed used for deterministic eval matches.
+EVAL_RANDOM_SEED = 1337
+# Persistent counter file used to rotate between training and eval matches.
+EVAL_COUNTER_FILE_PATH = "evalCheck.txt"

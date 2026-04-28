@@ -4,9 +4,11 @@ import threading
 import signal
 import logging
 import os
+import random
 
 import numpy as np
 import pandas as pd
+import torch
 
 from Rewards import PeriodicRewards
 import config
@@ -32,8 +34,62 @@ stop_sentinel_path = os.path.join(os.path.dirname(__file__), config.SENTINEL_FIL
 time_sentinel_path = os.path.join(os.path.dirname(__file__), config.TIME_FILE_PATH)
 state.sentinel_time_path = time_sentinel_path
 
+
+def _read_completed_run_count(counter_path):
+    """Read the completed-run counter used to rotate training and eval matches."""
+    try:
+        with open(counter_path, 'r', encoding='utf-8') as f:
+            raw_value = f.read().strip()
+            return max(0, int(raw_value)) if raw_value else 0
+    except FileNotFoundError:
+        return 0
+    except ValueError:
+        logger.warning(f"Invalid eval counter in {counter_path}; resetting to 0.")
+        return 0
+
+
+def _write_completed_run_count(counter_path, completed_runs):
+    """Persist the completed-run counter for the next process launch."""
+    with open(counter_path, 'w', encoding='utf-8') as f:
+        f.write(str(max(0, int(completed_runs))))
+
+
+def _configure_run_mode(counter_path):
+    """Select training or eval mode for this run and seed deterministic eval matches."""
+    completed_runs = _read_completed_run_count(counter_path)
+    state.run_counter = completed_runs + 1
+
+    train_runs = max(0, int(getattr(config, 'EVAL_TRAIN_RUNS_PER_CYCLE', 5)))
+    eval_runs = max(1, int(getattr(config, 'EVAL_RUNS_PER_CYCLE', 1)))
+    cycle_length = max(1, train_runs + eval_runs)
+    cycle_index = completed_runs % cycle_length
+    state.evalRun = cycle_index >= train_runs
+
+    if state.evalRun:
+        seed_value = int(getattr(config, 'EVAL_RANDOM_SEED', 1337))
+        random.seed(seed_value)
+        np.random.seed(seed_value)
+        torch.manual_seed(seed_value)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed_value)
+        logger.info(f"Eval run selected for run #{state.run_counter}; seeded with {seed_value}.")
+    else:
+        logger.info(f"Training run selected for run #{state.run_counter}.")
+
+    return completed_runs
+
+
+def _persist_run_mode(counter_path, completed_runs):
+    """Record that the current run finished so the next launch can advance the cycle."""
+    _write_completed_run_count(counter_path, completed_runs + 1)
+
+completed_runs_before_current = _configure_run_mode(
+    os.path.join(os.path.dirname(__file__), config.EVAL_COUNTER_FILE_PATH)
+)
+
 agent_core.load_agent()
 logger.info(f"TensorBoard logging to: runs/{state.run_name}")
+logger.info(f"Run mode: {'eval' if state.evalRun else 'training'} (run #{state.run_counter})")
 logger.info("View with: tensorboard --logdir=runs")
 
 
@@ -285,6 +341,12 @@ finally:
     state.writer.close()
     logger.info(f"TensorBoard logs saved to: runs/{state.run_name}")
     logger.info("View results with: tensorboard --logdir=runs")
+
+    _persist_run_mode(
+        os.path.join(os.path.dirname(__file__), config.EVAL_COUNTER_FILE_PATH),
+        completed_runs_before_current,
+    )
+
     logger.info("\n[COMPLETE] Server shutdown successfully.")
 
 
