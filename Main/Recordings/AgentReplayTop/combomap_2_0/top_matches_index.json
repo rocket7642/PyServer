@@ -12,6 +12,17 @@
       "exported_at": "2026-04-27T09:04:47.886384"
     },
     {
+      "file": "agent_match_20260428_080237_score_1537p56.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 1537.5617724509307,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 507,
+      "segments": 15,
+      "exported_at": "2026-04-28T08:02:37.110092"
+    },
+    {
       "file": "agent_match_20260424_053708_score_1531p09.json",
       "map_name": "ComboMap 2.0",
       "map_slug": "combomap_2_0",
@@ -21,6 +32,50 @@
       "samples": 547,
       "segments": 18,
       "exported_at": "2026-04-24T05:37:08.631672"
+    },
+    {
+      "file": "agent_match_20260428_064306_score_1501p16.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 1501.1558370178852,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 552,
+      "segments": 18,
+      "exported_at": "2026-04-28T06:43:06.556524"
+    },
+    {
+      "file": "agent_match_20260428_085822_score_1429p44.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 1429.4425650222963,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 513,
+      "segments": 15,
+      "exported_at": "2026-04-28T08:58:22.462037"
+    },
+    {
+      "file": "agent_match_20260428_065432_score_1358p11.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 1358.1065674473632,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 514,
+      "segments": 16,
+      "exported_at": "2026-04-28T06:54:32.635888"
+    },
+    {
+      "file": "agent_match_20260428_060904_score_1317p53.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 1317.5261203399346,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 520,
+      "segments": 16,
+      "exported_at": "2026-04-28T06:09:04.719781"
     },
     {
       "file": "agent_match_20260423_091914_score_1268p08.json",
@@ -54,6 +109,17 @@
       "samples": 529,
       "segments": 16,
       "exported_at": "2026-04-27T10:16:03.545182"
+    },
+    {
+      "file": "agent_match_20260428_042017_score_1208p81.json",
+      "map_name": "ComboMap 2.0",
+      "map_slug": "combomap_2_0",
+      "match_score": 1208.8133826808066,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 514,
+      "segments": 15,
+      "exported_at": "2026-04-28T04:20:17.657382"
     },
     {
       "file": "agent_match_20260425_062958_score_1077p73.json",
@@ -98,72 +164,6 @@
       "samples": 564,
       "segments": 18,
       "exported_at": "2026-04-24T08:37:51.986865"
-    },
-    {
-      "file": "agent_match_20260422_051218_score_876p39.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": 876.3860373510963,
-      "success": false,
-      "reason": "terminated",
-      "samples": 508,
-      "segments": 15,
-      "exported_at": "2026-04-22T05:12:18.767716"
-    },
-    {
-      "file": "agent_match_20260427_084431_score_767p58.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": 767.5787669567783,
-      "success": true,
-      "reason": "Survived for 10.00 seconds (threshold 7s)",
-      "samples": 531,
-      "segments": 16,
-      "exported_at": "2026-04-27T08:44:31.222885"
-    },
-    {
-      "file": "agent_match_20260427_050056_score_701p25.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": 701.25330361067,
-      "success": true,
-      "reason": "Survived for 10.00 seconds (threshold 7s)",
-      "samples": 510,
-      "segments": 16,
-      "exported_at": "2026-04-27T05:00:56.678694"
-    },
-    {
-      "file": "agent_match_20260424_061637_score_658p02.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": 658.0212697455572,
-      "success": false,
-      "reason": "terminated",
-      "samples": 508,
-      "segments": 15,
-      "exported_at": "2026-04-24T06:16:37.627214"
-    },
-    {
-      "file": "agent_match_20260427_071944_score_405p70.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": 405.70041809920235,
-      "success": true,
-      "reason": "Survived for 10.00 seconds (threshold 7s)",
-      "samples": 514,
-      "segments": 16,
-      "exported_at": "2026-04-27T07:19:44.379624"
-    },
-    {
-      "file": "agent_match_20260425_103833_score_403p31.json",
-      "map_name": "ComboMap 2.0",
-      "map_slug": "combomap_2_0",
-      "match_score": 403.31184121854545,
-      "success": false,
-      "reason": "terminated",
-      "samples": 513,
-      "segments": 15,
-      "exported_at": "2026-04-25T10:38:33.204968"
     }
   ]
 }

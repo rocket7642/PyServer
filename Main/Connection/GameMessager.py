@@ -347,7 +347,9 @@ def receive_messages(conn, addr):
 					print(
 						f"Unit {unit['id']} chose action {action} -> target normalized "
 						f"({best_target[0]:.2f}, {best_target[1]:.2f}), denormalized "
-						f"({denorm_tx:.1f}, {denorm_tz:.1f}) (score {best_score:.2f})"
+						f"({denorm_tx:.1f}, {denorm_tz:.1f}) (score {best_score:.2f})" 
+						# Best to add the reasons the cost are what it is
+						
 					)
 
 					best_target_world = (denorm_tx, denorm_tz)

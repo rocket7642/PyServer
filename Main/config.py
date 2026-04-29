@@ -5,7 +5,7 @@ BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = True # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
 # === EPISODIC TRAINING SETTINGS ===
 EPISODE_TIMEOUT_SECONDS = 120
@@ -81,8 +81,8 @@ DPS_THREAT_SCALE = 0.2  # scaling factor for DPS-weighted avoidance rewards
 
 # Segment (mass-spot) rewards
 SEGMENT_BASE_REWARD = 200.0
-FAILURE_BASE_PENALTY = 150.0
-SEGMENT_TIME_PENALTY = 0.5
+FAILURE_BASE_PENALTY = 100.0
+SEGMENT_TIME_PENALTY = 0.1
 SEGMENT_DISTANCE_PENALTY = 0.1
 SEGMENT_DAMAGE_PENALTY = 1.0
 HEIGHT_DISTANCE_FACTOR = 0.2
@@ -188,3 +188,5 @@ EVAL_RUNS_PER_CYCLE = 1
 EVAL_RANDOM_SEED = 1337
 # Persistent counter file used to rotate between training and eval matches.
 EVAL_COUNTER_FILE_PATH = "evalCheck.txt"
+# Explicit run mode written by the Python server for external launchers.
+RUN_MODE_FILE_PATH = "runMode.txt"

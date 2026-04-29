@@ -7,6 +7,9 @@ $PythonDir = "F:\School\Capstone\Python\PyServer\Main"
 $PythonScript = "Socket ML.py" 
 $stopFile = "stop.txt"
 $timeFile = "time.txt"
+$runFile = "runMode.txt"
+$recentRun = "recentRun.txt"
+$recentRunError = "recentRunError.txt"
 
 # .\spring-headless.exe --write-dir "F:\BAR Beyond All Reason\Beyond-All-Reason\data" _script.txt
 
@@ -15,14 +18,14 @@ $PyGUIWindowTitle = "Socket Reader"
 $engineDir = "F:\BAR Beyond All Reason\Beyond-All-Reason\data\engine\recoil_2025.06.19"
 $dataDir   = "F:\BAR Beyond All Reason\Beyond-All-Reason\data"
 $exePath   = $engineDir + "\spring-headless.exe"
-$scriptArg = $engineDIr + "\_scriptL.txt"  
+$scriptArg = $engineDir + "\_scriptL.txt"  
 
 $scriptArgM = "\_scriptM.txt"
 $scriptArgP = "\_scriptP.txt"
 $scriptArgL = "\_scriptL.txt" 
 $scriptArgC = "\_scriptC.txt" 
 
-$totalRunTimeHours = 7                       # How long the script should loop
+$totalRunTimeHours = 8                       # How long the script should loop
 
 # --- Script Logic ---
 $endTime = (Get-Date).AddHours($totalRunTimeHours)
@@ -40,12 +43,22 @@ do {
 
     # Start the program and keep a reference to it
     Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Starting program..."
-    $process = Start-Process -FilePath $PythonExe -ArgumentList "`"$PythonScript`"" -PassThru
+    $process = Start-Process -FilePath $PythonExe -ArgumentList "`"$PythonScript`"" -RedirectStandardOutput $recentRun -RedirectStandardError $recentRunError -PassThru 
 
     Start-Sleep -Seconds (30) 
 
-    $whichScript = Get-Random -InputObject $scriptArgM, $scriptArgP, $scriptArgL, $scriptArgC
-    $scriptArg = $engineDIr + $whichScript
+    $CurrentRunType = (Get-Content $runFile -Raw).Trim()
+    # $CurrentRunType = Get-Content $runFile
+    if ($CurrentRunType -eq 'eval') {
+        Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Detected eval run type. Using _scriptC.txt for BAR."
+        $whichScript = $scriptArgC
+    }
+    else {
+        Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Detected training run type. Using random script for BAR."
+        $whichScript = Get-Random -InputObject $scriptArgM, $scriptArgP, $scriptArgL, $scriptArgC
+    }
+    # $whichScript = Get-Random -InputObject $scriptArgM, $scriptArgP, $scriptArgL, $scriptArgC
+    $scriptArg = $engineDir + $whichScript
 
     $process2 = Start-Process -FilePath $exePath `
     -ArgumentList "--write-dir", "`"$dataDir`"", "`"$scriptArg`"" `

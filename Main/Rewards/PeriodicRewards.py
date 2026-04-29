@@ -682,7 +682,7 @@ def finalize_all_units(success, reason):
 			with sentinel_path.open('r') as f:
 				content = f.read().strip()
 				survival_time = float(content)
-				print(f"Read survival time from sentinel: {survival_time:.2f} seconds")
+				print(f"Read survival time from sentinel: {survival_time:.2f} minutes")
 		except Exception as e:
 			print(f"Error reading survival time sentinel: {e}")
 			survival_time = None
@@ -690,7 +690,7 @@ def finalize_all_units(success, reason):
 	if survival_time is not None:
 		if survival_time >= config.SURVIVAL_TIME_THRESHOLD:
 			success = True
-			reason = f"Survived for {survival_time:.2f} seconds (threshold {config.SURVIVAL_TIME_THRESHOLD}s)"
+			reason = f"Survived for {survival_time:.2f} minutes (threshold {config.SURVIVAL_TIME_THRESHOLD}s)"
 		else:
 			# No need to set it to failure here, it already is, but we can update the reason to reflect the survival time outcome.
 			# Add survival time onto the existing reason for more context in the logs and replay exports.
@@ -718,6 +718,10 @@ def finalize_all_units(success, reason):
 	# Log explicit run-level summary metrics for cross-run analysis.
 	final_match_score = _compute_match_score()
 	runtime_seconds = max(0.0, float(time.time() - getattr(state, 'run_started_at', time.time())))
+	# Expose the most recent run metrics on the global state so the runner
+	# (Socket ML) can make decisions such as best-checkpoint promotion.
+	setattr(state, 'last_run_final_match_score', float(final_match_score))
+	setattr(state, 'last_run_runtime_seconds', float(runtime_seconds))
 	prefix = _run_log_prefix()
 	state.writer.add_scalar(f'{prefix}/score', final_match_score, state.step_counter)
 	state.writer.add_scalar(f'{prefix}/final_match_score', final_match_score, state.step_counter)

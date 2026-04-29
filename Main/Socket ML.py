@@ -5,6 +5,9 @@ import signal
 import logging
 import os
 import random
+import time
+import json
+import shutil
 
 import numpy as np
 import pandas as pd
@@ -32,6 +35,7 @@ server_socket = None
 server_thread = None
 stop_sentinel_path = os.path.join(os.path.dirname(__file__), config.SENTINEL_FILE_PATH)
 time_sentinel_path = os.path.join(os.path.dirname(__file__), config.TIME_FILE_PATH)
+run_mode_path = os.path.join(os.path.dirname(__file__), config.RUN_MODE_FILE_PATH)
 state.sentinel_time_path = time_sentinel_path
 
 
@@ -54,16 +58,19 @@ def _write_completed_run_count(counter_path, completed_runs):
         f.write(str(max(0, int(completed_runs))))
 
 
-def _configure_run_mode(counter_path):
+def _configure_run_mode(counter_path, should_train):
     """Select training or eval mode for this run and seed deterministic eval matches."""
     completed_runs = _read_completed_run_count(counter_path)
     state.run_counter = completed_runs + 1
 
-    train_runs = max(0, int(getattr(config, 'EVAL_TRAIN_RUNS_PER_CYCLE', 5)))
-    eval_runs = max(1, int(getattr(config, 'EVAL_RUNS_PER_CYCLE', 1)))
-    cycle_length = max(1, train_runs + eval_runs)
-    cycle_index = completed_runs % cycle_length
-    state.evalRun = cycle_index >= train_runs
+    if(should_train == True):
+        train_runs = max(0, int(getattr(config, 'EVAL_TRAIN_RUNS_PER_CYCLE', 5)))
+        eval_runs = max(1, int(getattr(config, 'EVAL_RUNS_PER_CYCLE', 1)))
+        cycle_length = max(1, train_runs + eval_runs)
+        cycle_index = completed_runs % cycle_length
+        state.evalRun = cycle_index >= train_runs
+    else:
+        state.evalRun = True
 
     if state.evalRun:
         seed_value = int(getattr(config, 'EVAL_RANDOM_SEED', 1337))
@@ -83,9 +90,21 @@ def _persist_run_mode(counter_path, completed_runs):
     """Record that the current run finished so the next launch can advance the cycle."""
     _write_completed_run_count(counter_path, completed_runs + 1)
 
+
+def _write_current_run_mode(run_mode_path):
+    """Write the current run mode to disk so external launchers can consume it."""
+    mode_text = 'eval' if getattr(state, 'evalRun', False) else 'training'
+    try:
+        with open(run_mode_path, 'w', encoding='utf-8') as f:
+            f.write(mode_text)
+    except Exception as exc:
+        logger.warning(f"Unable to write run mode file {run_mode_path}: {exc}")
+
 completed_runs_before_current = _configure_run_mode(
-    os.path.join(os.path.dirname(__file__), config.EVAL_COUNTER_FILE_PATH)
+    os.path.join(os.path.dirname(__file__), config.EVAL_COUNTER_FILE_PATH),
+    config.SHOULD_TRAIN
 )
+_write_current_run_mode(run_mode_path)
 
 agent_core.load_agent()
 logger.info(f"TensorBoard logging to: runs/{state.run_name}")
@@ -332,6 +351,46 @@ finally:
             logger.info("Finalizing rewards and saving agent... (no terminal result finalized)")
             PeriodicRewards.finalize_all_units(False, reason)
             agent_core.save_agent()
+            # If this was an eval run, consider promoting the latest eval snapshot
+            # to the persistent best-eval checkpoint if its score improved.
+            try:
+                if getattr(state, 'evalRun', False) and hasattr(state, 'last_run_final_match_score'):
+                    base_dir = os.path.dirname(__file__)
+                    checkpoint_dir = os.path.join(base_dir, 'Checkpoint')
+                    run_id = int(getattr(state, 'run_counter', 0))
+                    snapshot_name = f"{state.run_name}_run_{run_id:04d}_eval.pth"
+                    snapshot_path = os.path.join(checkpoint_dir, snapshot_name)
+
+                    best_meta_path = os.path.join(base_dir, 'best_eval_checkpoint.json')
+                    best_checkpoint_path = os.path.join(base_dir, 'best_eval_checkpoint.pth')
+
+                    curr_score = float(getattr(state, 'last_run_final_match_score', 0.0))
+                    best_score = None
+                    if os.path.exists(best_meta_path):
+                        try:
+                            with open(best_meta_path, 'r', encoding='utf-8') as bf:
+                                loaded = json.load(bf)
+                                best_score = float(loaded.get('best_score')) if loaded.get('best_score') is not None else None
+                        except Exception:
+                            best_score = None
+
+                    if best_score is None or curr_score > best_score:
+                        if os.path.exists(snapshot_path):
+                            shutil.copyfile(snapshot_path, best_checkpoint_path)
+                            meta = {
+                                'best_score': curr_score,
+                                'run_id': run_id,
+                                'snapshot': snapshot_name,
+                                'timestamp': time.time(),
+                                'map_name': getattr(state, 'map_name', '')
+                            }
+                            with open(best_meta_path, 'w', encoding='utf-8') as bf:
+                                json.dump(meta, bf, indent=2)
+                            logger.info(f"Promoted new best eval checkpoint: {best_checkpoint_path} (score={curr_score:.2f})")
+                        else:
+                            logger.warning(f"Eval snapshot not found: {snapshot_path}; cannot promote best checkpoint.")
+            except Exception as exc:
+                logger.exception(f"Error while updating best eval checkpoint: {exc}")
         else:
             logger.info("Training disabled; skipping reward finalization and agent save.")
     else:
