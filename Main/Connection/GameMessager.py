@@ -349,7 +349,7 @@ def receive_messages(conn, addr):
 						f"({best_target[0]:.2f}, {best_target[1]:.2f}), denormalized "
 						f"({denorm_tx:.1f}, {denorm_tz:.1f}) (score {best_score:.2f})" 
 						# Best to add the reasons the cost are what it is
-						
+
 					)
 
 					best_target_world = (denorm_tx, denorm_tz)
@@ -467,7 +467,7 @@ def receive_messages(conn, addr):
 			# Log state update to console (replaces GUI event update)
 			print(f"[STATE] Units: {len(state.units) if hasattr(state, 'units') and state.units else 0} | " 
 					f"Enemy Units: {len(state.eUnits) if hasattr(state, 'eUnits') and state.eUnits else 0} | "
-					f"Killed Units: {len(state.eKUnits) if hasattr(state, 'eKUnits') and state.eKUnits else 0}")
+					f"Unknown Units: {len(state.eKUnits) if hasattr(state, 'eKUnits') and state.eKUnits else 0}")
 		except Exception as exc:
 			print("\n!!! ERROR in receive_messages !!!")
 			print(f"Exception type: {type(exc).__name__}")

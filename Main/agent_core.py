@@ -366,13 +366,14 @@ def _filter_mass_spots_by_threat(
 
 
 def _inject_hazard_prediction_feature(features, hazard_penalty):
-    """Write the hazard prediction value into the final feature slot for learned hazard weighting."""
+    """Write the hazard prediction value into the final feature slot as a bounded penalty."""
     if features is None:
         features = [0.0] * config.NUM_ACTION_FEATURES
     if len(features) < config.NUM_ACTION_FEATURES:
         features = features + [0.0] * (config.NUM_ACTION_FEATURES - len(features))
-    # Hazard prediction uses a positive risk magnitude; the model learns how strongly to weight it.
-    features[-1] = max(0.0, float(hazard_penalty))
+    # Store hazard as a normalized penalty so extreme threat estimates cannot turn into a reward spike.
+    hazard_penalty = max(0.0, float(hazard_penalty))
+    features[-1] = -hazard_penalty / (1.0 + hazard_penalty)
     return features
 
 
