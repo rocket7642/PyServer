@@ -175,8 +175,8 @@ try:
         with open(mass_info_path, 'r') as f:
             for line in f:
                 if line.strip():
-                    x, y, z = map(float, line.strip().split(','))
-                    state.mass_spots.append((x, z))
+                    x, y, z, value = map(float, line.strip().split(','))
+                    state.mass_spots.append((x, z, value))
     except FileNotFoundError:
         logger.warning("mass_points.csv not found, using empty mass spots.")
         state.mass_spots = []
