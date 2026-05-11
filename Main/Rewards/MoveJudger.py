@@ -10,38 +10,89 @@ def compute_mass_spot_score(unit_x, unit_z, spot):
 
 
 def select_best_mass_spot(unit_x, unit_z, unvisited_mass, return_score=False):
-	"""Find the unvisited mass spot with the lowest terrain-aware cost from the unit's position."""
+	"""Find the unvisited mass spot with the lowest value-weighted cost from the unit's position.
+	
+	Weighting combines terrain cost with mass point value: higher-value spots receive a reduced effective cost,
+	making them more attractive when terrain costs are similar.
+	Spot format: (mx, mz) for key or (mx, mz, value_norm) for full triple.
+	"""
 	if not unvisited_mass:
 		return (None, None) if return_score else None
 	
-	best_score = None
+	best_weighted_score = None
 	best_spot = None
+	best_terrain_score = None
 
 	for spot in unvisited_mass:
-		score = compute_mass_spot_score(unit_x, unit_z, spot)
+		terrain_score = compute_mass_spot_score(unit_x, unit_z, spot)
 		# Skip unreachable mass spots
-		if np.isinf(score):
+		if np.isinf(terrain_score):
 			continue
-		if best_score is None or score < best_score:
-			best_score = score
+		
+		# Extract value normalization from spot (mx, mz, value_norm)
+		# If spot is a 2-tuple (key), assume value_norm = 1.0 (no weighting)
+		try:
+			value_norm = float(spot[2]) if len(spot) > 2 else 1.0
+		except (IndexError, TypeError, ValueError):
+			value_norm = 1.0
+		
+		# Apply value weighting: higher value reduces the effective cost
+		# weighted_score = terrain_cost * (1 - alpha * value_norm)
+		# When value_norm=1.0 (highest), scale = 1 - alpha, reducing cost
+		# When value_norm=0.0 (lowest), scale = 1.0, cost unchanged
+		try:
+			alpha = float(getattr(config, 'MASS_VALUE_ALPHA', 0.5))
+		except Exception:
+			alpha = 0.5
+		
+		scale = 1.0 - alpha * value_norm
+		if scale <= 0.0:
+			scale = 0.01  # Prevent zero/negative scaling
+		weighted_score = terrain_score * scale
+		
+		if best_weighted_score is None or weighted_score < best_weighted_score:
+			best_weighted_score = weighted_score
 			best_spot = spot
+			best_terrain_score = terrain_score
 
 	if return_score:
-		return best_spot, best_score
+		# Return terrain score for logging (ground-truth distance metric)
+		return best_spot, best_terrain_score if best_terrain_score is not None else best_weighted_score
 	return best_spot
 
 
 def get_top_mass_spots(unit_x, unit_z, unvisited_mass, limit=4):
-	"""Return the top N nearest reachable mass spots ranked by terrain-aware cost."""
+	"""Return the top N nearest reachable mass spots ranked by value-weighted terrain cost.
+	
+	Weighting prefers higher-value spots: weighted_score = terrain_cost * (1 - alpha * value_norm).
+	"""
 	if not unvisited_mass:
 		return []
 
 	ranked = []
 	for spot in unvisited_mass:
-		score = compute_mass_spot_score(unit_x, unit_z, spot)
+		terrain_score = compute_mass_spot_score(unit_x, unit_z, spot)
 		# Skip unreachable mass spots
-		if not np.isinf(score):
-			ranked.append((spot, score))
+		if np.isinf(terrain_score):
+			continue
+		
+		# Extract and apply value weighting
+		try:
+			value_norm = float(spot[2]) if len(spot) > 2 else 1.0
+		except (IndexError, TypeError, ValueError):
+			value_norm = 1.0
+		
+		try:
+			alpha = float(getattr(config, 'MASS_VALUE_ALPHA', 0.5))
+		except Exception:
+			alpha = 0.5
+		
+		scale = 1.0 - alpha * value_norm
+		if scale <= 0.0:
+			scale = 0.01
+		weighted_score = terrain_score * scale
+		
+		ranked.append((spot, weighted_score))
 
 	ranked.sort(key=lambda item: item[1])
 	return ranked[:limit]

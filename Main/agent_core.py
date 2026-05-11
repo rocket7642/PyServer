@@ -721,7 +721,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         unit_speed_norm = _get_unit_speed_norm(unit_id)
         unit_hp, unit_max_hp = _get_unit_health_context(unit_id)
-        unvisited_mass = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
+        unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
         available_mass = _filter_mass_spots_by_threat(
             unit_id,
             unit_nx,
@@ -1097,7 +1097,7 @@ def train_agent(
     current_weights, _ = agent(input_seq, hidden)
     current_weights = current_weights.squeeze(0)
 
-    unvisited_mass = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
+    unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
     active_mass = [mass_destination] if mass_destination is not None else unvisited_mass
     unit_nx = map_utils.normalize_x(unit_x)
     unit_nz = map_utils.normalize_z(unit_z)
@@ -1243,7 +1243,7 @@ def train_agent(
                 for wx, wz in terrain_waypoints:
                     candidates.append((wx, wz, 'terrain_waypoint'))
 
-            next_unvisited = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
+            next_unvisited = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
             next_active_mass = [mass_destination] if mass_destination is not None else next_unvisited
             next_enemy_range_image = map_utils.generate_enemy_range_image(
                 state.eUnits,

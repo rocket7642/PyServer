@@ -104,6 +104,9 @@ MAX_TRAVERSABLE_SLOPE = 1.0217
 MAP_CACHE_DIR = "cache/map_fields"
 MAP_CACHE_VERSION = 12
 
+# Mass value weighting for cost fields: higher pulls path cost down near high-value spots
+MASS_VALUE_ALPHA = 0.5  # in [0,1]
+
 # === ENCODER SETTINGS ===
 SELF_FEATURES_SIZE = 9
 SELF_EMBED_SIZE = 16

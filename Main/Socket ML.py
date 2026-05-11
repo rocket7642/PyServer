@@ -181,9 +181,18 @@ try:
         logger.warning("mass_points.csv not found, using empty mass spots.")
         state.mass_spots = []
 
+    # Normalize mass-spot coordinates and values relative to the highest value on the map
+    max_val = max((v for (_, _, v) in state.mass_spots), default=1.0)
+    if not max_val or max_val <= 0.0:
+        max_val = 1.0
+
     state.map_spots_norm = [
-        (map_utils.normalize_x(x), map_utils.normalize_z(z))
-        for x, z in state.mass_spots
+        (
+            map_utils.normalize_x(x),
+            map_utils.normalize_z(z),
+            float(v) / float(max_val),
+        )
+        for x, z, v in state.mass_spots
     ]
     state.visited_mass_spots_norm = set()
     state.mass_cycle_completions = 0

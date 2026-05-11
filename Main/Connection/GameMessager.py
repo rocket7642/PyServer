@@ -186,7 +186,7 @@ def receive_messages(conn, addr):
 
 						if prev_state is not None and prev_action is not None:
 							unvisited_mass = [
-								p for p in state.map_spots_norm
+								p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm
 								if p not in state.visited_mass_spots_norm
 							]
 							potential_reward, components = PeriodicRewards.compute_move_potential(

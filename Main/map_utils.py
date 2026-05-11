@@ -505,7 +505,8 @@ def _get_map_signature():
     heights = np.ascontiguousarray(state.map_heights, dtype=np.float32)
     hasher.update(heights.tobytes())
 
-    mass_spots = np.ascontiguousarray(state.mass_spots, dtype=np.float32) if state.mass_spots else np.empty((0, 2), dtype=np.float32)
+    # Include normalized mass spot coordinates and values in the signature
+    mass_spots = np.ascontiguousarray(state.map_spots_norm, dtype=np.float32) if state.map_spots_norm else np.empty((0, 3), dtype=np.float32)
     hasher.update(mass_spots.tobytes())
 
     hasher.update(str(state.map_width).encode("utf-8"))
@@ -556,7 +557,7 @@ def load_cached_cost_fields():
             return False
 
         cached_spots = data["mass_spots_norm"]
-        current_spots = np.array(state.map_spots_norm, dtype=np.float32) if state.map_spots_norm else np.empty((0, 2), dtype=np.float32)
+        current_spots = np.array(state.map_spots_norm, dtype=np.float32) if state.map_spots_norm else np.empty((0, 3), dtype=np.float32)
 
         if cached_spots.shape != current_spots.shape:
             return False
@@ -569,7 +570,9 @@ def load_cached_cost_fields():
         state.terrain_cost_map = terrain_cost_map
         state.mass_cost_fields = {}
 
-        for idx, (mx, mz) in enumerate(state.map_spots_norm):
+        for idx, spot in enumerate(state.map_spots_norm):
+            # spot is (mx, mz, value_norm)
+            mx, mz = float(spot[0]), float(spot[1])
             state.mass_cost_fields[(mx, mz)] = mass_cost_stack[idx]
 
         print(f"Loaded cached map cost fields from {cache_path}")
@@ -590,11 +593,11 @@ def save_cached_cost_fields():
             mass_cost_stack = np.stack(
                 [
                     np.array(
-                        state.mass_cost_fields.get((mx, mz), np.full_like(state.terrain_cost_map, np.inf, dtype=np.float32)),
+                        state.mass_cost_fields.get((float(mx), float(mz)), np.full_like(state.terrain_cost_map, np.inf, dtype=np.float32)),
                         dtype=np.float32,
                         copy=False,
                     )
-                    for mx, mz in state.map_spots_norm
+                    for mx, mz, _ in state.map_spots_norm
                 ],
                 axis=0,
             )
@@ -771,7 +774,7 @@ def build_mass_cost_fields():
     # Moving z-1: we leave current cell in the z-negative direction
     # Moving z+1: z-positive direction, etc.
     
-    for mass_idx, (mx, mz) in enumerate(state.map_spots_norm):
+    for mass_idx, (mx, mz, mval) in enumerate(state.map_spots_norm):
         # Convert normalized coords to grid coords
         grid_x = int(np.clip(mx, 0, w - 1))
         grid_z = int(np.clip(mz, 0, h - 1))
@@ -814,6 +817,17 @@ def build_mass_cost_fields():
                         cost_field[nz, nx] = new_cost
                         heapq.heappush(heap, (new_cost, nz, nx))
         
+        # Apply mass-value weighting to pull costs down near higher-value spots
+        try:
+            alpha = float(getattr(config, 'MASS_VALUE_ALPHA', 0.5))
+        except Exception:
+            alpha = 0.5
+        scale = 1.0 - alpha * float(mval)
+        if scale <= 0.0:
+            scale = 0.01
+        # Only scale finite costs (leave inf as-is)
+        cost_field = np.where(np.isfinite(cost_field), cost_field * scale, cost_field)
+
         state.mass_cost_fields[(mx, mz)] = cost_field
     
     print(f"Built {len(state.mass_cost_fields)} mass cost fields")
@@ -847,11 +861,22 @@ def is_position_reachable(pos_nx, pos_nz):
 
 
 def get_mass_cost_at(mass_spot, unit_nx, unit_nz):
-    """Query the precomputed cost from a mass spot to a unit position. Returns np.inf if unreachable."""
-    if mass_spot not in state.mass_cost_fields:
-        return np.inf  # No cost field means unreachable
+    """Query the precomputed cost from a mass spot to a unit position. Returns np.inf if unreachable.
+
+    Accepts `mass_spot` as either the stored dict key (mx, mz) or a triple (mx, mz, value_norm).
+    """
+    # Resolve key format
+    if mass_spot in state.mass_cost_fields:
+        key = mass_spot
+    else:
+        try:
+            key = (float(mass_spot[0]), float(mass_spot[1]))
+            if key not in state.mass_cost_fields:
+                return np.inf
+        except Exception:
+            return np.inf
     
-    cost_field = state.mass_cost_fields[mass_spot]
+    cost_field = state.mass_cost_fields[key]
     h, w = cost_field.shape
     
     grid_x = int(np.clip(unit_nx, 0, w - 1))
@@ -862,11 +887,26 @@ def get_mass_cost_at(mass_spot, unit_nx, unit_nz):
 
 
 def extract_terrain_waypoints(mass_spot, unit_nx, unit_nz, count=None, search_radius=None):
-    """Extract waypoint candidates from cost field that follow terrain-aware gradient descent."""
-    if mass_spot not in state.mass_cost_fields:
+    """Extract waypoint candidates from cost field that follow terrain-aware gradient descent.
+
+    Accepts `mass_spot` as either a dict key (mx, mz) or a triple (mx, mz, value_norm).
+    """
+    # Resolve possible mass_spot formats to a key used in state.mass_cost_fields
+    key = None
+    if mass_spot in state.mass_cost_fields:
+        key = mass_spot
+    else:
+        try:
+            key = (float(mass_spot[0]), float(mass_spot[1]))
+            if key not in state.mass_cost_fields:
+                key = None
+        except Exception:
+            key = None
+
+    if key is None:
         return []
     
-    cost_field = state.mass_cost_fields[mass_spot]
+    cost_field = state.mass_cost_fields[key]
     h, w = cost_field.shape
     
     unit_grid_x = int(np.clip(unit_nx, 0, w - 1))

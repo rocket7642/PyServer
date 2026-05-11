@@ -281,7 +281,7 @@ def compute_reward(agent_unit, prev_health):
 				state.last_mass_visit[unit_id] = 0
 				break
 
-	unvisited_mass = [p for p in state.map_spots_norm if p not in state.visited_mass_spots_norm]
+	unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
 	if unvisited_mass:
 		nearest_mass = min(unvisited_mass, key=lambda p: (p[0] - unit_nx) ** 2 + (p[1] - unit_nz) ** 2)
 		current_dist = ((nearest_mass[0] - unit_nx) ** 2 + (nearest_mass[1] - unit_nz) ** 2) ** 0.5
