@@ -273,5 +273,14 @@
         "reload_time": 2.0,
         "dps": 50,
         "range": 300
+    },
+    "RADAR_UNKNOWN": {
+        "display_name": "Radar Unit",
+        "weapon_type": "projectile",
+        "projectile_speed": 200,
+        "aoe_radius": 16,
+        "reload_time": 2.0,
+        "dps": 50,
+        "range": 300
     }
 }

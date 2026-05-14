@@ -127,6 +127,14 @@ def receive_messages(conn, addr):
 				state.eUnits = parse_units(message, "ENEMY_UNITS")
 			if "KNOWN_ENEMY_UNITS" in message:
 				state.eKUnits = parse_units(message, "KNOWN_ENEMY_UNITS")
+			if "RADAR_ENEMY_UNITS" in message:
+				state.eRUnits = parse_units(message, "RADAR_ENEMY_UNITS") # This will need to be integrated into one of the other lists (known likely)
+
+			# Merge radar into known enemy units, ensuring no duplicates (radar may have some units not currently visible in known due to fog of war, but if a unit is in both, we want to avoid duplicates)
+			# Need to keep in mind, enemies can enter radar without being identified, this requires us to generalize what they are until confirmed.
+			for unit in state.eRUnits:
+				if all(unit['id'] != eu['id'] for eu in state.eKUnits):
+					state.eKUnits.append(unit)
 
 			# Verify if enemy in eUnits and eKUnits, if so remove from known enemy units (to avoid duplicates)
 			# IE known is a subset of enemy, but may have some units not currently visible (fog of war)
@@ -275,8 +283,10 @@ def receive_messages(conn, addr):
 								state.step_counter
 							)
 							conn.sendall(f"C: PAUSE {state.pause_time}\n".encode('utf-8')) # Pause during bookkeeping
-							if config.END_MATCH_WHEN_ALL_MASS_REACHED:
-								PeriodicRewards.finalize_all_units(True, "all_mass_reached")
+							if config.END_MATCH_WHEN_ALL_MASS_REACHED or state.evalRun: # Make it so that the eval run does this as it runs a very specific map and we want to see final results at the end of the match, but for training, we want to keep going and gather more data even after all mass spots are reached.
+								finalize_match(True, "all_mass_cycle_complete")
+								print("All mass spots reached. Match finalized.")
+								return
 							else:
 								PeriodicRewards.finalize_cycle_segments(True, "all_mass_cycle_complete")
 							conn.sendall("C: UNPAUSE\n".encode('utf-8')) # Resume Game
@@ -285,10 +295,7 @@ def receive_messages(conn, addr):
 							state.mass_destinations.clear()
 							state.mass_destination_distances.clear()
 							state.mass_spot_blocked_until.clear()
-							if config.END_MATCH_WHEN_ALL_MASS_REACHED:
-								print("All mass spots reached. Match finalized and reset.")
-							else:
-								print("All mass spots reached. Cycle reset; continuing match/training set.")
+							print("All mass spots reached. Cycle reset; continuing match/training set.")
 						else:
 							last_time = state.segment_stats[unit['id']]['last_mass_time']
 							if now - last_time >= config.EPISODE_TIMEOUT_SECONDS:

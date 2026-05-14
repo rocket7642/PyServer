@@ -9,6 +9,7 @@ import config
 units = []
 eUnits = []
 eKUnits = []
+eRUnits = []
 
 # Map data
 map_heights = None
