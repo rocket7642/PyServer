@@ -1,28 +1,28 @@
-2026-04-28 11:53:41,783 - INFO - Training run selected for run #38.
+2026-05-19 11:15:50,347 - INFO - Eval run selected for run #94; seeded with 1337.
 F:\School\Capstone\Python\PyServer\Main\agent_model.py:96: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
   if 0 <= idx < feature_weights.shape[-1]:
-2026-04-28 11:53:42,025 - INFO - TensorBoard logging to: runs/feature_based_agent_20260428_115340
-2026-04-28 11:53:42,026 - INFO - Run mode: training (run #38)
-2026-04-28 11:53:42,026 - INFO - View with: tensorboard --logdir=runs
-2026-04-28 11:53:42,027 - INFO - Server listening on 127.0.0.1:25000...
-2026-04-28 11:54:31,197 - INFO - [NEW CONNECTION] ('127.0.0.1', 50638) connected.
-2026-04-28 11:54:31,213 - INFO - Map dimensions: 2048 x 2048
-2026-04-28 11:54:31,214 - INFO - Map name: SurvivalTest 2.0
-2026-04-28 11:54:31,571 - INFO - Game server running. Press Ctrl+C to stop gracefully.
-2026-04-28 11:54:31,572 - INFO - Monitoring for game completion or termination signal...
+2026-05-19 11:15:50,538 - INFO - TensorBoard logging to: runs/feature_based_agent_20260519_111549
+2026-05-19 11:15:50,539 - INFO - Run mode: eval (run #94)
+2026-05-19 11:15:50,539 - INFO - View with: tensorboard --logdir=runs
+2026-05-19 11:15:50,540 - INFO - Server listening on 127.0.0.1:25000...
+2026-05-19 11:16:42,402 - INFO - [NEW CONNECTION] ('127.0.0.1', 59770) connected.
+2026-05-19 11:16:42,541 - INFO - Map dimensions: 8192 x 8192
+2026-05-19 11:16:42,542 - INFO - Map name: Showcase 2.0
+2026-05-19 11:16:42,968 - INFO - Game server running. Press Ctrl+C to stop gracefully.
+2026-05-19 11:16:42,969 - INFO - Monitoring for game completion or termination signal...
 
-2026-04-28 12:04:08,312 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
-2026-04-28 12:04:08,314 - INFO - 
+2026-05-19 11:26:16,964 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
+2026-05-19 11:26:16,965 - INFO - 
 [SHUTDOWN] Closing connections and finalizing...
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 115, in receive_messages
     data = conn.recv(1024)
            ^^^^^^^^^^^^^^^
 OSError: [WinError 10038] An operation was attempted on something that is not a socket
-2026-04-28 12:04:08,453 - INFO - Closing connection.
-2026-04-28 12:04:08,468 - INFO - Finalizing rewards and saving agent... (no terminal result finalized)
-2026-04-28 12:05:31,131 - INFO - Closing TensorBoard writer...
-2026-04-28 12:05:31,132 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260428_115340
-2026-04-28 12:05:31,132 - INFO - View results with: tensorboard --logdir=runs
-2026-04-28 12:05:31,132 - INFO - 
+2026-05-19 11:26:17,116 - INFO - Closing connection.
+2026-05-19 11:26:17,136 - INFO - Training disabled; skipping reward finalization and agent save.
+2026-05-19 11:26:17,152 - INFO - Closing TensorBoard writer...
+2026-05-19 11:26:17,160 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260519_111549
+2026-05-19 11:26:17,161 - INFO - View results with: tensorboard --logdir=runs
+2026-05-19 11:26:17,161 - INFO - 
 [COMPLETE] Server shutdown successfully.

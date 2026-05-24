@@ -88,7 +88,7 @@ SEGMENT_DAMAGE_PENALTY = 1.0
 HEIGHT_DISTANCE_FACTOR = 0.2
 
 # Number of action features for the potential field
-NUM_ACTION_FEATURES = 9
+NUM_ACTION_FEATURES = 10
 
 # Terrain sampling for path-based penalties
 PATH_TERRAIN_WEIGHT = 0.25
@@ -144,6 +144,7 @@ FEATURE_NAMES = [
     "enemy_distance_change",
     "nearest_enemy_proximity",
     "escape_alignment",
+    "skirt_alignment",
     "dodge_viability",
     "hazard_prediction"
 ]

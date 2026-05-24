@@ -24,8 +24,10 @@ $scriptArgM = "\_scriptM.txt"
 $scriptArgP = "\_scriptP.txt"
 $scriptArgL = "\_scriptL.txt" 
 $scriptArgC = "\_scriptC.txt" 
+$scriptArgEval = "\_scriptShowcase.txt"
+$scriptArgTraining = "\_scriptTraining.txt"
 
-$totalRunTimeHours = 8                       # How long the script should loop
+$totalRunTimeHours = 7                       # How long the script should loop
 
 # --- Script Logic ---
 $endTime = (Get-Date).AddHours($totalRunTimeHours)
@@ -50,12 +52,13 @@ do {
     $CurrentRunType = (Get-Content $runFile -Raw).Trim()
     # $CurrentRunType = Get-Content $runFile
     if ($CurrentRunType -eq 'eval') {
-        Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Detected eval run type. Using _scriptC.txt for BAR."
-        $whichScript = $scriptArgC
+        Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Detected eval run type. Using _scriptShowcase.txt for BAR."
+        $whichScript = $scriptArgEval
     }
     else {
         Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Detected training run type. Using random script for BAR."
-        $whichScript = Get-Random -InputObject $scriptArgM, $scriptArgP, $scriptArgL, $scriptArgC
+        # $whichScript = Get-Random -InputObject $scriptArgM, $scriptArgP, $scriptArgL, $scriptArgC
+        $whichScript = $scriptArgTraining
     }
     # $whichScript = Get-Random -InputObject $scriptArgM, $scriptArgP, $scriptArgL, $scriptArgC
     $scriptArg = $engineDir + $whichScript

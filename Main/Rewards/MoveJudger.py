@@ -121,6 +121,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 			proximity_feature = 0.0
 		features.append(proximity_feature)  # nearest_enemy_proximity
 		features.append(0.0)  # escape_alignment
+		features.append(0.0)  # skirt_alignment
 		features.append(0.0)  # dodge_viability (standing still = no dodge)
 		features.append(0.0)  # hazard_prediction (filled by caller in agent_core)
 		return features
@@ -136,9 +137,9 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		target_cost = compute_mass_spot_score(target_x, target_z, best_spot)
 		# Handle unreachable paths - assign large negative penalty to discourage unreachable moves
 		if np.isinf(current_cost) or np.isinf(target_cost):
-			dist_reduction = -1000.0
+			dist_reduction = -10.0
 		else:
-			dist_reduction = current_cost - target_cost
+			dist_reduction = (current_cost - target_cost) / 100.0
 		features.append(dist_reduction)
 	else:
 		features.append(0.0)
@@ -244,9 +245,12 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 	escape_mag = (escape_dx ** 2 + escape_dz ** 2) ** 0.5
 	if move_mag > 1e-6 and escape_mag > 1e-6:
 		escape_alignment = (move_dx * escape_dx + move_dz * escape_dz) / (move_mag * escape_mag + 1e-6)
+		skirt_alignment = abs(move_dx * escape_dz - move_dz * escape_dx) / (move_mag * escape_mag + 1e-6)
 	else:
 		escape_alignment = 0.0
+		skirt_alignment = 0.0
 	features.append(escape_alignment)
+	features.append(skirt_alignment)
 
 	# dodge_viability: scores lateral (perpendicular) movement relative to projectile/missile enemies.
 	# Hitscan/beam enemies can't be dodged, so only dodgeable enemies contribute.
@@ -269,7 +273,11 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 					# Scale by inverse of projectile speed (slower = easier to dodge)
 					proj_speed = eu.get('projectile_speed', 200)
 					speed_factor = 1.0 - unit_defs.normalize_projectile_speed(proj_speed)
-					dodge_score += cross * (1.0 + speed_factor)
+					
+					# High priority: enemies closer to us require dodging more urgently
+					dist_factor = 1.0 / (1.0 + (fire_mag / 100.0))
+					
+					dodge_score += cross * (1.0 + speed_factor) * dist_factor
 					dodgeable_count += 1
 		if dodgeable_count > 0:
 			dodge_score /= dodgeable_count

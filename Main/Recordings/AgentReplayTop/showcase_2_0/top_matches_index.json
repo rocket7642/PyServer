@@ -1,0 +1,15 @@
+{
+  "top_matches": [
+    {
+      "file": "agent_match_20260518_235337_score_m3752p77.json",
+      "map_name": "Showcase 2.0",
+      "map_slug": "showcase_2_0",
+      "match_score": -3752.7663330315704,
+      "success": false,
+      "reason": "death |> Survival time 6.00s below threshold 7s",
+      "samples": 352,
+      "segments": 8,
+      "exported_at": "2026-05-18T23:53:37.078885"
+    }
+  ]
+}
