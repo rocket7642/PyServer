@@ -10,6 +10,8 @@ units = []
 eUnits = []
 eKUnits = []
 eRUnits = []
+fEnergy = 0
+fMass = 0
 
 # Map data
 map_heights = None
@@ -52,6 +54,7 @@ unit_max_healths = {}
 previous_states = {}
 previous_states_no_map = {}
 previous_actions = {}
+previous_discrete_actions = {} # tracks MOVE = 0, BUILD = 1
 previous_positions = {}
 previous_y_positions = {}
 previous_distances = {}

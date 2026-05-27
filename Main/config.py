@@ -88,7 +88,30 @@ SEGMENT_DAMAGE_PENALTY = 1.0
 HEIGHT_DISTANCE_FACTOR = 0.2
 
 # Number of action features for the potential field
-NUM_ACTION_FEATURES = 10
+NUM_ACTION_FEATURES = 10 # Moving
+# Contains:
+# 0: distance_reduction
+# 1: move_magnitude
+# 2: is_noop
+# 3: danger_zone
+# 4: enemy_distance_change
+# 5: nearest_enemy_proximity
+# 6: escape_alignment
+# 7: skirt_alignment
+# 8: dodge_viability
+# 9: hazard_prediction
+NUM_BUILD_FEATURES = 5 # Building 
+# Contains:
+# 0: friendly_proximity (Place near friendlies, away from enemies)
+# 1: is_building (keep building what has already started, equivalent to noop for builds)
+# 2: enemy_proximity (Don't build near enemies)
+# 3: mass_spot_proximity (Prefer building near mass spots)
+# 4: terrain_suitability (Prefer building on flatter terrain)
+
+# Types of valid actions
+ACTION_MOVE = 0
+ACTION_BUILD = 1
+NUM_DISCRETE_ACTIONS = 2
 
 # Terrain sampling for path-based penalties
 PATH_TERRAIN_WEIGHT = 0.25
@@ -108,8 +131,10 @@ MAP_CACHE_VERSION = 12
 MASS_VALUE_ALPHA = 0.5  # in [0,1]
 
 # === ENCODER SETTINGS ===
-SELF_FEATURES_SIZE = 9
+SELF_FEATURES_SIZE = 11 # Added active_build_progress, is_constructing
 SELF_EMBED_SIZE = 16
+ECO_FEATURES_SIZE = 2 # fEnergy, fMass
+ECO_EMBED_SIZE = 8
 MASS_FEATURES_SIZE = 3
 MASS_EMBED_SIZE = 8
 MAP_FEATURES_SIZE = 6
@@ -147,6 +172,14 @@ FEATURE_NAMES = [
     "skirt_alignment",
     "dodge_viability",
     "hazard_prediction"
+]
+
+BUILD_FEATURE_NAMES = [
+    "friendly_proximity",
+    "is_building",
+    "enemy_proximity",
+    "mass_spot_proximity",
+    "terrain_suitability"
 ]
 
 # === ADAPTIVE CANDIDATE SETTINGS ===

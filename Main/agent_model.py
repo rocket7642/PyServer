@@ -9,13 +9,18 @@ import unit_defs
 
 
 class RTSAgent(nn.Module):
-    def __init__(self, input_size, num_features):
+    def __init__(self, input_size):
         """Initialize the RTS agent with encoder networks, CNN map processor, LSTM, and output layers."""
         super().__init__()
         self.self_encoder = nn.Sequential(
             nn.Linear(config.SELF_FEATURES_SIZE, 32),
             nn.ReLU(),
             nn.Linear(32, config.SELF_EMBED_SIZE)
+        )
+        self.eco_encoder = nn.Sequential(
+            nn.Linear(config.ECO_FEATURES_SIZE, 16),
+            nn.ReLU(),
+            nn.Linear(16, config.ECO_EMBED_SIZE)
         )
         self.mass_encoder = nn.Sequential(
             nn.Linear(config.MASS_FEATURES_SIZE, 16),
@@ -66,7 +71,14 @@ class RTSAgent(nn.Module):
             batch_first=True
         )
         self.fc1 = nn.Linear(config.LSTM_HIDDEN_SIZE, 64)
-        self.fc2 = nn.Linear(64, num_features)
+        # Set for Move only output
+        # self.fc2 = nn.Linear(64, num_features)
+
+        # New set for building/moving split
+        self.action_head = nn.Linear(64, config.NUM_DISCRETE_ACTIONS)
+        self.move_head = nn.Linear(64, config.NUM_ACTION_FEATURES)
+        self.build_head = nn.Linear(64, config.NUM_BUILD_FEATURES)
+
 
     def _initialize_cnn_weights(self):
         """Apply Kaiming normal init to Conv2d layers and Xavier uniform init to the map FC layer."""
@@ -90,15 +102,18 @@ class RTSAgent(nn.Module):
         lstm_out, new_hidden = self.lstm(x, hidden)
         last_out = lstm_out[:, -1, :]
         x = torch.relu(self.fc1(last_out))
-        feature_weights = self.fc2(x)
+        # feature_weights = self.fc2(x)
+        action_logits = self.action_head(x)
+        move_features = self.move_head(x)
+        build_features = self.build_head(x)
         if config.ENFORCE_DISTANCE_REDUCTION_NONNEG:
             idx = config.DISTANCE_REDUCTION_INDEX
-            if 0 <= idx < feature_weights.shape[-1]:
-                before = feature_weights[..., :idx]
-                constrained = F.softplus(feature_weights[..., idx:idx+1])
-                after = feature_weights[..., idx+1:]
-                feature_weights = torch.cat([before, constrained, after], dim=-1)
-        return feature_weights, new_hidden
+            if 0 <= idx < move_features.shape[-1]:
+                before = move_features[..., :idx]
+                constrained = F.softplus(move_features[..., idx:idx+1])
+                after = move_features[..., idx+1:]
+                move_features = torch.cat([before, constrained, after], dim=-1)
+        return action_logits, move_features, build_features, new_hidden
 
     def encode_state_parts(self, agent_unit, friendly_units, enemy_units):
         """Encode self, mass, map, friendly, and enemy observations into separate embedding vectors."""
@@ -123,7 +138,9 @@ class RTSAgent(nn.Module):
             unit_nx,
             unit_nz,
             unit_ny,
-            agent_unit['health'],
+            agent_unit.get('health', 0.0),
+            float(agent_unit.get('active_build_progress', 0.0)),
+            float(agent_unit.get('is_constructing', 0.0)),
             float(len(friendly_units)),
             float(len(enemy_units)),
             nearest_enemy_dx,
@@ -131,6 +148,12 @@ class RTSAgent(nn.Module):
             nearest_enemy_dist,
         ], dtype=torch.float32, device=device)
         self_emb = self.self_encoder(self_features)
+
+        eco_features = torch.tensor([
+            float(getattr(state, 'fEnergy', 0.0)),
+            float(getattr(state, 'fMass', 0.0))
+        ], dtype=torch.float32, device=device)
+        eco_emb = self.eco_encoder(eco_features)
 
         if state.map_spots_norm:
             nearest_mass = min(
@@ -191,22 +214,22 @@ class RTSAgent(nn.Module):
         else:
             enemy_emb = torch.zeros(config.ENEMY_EMBED_SIZE, dtype=torch.float32, device=device)
 
-        return self_emb, mass_emb, map_emb, friendly_emb, enemy_emb
+        return self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb
 
     def encode_state(self, agent_unit, friendly_units, enemy_units):
         """Produce a full state vector by concatenating all encoder outputs including the map embedding."""
-        self_emb, mass_emb, map_emb, friendly_emb, enemy_emb = self.encode_state_parts(
+        self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb = self.encode_state_parts(
             agent_unit, friendly_units, enemy_units
         )
-        state_vec = torch.cat([self_emb, mass_emb, map_emb, friendly_emb, enemy_emb], dim=0)
+        state_vec = torch.cat([self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb], dim=0)
         state_vec = torch.nan_to_num(state_vec, nan=0.0, posinf=0.0, neginf=0.0)
         return state_vec
 
     def encode_state_no_map(self, agent_unit, friendly_units, enemy_units):
         """Produce a state vector without the map embedding, for lightweight replay buffer storage."""
-        self_emb, mass_emb, _, friendly_emb, enemy_emb = self.encode_state_parts(
+        self_emb, eco_emb, mass_emb, _, friendly_emb, enemy_emb = self.encode_state_parts(
             agent_unit, friendly_units, enemy_units
         )
-        state_vec = torch.cat([self_emb, mass_emb, friendly_emb, enemy_emb], dim=0)
+        state_vec = torch.cat([self_emb, eco_emb, mass_emb, friendly_emb, enemy_emb], dim=0)
         state_vec = torch.nan_to_num(state_vec, nan=0.0, posinf=0.0, neginf=0.0)
         return state_vec

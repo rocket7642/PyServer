@@ -103,10 +103,51 @@ def get_weapon_info(unit_name: str) -> dict:
         "weapon_one_hot": get_weapon_one_hot(weapon_type),
         "projectile_speed": defn.get("projectile_speed", 200),
         "aoe_radius": defn.get("aoe_radius", 16),
-        "dps": defn.get("dps", 50),
+        "dps": defn.get("dps", 0),
         "range": defn.get("range", 300),
     }
 
+def get_unit_type(unit_name: str) -> str:
+    """Return a high-level unit type string for a given unit name.
+
+    Args:
+        unit_name: The internal BAR unit name.
+
+    Returns:
+        The unit type string.
+    """
+    defn = get_unit_def(unit_name)
+    return defn.get("type", "unknown")
+
+def get_unit_ranges(unit_name: str) -> dict:
+    """Return a dict of range values for a given unit name.
+
+    Args:
+        unit_name: The internal BAR unit name.
+
+    Returns:
+        Dict with keys: radar_range, sight_range.
+    """
+    defn = get_unit_def(unit_name)
+    return {
+        "radar_range": defn.get("radar_range", 0),
+        "sight_range": defn.get("sight_range", 0)
+    }
+
+def get_costs(unit_name: str) -> dict:
+    """Return a dict of cost values for a given unit name.
+
+    Args:
+        unit_name: The internal BAR unit name.
+
+    Returns:
+        Dict with keys: energy_cost, mass_cost.
+    """
+    defn = get_unit_def(unit_name)
+    return {
+        "energy_cost": defn.get("energy_cost", 0),
+        "mass_cost": defn.get("mass_cost", 0)
+    }
 
 def normalize_projectile_speed(speed: float) -> float:
     """Normalize a projectile speed to [0, 1] using the configured max speed.

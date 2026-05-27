@@ -12,13 +12,14 @@ from agent_model import RTSAgent
 
 ENCODER_OUTPUT_SIZE = (
     config.SELF_EMBED_SIZE
+    + config.ECO_EMBED_SIZE
     + config.MASS_EMBED_SIZE
     + config.MAP_EMBED_SIZE
     + config.FRIENDLY_EMBED_SIZE
     + config.ENEMY_EMBED_SIZE
 )
 
-agent = RTSAgent(input_size=ENCODER_OUTPUT_SIZE, num_features=config.NUM_ACTION_FEATURES)
+agent = RTSAgent(input_size=ENCODER_OUTPUT_SIZE)
 # Lowered from 0.001 to 0.0001 for testing
 # Added in weight decay for better generalization and to help prevent overfitting to the training data, which can be especially important given the complexity of the environment and the potential for noisy rewards
 optimizer = optim.Adam(agent.parameters(), lr=0.0001, weight_decay=0.05) 
@@ -687,8 +688,14 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         state.previous_lstm_hidden_states[unit_id] = (hidden[0].detach(), hidden[1].detach())
 
         input_seq = state_vec.unsqueeze(0).unsqueeze(0)
-        feature_weights, new_hidden = agent(input_seq, hidden)
-        feature_weights = feature_weights.squeeze(0)
+        action_logits, move_features, build_features, new_hidden = agent(input_seq, hidden)
+        
+        # Determine the action type (Move vs Build)
+        discrete_action = torch.argmax(action_logits, dim=-1).item()
+        
+        # Currently, all logic below is based on movement. We will output the move_features 
+        # and handle the build features if the discrete_action is ACTION_BUILD.
+        feature_weights = move_features.squeeze(0)
 
         state.lstm_hidden_states[unit_id] = (new_hidden[0].detach(), new_hidden[1].detach())
 
@@ -900,56 +907,77 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         move_scores = []
         direct_approach_penalties = []
 
+        from Rewards import BuildJudger
+        
         for idx, (tx, tz, candidate_kind) in enumerate(candidates):
             try:
                 this_meta = candidate_meta[idx] if idx < len(candidate_meta) else None
-                if abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3:
-                    features = MoveJudger.compute_action_features(
-                        config.NOOP_ACTION,
-                        unit_nx,
-                        unit_nz,
-                        unit_ny,
-                        active_mass,
-                        enemy_range_image=enemy_range_image,
-                        enemy_units=all_enemies,
-                    )
+                is_noop = (abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3)
+                
+                if discrete_action == config.ACTION_MOVE:
+                    # EVALUATE MOVEMENT
+                    if is_noop:
+                        features = MoveJudger.compute_action_features(
+                            config.NOOP_ACTION,
+                            unit_nx,
+                            unit_nz,
+                            unit_ny,
+                            active_mass,
+                            enemy_range_image=enemy_range_image,
+                            enemy_units=all_enemies,
+                        )
+                    else:
+                        features = MoveJudger.compute_action_features(
+                            "MOVE",
+                            unit_nx,
+                            unit_nz,
+                            unit_ny,
+                            active_mass,
+                            tx,
+                            tz,
+                            enemy_range_image=enemy_range_image,
+                            enemy_units=all_enemies,
+                        )
+
+                    if features is None:
+                        features = [0.0] * config.NUM_ACTION_FEATURES
+
+                    direct_penalty = 0.0
+                    hazard_bias = _hazard_bias_for_candidate_kind(candidate_kind)
+                    if hazard_bias > 0.0 and not is_noop:
+                        direct_penalty = _compute_direct_approach_penalty(
+                            unit_nx,
+                            unit_nz,
+                            tx,
+                            tz,
+                            all_enemies,
+                            enemy_range_image,
+                            unit_speed_norm,
+                            unit_hp=unit_hp,
+                            unit_max_hp=unit_max_hp,
+                            bias=hazard_bias,
+                        )
+                        direct_approach_penalties.append(direct_penalty)
+
+                    features = _inject_hazard_prediction_feature(features, direct_penalty)
+                    features_tensor = torch.tensor(features, dtype=torch.float32)
+                    score = torch.dot(feature_weights, features_tensor).item()
                 else:
-                    features = MoveJudger.compute_action_features(
-                        "MOVE",
-                        unit_nx,
-                        unit_nz,
-                        unit_ny,
+                    # EVALUATE BUILDING
+                    features = BuildJudger.compute_build_features(
+                        unit_nx, unit_nz, unit_ny,
+                        tx, tz,
                         active_mass,
-                        tx,
-                        tz,
-                        enemy_range_image=enemy_range_image,
-                        enemy_units=all_enemies,
-                    )
-
-                if features is None:
-                    features = [0.0] * config.NUM_ACTION_FEATURES
-
-                direct_penalty = 0.0
-                hazard_bias = _hazard_bias_for_candidate_kind(candidate_kind)
-                if hazard_bias > 0.0:
-                    direct_penalty = _compute_direct_approach_penalty(
-                        unit_nx,
-                        unit_nz,
-                        tx,
-                        tz,
                         all_enemies,
-                        enemy_range_image,
-                        unit_speed_norm,
-                        unit_hp=unit_hp,
-                        unit_max_hp=unit_max_hp,
-                        bias=hazard_bias,
+                        state.units, # friendly units
+                        is_noop
                     )
-                    direct_approach_penalties.append(direct_penalty)
-
-                features = _inject_hazard_prediction_feature(features, direct_penalty)
-
-                features_tensor = torch.tensor(features, dtype=torch.float32)
-                score = torch.dot(feature_weights, features_tensor).item()
+                    
+                    if features is None:
+                        features = [0.0] * config.NUM_BUILD_FEATURES
+                        
+                    features_tensor = torch.tensor(features, dtype=torch.float32)
+                    score = torch.dot(build_weights, features_tensor).item()
                 
                 # Need to calculate what type of enemy it is as retreat from a proj/missile will likely still hit if its a consistent movement.
                 # enemy_type = None
@@ -1058,17 +1086,29 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         # state.writer.add_scalar('Action_Selection/is_noop', 1.0 if best_action == config.NOOP_ACTION else 0.0, state.step_counter)
 
-        for name, feature_val in zip(config.FEATURE_NAMES, chosen_action_features):
-            state.writer.add_scalar(f"Chosen_Action_Features/{name}", feature_val, state.step_counter)
+        if discrete_action == config.ACTION_BUILD:
+            best_action = "BUILD"
+            build_weights = build_features.squeeze(0)
+            print(f"Building chosen by unit {unit_id}! Target picked: {best_target}")
+            for name, weight in zip(config.BUILD_FEATURE_NAMES, build_weights):
+                 state.writer.add_scalar(f"Feature_Weights/Build_{name}", weight.item(), state.step_counter)
+
+            # We also want to log chosen_build_features for analytics, similar to move features
+            for name, feature_val in zip(config.BUILD_FEATURE_NAMES, chosen_action_features):
+                state.writer.add_scalar(f"Chosen_Action_Features/Build_{name}", feature_val, state.step_counter)
+        else:
+            for name, feature_val in zip(config.FEATURE_NAMES, chosen_action_features):
+                state.writer.add_scalar(f"Chosen_Action_Features/{name}", feature_val, state.step_counter)
 
         if state.step_counter % 100 == 0:
             state.writer.add_histogram('Action_Scores/distribution', np.array(action_scores), state.step_counter)
 
-        return best_action, best_target, best_score, best_candidate_kind
+        return best_action, best_target, best_score, best_candidate_kind, discrete_action
 
 
 def train_agent(
     state_vec,
+    discrete_action,
     action,
     reward,
     next_state,
@@ -1094,8 +1134,12 @@ def train_agent(
     else:
         hidden = init_lstm_hidden()
     input_seq = state_vec.unsqueeze(0).unsqueeze(0)
-    current_weights, _ = agent(input_seq, hidden)
-    current_weights = current_weights.squeeze(0)
+    action_logits, move_weights, build_weights, _ = agent(input_seq, hidden)
+    
+    if discrete_action == config.ACTION_BUILD:
+        current_weights = build_weights.squeeze(0)
+    else:
+        current_weights = move_weights.squeeze(0)
 
     unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
     active_mass = [mass_destination] if mass_destination is not None else unvisited_mass
@@ -1166,8 +1210,16 @@ def train_agent(
         with torch.no_grad():
             next_hidden = state.lstm_hidden_states.get(unit_id, init_lstm_hidden())
             next_input_seq = next_state.unsqueeze(0).unsqueeze(0)
-            next_weights, _ = agent(next_input_seq, next_hidden)
-            next_weights = next_weights.squeeze(0)
+            next_action_logits, next_move_weights, next_build_weights, _ = agent(next_input_seq, next_hidden)
+            
+            # Predict best action for Next State
+            next_discrete_action = torch.argmax(next_action_logits, dim=-1).item()
+            
+            if next_discrete_action == config.ACTION_BUILD:
+                next_weights = next_build_weights.squeeze(0)
+            else:
+                next_weights = next_move_weights.squeeze(0)
+            
             max_next_q = -float('inf')
             candidates = []
             for dx in np.linspace(-200, 200, num=10):
@@ -1259,36 +1311,54 @@ def train_agent(
                 next_nx = map_utils.normalize_x(next_unit_x)
                 next_nz = map_utils.normalize_z(next_unit_z)
                 next_ny = map_utils.normalize_y(next_unit_y)
-                next_action = config.NOOP_ACTION if next_kind == 'noop' else "MOVE"
-                next_features = MoveJudger.compute_action_features(
-                    next_action,
-                    next_nx,
-                    next_nz,
-                    next_ny,
-                    next_active_mass,
-                    tx,
-                    tz,
-                    enemy_range_image=next_enemy_range_image,
-                    enemy_units=all_enemies,
-                )
-                next_direct_penalty = 0.0
                 is_next_noop = abs(tx - next_nx) < 1e-3 and abs(tz - next_nz) < 1e-3
-                if not is_next_noop:
-                    next_bias = _hazard_bias_for_candidate_kind(next_kind)
-                    if next_bias > 0.0:
-                        next_direct_penalty = _compute_direct_approach_penalty(
-                            next_nx,
-                            next_nz,
-                            tx,
-                            tz,
-                            all_enemies,
-                            next_enemy_range_image,
-                            next_speed_norm,
-                            unit_hp=next_hp,
-                            unit_max_hp=next_max_hp,
-                            bias=next_bias,
-                        )
-                next_features = _inject_hazard_prediction_feature(next_features, next_direct_penalty)
+                
+                from Rewards import BuildJudger
+
+                if next_discrete_action == config.ACTION_MOVE:
+                    next_action = config.NOOP_ACTION if next_kind == 'noop' else "MOVE"
+                    next_features = MoveJudger.compute_action_features(
+                        next_action,
+                        next_nx,
+                        next_nz,
+                        next_ny,
+                        next_active_mass,
+                        tx,
+                        tz,
+                        enemy_range_image=next_enemy_range_image,
+                        enemy_units=all_enemies,
+                    )
+                    next_direct_penalty = 0.0
+                    if not is_next_noop:
+                        next_bias = _hazard_bias_for_candidate_kind(next_kind)
+                        if next_bias > 0.0:
+                            next_direct_penalty = _compute_direct_approach_penalty(
+                                next_nx,
+                                next_nz,
+                                tx,
+                                tz,
+                                all_enemies,
+                                next_enemy_range_image,
+                                next_speed_norm,
+                                unit_hp=next_hp,
+                                unit_max_hp=next_max_hp,
+                                bias=next_bias,
+                            )
+                    next_features = _inject_hazard_prediction_feature(next_features, next_direct_penalty)
+                else:
+                    next_features = BuildJudger.compute_build_features(
+                        next_nx, next_nz, next_ny,
+                        tx, tz,
+                        next_active_mass,
+                        all_enemies,
+                        state.units, # friendly units
+                        is_next_noop
+                    )
+                    
+                if next_features is None:
+                    next_features = [0.0] * (config.NUM_BUILD_FEATURES if next_discrete_action == config.ACTION_BUILD else config.NUM_ACTION_FEATURES)
+
+                next_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in next_features]
                 next_features_tensor = torch.tensor(next_features, dtype=torch.float32)
                 next_q = torch.dot(next_weights, next_features_tensor)
                 max_next_q = max(max_next_q, next_q.item())
@@ -1314,8 +1384,22 @@ def train_agent(
     state.writer.add_scalar('Training/max_next_q', max_next_q, state.step_counter)
     state.writer.add_scalar('Training/td_error', td_error, state.step_counter)
 
-    loss = criterion(current_q, target_tensor)
+    loss_continuous = criterion(current_q, target_tensor)
+    
+    # Calculate discrete classification loss (we want to encourage the agent to pick the action that led to this TD value
+    # However, RL classification is tricky because we're just matching Q targets. 
+    # For now, let's treat the discrete action chosen as the 'label', and we weight it by the TD advantage.
+    # A simple but effective method: encourage actions that had positive advantage, discourage negative.
+    adv = target_value - current_q_val
+    action_log_probs = torch.nn.functional.log_softmax(action_logits.squeeze(0), dim=-1)
+    # Simple advantage-weighted policy gradient for the discrete head
+    loss_discrete = -action_log_probs[discrete_action] * adv
+    
+    loss = loss_continuous + loss_discrete
+    
     state.writer.add_scalar('Training/loss', loss.item(), state.step_counter)
+    state.writer.add_scalar('Training/loss_continuous', loss_continuous.item(), state.step_counter)
+    state.writer.add_scalar('Training/loss_discrete', loss_discrete.item(), state.step_counter)
 
     optimizer.zero_grad()
     torch.autograd.set_detect_anomaly(True)

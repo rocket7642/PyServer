@@ -21,7 +21,7 @@ def parse_units(message, header):
 				line = lines[i]
 				if line.strip():
 					parts = line.split(' ')
-					if len(parts) >= 7:
+					if len(parts) >= 9:
 						unit = {
 							'id': int(parts[0]),
 							'name': parts[1],
@@ -30,11 +30,21 @@ def parse_units(message, header):
 							'z': float(parts[4]),
 							#'range': float(parts[5]),
 							'health': float(parts[5]),
-							'speed': float(parts[6])
+							'speed': float(parts[6]),
+							'is_constructing': int(parts[7]), # 1 or 0
+							'active_build_progress': float(parts[8])
 						}
-						# Enrich with weapon type data from unit definitions
+						# Enrich with all data so PyTorch tensors have fixed shapes
+						unitType = unit_defs.get_unit_type(unit['name'])
 						weapon_info = unit_defs.get_weapon_info(unit['name'])
+						ranges = unit_defs.get_unit_ranges(unit['name'])
+						costs = unit_defs.get_costs(unit['name'])
+
 						unit.update(weapon_info)
+						unit.update(ranges)
+						unit.update(costs)
+						unit.update({"type": unitType})
+						
 						units_list.append(unit)
 					else:
 						print(f"[WARNING] Malformed unit line: '{line}'")
@@ -48,9 +58,17 @@ def parse_units(message, header):
 
 
 def format_action(action, unit_id, unit_x, unit_z, unit_y, target_x=None, target_z=None):
-	"""Format a move action into a command string to send to the game, choosing queued or immediate based on distance."""
+	"""Format an action into a command string to send to the game, choosing queued or immediate based on distance."""
 	if action == config.NOOP_ACTION or target_x is None or target_z is None:
 		return None
+	
+	if action == "BUILD":
+		# Assuming game engine expects a build command, e.g., "BU [unit_id] [target_x] [target_z] [target_y] [building_type]"
+		# You can change the "PlaceholderBuilding" string or the actual packet syntax as needed by your C# side.
+		command = "C: BU I" 
+		return f"{command} {unit_id} {target_x} {target_z} {unit_y} armrad\n"
+	
+	# Default Move logic
 	distance = ((target_x - unit_x) ** 2 + (target_z - unit_z) ** 2) ** 0.5
 	command = "C: MU Q" if distance > 50 else "C: MU I"
 	return f"{command} {unit_id} {target_x} {target_z} {unit_y}\n"
@@ -129,7 +147,19 @@ def receive_messages(conn, addr):
 				state.eKUnits = parse_units(message, "KNOWN_ENEMY_UNITS")
 			if "RADAR_ENEMY_UNITS" in message:
 				state.eRUnits = parse_units(message, "RADAR_ENEMY_UNITS") # This will need to be integrated into one of the other lists (known likely)
-
+			if "RESOURCES" in message:
+				lines = message.strip().split('\n')
+				for line in lines:
+					if line.startswith("RESOURCES"):
+						parts = line.split(' ')
+						if len(parts) >= 3:
+							try:
+								state.fEnergy = float(parts[1])
+								state.fMass = float(parts[2])
+							except ValueError:
+								print(f"[WARNING] Malformed RESOURCES line: '{line}'")
+						else:
+							print(f"[WARNING] Malformed RESOURCES line: '{line}'")
 			# Merge radar into known enemy units, ensuring no duplicates (radar may have some units not currently visible in known due to fog of war, but if a unit is in both, we want to avoid duplicates)
 			# Need to keep in mind, enemies can enter radar without being identified, this requires us to generalize what they are until confirmed.
 			for unit in state.eRUnits:
@@ -170,6 +200,11 @@ def receive_messages(conn, addr):
 				print(f"Sample unit: {friendly_units[0]}")
 
 			for unit in friendly_units:
+				# Verify if its a moveable unit or commandable unit (ie fighters or factories)
+				if unit['type'] != "UNIT":
+					print(f"Unit {unit['id']} ({unit['name']}) is not a commandable unit. Skipping.")
+					continue
+
 				state_vec = agent_core.get_state(unit, friendly_units, enemy_units)
 				state_no_map = agent_core.get_state_no_map(unit, friendly_units, enemy_units)
 
@@ -232,6 +267,7 @@ def receive_messages(conn, addr):
 
 							state.segment_buffers[unit['id']].append({
 								'state': prev_state,
+								'discrete_action': state.previous_discrete_actions.get(unit['id'], config.ACTION_MOVE),
 								'action': prev_action,
 								'action_kind': state.previous_action_kinds.get(unit['id'], None),
 								'next_state': state_no_map,
@@ -341,13 +377,16 @@ def receive_messages(conn, addr):
 					state.previous_y_positions[unit['id']] = unit['y']
 					state.previous_positions[unit['id']] = (unit['x'], unit['z'])
 
-					action, best_target, best_score, best_candidate_kind = agent_core.get_action(
+					action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
 						state_vec,
 						unit['x'],
 						unit['z'],
 						unit['y'],
 						unit['id']
 					)
+
+					# Store chosen discrete action (Move vs Build) for training
+					state.previous_discrete_actions[unit['id']] = discrete_action
 
 					denorm_tx = map_utils.denormalize_x(best_target[0])
 					denorm_tz = map_utils.denormalize_z(best_target[1])

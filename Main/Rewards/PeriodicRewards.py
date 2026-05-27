@@ -602,6 +602,7 @@ def _train_buffer(buffer, unit_id, segment_reward):
 		done = (i == len(buffer) - 1)
 		agent_core.train_agent(
 			state_full,
+			transition.get('discrete_action', config.ACTION_MOVE),
 			transition['action'],
 			total_reward,
 			next_state_full,
