@@ -9,7 +9,8 @@
         "reload_time": 0.4,
         "dps": 187.5,
         "range": 300,
-        "type": "UNIT"
+        "type": "UNIT",
+        "size": [3, 3]
     },
     "corcom": {
         "display_name": "CORE Commander",
@@ -19,7 +20,8 @@
         "reload_time": 0.4,
         "dps": 187.5,
         "range": 300,
-        "type": "UNIT"
+        "type": "UNIT",
+        "size": [3, 3]
     },
 
     "armpw": {
@@ -313,6 +315,16 @@
         "range": 300,
         "type": "UNKNOWN"
     },
+    "RADAR_LOS_UNKNOWN": {
+        "display_name": "Radar LOS Unit",
+        "weapon_type": "projectile",
+        "projectile_speed": 200,
+        "aoe_radius": 16,
+        "reload_time": 2.0,
+        "dps": 5000,
+        "range": 300,
+        "type": "UNKNOWN"
+    },
 
     "armrad": {
         "display_name": "Radar Tower",
@@ -320,7 +332,8 @@
         "sight_range": 680,
         "type": "RADAR",
         "mass_cost": 60,
-        "energy_cost": 630
+        "energy_cost": 630,
+        "size": [2, 2]
     },
     "corrad": {
         "display_name": "Radar Tower",
@@ -328,7 +341,8 @@
         "sight_range": 680,
         "type": "RADAR",
         "mass_cost": 60,
-        "energy_cost": 630
+        "energy_cost": 630,
+        "size": [2, 2]
     },
 
     "armeyes": {
@@ -337,7 +351,8 @@
         "sight_range": 560,
         "type": "VISION",
         "mass_cost": 32,
-        "energy_cost": 850
+        "energy_cost": 850,
+        "size": [1, 1]
     },
     "coreyes": {
         "display_name": "Beholder",
@@ -345,6 +360,7 @@
         "sight_range": 560,
         "type": "VISION",
         "mass_cost": 32,
-        "energy_cost": 850
+        "energy_cost": 850,
+        "size": [1, 1]
     }
 }

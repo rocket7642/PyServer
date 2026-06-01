@@ -39,10 +39,12 @@ def parse_units(message, header):
 						weapon_info = unit_defs.get_weapon_info(unit['name'])
 						ranges = unit_defs.get_unit_ranges(unit['name'])
 						costs = unit_defs.get_costs(unit['name'])
+						sizes = unit_defs.get_unit_size(unit['name'])
 
 						unit.update(weapon_info)
 						unit.update(ranges)
 						unit.update(costs)
+						unit.update(sizes)
 						unit.update({"type": unitType})
 						
 						units_list.append(unit)

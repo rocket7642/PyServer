@@ -149,6 +149,25 @@ def get_costs(unit_name: str) -> dict:
         "mass_cost": defn.get("mass_cost", 0)
     }
 
+def get_unit_size(unit_name: str) -> dict:
+    """Return the size of a unit as width and height in tiles. 
+    (reminder, tiles are SquareSize * FootprintScale which are 8 and 2 respectively in BAR, 
+    so 1 tile = 16x16 world units, if we need it work with the normalized map, 
+    it will need to be normalized afterwards)
+
+    Args:
+        unit_name: The internal BAR unit name.
+    
+    Returns:
+        Dict with keys: width, height.
+    """
+    defn = get_unit_def(unit_name)
+    size = defn.get("size", [1, 1])  # Default to 1x1 if not specified
+    return {
+        "width": size[0],
+        "height": size[1]
+    }
+
 def normalize_projectile_speed(speed: float) -> float:
     """Normalize a projectile speed to [0, 1] using the configured max speed.
 

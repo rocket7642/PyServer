@@ -3,13 +3,16 @@ import config
 import map_utils
 import runtime_state as state
 
+import unit_defs
+
 def compute_build_features(
     unit_nx, unit_nz, unit_ny,
     target_nx, target_nz,
     active_mass,
     enemy_units,
     friendly_units,
-    is_noop
+    is_noop,
+    target_structure_name="armrad"
 ):
     """
     Compute features for evaluating a potential building placement location.
@@ -83,5 +86,36 @@ def compute_build_features(
         features[4] = -min(2.0, h_diff)
     else:
         features[4] = 0.0
+
+    # Feature 5: blocking_proximity
+    # Overlap detection to avoid placing a structure on top of an existing unit/building.
+    blocking_score = 0.0
+    if state.map_width > 0 and state.map_height > 0:
+        target_size = unit_defs.get_unit_size(target_structure_name)
+        tw_norm = (target_size.get("width", 1) * 16.0 / state.map_width) * config.STANDARD_MAP_WIDTH
+        th_norm = (target_size.get("height", 1) * 16.0 / state.map_height) * config.STANDARD_MAP_HEIGHT
+        
+        target_left = target_nx - tw_norm / 2.0
+        target_right = target_nx + tw_norm / 2.0
+        target_top = target_nz - th_norm / 2.0
+        target_bottom = target_nz + th_norm / 2.0
+        
+        for u in friendly_units + enemy_units:
+            ux = map_utils.normalize_x(u['x'])
+            uz = map_utils.normalize_z(u['z'])
+
+            uw = u.get("width", 1) * 16.0 / state.map_width * config.STANDARD_MAP_WIDTH
+            uh = u.get("height", 1) * 16.0 / state.map_height * config.STANDARD_MAP_HEIGHT
+            
+            u_left = ux - uw / 2.0
+            u_right = ux + uw / 2.0
+            u_top = uz - uh / 2.0
+            u_bottom = uz + uh / 2.0
+            
+            if (target_left < u_right) and (target_right > u_left) and (target_top < u_bottom) and (target_bottom > u_top):
+                blocking_score = 1.0 # Heavy signal for collision!
+                break
+                
+    features[5] = blocking_score
 
     return features
