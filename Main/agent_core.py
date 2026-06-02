@@ -16,7 +16,8 @@ ENCODER_OUTPUT_SIZE = (
     + config.MASS_EMBED_SIZE
     + config.MAP_EMBED_SIZE
     + config.FRIENDLY_EMBED_SIZE
-    + config.ENEMY_EMBED_SIZE
+    + config.ENEMY_EMBED_SIZE 
+    + config.VISION_EMBED_SIZE
 )
 
 agent = RTSAgent(input_size=ENCODER_OUTPUT_SIZE)
@@ -726,6 +727,13 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
         )
 
+        vision_image = map_utils.generate_vision_image(
+            state.units,
+            state.map_width,
+            state.map_height,
+            state.normalized_map_heights
+        )
+
         unit_speed_norm = _get_unit_speed_norm(unit_id)
         unit_hp, unit_max_hp = _get_unit_health_context(unit_id)
         unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
@@ -925,6 +933,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             active_mass,
                             enemy_range_image=enemy_range_image,
                             enemy_units=all_enemies,
+                            vision_image=vision_image
                         )
                     else:
                         features = MoveJudger.compute_action_features(
@@ -937,6 +946,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             tz,
                             enemy_range_image=enemy_range_image,
                             enemy_units=all_enemies,
+                            vision_image=vision_image
                         )
 
                     if features is None:
@@ -970,7 +980,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         active_mass,
                         all_enemies,
                         state.units, # friendly units
-                        is_noop
+                        is_noop,
+                        vision_image=vision_image
                     )
                     
                     if features is None:
@@ -1035,6 +1046,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 unvisited_mass,
                 enemy_range_image=enemy_range_image,
                 enemy_units=all_enemies,
+                vision_image=vision_image
             )
             if noop_features is not None:
                 chosen_action_features = noop_features
@@ -1162,6 +1174,13 @@ def train_agent(
         state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
     )
 
+    vision_image = map_utils.generate_vision_image(
+        state.units,
+        state.map_width,
+        state.map_height,
+        state.normalized_map_heights
+    )
+
     action_features = MoveJudger.compute_action_features(
         action,
         unit_nx,
@@ -1172,6 +1191,7 @@ def train_agent(
         target_nz,
         enemy_range_image=enemy_range_image,
         enemy_units=all_enemies,
+        vision_image=vision_image
     )
 
     unit_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
@@ -1304,6 +1324,13 @@ def train_agent(
                 state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
             )
 
+            next_vision_image = map_utils.generate_vision_image(
+                state.units,
+                state.map_width,
+                state.map_height,
+                state.normalized_map_heights
+            )
+
             next_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
             next_hp, next_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
 
@@ -1327,6 +1354,7 @@ def train_agent(
                         tz,
                         enemy_range_image=next_enemy_range_image,
                         enemy_units=all_enemies,
+                        vision_image=next_vision_image
                     )
                     next_direct_penalty = 0.0
                     if not is_next_noop:
@@ -1352,7 +1380,8 @@ def train_agent(
                         next_active_mass,
                         all_enemies,
                         state.units, # friendly units
-                        is_next_noop
+                        is_next_noop,
+                        vision_image=next_vision_image
                     )
                     
                 if next_features is None:

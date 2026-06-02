@@ -448,7 +448,7 @@ def _compute_path_terrain_penalty(prev_pos, curr_pos):
 	)
 
 
-def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, enemy_range_image=None):
+def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, enemy_range_image=None, vision_image=None):
 	"""Compute the potential-based shaping reward for a movement step, combining distance, direction, height, danger, terrain, and enemy avoidance."""
 	unit_nx = map_utils.normalize_x(prev_pos[0])
 	unit_nz = map_utils.normalize_z(prev_pos[1])

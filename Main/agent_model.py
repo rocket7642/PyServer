@@ -47,9 +47,29 @@ class RTSAgent(nn.Module):
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten()
         )
+        self.vision_cnn = nn.Sequential(
+            nn.Conv2d(1, 16, kernel_size=3, padding=1),
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(32, 16, kernel_size=3, padding=1),
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten()
+        )
+        
         self.map_fc = nn.Sequential(
             nn.LayerNorm(16),
             nn.Linear(16, config.MAP_EMBED_SIZE)
+        )
+        self.vision_fc = nn.Sequential(
+            nn.LayerNorm(16),
+            nn.Linear(16, config.VISION_EMBED_SIZE)
         )
 
         self._initialize_cnn_weights()
@@ -91,7 +111,22 @@ class RTSAgent(nn.Module):
                 nn.init.constant_(module.weight, 1)
                 nn.init.constant_(module.bias, 0)
 
+        for module in self.vision_cnn.modules():
+            if isinstance(module, nn.Conv2d):
+                nn.init.kaiming_normal_(module.weight, mode='fan_out', nonlinearity='relu')
+                if module.bias is not None:
+                    nn.init.constant_(module.bias, 0)
+            elif isinstance(module, nn.BatchNorm2d):
+                nn.init.constant_(module.weight, 1)
+                nn.init.constant_(module.bias, 0)
+
         for module in self.map_fc.modules():
+            if isinstance(module, nn.Linear):
+                nn.init.xavier_uniform_(module.weight)
+                if module.bias is not None:
+                    nn.init.constant_(module.bias, 0)
+
+        for module in self.vision_fc.modules():
             if isinstance(module, nn.Linear):
                 nn.init.xavier_uniform_(module.weight)
                 if module.bias is not None:
@@ -169,6 +204,7 @@ class RTSAgent(nn.Module):
         mass_emb = self.mass_encoder(mass_features)
 
         map_emb = map_utils.get_cached_map_embedding(self, device)
+        vision_emb = map_utils.get_vision_embedding(self, state.vision_image, device) # Error for now, in current adding phase
 
         friendly_vectors = []
         for u in friendly_units:
@@ -214,22 +250,22 @@ class RTSAgent(nn.Module):
         else:
             enemy_emb = torch.zeros(config.ENEMY_EMBED_SIZE, dtype=torch.float32, device=device)
 
-        return self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb
+        return self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb, vision_emb
 
     def encode_state(self, agent_unit, friendly_units, enemy_units):
         """Produce a full state vector by concatenating all encoder outputs including the map embedding."""
-        self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb = self.encode_state_parts(
+        self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb, vision_emb = self.encode_state_parts(
             agent_unit, friendly_units, enemy_units
         )
-        state_vec = torch.cat([self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb], dim=0)
+        state_vec = torch.cat([self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb, vision_emb], dim=0)
         state_vec = torch.nan_to_num(state_vec, nan=0.0, posinf=0.0, neginf=0.0)
         return state_vec
 
     def encode_state_no_map(self, agent_unit, friendly_units, enemy_units):
         """Produce a state vector without the map embedding, for lightweight replay buffer storage."""
-        self_emb, eco_emb, mass_emb, _, friendly_emb, enemy_emb = self.encode_state_parts(
+        self_emb, eco_emb, mass_emb, _, friendly_emb, enemy_emb, vision_emb = self.encode_state_parts(
             agent_unit, friendly_units, enemy_units
         )
-        state_vec = torch.cat([self_emb, eco_emb, mass_emb, friendly_emb, enemy_emb], dim=0)
+        state_vec = torch.cat([self_emb, eco_emb, mass_emb, friendly_emb, enemy_emb, vision_emb], dim=0)
         state_vec = torch.nan_to_num(state_vec, nan=0.0, posinf=0.0, neginf=0.0)
         return state_vec

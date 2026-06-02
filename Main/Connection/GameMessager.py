@@ -229,6 +229,14 @@ def receive_messages(conn, addr):
 							state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
 						)
 
+						vision_image = map_utils.generate_vision_image(
+							friendly_units,
+							state.map_width,
+							state.map_height,
+							state.normalized_map_heights
+						)
+						state.vision_image = vision_image
+
 						if prev_state is not None and prev_action is not None:
 							unvisited_mass = [
 								p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm
@@ -241,6 +249,7 @@ def receive_messages(conn, addr):
 								unit['y'],
 								unvisited_mass,
 								enemy_range_image=enemy_range_image,
+								vision_image=vision_image,
 							)
 
 							if damage_taken > 0.0:
@@ -495,7 +504,25 @@ def receive_messages(conn, addr):
 							state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
 						)
 						if enemy_img is not None:
-							state.writer.add_image('Enemy_Ranges/map', enemy_img, state.step_counter, dataformats='HW')
+							state.writer.add_image(
+								'Enemy_Ranges/map', 
+								enemy_img, 
+								state.step_counter, 
+								dataformats='HW')
+
+						vision_img = map_utils.generate_vision_image(
+							unit,
+							state.map_width,
+							state.map_height,
+							state.normalized_map_heights
+						)
+						if vision_img is not None:
+							state.writer.add_image(
+								'Agent_View/vision',
+								vision_img,
+								state.step_counter,
+								dataformats='HWC'
+							)
 
 						if local_view is not None and enemy_img is not None:
 							# use the new map utilities to create a combined visualization of local terrain and enemy ranges
@@ -553,7 +580,26 @@ def receive_messages(conn, addr):
 				state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
 			)
 			if enemy_img is not None:
-				state.writer.add_image('Enemy_Ranges/map', enemy_img, state.step_counter, dataformats='HW')
+				state.writer.add_image(
+					'Enemy_Ranges/map', 
+					enemy_img, 
+					state.step_counter, 
+					dataformats='HW'
+				)
+
+			vision_img = map_utils.generate_vision_image(
+				unit,
+				state.map_width,
+				state.map_height,
+				state.normalized_map_heights
+			)
+			if vision_img is not None:
+				state.writer.add_image(
+					'Agent_View/vision',
+					vision_img,
+					state.step_counter,
+					dataformats='HWC'
+				)
 
 			if local_view is not None and enemy_img is not None:
 				# use the new map utilities to create a combined visualization of local terrain and enemy ranges

@@ -31,6 +31,9 @@ map_spots_source = ""
 cached_map_embedding = None
 cached_map_embedding_device = None
 
+# Vision image
+vision_image = None
+
 # Cost field for mass point pathfinding
 terrain_cost_map = None
 mass_cost_fields = {}

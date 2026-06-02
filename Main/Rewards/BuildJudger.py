@@ -12,6 +12,7 @@ def compute_build_features(
     enemy_units,
     friendly_units,
     is_noop,
+    vision_image=None,
     target_structure_name="armrad"
 ):
     """

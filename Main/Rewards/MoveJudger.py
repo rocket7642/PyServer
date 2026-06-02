@@ -98,7 +98,7 @@ def get_top_mass_spots(unit_x, unit_z, unvisited_mass, limit=4):
 	return ranked[:limit]
 
 
-def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, target_x=None, target_z=None, enemy_range_image=None, enemy_units=None):
+def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, target_x=None, target_z=None, enemy_range_image=None, enemy_units=None, vision_image=None):
 	"""Compute the feature vector for an action (NOOP or MOVE) used to score candidates via dot product with learned weights."""
 	features = []
 
