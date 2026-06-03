@@ -42,9 +42,9 @@ def compute_build_features(
         if dist < min_f_dist:
             min_f_dist = dist
             
-    # Max reward at 0 distance, linearly falls off to 0 at 150 units.
+    # Max reward at 0 distance, linearly falls off to 0 at 15% of the map width (which is 153.6 units on the normalized map)
     if min_f_dist != float('inf'):
-        features[0] = max(0.0, 1.0 - (min_f_dist / 150.0))
+        features[0] = max(0.0, 1.0 - (min_f_dist / float(config.STANDARD_MAP_WIDTH * 0.15)))  # Normalize by map size for consistency across maps
 
     # Feature 1: is_building (Noop Equivalent)
     features[1] = 1.0 if is_noop else 0.0
@@ -74,8 +74,8 @@ def compute_build_features(
                 min_m_dist = dist
                 
     if min_m_dist != float('inf'):
-        # Falloff out to 200 units
-        features[3] = max(0.0, 1.0 - (min_m_dist / 200.0))
+        # Falloff out to 20% of the map width (204.8 units on the normalized map), which is a reasonable distance for a building to be considered "near" a mass spot
+        features[3] = max(0.0, 1.0 - (min_m_dist / float(config.STANDARD_MAP_WIDTH * 0.20)))
 
     # Feature 4: terrain_suitability
     # Punish high ridges / slopes by checking the height difference between the target spot and the current location.
@@ -84,13 +84,13 @@ def compute_build_features(
         target_h = map_utils.get_terrain_height_at(target_nx, target_nz, state.normalized_map_heights)
         unit_h = map_utils.get_terrain_height_at(unit_nx, unit_nz, state.normalized_map_heights)
         h_diff = abs(target_h - unit_h)
-        features[4] = -min(2.0, h_diff)
+        features[4] = -min(1.0, h_diff)
     else:
         features[4] = 0.0
 
     # Feature 5: blocking_proximity
     # Overlap detection to avoid placing a structure on top of an existing unit/building.
-    blocking_score = 0.0
+    blocking_proximity = 0.0
     if state.map_width > 0 and state.map_height > 0:
         target_size = unit_defs.get_unit_size(target_structure_name)
         tw_norm = (target_size.get("width", 1) * 16.0 / state.map_width) * config.STANDARD_MAP_WIDTH
@@ -114,9 +114,9 @@ def compute_build_features(
             u_bottom = uz + uh / 2.0
             
             if (target_left < u_right) and (target_right > u_left) and (target_top < u_bottom) and (target_bottom > u_top):
-                blocking_score = 1.0 # Heavy signal for collision!
+                blocking_proximity = -2.0 # Heavy negative signal for collision!
                 break
                 
-    features[5] = blocking_score
+    features[5] = blocking_proximity
 
     return features

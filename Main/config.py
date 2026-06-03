@@ -110,7 +110,7 @@ NUM_BUILD_FEATURES = 6 # Building
 # 2: enemy_proximity (Don't build near enemies)
 # 3: mass_spot_proximity (Prefer building near mass spots)
 # 4: terrain_suitability (Prefer building on flatter terrain)
-# 5: blocking_proximity (Don't build if it would collide with an existing unit)
+# 5: blocking_proximity (Don't build if it would collide with an existing unit, provides a negative signal)
 
 # Types of valid actions
 ACTION_MOVE = 0

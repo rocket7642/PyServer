@@ -139,7 +139,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		if np.isinf(current_cost) or np.isinf(target_cost):
 			dist_reduction = -10.0
 		else:
-			dist_reduction = (current_cost - target_cost) / 100.0
+			dist_reduction = float(np.tahn((current_cost - target_cost) / 200.0))  # Squash to [-1, 1] range for stability
 		features.append(dist_reduction)
 	else:
 		features.append(0.0)
@@ -164,6 +164,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		sample_count=config.PATH_SAMPLE_COUNT,
 	)
 	magnitude_feature = -move_magnitude / 100.0 + terrain_path_penalty
+	magnitude_feature = max(-1.0,  min(magnitude_feature, 1.0))  # Cap the penalty to prevent extreme values from dominating
 	features.append(magnitude_feature)
 
 	# Remove terrain penalty for now since heights don't matter, only path up them, which this does not convey
@@ -281,6 +282,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 					dodgeable_count += 1
 		if dodgeable_count > 0:
 			dodge_score /= dodgeable_count
+	dodge_score = min(dodge_score, 1.0)  # Cap to prevent extreme values
 	features.append(dodge_score)
 	features.append(0.0)  # hazard_prediction (filled by caller in agent_core)
 
