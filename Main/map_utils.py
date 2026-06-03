@@ -3,6 +3,7 @@ import torch
 from pathlib import Path
 import hashlib
 
+from Main import unit_defs
 import config
 import runtime_state as state
 
@@ -260,6 +261,27 @@ def generate_vision_image(friendly_units, map_w, map_h, map_heights):
                     vis_img[pz, px] = max(vis_img[pz, px], 0.5)
 
     return vis_img
+
+def is_position_buildable(tx, tz, unit):
+    """Check if a position is buildable based on terrain cost map (e.g. not blocked by impassable terrain)."""
+    if state.terrain_cost_map is None:
+        return False
+    unit_size = unit_defs.get_unit_size("armrad")  # Assuming we're building an armrad, adjust if needed
+    tw = unit_size.get("width", 1) * 16.0
+    th = unit_size.get("height", 1) * 16.0
+    map_w = state.map_width
+    map_h = state.map_height
+    if map_w <= 0 or map_h <= 0:
+        return False
+    tw_norm = (tw / map_w) * config.STANDARD_MAP_WIDTH
+    th_norm = (th / map_h) * config.STANDARD_MAP_HEIGHT
+    left = int(max(0, min(config.STANDARD_MAP_WIDTH - 1, tx - tw_norm / 2.0)))
+    right = int(max(0, min(config.STANDARD_MAP_WIDTH - 1, tx + tw_norm / 2.0)))
+    top = int(max(0, min(config.STANDARD_MAP_HEIGHT - 1, tz - th_norm / 2.0)))
+    bottom = int(max(0, min(config.STANDARD_MAP_HEIGHT - 1, tz + th_norm / 2.0)))
+
+    return np.all(np.isfinite(state.terrain_cost_map[top:bottom+1, left:right+1]))
+
 
 def generate_enemy_range_image(enemy_units, map_w, map_h, map_heights_shape, enemy_range=None):
     """Generate a gradient danger image using per-unit weapon range with intensity falloff from each enemy."""

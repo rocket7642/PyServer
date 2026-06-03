@@ -1,6 +1,7 @@
 import traceback
 import time
 import socket
+import numpy as np
 
 import config
 import runtime_state as state
@@ -46,6 +47,7 @@ def parse_units(message, header):
 						unit.update(costs)
 						unit.update(sizes)
 						unit.update({"type": unitType})
+						unit.update({"cloaked": False}) # Will be updated later based on vision vs known enemy units (we don't currently care about our units cloaking)
 						
 						units_list.append(unit)
 					else:
@@ -229,6 +231,7 @@ def receive_messages(conn, addr):
 							state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
 						)
 
+						state.previous_vision_scores.append(np.sum(state.vision_image) if state.vision_image is not None else 0.0)
 						vision_image = map_utils.generate_vision_image(
 							friendly_units,
 							state.map_width,
@@ -236,6 +239,19 @@ def receive_messages(conn, addr):
 							state.normalized_map_heights
 						)
 						state.vision_image = vision_image
+
+						# Determine if any unknown units from the known unit list are within LOS, if they are they are cloaked
+						# This utilizes the vision image created above
+						for e_unit in state.eKUnits:
+							if any(e_unit['id'] == eu['id'] for eu in enemy_units):
+								continue # This unit is currently visible, so skip
+							nx = map_utils.normalize_x(e_unit['x'])
+							nz = map_utils.normalize_z(e_unit['z'])
+							vis_value = vision_image[int(nz * state.vision_image.shape[0]), int(nx * state.vision_image.shape[1])]
+							if vis_value > 0.5: # If the vision image has any value greater than 0.5, that means LOS (and thus cloaked), otherwise it is either in radar or out of view.
+								e_unit['cloaked'] = True
+							else:
+								e_unit['cloaked'] = False
 
 						if prev_state is not None and prev_action is not None:
 							unvisited_mass = [
@@ -302,6 +318,7 @@ def receive_messages(conn, addr):
 							state.writer.add_scalar('Move_Potential/path_terrain', components.get('path_terrain', 0.0), state.step_counter)
 							state.writer.add_scalar('Move_Potential/enemy_avoidance', components.get('enemy_avoidance', 0.0), state.step_counter)
 							state.writer.add_scalar('Move_Potential/damage_taken', components.get('damage_taken', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/vision_coverage', components.get('vision_coverage', 0.0), state.step_counter)
 						elif unit['id'] not in state.previous_actions:
 							print(
 								f"[INFO] Skipping move potential for unit {unit['id']} "

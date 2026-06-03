@@ -448,7 +448,7 @@ def _compute_path_terrain_penalty(prev_pos, curr_pos):
 	)
 
 
-def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, enemy_range_image=None, vision_image=None):
+def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, enemy_range_image=None, vision_image=None, unit_id=None):
 	"""Compute the potential-based shaping reward for a movement step, combining distance, direction, height, danger, terrain, and enemy avoidance."""
 	unit_nx = map_utils.normalize_x(prev_pos[0])
 	unit_nz = map_utils.normalize_z(prev_pos[1])
@@ -545,7 +545,21 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
 	path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
 
-	total = distance_reward + direction_reward + height_jump_penalty + path_danger_penalty + path_terrain_penalty + enemy_avoidance_reward
+	# Building reward parameters
+	
+	# Compare vision delta between rewards (ie, if a building was finished and it can spot a lot, reward it)
+	currentVisionScore = np.sum(vision_image) if vision_image is not None else 0.0
+	# Grab the past few (to get 5 seconds of it) vision scores and average them to get a more stable "prior" vision score, then compare to current
+	priorVisionScore = 0.0 
+	# THIS IS A LIST
+	vision_scores = state.previous_vision_scores[-10:]
+	if vision_scores:
+		priorVisionScore = np.mean(vision_scores)
+
+	vision_delta = currentVisionScore - priorVisionScore
+	vision_reward = vision_delta * config.VISION_REWARD_SCALE
+
+	total = distance_reward + direction_reward + height_jump_penalty + path_danger_penalty + path_terrain_penalty + enemy_avoidance_reward + vision_reward
 	components = {
 		'distance': distance_reward,
 		'direction': direction_reward,
@@ -553,6 +567,7 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 		'path_danger': path_danger_penalty,
 		'path_terrain': path_terrain_penalty,
 		'enemy_avoidance': enemy_avoidance_reward,
+		'vision_coverage': vision_reward,
 	}
 	return total, components
 

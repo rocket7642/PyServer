@@ -1,3 +1,5 @@
+from random import random
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -697,6 +699,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         # Currently, all logic below is based on movement. We will output the move_features 
         # and handle the build features if the discrete_action is ACTION_BUILD.
         feature_weights = move_features.squeeze(0)
+        build_weights = build_features.squeeze(0)
 
         state.lstm_hidden_states[unit_id] = (new_hidden[0].detach(), new_hidden[1].detach())
 
@@ -755,154 +758,192 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         candidates = []
         candidate_meta = []
 
-        # Swapped from 10 candidates in both directions to 3 x 3 at 200 x 200
-        for dx in np.linspace(-40, 40, num=3):
-            for dz in np.linspace(-40, 40, num=3):
-                tx = unit_nx + dx
-                tz = unit_nz + dz
-                tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                # Only add reachable candidates
-                if map_utils.is_position_reachable(tx, tz):
-                    candidates.append((tx, tz, 'grid'))
-                    candidate_meta.append(None)
+        if discrete_action == config.ACTION_MOVE:
 
-        # Current position is always valid
-        candidates.append((unit_nx, unit_nz, 'noop'))
-        candidate_meta.append(None)
-
-        # Generate escape candidates pointing away from nearby enemies
-        # Also add lateral dodge candidates for projectile/missile enemies
-        escape_dx, escape_dz = map_utils.compute_enemy_escape_direction(unit_nx, unit_nz, all_enemies)
-        if abs(escape_dx) > 1e-6 or abs(escape_dz) > 1e-6:
-            for dist_mult in [0.5, 1.0, 1.5]:
-                esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
-                    import math
-                    base_angle = math.atan2(escape_dz, escape_dx)
-                    angle = base_angle + angle_offset * math.pi
-                    tx = unit_nx + math.cos(angle) * esc_dist
-                    tz = unit_nz + math.sin(angle) * esc_dist
+            # Swapped from 10 candidates in both directions to 3 x 3 at 200 x 200
+            for dx in np.linspace(-40, 40, num=3):
+                for dz in np.linspace(-40, 40, num=3):
+                    tx = unit_nx + dx
+                    tz = unit_nz + dz
                     tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-
-                    # outsideEnemyRange = True
-                    # for enemy in all_enemies:
-                    #     ex = map_utils.normalize_x(enemy['x'])
-                    #     ez = map_utils.normalize_z(enemy['z'])
-                    #     enemy_range = map_utils.normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
-                    #     dist_to_enemy = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
-                    #     if dist_to_enemy <= enemy_range:
-                    #         outsideEnemyRange = False
-                    #         break
-
-                    # Verify if the canidate is reachable and outside the enemy range before adding
-                    # TEMPORARY CHANGE, no longer has to be outside enemy range, just has to be reachable. The threat of being in range of an enemy is now handled by the hazard prediction feature and the model's learned weighting of it, allowing for more nuanced decisions about when to risk being in range for better positioning or mass gathering.
-                    if map_utils.is_position_reachable(tx, tz): #and outsideEnemyRange:
-                        candidates.append((tx, tz, 'escape'))
+                    # Only add reachable candidates
+                    if map_utils.is_position_reachable(tx, tz):
+                        candidates.append((tx, tz, 'grid'))
                         candidate_meta.append(None)
 
-        # Lateral dodge candidates perpendicular to incoming fire from projectile/missile enemies
-        import math
-        for eu in all_enemies:
-            wtype = eu.get('weapon_type', 'projectile')
-            if wtype in ('projectile', 'missile'):
-                eu_nx = map_utils.normalize_x(eu['x'])
-                eu_nz = map_utils.normalize_z(eu['z'])
-                fire_dx = unit_nx - eu_nx
-                fire_dz = unit_nz - eu_nz
-                fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
-                if fire_mag > 1e-6:
-                    # Perpendicular directions (90 degrees to fire line)
-                    perp_dx = -fire_dz / fire_mag
-                    perp_dz = fire_dx / fire_mag
-                    for sign in [1.0, -1.0]:
-                        for dist_mult in [0.5, 1.0]:
-                            d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                            tx = unit_nx + sign * perp_dx * d
-                            tz = unit_nz + sign * perp_dz * d
-                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+            # Current position is always valid
+            candidates.append((unit_nx, unit_nz, 'noop'))
+            candidate_meta.append(None)
 
-                            # further_from_enemy = True
-                            # candidate_enemy_dist = ((tx - eu_nx) ** 2 + (tz - eu_nz) ** 2) ** 0.5
-                            # if candidate_enemy_dist <= fire_mag:
-                            #     further_from_enemy = False
+            # Generate escape candidates pointing away from nearby enemies
+            # Also add lateral dodge candidates for projectile/missile enemies
+            escape_dx, escape_dz = map_utils.compute_enemy_escape_direction(unit_nx, unit_nz, all_enemies)
+            if abs(escape_dx) > 1e-6 or abs(escape_dz) > 1e-6:
+                for dist_mult in [0.5, 1.0, 1.5]:
+                    esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                    for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
+                        import math
+                        base_angle = math.atan2(escape_dz, escape_dx)
+                        angle = base_angle + angle_offset * math.pi
+                        tx = unit_nx + math.cos(angle) * esc_dist
+                        tz = unit_nz + math.sin(angle) * esc_dist
+                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
 
-                            # Same as above, no longer requiring the dodge candidate to be further from the enemy, just reachable, since the model can learn to weigh the hazard prediction feature to understand the risk of being in range and make more nuanced decisions.
-                            if map_utils.is_position_reachable(tx, tz): #and further_from_enemy:
-                                candidates.append((tx, tz, 'strafe'))
-                                candidate_meta.append(None)
+                        # outsideEnemyRange = True
+                        # for enemy in all_enemies:
+                        #     ex = map_utils.normalize_x(enemy['x'])
+                        #     ez = map_utils.normalize_z(enemy['z'])
+                        #     enemy_range = map_utils.normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
+                        #     dist_to_enemy = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
+                        #     if dist_to_enemy <= enemy_range:
+                        #         outsideEnemyRange = False
+                        #         break
 
-        # Short-range scatter candidates for throwing off predictive projectiles.
-        # These stay close to the current position to avoid large path deviations.
-        for enemy in all_enemies:
-            wtype = enemy.get('weapon_type', 'projectile')
-            if wtype in ('projectile', 'missile'):
-                ex = map_utils.normalize_x(enemy['x'])
-                ez = map_utils.normalize_z(enemy['z'])
-                fire_dx = unit_nx - ex
-                fire_dz = unit_nz - ez
-                fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
-                if fire_mag > 1e-6:
-                    perp_dx = -fire_dz / fire_mag
-                    perp_dz = fire_dx / fire_mag
-                    # Prefer tiny lateral jinks plus slight forward/back offsets.
-                    # This creates a compact scatter pattern around the unit.
-                    forward_dx = fire_dx / fire_mag
-                    forward_dz = fire_dz / fire_mag
-                    for lateral_sign in [1.0, -1.0]:
-                        for forward_sign in [0.0, 1.0, -1.0]:
-                            for dist_mult in [0.08, 0.14, 0.2]:
+                        # Verify if the canidate is reachable and outside the enemy range before adding
+                        # TEMPORARY CHANGE, no longer has to be outside enemy range, just has to be reachable. The threat of being in range of an enemy is now handled by the hazard prediction feature and the model's learned weighting of it, allowing for more nuanced decisions about when to risk being in range for better positioning or mass gathering.
+                        if map_utils.is_position_reachable(tx, tz): #and outsideEnemyRange:
+                            candidates.append((tx, tz, 'escape'))
+                            candidate_meta.append(None)
+
+            # Lateral dodge candidates perpendicular to incoming fire from projectile/missile enemies
+            import math
+            for eu in all_enemies:
+                wtype = eu.get('weapon_type', 'projectile')
+                if wtype in ('projectile', 'missile'):
+                    eu_nx = map_utils.normalize_x(eu['x'])
+                    eu_nz = map_utils.normalize_z(eu['z'])
+                    fire_dx = unit_nx - eu_nx
+                    fire_dz = unit_nz - eu_nz
+                    fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+                    if fire_mag > 1e-6:
+                        # Perpendicular directions (90 degrees to fire line)
+                        perp_dx = -fire_dz / fire_mag
+                        perp_dz = fire_dx / fire_mag
+                        for sign in [1.0, -1.0]:
+                            for dist_mult in [0.5, 1.0]:
                                 d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                                tx = unit_nx + (lateral_sign * perp_dx + 0.45 * forward_sign * forward_dx) * d
-                                tz = unit_nz + (lateral_sign * perp_dz + 0.45 * forward_sign * forward_dz) * d
+                                tx = unit_nx + sign * perp_dx * d
+                                tz = unit_nz + sign * perp_dz * d
                                 tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                                 tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                                if map_utils.is_position_reachable(tx, tz):
-                                    candidates.append((tx, tz, 'dodge'))
+
+                                # further_from_enemy = True
+                                # candidate_enemy_dist = ((tx - eu_nx) ** 2 + (tz - eu_nz) ** 2) ** 0.5
+                                # if candidate_enemy_dist <= fire_mag:
+                                #     further_from_enemy = False
+
+                                # Same as above, no longer requiring the dodge candidate to be further from the enemy, just reachable, since the model can learn to weigh the hazard prediction feature to understand the risk of being in range and make more nuanced decisions.
+                                if map_utils.is_position_reachable(tx, tz): #and further_from_enemy:
+                                    candidates.append((tx, tz, 'strafe'))
                                     candidate_meta.append(None)
 
-        if mass_destination is not None:
-            dest_world_x = map_utils.denormalize_x(mass_destination[0])
-            dest_world_z = map_utils.denormalize_z(mass_destination[1])
-            dist_to_dest = ((dest_world_x - unit_x) ** 2 + (dest_world_z - unit_z) ** 2) ** 0.5
-            # Only add mass destination if reachable and within approach radius
-            if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
-                candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
-                candidate_meta.append(None)
-            
-            # Extract terrain-guided waypoints from cost field
-            terrain_waypoints = map_utils.extract_terrain_waypoints(
-                mass_destination,
+            # Short-range scatter candidates for throwing off predictive projectiles.
+            # These stay close to the current position to avoid large path deviations.
+            for enemy in all_enemies:
+                wtype = enemy.get('weapon_type', 'projectile')
+                if wtype in ('projectile', 'missile'):
+                    ex = map_utils.normalize_x(enemy['x'])
+                    ez = map_utils.normalize_z(enemy['z'])
+                    fire_dx = unit_nx - ex
+                    fire_dz = unit_nz - ez
+                    fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+                    if fire_mag > 1e-6:
+                        perp_dx = -fire_dz / fire_mag
+                        perp_dz = fire_dx / fire_mag
+                        # Prefer tiny lateral jinks plus slight forward/back offsets.
+                        # This creates a compact scatter pattern around the unit.
+                        forward_dx = fire_dx / fire_mag
+                        forward_dz = fire_dz / fire_mag
+                        for lateral_sign in [1.0, -1.0]:
+                            for forward_sign in [0.0, 1.0, -1.0]:
+                                for dist_mult in [0.08, 0.14, 0.2]:
+                                    d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                                    tx = unit_nx + (lateral_sign * perp_dx + 0.45 * forward_sign * forward_dx) * d
+                                    tz = unit_nz + (lateral_sign * perp_dz + 0.45 * forward_sign * forward_dz) * d
+                                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                                    if map_utils.is_position_reachable(tx, tz):
+                                        candidates.append((tx, tz, 'dodge'))
+                                        candidate_meta.append(None)
+
+            if mass_destination is not None:
+                dest_world_x = map_utils.denormalize_x(mass_destination[0])
+                dest_world_z = map_utils.denormalize_z(mass_destination[1])
+                dist_to_dest = ((dest_world_x - unit_x) ** 2 + (dest_world_z - unit_z) ** 2) ** 0.5
+                # Only add mass destination if reachable and within approach radius
+                if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
+                    candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
+                    candidate_meta.append(None)
+                
+                # Extract terrain-guided waypoints from cost field
+                terrain_waypoints = map_utils.extract_terrain_waypoints(
+                    mass_destination,
+                    unit_nx,
+                    unit_nz,
+                    count=config.TERRAIN_WAYPOINT_COUNT,
+                    search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
+                )
+                for wx, wz in terrain_waypoints:
+                    candidates.append((wx, wz, 'terrain_waypoint'))
+                    candidate_meta.append(None)
+                # if terrain_waypoints:
+                #     state.writer.add_scalar(
+                #         'Action_Selection/terrain_waypoints_generated',
+                #         len(terrain_waypoints),
+                #         state.step_counter
+                #     )
+
+            adaptive_generated = _generate_adaptive_candidates(
+                unit_id,
                 unit_nx,
                 unit_nz,
-                count=config.TERRAIN_WAYPOINT_COUNT,
-                search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
+                mass_destination,
+                all_enemies,
+                candidates,
             )
-            for wx, wz in terrain_waypoints:
-                candidates.append((wx, wz, 'terrain_waypoint'))
-                candidate_meta.append(None)
-            # if terrain_waypoints:
-            #     state.writer.add_scalar(
-            #         'Action_Selection/terrain_waypoints_generated',
-            #         len(terrain_waypoints),
-            #         state.step_counter
-            #     )
+            for adaptive in adaptive_generated:
+                candidates.append((adaptive['tx'], adaptive['tz'], adaptive['kind']))
+                candidate_meta.append(adaptive)
 
-        adaptive_generated = _generate_adaptive_candidates(
-            unit_id,
-            unit_nx,
-            unit_nz,
-            mass_destination,
-            all_enemies,
-            candidates,
-        )
-        for adaptive in adaptive_generated:
-            candidates.append((adaptive['tx'], adaptive['tz'], adaptive['kind']))
-            candidate_meta.append(adaptive)
+            state.writer.add_scalar('Action_Selection/adaptive_candidate_count', float(len(adaptive_generated)), state.step_counter)
 
-        state.writer.add_scalar('Action_Selection/adaptive_candidate_count', float(len(adaptive_generated)), state.step_counter)
+        if discrete_action == config.ACTION_BUILD:
+            # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
+            # For simplicity, let's consider a small grid around the unit for potential build locations.
+            for dx in np.linspace(-20, 20, num=3):
+                for dz in np.linspace(-20, 20, num=3):
+                    tx = unit_nx + dx
+                    tz = unit_nz + dz
+                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                    if map_utils.is_position_buildable(tx, tz):
+                        candidates.append((tx, tz, 'build'))
+                        candidate_meta.append(None)
+
+            # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
+            for mass in active_mass:
+                for dx in np.linspace(-20, 20, num=3):
+                    for dz in np.linspace(-20, 20, num=3):
+                        tx = mass[0] + dx
+                        tz = mass[1] + dz
+                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                        if map_utils.is_position_buildable(tx, tz):
+                            candidates.append((tx, tz, 'build'))
+                            candidate_meta.append(None)
+
+            # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
+            # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
+            # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
+            for _ in range(10):
+                tx = random.uniform(0, config.STANDARD_MAP_WIDTH)
+                tz = random.uniform(0, config.STANDARD_MAP_HEIGHT)
+                if map_utils.is_position_buildable(tx, tz):
+                    candidates.append((tx, tz, 'vision_edge_build'))
+                    candidate_meta.append(None)
+
 
         action_scores = []
         best_score = -float('inf')
@@ -1100,7 +1141,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         if discrete_action == config.ACTION_BUILD:
             best_action = "BUILD"
-            build_weights = build_features.squeeze(0)
+            
             print(f"Building chosen by unit {unit_id}! Target picked: {best_target}")
             for name, weight in zip(config.BUILD_FEATURE_NAMES, build_weights):
                  state.writer.add_scalar(f"Feature_Weights/Build_{name}", weight.item(), state.step_counter)
@@ -1242,78 +1283,114 @@ def train_agent(
             
             max_next_q = -float('inf')
             candidates = []
-            for dx in np.linspace(-200, 200, num=10):
-                for dz in np.linspace(-200, 200, num=10):
-                    tx = unit_nx + dx
-                    tz = unit_nz + dz
-                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                    # Only add reachable candidates
-                    if map_utils.is_position_reachable(tx, tz):
-                        candidates.append((tx, tz, 'grid'))
-            # Current next position is always valid
-            next_nx_pos = map_utils.normalize_x(next_unit_x)
-            next_nz_pos = map_utils.normalize_z(next_unit_z)
-            candidates.append((next_nx_pos, next_nz_pos, 'noop'))
 
-            # Generate escape candidates for TD target calculation
-            esc_dx, esc_dz = map_utils.compute_enemy_escape_direction(next_nx_pos, next_nz_pos, all_enemies)
-            if abs(esc_dx) > 1e-6 or abs(esc_dz) > 1e-6:
-                import math
-                for dist_mult in [0.5, 1.0, 1.5]:
-                    esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                    for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
-                        base_angle = math.atan2(esc_dz, esc_dx)
-                        angle = base_angle + angle_offset * math.pi
-                        tx = next_nx_pos + math.cos(angle) * esc_dist
-                        tz = next_nz_pos + math.sin(angle) * esc_dist
+            if next_discrete_action == config.ACTION_MOVE:
+                for dx in np.linspace(-200, 200, num=10):
+                    for dz in np.linspace(-200, 200, num=10):
+                        tx = unit_nx + dx
+                        tz = unit_nz + dz
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                        # Only add reachable candidates
                         if map_utils.is_position_reachable(tx, tz):
-                            candidates.append((tx, tz, 'escape'))
+                            candidates.append((tx, tz, 'grid'))
+                # Current next position is always valid
+                next_nx_pos = map_utils.normalize_x(next_unit_x)
+                next_nz_pos = map_utils.normalize_z(next_unit_z)
+                candidates.append((next_nx_pos, next_nz_pos, 'noop'))
 
-            # Lateral dodge candidates for TD target (projectile/missile enemies)
-            for eu in all_enemies:
-                wtype = eu.get('weapon_type', 'projectile')
-                if wtype in ('projectile', 'missile'):
-                    eu_nx = map_utils.normalize_x(eu['x'])
-                    eu_nz = map_utils.normalize_z(eu['z'])
-                    fire_dx = next_nx_pos - eu_nx
-                    fire_dz = next_nz_pos - eu_nz
-                    fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
-                    if fire_mag > 1e-6:
-                        perp_dx = -fire_dz / fire_mag
-                        perp_dz = fire_dx / fire_mag
-                        for sign in [1.0, -1.0]:
-                            for dist_mult in [0.5, 1.0]:
-                                d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                                tx = next_nx_pos + sign * perp_dx * d
-                                tz = next_nz_pos + sign * perp_dz * d
-                                tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                                tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                                if map_utils.is_position_reachable(tx, tz):
-                                    candidates.append((tx, tz, 'strafe'))
+                # Generate escape candidates for TD target calculation
+                esc_dx, esc_dz = map_utils.compute_enemy_escape_direction(next_nx_pos, next_nz_pos, all_enemies)
+                if abs(esc_dx) > 1e-6 or abs(esc_dz) > 1e-6:
+                    import math
+                    for dist_mult in [0.5, 1.0, 1.5]:
+                        esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                        for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
+                            base_angle = math.atan2(esc_dz, esc_dx)
+                            angle = base_angle + angle_offset * math.pi
+                            tx = next_nx_pos + math.cos(angle) * esc_dist
+                            tz = next_nz_pos + math.sin(angle) * esc_dist
+                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                            if map_utils.is_position_reachable(tx, tz):
+                                candidates.append((tx, tz, 'escape'))
 
-            if mass_destination is not None:
-                dest_world_x = map_utils.denormalize_x(mass_destination[0])
-                dest_world_z = map_utils.denormalize_z(mass_destination[1])
-                dist_to_dest = ((dest_world_x - next_unit_x) ** 2 + (dest_world_z - next_unit_z) ** 2) ** 0.5
-                # Only add mass destination if reachable and within approach radius
-                if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
-                    candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
-                
-                # Add terrain waypoints for TD target calculation
-                next_nx_norm = map_utils.normalize_x(next_unit_x)
-                next_nz_norm = map_utils.normalize_z(next_unit_z)
-                terrain_waypoints = map_utils.extract_terrain_waypoints(
-                    mass_destination,
-                    next_nx_norm,
-                    next_nz_norm,
-                    count=config.TERRAIN_WAYPOINT_COUNT,
-                    search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
-                )
-                for wx, wz in terrain_waypoints:
-                    candidates.append((wx, wz, 'terrain_waypoint'))
+                # Lateral dodge candidates for TD target (projectile/missile enemies)
+                for eu in all_enemies:
+                    wtype = eu.get('weapon_type', 'projectile')
+                    if wtype in ('projectile', 'missile'):
+                        eu_nx = map_utils.normalize_x(eu['x'])
+                        eu_nz = map_utils.normalize_z(eu['z'])
+                        fire_dx = next_nx_pos - eu_nx
+                        fire_dz = next_nz_pos - eu_nz
+                        fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+                        if fire_mag > 1e-6:
+                            perp_dx = -fire_dz / fire_mag
+                            perp_dz = fire_dx / fire_mag
+                            for sign in [1.0, -1.0]:
+                                for dist_mult in [0.5, 1.0]:
+                                    d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                                    tx = next_nx_pos + sign * perp_dx * d
+                                    tz = next_nz_pos + sign * perp_dz * d
+                                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                                    if map_utils.is_position_reachable(tx, tz):
+                                        candidates.append((tx, tz, 'strafe'))
+
+                if mass_destination is not None:
+                    dest_world_x = map_utils.denormalize_x(mass_destination[0])
+                    dest_world_z = map_utils.denormalize_z(mass_destination[1])
+                    dist_to_dest = ((dest_world_x - next_unit_x) ** 2 + (dest_world_z - next_unit_z) ** 2) ** 0.5
+                    # Only add mass destination if reachable and within approach radius
+                    if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
+                        candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
+                    
+                    # Add terrain waypoints for TD target calculation
+                    next_nx_norm = map_utils.normalize_x(next_unit_x)
+                    next_nz_norm = map_utils.normalize_z(next_unit_z)
+                    terrain_waypoints = map_utils.extract_terrain_waypoints(
+                        mass_destination,
+                        next_nx_norm,
+                        next_nz_norm,
+                        count=config.TERRAIN_WAYPOINT_COUNT,
+                        search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
+                    )
+                    for wx, wz in terrain_waypoints:
+                        candidates.append((wx, wz, 'terrain_waypoint'))
+
+            if next_discrete_action == config.ACTION_BUILD:
+                # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
+                # For simplicity, let's consider a small grid around the unit for potential build locations.
+                for dx in np.linspace(-20, 20, num=3):
+                    for dz in np.linspace(-20, 20, num=3):
+                        tx = unit_nx + dx
+                        tz = unit_nz + dz
+                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                        if map_utils.is_position_buildable(tx, tz):
+                            candidates.append((tx, tz, 'build'))
+
+                # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
+                for mass in active_mass:
+                    for dx in np.linspace(-20, 20, num=3):
+                        for dz in np.linspace(-20, 20, num=3):
+                            tx = mass[0] + dx
+                            tz = mass[1] + dz
+                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                            if map_utils.is_position_buildable(tx, tz):
+                                candidates.append((tx, tz, 'build'))
+
+                # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
+                # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
+                # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
+                for _ in range(10):
+                    tx = random.uniform(0, config.STANDARD_MAP_WIDTH)
+                    tz = random.uniform(0, config.STANDARD_MAP_HEIGHT)
+                    if map_utils.is_position_buildable(tx, tz):
+                        candidates.append((tx, tz, 'vision_edge_build'))
+
+
 
             next_unvisited = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
             next_active_mass = [mass_destination] if mass_destination is not None else next_unvisited

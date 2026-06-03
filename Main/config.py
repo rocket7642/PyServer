@@ -66,6 +66,9 @@ MASS_SPOT_BLOCK_RISK_THRESHOLD = 75.0  # block a mass destination when estimated
 MASS_SPOT_UNBLOCK_RISK_THRESHOLD = 30.0  # unblock only after risk drops below this lower threshold
 MASS_SPOT_BLOCK_COOLDOWN_STEPS = 10  # minimum steps to keep a risky mass spot blocked
 
+# Building Scales
+VISION_REWARD_SCALE = 0.003
+
 # === WEAPON TYPE SETTINGS ===
 UNIT_DEFS_PATH = "data/unit_defs.json"
 WEAPON_HITSCAN = 0

@@ -33,6 +33,7 @@ cached_map_embedding_device = None
 
 # Vision image
 vision_image = None
+previous_vision_scores = [] # Rolling values of vision score for each unit to detect improvements/deteriorations in vision over time, which can be a useful training signal.
 
 # Cost field for mass point pathfinding
 terrain_cost_map = None
