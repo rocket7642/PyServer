@@ -3,7 +3,7 @@ import torch
 from pathlib import Path
 import hashlib
 
-from Main import unit_defs
+import unit_defs
 import config
 import runtime_state as state
 

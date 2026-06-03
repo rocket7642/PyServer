@@ -703,10 +703,14 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         state.lstm_hidden_states[unit_id] = (new_hidden[0].detach(), new_hidden[1].detach())
 
-        print(f"\nFeature weights for unit {unit_id}:")
+        print(f"\nMove feature weights for unit {unit_id}:")
         for name, weight in zip(config.FEATURE_NAMES, feature_weights):
             print(f"  {name}: {weight.item():.4f}")
             state.writer.add_scalar(f"Feature_Weights/{name}", weight.item(), state.step_counter)
+        print(f"\nBuild feature weights for unit {unit_id}:")
+        for name, weight in zip(config.BUILD_FEATURE_NAMES, build_weights):
+            print(f"  {name}: {weight.item():.4f}")
+            state.writer.add_scalar(f"Build_Weights/{name}", weight.item(), state.step_counter)
 
         # # Log hazard_prediction weight separately for easy monitoring
         # if len(feature_weights) > 0:
@@ -954,6 +958,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         noop_score = None
         move_scores = []
+        build_scores = []
         direct_approach_penalties = []
 
         from Rewards import BuildJudger
@@ -1041,11 +1046,12 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
 
                 action_scores.append(score)
-
-                if abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3:
-                    noop_score = score
-                else:
+                if discrete_action == config.ACTION_BUILD:
+                    build_scores.append(score)
+                elif not is_noop:
                     move_scores.append(score)
+                else:
+                    noop_score = score
 
                 if score > best_score:
                     best_score = score
@@ -1057,24 +1063,36 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 print(f"Error computing action features: {exc}")
                 continue
 
-        if move_scores:
+        if discrete_action == config.ACTION_BUILD and build_scores:
             print(
-                f"Unit {unit_id}: NOOP score={noop_score:.3f}, "
-                f"MOVE scores: min={min(move_scores):.3f}, max={max(move_scores):.3f}, "
+                f"Unit {unit_id}: [BUILD] Candidates={len(build_scores)}, "
+                f"BUILD scores: min={min(build_scores):.3f}, max={max(build_scores):.3f}, "
+                f"mean={np.mean(build_scores):.3f}"
+            )
+        elif discrete_action == config.ACTION_MOVE and move_scores:
+            print(
+                f"Unit {unit_id}: [MOVE] NOOP={noop_score:.3f}, "
+                f"Move scores: min={min(move_scores):.3f}, max={max(move_scores):.3f}, "
                 f"mean={np.mean(move_scores):.3f}"
             )
 
-        # if direct_approach_penalties:
-        #     state.writer.add_scalar(
-        #         'Action_Selection/direct_approach_penalty_mean',
-        #         float(np.mean(direct_approach_penalties)),
-        #         state.step_counter,
-        #     )
-        #     state.writer.add_scalar(
-        #         'Action_Selection/direct_approach_penalty_max',
-        #         float(np.max(direct_approach_penalties)),
-        #         state.step_counter,
-        #     )
+        if move_scores:
+            state.writer.add_scalar('Action_Selection/move_score_min', min(move_scores), state.step_counter)
+            state.writer.add_scalar('Action_Selection/move_score_max', max(move_scores), state.step_counter)
+            state.writer.add_scalar('Action_Selection/move_score_mean', np.mean(move_scores), state.step_counter)
+        if build_scores:
+            state.writer.add_scalar('Action_Selection/build_score_min', min(build_scores), state.step_counter)
+            state.writer.add_scalar('Action_Selection/build_score_max', max(build_scores), state.step_counter)
+            state.writer.add_scalar('Action_Selection/build_score_mean', np.mean(build_scores), state.step_counter)
+
+        if noop_score is not None:
+            state.writer.add_scalar('Action_Selection/noop_score', noop_score, state.step_counter)
+        else:
+            state.writer.add_scalar('Action_Selection/noop_score', 0.0, state.step_counter)
+
+        action_probs = torch.softmax(action_logits.squeeze(0), dim=-1).cpu().numpy()
+        state.writer.add_scalar('Action_Selection/prob_move', action_probs[config.ACTION_MOVE], state.step_counter)
+        state.writer.add_scalar('Action_Selection/prob_build', action_probs[config.ACTION_BUILD], state.step_counter)
 
         is_noop = (abs(best_target[0] - unit_nx) < 1e-3 and abs(best_target[1] - unit_nz) < 1e-3)
         best_action = config.NOOP_ACTION if is_noop else "MOVE"

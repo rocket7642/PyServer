@@ -528,7 +528,7 @@ def receive_messages(conn, addr):
 								dataformats='HW')
 
 						vision_img = map_utils.generate_vision_image(
-							unit,
+							friendly_units,
 							state.map_width,
 							state.map_height,
 							state.normalized_map_heights
@@ -605,7 +605,7 @@ def receive_messages(conn, addr):
 				)
 
 			vision_img = map_utils.generate_vision_image(
-				unit,
+				friendly_units,
 				state.map_width,
 				state.map_height,
 				state.normalized_map_heights

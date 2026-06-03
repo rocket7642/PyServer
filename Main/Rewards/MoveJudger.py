@@ -139,7 +139,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		if np.isinf(current_cost) or np.isinf(target_cost):
 			dist_reduction = -10.0
 		else:
-			dist_reduction = float(np.tahn((current_cost - target_cost) / 200.0))  # Squash to [-1, 1] range for stability
+			dist_reduction = float(np.tanh((current_cost - target_cost) / 200.0))  # Squash to [-1, 1] range for stability
 		features.append(dist_reduction)
 	else:
 		features.append(0.0)
