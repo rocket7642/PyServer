@@ -214,6 +214,12 @@ ADAPTIVE_PROMOTION_SCORE = 0.05
 ADAPTIVE_PRUNE_SCORE = -0.5
 ADAPTIVE_PRUNE_MIN_VISITS = 4
 
+# Decay for head selection logits to encourage exploration of different heads.
+DISCRETE_EPSILON_START = 0.3   # 30% random discrete action at start
+DISCRETE_EPSILON_MIN   = 0.05  # floor at 5% exploration permanently
+DISCRETE_EPSILON_DECAY = 0.995 # decay per step
+FORCE_BUILD_EVERY_N_STEPS = 50  # force ACTION_BUILD every N steps per unit
+
 # === SENTINEL FILE SETTINGS ===
 # Path to the sentinel file that signals the training script to stop.
 SENTINEL_FILE_PATH = "stop.txt"

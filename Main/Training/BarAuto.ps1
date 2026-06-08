@@ -13,17 +13,17 @@ $recentRunError = "recentRunError.txt"
 
 # .\spring-headless.exe --write-dir "F:\BAR Beyond All Reason\Beyond-All-Reason\data" _script.txt
 
-$PyGUIWindowTitle = "Socket Reader" 
+# $PyGUIWindowTitle = "Socket Reader" 
 
-$engineDir = "F:\BAR Beyond All Reason\Beyond-All-Reason\data\engine\recoil_2025.06.19"
+$engineDir = "F:\BAR Beyond All Reason\Beyond-All-Reason\data\engine\recoil_2025.06.24"
 $dataDir   = "F:\BAR Beyond All Reason\Beyond-All-Reason\data"
 $exePath   = $engineDir + "\spring-headless.exe"
 $scriptArg = $engineDir + "\_scriptL.txt"  
 
-$scriptArgM = "\_scriptM.txt"
-$scriptArgP = "\_scriptP.txt"
-$scriptArgL = "\_scriptL.txt" 
-$scriptArgC = "\_scriptC.txt" 
+# $scriptArgM = "\_scriptM.txt"
+# $scriptArgP = "\_scriptP.txt"
+# $scriptArgL = "\_scriptL.txt" 
+# $scriptArgC = "\_scriptC.txt" 
 $scriptArgEval = "\_scriptShowcase.txt"
 $scriptArgTraining = "\_scriptTraining.txt"
 

@@ -79,6 +79,8 @@ mass_spot_blocked_until = {}
 adaptive_candidate_templates = {}
 adaptive_template_next_id = 1
 
+last_build_step = {}
+
 model_graph_logged = False
 
 visited_mass_spots = set()

@@ -692,9 +692,26 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         input_seq = state_vec.unsqueeze(0).unsqueeze(0)
         action_logits, move_features, build_features, new_hidden = agent(input_seq, hidden)
+        discrete_action = None
+
+        steps_since_build = state.step_counter - state.last_build_step.get(unit_id, 0)
+        if not getattr(state, 'evalRun', False) and steps_since_build >= config.FORCE_BUILD_EVERY_N_STEPS:
+            discrete_action = config.ACTION_BUILD
+            state.last_build_step[unit_id] = state.step_counter
         
-        # Determine the action type (Move vs Build)
-        discrete_action = torch.argmax(action_logits, dim=-1).item()
+        # If it was the forced build step, skip choosing a new action to allow the build to go through, otherwise choose action as normal
+        if not discrete_action:
+            # Determine the action type (Move vs Build)
+            # discrete_action = torch.argmax(action_logits, dim=-1).item()
+            if not getattr(state, 'evalRun', False):
+                epsilon = max(config.DISCRETE_EPSILON_MIN,
+                            config.DISCRETE_EPSILON_START * (config.DISCRETE_EPSILON_DECAY ** state.step_counter))
+                if random.random() < epsilon:
+                    discrete_action = random.randint(0, config.NUM_DISCRETE_ACTIONS - 1)
+                else:
+                    discrete_action = torch.argmax(action_logits, dim=-1).item()
+            else:
+                discrete_action = torch.argmax(action_logits, dim=-1).item()
         
         # Currently, all logic below is based on movement. We will output the move_features 
         # and handle the build features if the discrete_action is ACTION_BUILD.
@@ -922,7 +939,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     tz = unit_nz + dz
                     tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                    if map_utils.is_position_buildable(tx, tz):
+                    if map_utils.is_position_buildable(tx, tz, "armrad"):
                         candidates.append((tx, tz, 'build'))
                         candidate_meta.append(None)
 
@@ -934,17 +951,29 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         tz = mass[1] + dz
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                        if map_utils.is_position_buildable(tx, tz):
+                        if map_utils.is_position_buildable(tx, tz, "armrad"):
                             candidates.append((tx, tz, 'build'))
                             candidate_meta.append(None)
 
             # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
             # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
             # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
-            for _ in range(10):
-                tx = random.uniform(0, config.STANDARD_MAP_WIDTH)
-                tz = random.uniform(0, config.STANDARD_MAP_HEIGHT)
-                if map_utils.is_position_buildable(tx, tz):
+            # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
+            for determiner in range(24):
+                angle = determiner * (2 * np.pi / 24)
+                distance = 1
+                # Increment outwards from the unit until we find an unknown tile in the vision image
+                while True:
+                    distance += 1
+                    tx = unit_nx + distance * np.cos(angle)
+                    tz = unit_nz + distance * np.sin(angle)
+                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+
+                    if not map_utils.is_position_reachable(tx, tz):
+                        break
+
+                if map_utils.is_position_buildable(tx, tz, "armrad"):
                     candidates.append((tx, tz, 'vision_edge_build'))
                     candidate_meta.append(None)
 
@@ -1089,6 +1118,12 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             state.writer.add_scalar('Action_Selection/noop_score', noop_score, state.step_counter)
         else:
             state.writer.add_scalar('Action_Selection/noop_score', 0.0, state.step_counter)
+
+        state.writer.add_scalar('Action_Selection/discrete_action_chosen', 
+                         float(discrete_action), state.step_counter)
+        state.writer.add_scalar('Action_Selection/epsilon',
+                                epsilon if not getattr(state, 'evalRun', False) else 0.0,
+                                state.step_counter)
 
         action_probs = torch.softmax(action_logits.squeeze(0), dim=-1).cpu().numpy()
         state.writer.add_scalar('Action_Selection/prob_move', action_probs[config.ACTION_MOVE], state.step_counter)

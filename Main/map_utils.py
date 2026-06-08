@@ -262,11 +262,11 @@ def generate_vision_image(friendly_units, map_w, map_h, map_heights):
 
     return vis_img
 
-def is_position_buildable(tx, tz, unit):
+def is_position_buildable(tx, tz, unit="armrad"):
     """Check if a position is buildable based on terrain cost map (e.g. not blocked by impassable terrain)."""
     if state.terrain_cost_map is None:
         return False
-    unit_size = unit_defs.get_unit_size("armrad")  # Assuming we're building an armrad, adjust if needed (use unit in the future)
+    unit_size = unit_defs.get_unit_size(unit)
     tw = unit_size.get("width", 1) * 16.0
     th = unit_size.get("height", 1) * 16.0
     map_w = state.map_width

@@ -1,6 +1,17 @@
 {
   "top_matches": [
     {
+      "file": "agent_match_20260605_161045_score_34p73.json",
+      "map_name": "Showcase 2.0",
+      "map_slug": "showcase_2_0",
+      "match_score": 34.72623344706102,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 9,
+      "segments": 5,
+      "exported_at": "2026-06-05T16:10:45.678228"
+    },
+    {
       "file": "agent_match_20260518_235337_score_m3752p77.json",
       "map_name": "Showcase 2.0",
       "map_slug": "showcase_2_0",

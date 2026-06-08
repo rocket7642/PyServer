@@ -538,7 +538,7 @@ def receive_messages(conn, addr):
 								'Agent_View/vision',
 								vision_img,
 								state.step_counter,
-								dataformats='HWC'
+								dataformats='HW'
 							)
 
 						if local_view is not None and enemy_img is not None:
