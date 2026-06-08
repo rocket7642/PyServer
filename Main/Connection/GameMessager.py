@@ -253,6 +253,14 @@ def receive_messages(conn, addr):
 							else:
 								e_unit['cloaked'] = False
 
+						# Determine if the unit has reached the build site or has timed out trying to reach the build site
+						if state.build_committed_since_step.get(unit['id'], None) is not None:
+							if unit['is_constructing'] == 1:
+								print(f"Unit {unit['id']} has started constructing. Clearing build commitment.")
+								state.build_committed_target.pop(unit['id'], None)
+								state.build_committed_since_step.pop(unit['id'], None)
+								state.build_committed_distance.pop(unit['id'], None)
+
 						if prev_state is not None and prev_action is not None:
 							unvisited_mass = [
 								p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm
@@ -469,6 +477,13 @@ def receive_messages(conn, addr):
 						best_target_world[0],
 						best_target_world[1]
 					)
+
+					if action_command is "BUILD":
+						state.build_committed_target[unit['id']] = best_target_world
+						state.build_committed_since_step[unit['id']] = state.step_counter
+						state.build_committed_distance[unit['id']] = ((unit['x'] - best_target_world[0]) ** 2 + (unit['z'] - best_target_world[1]) ** 2) ** 0.5
+						print(f"Unit {unit['id']} committed to building at {best_target_world} starting at step {state.step_counter} with distance {state.build_committed_distance[unit['id']]:.1f}")
+
 					if action_command is not None:
 						if last_target is not None:
 							dist_to_last = (

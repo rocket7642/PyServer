@@ -68,6 +68,12 @@ previous_action_kinds = {}
 previous_command_steps = {}
 cancel_command_penalties = {}
 
+build_committed_target = {}
+build_committed_since_step = {}
+build_committed_distance = {}
+
+previous_chosen_targets = {}
+
 lstm_hidden_states = {}
 previous_lstm_hidden_states = {}
 

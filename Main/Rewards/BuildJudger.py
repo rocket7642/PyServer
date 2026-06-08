@@ -13,7 +13,8 @@ def compute_build_features(
     friendly_units,
     is_noop,
     vision_image=None,
-    target_structure_name="armrad"
+    target_structure_name="armrad",
+    unit_id=None
 ):
     """
     Compute features for evaluating a potential building placement location.
@@ -46,8 +47,17 @@ def compute_build_features(
     if min_f_dist != float('inf'):
         features[0] = max(0.0, 1.0 - (min_f_dist / float(config.STANDARD_MAP_WIDTH * 0.15)))  # Normalize by map size for consistency across maps
 
-    # Feature 1: is_building (Noop Equivalent)
-    features[1] = 1.0 if is_noop else 0.0
+    # Feature 1: is_continuing_commitment (Noop Equivalent)
+    prev_target = state.previous_targets.get(unit_id)
+    prev_discrete = state.previous_discrete_actions.get(unit_id)
+
+    is_continuing = (
+        prev_discrete == config.ACTION_BUILD
+        and prev_target is not None
+        and abs(target_nx - prev_target[0]) < 1e-3
+        and abs(target_nz - prev_target[1]) < 1e-3
+    )
+    features[1] = 1.0 if is_continuing else 0.0
 
     # Feature 2: enemy_proximity
     # The closer to enemies, the higher the signal. The agent should learn a negative weight here.
@@ -139,5 +149,20 @@ def compute_build_features(
                 break
                 
     features[5] = blocking_proximity
+
+    # Feature 6: transit_progress
+    # If the unit is already in the process of moving towards this build location, provide a positive signal to encourage completion.
+    steps_since_commit = state.step_counter - state.build_committed_since_step[unit_id] if state.build_committed_since_step.get(unit_id) is not None else None
+
+    if prev_discrete == config.ACTION_BUILD and prev_target is not None:
+        original_dist = state.build_committed_distance.get(unit_id, None)
+        current_dist = ((target_nx - unit_nx)**2 + (target_nz - unit_nz)**2)**0.5
+        if original_dist is not None and original_dist > 1e-3:
+            transit_progress = 1.0 - min(1.0, current_dist / original_dist)
+        else:
+            transit_progress = 0.0
+    else:
+        transit_progress = 0.0
+    features[6] = transit_progress
 
     return features

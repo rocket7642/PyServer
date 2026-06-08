@@ -777,7 +777,14 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         active_mass = [mass_destination] if mass_destination is not None else available_mass
 
         candidates = []
-        candidate_meta = []
+        candidate_meta = []  
+
+        # regardless of what the next action is, maintain the previously chosen candidate assuming there is one 
+        if unit_id is not None:
+            prev_candidate = state.previous_chosen_targets.get(unit_id)
+            if prev_candidate is not None:
+                candidates.append(prev_candidate)
+                candidate_meta.append({'kind': 'previous'})
 
         if discrete_action == config.ACTION_MOVE:
 
@@ -1073,7 +1080,9 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         all_enemies,
                         state.units, # friendly units
                         is_noop,
-                        vision_image=vision_image
+                        vision_image=vision_image,
+                        target_structure_name="armrad",
+                        unit_id=unit_id
                     )
                     
                     if features is None:
@@ -1108,6 +1117,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             except Exception as exc:
                 print(f"Error computing action features: {exc}")
                 continue
+
+        state.previous_chosen_targets[unit_id] = best_target
 
         if discrete_action == config.ACTION_BUILD and build_scores:
             print(
@@ -1354,6 +1365,8 @@ def train_agent(
             max_next_q = -float('inf')
             candidates = []
 
+            
+
             if next_discrete_action == config.ACTION_MOVE:
                 for dx in np.linspace(-200, 200, num=10):
                     for dz in np.linspace(-200, 200, num=10):
@@ -1429,6 +1442,7 @@ def train_agent(
                         candidates.append((wx, wz, 'terrain_waypoint'))
 
             if next_discrete_action == config.ACTION_BUILD:
+
                 # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
                 # For simplicity, let's consider a small grid around the unit for potential build locations.
                 for dx in np.linspace(-20, 20, num=3):
@@ -1528,7 +1542,9 @@ def train_agent(
                         all_enemies,
                         state.units, # friendly units
                         is_next_noop,
-                        vision_image=next_vision_image
+                        vision_image=next_vision_image,
+                        target_structure_name="armrad",
+                        unit_id=unit_id
                     )
                     
                 if next_features is None:

@@ -103,14 +103,15 @@ NUM_ACTION_FEATURES = 10 # Moving
 # 7: skirt_alignment
 # 8: dodge_viability
 # 9: hazard_prediction
-NUM_BUILD_FEATURES = 6 # Building 
+NUM_BUILD_FEATURES = 7 # Building 
 # Contains:
 # 0: friendly_proximity (Place near friendlies, away from enemies)
-# 1: is_building (keep building what has already started, equivalent to noop for builds)
+# 1: is_continuing_commitment (keep building/traveling to what has already started, equivalent to noop for builds)
 # 2: enemy_proximity (Don't build near enemies)
 # 3: mass_spot_proximity (Prefer building near mass spots)
 # 4: terrain_suitability (Prefer building on flatter terrain)
 # 5: blocking_proximity (Don't build if it would collide with an existing unit, provides a negative signal)
+# 6: transit_progress (How far along towards a chosen building site has the unit gotten, to encourage completing building commitments once started)
 
 # Types of valid actions
 ACTION_MOVE = 0
@@ -181,11 +182,12 @@ FEATURE_NAMES = [
 
 BUILD_FEATURE_NAMES = [
     "friendly_proximity",
-    "is_building",
+    "is_continuing_commitment",
     "enemy_proximity",
     "mass_spot_proximity",
     "terrain_suitability",
-    "blocking_proximity"
+    "blocking_proximity",
+    "transit_progress"
 ]
 
 # === ADAPTIVE CANDIDATE SETTINGS ===
