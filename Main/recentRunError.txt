@@ -1,15 +1,15 @@
-2026-06-06 11:32:22,257 - INFO - Training run selected for run #56.
+2026-06-07 21:34:47,958 - INFO - Training run selected for run #71.
 F:\School\Capstone\Python\PyServer\Main\agent_model.py:146: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
   if 0 <= idx < move_features.shape[-1]:
-2026-06-06 11:32:22,487 - INFO - TensorBoard logging to: runs/feature_based_agent_20260606_113221
-2026-06-06 11:32:22,488 - INFO - Run mode: training (run #56)
-2026-06-06 11:32:22,488 - INFO - View with: tensorboard --logdir=runs
-2026-06-06 11:32:22,489 - INFO - Server listening on 127.0.0.1:25000...
-2026-06-06 11:33:13,194 - INFO - [NEW CONNECTION] ('127.0.0.1', 61246) connected.
-2026-06-06 11:33:13,303 - INFO - Map dimensions: 8192 x 8192
-2026-06-06 11:33:13,304 - INFO - Map name: Survival 2.0
-2026-06-06 11:33:13,926 - INFO - Game server running. Press Ctrl+C to stop gracefully.
-2026-06-06 11:33:13,927 - INFO - Monitoring for game completion or termination signal...
+2026-06-07 21:34:48,187 - INFO - TensorBoard logging to: runs/feature_based_agent_20260607_213446
+2026-06-07 21:34:48,188 - INFO - Run mode: training (run #71)
+2026-06-07 21:34:48,189 - INFO - View with: tensorboard --logdir=runs
+2026-06-07 21:34:48,189 - INFO - Server listening on 127.0.0.1:25000...
+2026-06-07 21:35:40,507 - INFO - [NEW CONNECTION] ('127.0.0.1', 59988) connected.
+2026-06-07 21:35:40,626 - INFO - Map dimensions: 8192 x 8192
+2026-06-07 21:35:40,627 - INFO - Map name: Survival 2.0
+2026-06-07 21:35:41,334 - INFO - Game server running. Press Ctrl+C to stop gracefully.
+2026-06-07 21:35:41,335 - INFO - Monitoring for game completion or termination signal...
 
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
@@ -407,10 +407,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -807,10 +807,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -1207,10 +1207,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -1607,10 +1607,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -2007,10 +2007,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -2407,10 +2407,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -2807,10 +2807,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -3207,10 +3207,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -3607,10 +3607,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -4007,10 +4007,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -4407,10 +4407,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -4807,10 +4807,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -5207,10 +5207,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -5607,10 +5607,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -6007,10 +6007,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -6407,10 +6407,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -6807,10 +6807,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -7207,10 +7207,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -7607,10 +7607,10 @@ Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
                                                                             ^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 942, in get_action
-    if map_utils.is_position_buildable(tx, tz):
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: is_position_buildable() missing 1 required positional argument: 'unit'
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1142, in get_action
+    epsilon if not getattr(state, 'evalRun', False) else 0.0,
+    ^^^^^^^
+UnboundLocalError: cannot access local variable 'epsilon' where it is not associated with a value
 Traceback (most recent call last):
   File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 408, in receive_messages
     action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
@@ -7723,12 +7723,12 @@ Traceback (most recent call last):
     if random.random() < epsilon:
        ^^^^^^^^^^^^^
 AttributeError: 'builtin_function_or_method' object has no attribute 'random'
-2026-06-06 11:37:48,688 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
-2026-06-06 11:37:48,689 - INFO - 
+2026-06-07 21:40:15,091 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
+2026-06-07 21:40:15,092 - INFO - 
 [SHUTDOWN] Closing connections and finalizing...
-2026-06-06 11:37:48,689 - INFO - Match outcome already finalized; skipping duplicate save.
-2026-06-06 11:37:48,689 - INFO - Closing TensorBoard writer...
-2026-06-06 11:37:48,690 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260606_113221
-2026-06-06 11:37:48,690 - INFO - View results with: tensorboard --logdir=runs
-2026-06-06 11:37:48,691 - INFO - 
+2026-06-07 21:40:15,092 - INFO - Match outcome already finalized; skipping duplicate save.
+2026-06-07 21:40:15,093 - INFO - Closing TensorBoard writer...
+2026-06-07 21:40:15,093 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260607_213446
+2026-06-07 21:40:15,093 - INFO - View results with: tensorboard --logdir=runs
+2026-06-07 21:40:15,094 - INFO - 
 [COMPLETE] Server shutdown successfully.

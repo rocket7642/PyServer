@@ -959,19 +959,36 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
             # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
             # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
-            for determiner in range(24):
-                angle = determiner * (2 * np.pi / 24)
-                distance = 1
-                # Increment outwards from the unit until we find an unknown tile in the vision image
-                while True:
-                    distance += 1
-                    tx = unit_nx + distance * np.cos(angle)
-                    tz = unit_nz + distance * np.sin(angle)
-                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+            h_vis, w_vis = vision_image.shape
+            max_ray_steps = max(h_vis, w_vis)
+            num_rays = 24
+            angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
 
-                    if not map_utils.is_position_reachable(tx, tz):
-                        break
+            for angle in angles:
+                # Generate all steps along this ray at once
+                steps = np.arange(2, max_ray_steps)
+                txs = (unit_nx + steps * np.cos(angle)).astype(int)
+                tzs = (unit_nz + steps * np.sin(angle)).astype(int)
+
+                # Clip and find valid (in-bounds) indices
+                in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
+                if not np.any(in_bounds):
+                    continue
+
+                txs_valid = txs[in_bounds]
+                tzs_valid = tzs[in_bounds]
+
+                # Sample the vision image along the ray
+                ray_values = vision_image[tzs_valid, txs_valid]
+
+                # Find the first position that is NOT radar-covered (< 0.4 threshold)
+                unknown_mask = ray_values < 0.4
+                if not np.any(unknown_mask):
+                    continue
+
+                first_unknown = np.argmax(unknown_mask)
+                tx = float(txs_valid[first_unknown])
+                tz = float(tzs_valid[first_unknown])
 
                 if map_utils.is_position_buildable(tx, tz, "armrad"):
                     candidates.append((tx, tz, 'vision_edge_build'))

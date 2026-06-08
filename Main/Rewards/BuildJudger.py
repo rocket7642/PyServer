@@ -78,13 +78,34 @@ def compute_build_features(
         features[3] = max(0.0, 1.0 - (min_m_dist / float(config.STANDARD_MAP_WIDTH * 0.20)))
 
     # Feature 4: terrain_suitability
-    # Punish high ridges / slopes by checking the height difference between the target spot and the current location.
-    # In a fully fleshed out engine, you might sample 4 corners of the building to find the strict slope.
-    if state.normalized_map_heights is not None:
-        target_h = map_utils.get_terrain_height_at(target_nx, target_nz, state.normalized_map_heights)
-        unit_h = map_utils.get_terrain_height_at(unit_nx, unit_nz, state.normalized_map_heights)
-        h_diff = abs(target_h - unit_h)
-        features[4] = -min(1.0, h_diff)
+    if state.normalized_map_heights is not None and state.map_width > 0 and state.map_height > 0:
+        # Hard gate first: if the terrain cost map marks this footprint as impassable, 
+        # immediately assign the worst score and skip the height sampling entirely.
+        if not map_utils.is_position_buildable(target_nx, target_nz, target_structure_name):
+            features[4] = -1.0
+        else:
+            # Convert footprint tile size to normalized map units,
+            # using the same formula as blocking_proximity (feature 5) for consistency.
+            size = unit_defs.get_unit_size(target_structure_name)
+            tw_norm = (size["width"] * 16.0 / state.map_width) * config.STANDARD_MAP_WIDTH
+            th_norm = (size["height"] * 16.0 / state.map_height) * config.STANDARD_MAP_HEIGHT
+
+            # Sample the five footprint points: center + four corners.
+            sample_points = [
+                (target_nx,              target_nz),
+                (target_nx - tw_norm/2,  target_nz - th_norm/2),
+                (target_nx + tw_norm/2,  target_nz - th_norm/2),
+                (target_nx - tw_norm/2,  target_nz + th_norm/2),
+                (target_nx + tw_norm/2,  target_nz + th_norm/2),
+            ]
+
+            heights = [
+                map_utils.height_at_normalized(px, pz)
+                for px, pz in sample_points
+            ]
+
+            height_range = max(heights) - min(heights)
+            features[4] = -min(1.0, height_range / config.STANDARD_MAP_Y)
     else:
         features[4] = 0.0
 
