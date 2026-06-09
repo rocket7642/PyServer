@@ -1,4 +1,4 @@
-from random import random
+import random
 
 import numpy as np
 import torch
@@ -783,8 +783,11 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         if unit_id is not None:
             prev_candidate = state.previous_chosen_targets.get(unit_id)
             if prev_candidate is not None:
-                candidates.append(prev_candidate)
-                candidate_meta.append({'kind': 'previous'})
+                prev_kind = prev_candidate[2] if len(prev_candidate) > 2 else 'previous'
+                is_build_kind = prev_kind in ('build', 'vision_edge_build')
+                if (discrete_action == config.ACTION_BUILD) == is_build_kind:
+                    candidates.append(prev_candidate)
+                    candidate_meta.append({'kind': 'previous'})
 
         if discrete_action == config.ACTION_MOVE:
 
@@ -1118,7 +1121,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 print(f"Error computing action features: {exc}")
                 continue
 
-        state.previous_chosen_targets[unit_id] = best_target
+        state.previous_chosen_targets[unit_id] = (best_target[0], best_target[1], best_candidate_kind)
 
         if discrete_action == config.ACTION_BUILD and build_scores:
             print(
@@ -1365,7 +1368,13 @@ def train_agent(
             max_next_q = -float('inf')
             candidates = []
 
-            
+            # Re-inject the previously chosen target into next-state candidates
+            # to mirror get_action's continuity behaviour
+            if target_x is not None and target_z is not None:
+                target_nx_prev = map_utils.normalize_x(target_x)
+                target_nz_prev = map_utils.normalize_z(target_z)
+                if map_utils.is_position_reachable(target_nx_prev, target_nz_prev):
+                    candidates.append((target_nx_prev, target_nz_prev, 'previous'))
 
             if next_discrete_action == config.ACTION_MOVE:
                 for dx in np.linspace(-200, 200, num=10):

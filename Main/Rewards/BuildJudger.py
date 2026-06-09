@@ -152,7 +152,11 @@ def compute_build_features(
 
     # Feature 6: transit_progress
     # If the unit is already in the process of moving towards this build location, provide a positive signal to encourage completion.
-    steps_since_commit = state.step_counter - state.build_committed_since_step[unit_id] if state.build_committed_since_step.get(unit_id) is not None else None
+    steps_since_commit = (
+        state.step_counter - state.build_committed_since_step[unit_id]
+        if state.build_committed_since_step.get(unit_id) is not None
+        else None
+    )
 
     if prev_discrete == config.ACTION_BUILD and prev_target is not None:
         original_dist = state.build_committed_distance.get(unit_id, None)
@@ -161,8 +165,13 @@ def compute_build_features(
             transit_progress = 1.0 - min(1.0, current_dist / original_dist)
         else:
             transit_progress = 0.0
+
+        # If committed too long with no construction starting, apply a stall penalty
+        if steps_since_commit is not None and steps_since_commit > config.BUILD_COMMIT_TIMEOUT_STEPS:
+            transit_progress = config.BUILD_TRANSIT_STALL_PENALTY
     else:
         transit_progress = 0.0
+        
     features[6] = transit_progress
 
     return features

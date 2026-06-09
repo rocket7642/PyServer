@@ -478,7 +478,7 @@ def receive_messages(conn, addr):
 						best_target_world[1]
 					)
 
-					if action_command is "BUILD":
+					if discrete_action == config.ACTION_BUILD and action_command is not None:
 						state.build_committed_target[unit['id']] = best_target_world
 						state.build_committed_since_step[unit['id']] = state.step_counter
 						state.build_committed_distance[unit['id']] = ((unit['x'] - best_target_world[0]) ** 2 + (unit['z'] - best_target_world[1]) ** 2) ** 0.5

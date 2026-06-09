@@ -5,9 +5,9 @@ BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = True # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
-# === EPISODIC TRAINING SETTINGS ===
+# EPISODIC TRAINING SETTINGS 
 EPISODE_TIMEOUT_SECONDS = 120
 END_MATCH_WHEN_ALL_MASS_REACHED = False  # if True, finalize full match/training set at 100% mass completion; if False, reset spots and continue
 MASS_REACH_RADIUS = 100
@@ -15,7 +15,7 @@ MASS_FINAL_APPROACH_RADIUS = 140
 MASS_DESTINATION_SWAP_THRESHOLD = 0.10
 MAX_SEGMENT_STEPS = 300
 
-# === ONLINE REPLAY EXPORT SETTINGS ===
+# ONLINE REPLAY EXPORT SETTINGS 
 # Save replay-style datasets from live agent runs and keep only the top matches by score.
 SAVE_TOP_MATCH_DATASET = True
 TOP_MATCHES_TO_KEEP = 15
@@ -23,12 +23,12 @@ AGENT_REPLAY_EXPORT_DIR = "Recordings/AgentReplayTop"
 # Keep only a fraction of NOOP samples to better match human replay distribution.
 AGENT_REPLAY_NOOP_KEEP_RATIO = 0.2
 
-# === STANDARDIZED MAP SETTINGS ===
+# STANDARDIZED MAP SETTINGS 
 STANDARD_MAP_WIDTH = 1024
 STANDARD_MAP_HEIGHT = 1024
 STANDARD_MAP_Y = 256
 
-# === ACTION SETTINGS (NOW CONTINUOUS TARGETS) ===
+# ACTION SETTINGS (NOW CONTINUOUS TARGETS) 
 NOOP_ACTION = "NOOP"
 
 # Sampling settings for continuous target selection
@@ -69,7 +69,7 @@ MASS_SPOT_BLOCK_COOLDOWN_STEPS = 10  # minimum steps to keep a risky mass spot b
 # Building Scales
 VISION_REWARD_SCALE = 0.003
 
-# === WEAPON TYPE SETTINGS ===
+# WEAPON TYPE SETTINGS 
 UNIT_DEFS_PATH = "data/unit_defs.json"
 WEAPON_HITSCAN = 0
 WEAPON_PROJECTILE = 1
@@ -135,7 +135,7 @@ MAP_CACHE_VERSION = 12
 # Mass value weighting for cost fields: higher pulls path cost down near high-value spots
 MASS_VALUE_ALPHA = 0.5  # in [0,1]
 
-# === ENCODER SETTINGS ===
+# ENCODER SETTINGS 
 SELF_FEATURES_SIZE = 11 # Added active_build_progress, is_constructing
 SELF_EMBED_SIZE = 16
 ECO_FEATURES_SIZE = 2 # fEnergy, fMass
@@ -150,17 +150,17 @@ ENEMY_FEATURES_SIZE = 11
 FRIENDLY_EMBED_SIZE = 16
 ENEMY_EMBED_SIZE = 16
 
-# === LSTM SETTINGS ===
+# LSTM SETTINGS 
 LSTM_HIDDEN_SIZE = 64
 LSTM_NUM_LAYERS = 1
 
-# === MODEL VISUALIZATION SETTINGS ===
+# MODEL VISUALIZATION SETTINGS 
 ENABLE_MODEL_GRAPH_LOG = True
 
-# === EPOCH DRIFT SETTINGS ===
+# EPOCH DRIFT SETTINGS 
 td_cap = 5.0
 
-# === OUTPUT WEIGHT CONSTRAINTS ===
+# OUTPUT WEIGHT CONSTRAINTS 
 ENFORCE_DISTANCE_REDUCTION_NONNEG = True
 DISTANCE_REDUCTION_INDEX = 0
 
@@ -190,7 +190,7 @@ BUILD_FEATURE_NAMES = [
     "transit_progress"
 ]
 
-# === ADAPTIVE CANDIDATE SETTINGS ===
+# ADAPTIVE CANDIDATE SETTINGS 
 # Enables context-anchored candidate templates that mutate around base candidates.
 ADAPTIVE_CANDIDATES_ENABLED = True
 # Max persistent templates tracked per unit.
@@ -222,7 +222,11 @@ DISCRETE_EPSILON_MIN   = 0.05  # floor at 5% exploration permanently
 DISCRETE_EPSILON_DECAY = 0.995 # decay per step
 FORCE_BUILD_EVERY_N_STEPS = 50  # force ACTION_BUILD every N steps per unit
 
-# === SENTINEL FILE SETTINGS ===
+# BUILD COMMITMENT SETTINGS
+BUILD_COMMIT_TIMEOUT_STEPS = 60
+BUILD_TRANSIT_STALL_PENALTY = -0.5
+
+# SENTINEL FILE SETTINGS 
 # Path to the sentinel file that signals the training script to stop.
 SENTINEL_FILE_PATH = "stop.txt"
 # Path to the sentinel file that contains the survival time.
@@ -230,7 +234,7 @@ TIME_FILE_PATH = "time.txt"
 # Min number from TIME_FILE_PATH required for success (minute increments, running at 5x speed, so 1 = 5 real minutes).
 SURVIVAL_TIME_THRESHOLD = 7
 
-# === EVAL RUN SCHEDULING ===
+# EVAL RUN SCHEDULING 
 # Run one eval match after this many training matches.
 EVAL_TRAIN_RUNS_PER_CYCLE = 5
 # Number of eval matches at the end of each cycle.
