@@ -1,0 +1,572 @@
+{
+  "metadata": {
+    "source": "online_agent_export",
+    "exported_at": "2026-06-08T20:13:59.485525",
+    "map_name": "Survival 2.0",
+    "map_slug": "survival_2_0",
+    "match_score": 394.900494444901,
+    "success": true,
+    "reason": "game_ended",
+    "total_segments": 2,
+    "total_samples": 12,
+    "map_width": 8192,
+    "map_height": 8192,
+    "map_heights_file": "F:/BAR Beyond All Reason/Beyond-All-Reason/data/mapHeightInfo.txt",
+    "map_spots_file": "F:/BAR Beyond All Reason/Beyond-All-Reason/data/massInfo.txt",
+    "runtime_file": "online_agent_runtime"
+  },
+  "samples": [
+    {
+      "timestamp": 1780974826.616111,
+      "step": 1,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1394.0,
+          "y": 26.812157,
+          "z": 3620.0,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 1392.0,
+        "y": 26.812157,
+        "z": 3504.0,
+        "score": 0.03151732310652733,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974827.571264,
+      "step": 2,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1394.0,
+          "y": 26.812157,
+          "z": 3620.0,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 2096.0,
+        "y": 26.812157,
+        "z": 3616.0,
+        "score": -0.01375984214246273,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974828.5351257,
+      "step": 3,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1394.0,
+          "y": 26.812157,
+          "z": 3620.0,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 1392.0,
+        "y": 26.812157,
+        "z": 2992.0,
+        "score": -0.09647504985332489,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974829.5095565,
+      "step": 4,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1417.04187,
+          "y": 26.851219,
+          "z": 3633.878662,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 1392.0,
+        "y": 26.851219,
+        "z": 2992.0,
+        "score": -0.09446606040000916,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974830.5221663,
+      "step": 5,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1434.577515,
+          "y": 26.88225,
+          "z": 3609.760498,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 1392.0,
+        "y": 26.88225,
+        "z": 2992.0,
+        "score": -0.09555435180664062,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974831.529831,
+      "step": 6,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1432.046997,
+          "y": 26.754513,
+          "z": 3572.348389,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 3528.0,
+        "y": 26.754513,
+        "z": 3416.0,
+        "score": -0.047553859651088715,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974832.5943782,
+      "step": 7,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1429.551025,
+          "y": 26.618952,
+          "z": 3534.931641,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 3368.0,
+        "y": 26.618952,
+        "z": 3416.0,
+        "score": -0.08604411035776138,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974833.5234783,
+      "step": 8,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1451.959106,
+          "y": 26.716625,
+          "z": 3515.153564,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 3368.0,
+        "y": 26.716625,
+        "z": 3416.0,
+        "score": -0.08573893457651138,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974834.517458,
+      "step": 9,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1489.423706,
+          "y": 26.703739,
+          "z": 3513.514893,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 3368.0,
+        "y": 26.703739,
+        "z": 3416.0,
+        "score": -0.08713900297880173,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974835.5070312,
+      "step": 10,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1526.887085,
+          "y": 26.591331,
+          "z": 3511.844971,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 3368.0,
+        "y": 26.591331,
+        "z": 3416.0,
+        "score": -0.08813344687223434,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974836.5252316,
+      "step": 11,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1564.350464,
+          "y": 26.537493,
+          "z": 3510.175049,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 3368.0,
+        "y": 26.537493,
+        "z": 3416.0,
+        "score": -0.08913920819759369,
+        "cmd_id": 10
+      }
+    },
+    {
+      "timestamp": 1780974838.5212052,
+      "step": 13,
+      "unit_id": 16742,
+      "friendly_units": [
+        {
+          "id": 16742,
+          "name": "armcom",
+          "x": 1639.271606,
+          "y": 26.831095,
+          "z": 3506.835205,
+          "health": 3700.0,
+          "speed": 37.5,
+          "is_constructing": 0,
+          "active_build_progress": 0.0,
+          "weapon_type": "hitscan",
+          "weapon_one_hot": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "projectile_speed": 0,
+          "aoe_radius": 12,
+          "dps": 187.5,
+          "range": 300,
+          "radar_range": 700,
+          "sight_range": 450,
+          "energy_cost": 0,
+          "mass_cost": 0,
+          "width": 3,
+          "height": 3,
+          "type": "UNIT",
+          "cloaked": false
+        }
+      ],
+      "enemy_units": [],
+      "action": {
+        "type": "BUILD",
+        "x": 3368.0,
+        "y": 26.831095,
+        "z": 3416.0,
+        "score": -0.09112204611301422,
+        "cmd_id": 10
+      }
+    }
+  ]
+}

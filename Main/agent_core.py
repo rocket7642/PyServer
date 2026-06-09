@@ -10,6 +10,7 @@ import config
 import map_utils
 import runtime_state as state
 from Rewards import MoveJudger
+from Rewards import BuildJudger
 from agent_model import RTSAgent
 
 ENCODER_OUTPUT_SIZE = (
@@ -1017,7 +1018,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         build_scores = []
         direct_approach_penalties = []
 
-        from Rewards import BuildJudger
+        
         
         for idx, (tx, tz, candidate_kind) in enumerate(candidates):
             try:
@@ -1306,43 +1307,58 @@ def train_agent(
         state.normalized_map_heights
     )
 
-    action_features = MoveJudger.compute_action_features(
-        action,
-        unit_nx,
-        unit_nz,
-        unit_ny,
-        active_mass,
-        target_nx,
-        target_nz,
-        enemy_range_image=enemy_range_image,
-        enemy_units=all_enemies,
-        vision_image=vision_image
-    )
+    if discrete_action == config.ACTION_BUILD:
+        action_features = BuildJudger.compute_build_features(
+            unit_nx, unit_nz, unit_ny,
+            target_nx, target_nz,
+            active_mass,
+            all_enemies,
+            state.units, # friendly units
+            False, # is_noop doesn't make as much sense for build actions but we'll set it to false for consistency in training since we want the features to reflect the actual action taken
+            vision_image=vision_image,
+            target_structure_name="armrad",
+            unit_id=unit_id
+        )
+    else:
+        action_features = MoveJudger.compute_action_features(
+            action,
+            unit_nx,
+            unit_nz,
+            unit_ny,
+            active_mass,
+            target_nx,
+            target_nz,
+            enemy_range_image=enemy_range_image,
+            enemy_units=all_enemies,
+            vision_image=vision_image
+        )
 
     unit_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
     unit_hp, unit_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
 
-    current_direct_penalty = 0.0
     is_noop_action = action == config.NOOP_ACTION or (
         abs(target_nx - unit_nx) < 1e-3 and abs(target_nz - unit_nz) < 1e-3
     )
-    if not is_noop_action:
-        current_kind = action_kind if action_kind is not None else 'grid'
-        current_bias = _hazard_bias_for_candidate_kind(current_kind)
-        if current_bias > 0.0:
-            current_direct_penalty = _compute_direct_approach_penalty(
-                unit_nx,
-                unit_nz,
-                target_nx,
-                target_nz,
-                all_enemies,
-                enemy_range_image,
-                unit_speed_norm,
-                unit_hp=unit_hp,
-                unit_max_hp=unit_max_hp,
-                bias=current_bias,
-            )
-    action_features = _inject_hazard_prediction_feature(action_features, current_direct_penalty)
+    if discrete_action == config.ACTION_MOVE:
+        current_direct_penalty = 0.0
+        
+        if not is_noop_action:
+            current_kind = action_kind if action_kind is not None else 'grid'
+            current_bias = _hazard_bias_for_candidate_kind(current_kind)
+            if current_bias > 0.0:
+                current_direct_penalty = _compute_direct_approach_penalty(
+                    unit_nx,
+                    unit_nz,
+                    target_nx,
+                    target_nz,
+                    all_enemies,
+                    enemy_range_image,
+                    unit_speed_norm,
+                    unit_hp=unit_hp,
+                    unit_max_hp=unit_max_hp,
+                    bias=current_bias,
+                )
+        action_features = _inject_hazard_prediction_feature(action_features, current_direct_penalty)
     
     # Validate features don't contain inf/nan
     action_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in action_features]
@@ -1509,8 +1525,6 @@ def train_agent(
                 next_nz = map_utils.normalize_z(next_unit_z)
                 next_ny = map_utils.normalize_y(next_unit_y)
                 is_next_noop = abs(tx - next_nx) < 1e-3 and abs(tz - next_nz) < 1e-3
-                
-                from Rewards import BuildJudger
 
                 if next_discrete_action == config.ACTION_MOVE:
                     next_action = config.NOOP_ACTION if next_kind == 'noop' else "MOVE"

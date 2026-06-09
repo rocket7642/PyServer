@@ -23,6 +23,17 @@
       "exported_at": "2026-06-07T21:06:29.101865"
     },
     {
+      "file": "agent_match_20260608_220810_score_m2089p31.json",
+      "map_name": "Showcase 2.0",
+      "map_slug": "showcase_2_0",
+      "match_score": -2089.3125966245316,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 773,
+      "segments": 10,
+      "exported_at": "2026-06-08T22:08:10.775610"
+    },
+    {
       "file": "agent_match_20260518_235337_score_m3752p77.json",
       "map_name": "Showcase 2.0",
       "map_slug": "showcase_2_0",

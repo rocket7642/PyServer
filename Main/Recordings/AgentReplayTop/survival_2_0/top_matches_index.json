@@ -1,0 +1,70 @@
+{
+  "top_matches": [
+    {
+      "file": "agent_match_20260608_201359_score_394p90.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 394.900494444901,
+      "success": true,
+      "reason": "game_ended",
+      "samples": 12,
+      "segments": 2,
+      "exported_at": "2026-06-08T20:13:59.485525"
+    },
+    {
+      "file": "agent_match_20260608_215717_score_m523p76.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -523.7645493895254,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 625,
+      "segments": 5,
+      "exported_at": "2026-06-08T21:57:17.050154"
+    },
+    {
+      "file": "agent_match_20260608_231512_score_m2025p89.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -2025.8853621651276,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 335,
+      "segments": 5,
+      "exported_at": "2026-06-08T23:15:12.662446"
+    },
+    {
+      "file": "agent_match_20260608_211443_score_m2203p62.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -2203.6186381583057,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1250,
+      "segments": 8,
+      "exported_at": "2026-06-08T21:14:43.116691"
+    },
+    {
+      "file": "agent_match_20260608_224451_score_m3569p82.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -3569.8177319735055,
+      "success": false,
+      "reason": "death |> Survival time 3.00s below threshold 7s",
+      "samples": 103,
+      "segments": 6,
+      "exported_at": "2026-06-08T22:44:51.124271"
+    },
+    {
+      "file": "agent_match_20260608_214347_score_m6029p79.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -6029.789601881605,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 869,
+      "segments": 5,
+      "exported_at": "2026-06-08T21:43:47.094295"
+    }
+  ]
+}
