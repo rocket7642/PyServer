@@ -25,6 +25,8 @@ def compute_build_features(
     2: enemy_proximity (Don't build near enemies)
     3: mass_spot_proximity (Prefer building near mass spots)
     4: terrain_suitability (Prefer building on flatter terrain)
+    5: blocking_proximity (Don't build on top of existing units/buildings)
+    6: transit_progress (If already moving towards this build location, encourage completion)
     """
     features = np.zeros(config.NUM_BUILD_FEATURES, dtype=np.float32)
 
@@ -173,5 +175,28 @@ def compute_build_features(
         transit_progress = 0.0
         
     features[6] = transit_progress
+
+    # Feature 7: prospective_vision_gain
+    # Fraction of cells within this structure's radar radius that are currently
+    # unknown (vision_image == 0). High value means building here reveals a lot.
+    # This is the primary signal for "build in fog boundary before advancing."
+    prospective_vision_gain = 0.0
+    if vision_image is not None:
+        radar_range = unit_defs.get_unit_ranges(target_structure_name).get('radar_range', 0)
+        if radar_range > 0 and state.map_width > 0 and state.map_height > 0:
+            range_scale = (config.STANDARD_MAP_WIDTH / state.map_width +
+                        config.STANDARD_MAP_HEIGHT / state.map_height) / 2.0
+            r_pixels = int(radar_range * range_scale)
+            h, w = vision_image.shape
+            cx, cz = int(np.clip(target_nx, 0, w - 1)), int(np.clip(target_nz, 0, h - 1))
+            x_min = max(0, cx - r_pixels)
+            x_max = min(w - 1, cx + r_pixels)
+            z_min = max(0, cz - r_pixels)
+            z_max = min(h - 1, cz + r_pixels)
+            patch = vision_image[z_min:z_max+1, x_min:x_max+1]
+            if patch.size > 0:
+                # Fraction of cells in radar radius that are fully unknown
+                prospective_vision_gain = float(np.mean(patch == 0))
+    features[7] = prospective_vision_gain
 
     return features

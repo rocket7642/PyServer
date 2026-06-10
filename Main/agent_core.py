@@ -1086,7 +1086,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         is_noop,
                         vision_image=vision_image,
                         target_structure_name="armrad",
-                        unit_id=unit_id
+                        unit_id=unit_id,
+                        unit=unit
                     )
                     
                     if features is None:

@@ -103,7 +103,7 @@ NUM_ACTION_FEATURES = 10 # Moving
 # 7: skirt_alignment
 # 8: dodge_viability
 # 9: hazard_prediction
-NUM_BUILD_FEATURES = 7 # Building 
+NUM_BUILD_FEATURES = 8 # Building 
 # Contains:
 # 0: friendly_proximity (Place near friendlies, away from enemies)
 # 1: is_continuing_commitment (keep building/traveling to what has already started, equivalent to noop for builds)
@@ -112,6 +112,7 @@ NUM_BUILD_FEATURES = 7 # Building
 # 4: terrain_suitability (Prefer building on flatter terrain)
 # 5: blocking_proximity (Don't build if it would collide with an existing unit, provides a negative signal)
 # 6: transit_progress (How far along towards a chosen building site has the unit gotten, to encourage completing building commitments once started)
+# 7: prospective_vision_gain (Fraction of cells within radar radius that are unknown)
 
 # Types of valid actions
 ACTION_MOVE = 0
@@ -187,7 +188,8 @@ BUILD_FEATURE_NAMES = [
     "mass_spot_proximity",
     "terrain_suitability",
     "blocking_proximity",
-    "transit_progress"
+    "transit_progress",
+    "prospective_vision_gain"
 ]
 
 # ADAPTIVE CANDIDATE SETTINGS 
@@ -225,6 +227,8 @@ FORCE_BUILD_EVERY_N_STEPS = 50  # force ACTION_BUILD every N steps per unit
 # BUILD COMMITMENT SETTINGS
 BUILD_COMMIT_TIMEOUT_STEPS = 60
 BUILD_TRANSIT_STALL_PENALTY = -0.5
+
+BUILDING_REWARD_SCALE = 0.8
 
 # SENTINEL FILE SETTINGS 
 # Path to the sentinel file that signals the training script to stop.

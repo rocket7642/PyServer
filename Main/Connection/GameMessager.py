@@ -223,6 +223,10 @@ def receive_messages(conn, addr):
 						prev_action = state.previous_actions.get(unit['id'], None)
 						prev_pos = state.previous_positions.get(unit['id'], (unit['x'], unit['z']))
 						prev_y = state.previous_y_positions.get(unit['id'], unit['y'])
+						if unit['is_constructing'] == 1:
+							state.pre_build_vision_baseline = np.sum(state.vision_image) if state.vision_image is not None else 0.0 # used to garentee it is maintained
+						else:
+							state.pre_build_vision_baseline = None
 						damage_taken = max(0.0, prev_health - unit['health'])
 						enemy_range_image = map_utils.generate_enemy_range_image(
 							enemy_units,
@@ -266,15 +270,37 @@ def receive_messages(conn, addr):
 								p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm
 								if p not in state.visited_mass_spots_norm
 							]
-							potential_reward, components = PeriodicRewards.compute_move_potential(
-								prev_pos,
-								(unit['x'], unit['z']),
-								prev_y,
-								unit['y'],
-								unvisited_mass,
-								enemy_range_image=enemy_range_image,
-								vision_image=vision_image,
-							)
+							# potential_reward, components = PeriodicRewards.compute_move_potential(
+							# 	prev_pos,
+							# 	(unit['x'], unit['z']),
+							# 	prev_y,
+							# 	unit['y'],
+							# 	unvisited_mass,
+							# 	enemy_range_image=enemy_range_image,
+							# 	vision_image=vision_image,
+							# 	unit_id=unit['id'],
+							# )
+							if unit['is_constructing'] == 1:
+								potential_reward, components = PeriodicRewards.compute_build_potential(
+									prev_pos,
+									(unit['x'], unit['z']),
+									prev_y,
+									unit['y'],
+									enemy_range_image=enemy_range_image,
+									vision_image=vision_image,
+									unit=unit
+								)
+							else:
+								potential_reward, components = PeriodicRewards.compute_move_potential(
+									prev_pos,
+									(unit['x'], unit['z']),
+									prev_y,
+									unit['y'],
+									unvisited_mass,
+									enemy_range_image=enemy_range_image,
+									vision_image=vision_image,
+									unit_id=unit['id'],
+								)
 
 							if damage_taken > 0.0:
 								damage_penalty = damage_taken * config.IMMEDIATE_DAMAGE_PENALTY_SCALE
@@ -299,6 +325,20 @@ def receive_messages(conn, addr):
 							if damage_taken > 0.0:
 								state.segment_stats[unit['id']]['damage_taken'] += damage_taken
 							state.segment_stats[unit['id']]['steps'] += 1
+							if unit['is_constructing'] == 1:
+								state.segment_stats[unit['id']]['build_steps'] += 1
+
+							prev_progress = state.previous_build_progress.get(unit['id'], 0.0)
+							current_progress = unit['active_build_progress']
+
+							if prev_progress > 0.7 and current_progress < 0.1 and unit["is_constructing"] == 0:
+								# This indicates either a build finish, a cancel near completion (I will assume for the sake of the integration that it is a finish however)
+								state.segment_stats[unit['id']]['buildings_built'] += 1
+								print(f"Unit {unit['id']} likely completed a building. Total buildings built in this segment: {state.segment_stats[unit['id']]['buildings_built']}")
+								# Add the vision increase as a reward for completing the building.
+								state.segment_stats[unit['id']]['value_from_building'] += (np.sum(state.vision_image) if state.vision_image is not None else 0.0) - state.previous_building_vision_baseline
+
+							state.previous_build_progress[unit['id']] = current_progress
 
 							state.segment_buffers[unit['id']].append({
 								'state': prev_state,
@@ -327,6 +367,8 @@ def receive_messages(conn, addr):
 							state.writer.add_scalar('Move_Potential/enemy_avoidance', components.get('enemy_avoidance', 0.0), state.step_counter)
 							state.writer.add_scalar('Move_Potential/damage_taken', components.get('damage_taken', 0.0), state.step_counter)
 							state.writer.add_scalar('Move_Potential/vision_coverage', components.get('vision_coverage', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/build_progress', components.get('build_progress', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/build_completion', components.get('build_completion', 0.0), state.step_counter)
 						elif unit['id'] not in state.previous_actions:
 							print(
 								f"[INFO] Skipping move potential for unit {unit['id']} "

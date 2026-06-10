@@ -390,7 +390,10 @@ def init_segment_tracking(unit):
 			'distance': 0.0,
 			'height_change': 0.0,
 			'damage_taken': 0.0,
-			'steps': 0
+			'steps': 0,
+			'buildings_built': 0,
+			'value_from_building': 0.0,
+			'build_steps': 0
 		}
 		state.segment_buffers[unit_id] = deque(maxlen=config.MAX_SEGMENT_STEPS)
 		state.last_mass_visit[unit_id] = now
@@ -550,14 +553,24 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	# Compare vision delta between rewards (ie, if a building was finished and it can spot a lot, reward it)
 	currentVisionScore = np.sum(vision_image) if vision_image is not None else 0.0
 	# Grab the past few (to get 5 seconds of it) vision scores and average them to get a more stable "prior" vision score, then compare to current
-	priorVisionScore = 0.0 
-	# THIS IS A LIST
-	vision_scores = state.previous_vision_scores[-10:]
-	if vision_scores:
-		priorVisionScore = np.mean(vision_scores)
+	# Use a frozen pre-build baseline during construction so the full
+	# vision improvement is credited across the entire build period,
+	# not just the single step the radar comes online.
 
-	vision_delta = currentVisionScore - priorVisionScore
-	vision_reward = vision_delta * config.VISION_REWARD_SCALE
+	pre_build_baseline = state.pre_build_vision_baseline
+
+	if pre_build_baseline is not None:
+		# During active construction: compare against the moment building began
+		vision_delta = currentVisionScore - pre_build_baseline
+	else:
+		# Normal movement: compare against rolling 10-step average
+		priorVisionScore = 0.0
+		vision_scores = state.previous_vision_scores[-10:]
+		if vision_scores:
+			priorVisionScore = np.mean(vision_scores)
+		vision_delta = currentVisionScore - priorVisionScore
+
+	vision_reward = max(0.0, vision_delta) * config.VISION_REWARD_SCALE
 
 	total = distance_reward + direction_reward + height_jump_penalty + path_danger_penalty + path_terrain_penalty + enemy_avoidance_reward + vision_reward
 	components = {
@@ -570,6 +583,67 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 		'vision_coverage': vision_reward,
 	}
 	return total, components
+
+def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
+                             enemy_range_image=None, vision_image=None, unit=None):
+    """Compute the potential-based shaping reward for a build action step.
+    Rewards construction progress, vision expansion, and safe placement.
+    Does not penalize standing still — that is intentional during builds.
+    """
+    unit_id = unit['id']
+    is_constructing = int(unit.get('is_constructing', 0))
+    build_progress = float(unit.get('active_build_progress', 0.0))
+
+    components = {
+        'build_progress': 0.0,
+        'build_completion': 0.0,
+        'vision_coverage': 0.0,
+        'path_danger': 0.0,
+        'distance': 0.0,
+        'direction': 0.0,
+        'height_jump': 0.0,
+        'enemy_avoidance': 0.0,
+    }
+
+    total = 0.0
+
+    # --- Build progress reward ---
+    # Reward each step of active construction proportional to progress made.
+    # This gives the agent a dense signal during the 20-100 steps construction takes.
+    if is_constructing == 1 and build_progress > 0.0:
+        prev_progress = state.previous_build_progress.get(unit_id, 0.0)
+        progress_delta = max(0.0, build_progress - prev_progress)
+        build_progress_reward = progress_delta * config.BUILD_PROGRESS_REWARD_SCALE
+        total += build_progress_reward
+        components['build_progress'] = build_progress_reward
+
+    # --- Vision coverage reward (sustained, using frozen baseline) ---
+    if vision_image is not None:
+        currentVisionScore = float(np.sum(vision_image > 0))
+        pre_build_baseline = state.pre_build_vision_baseline.get(unit_id)
+        if pre_build_baseline is not None:
+            vision_delta = max(0.0, currentVisionScore - pre_build_baseline)
+        else:
+            prior_scores = state.previous_vision_scores[-10:]
+            vision_delta = max(0.0, currentVisionScore - (np.mean(prior_scores) if prior_scores else 0.0))
+        vision_reward = vision_delta * config.VISION_REWARD_SCALE
+        total += vision_reward
+        components['vision_coverage'] = vision_reward
+
+    # --- Danger penalty (same as move) ---
+    # Unit should not be standing in enemy range while building.
+    unit_nx = map_utils.normalize_x(curr_pos[0])
+    unit_nz = map_utils.normalize_z(curr_pos[1])
+    if enemy_range_image is not None:
+        map_x = int(np.clip(unit_nx, 0, enemy_range_image.shape[1] - 1))
+        map_z = int(np.clip(unit_nz, 0, enemy_range_image.shape[0] - 1))
+        danger = float(enemy_range_image[map_z, map_x])
+        if danger > 0:
+            danger_penalty = -danger * config.PATH_DANGER_PENALTY_SCALE
+            total += danger_penalty
+            components['path_danger'] = danger_penalty
+
+    return total, components
 
 
 def check_mass_reached(unit):
@@ -597,14 +671,23 @@ def compute_segment_reward(unit_id, success, now):
 	time_taken = max(0.01, now - stats['last_mass_time'])
 	distance = stats['distance']
 	damage_taken = stats['damage_taken']
+	build_steps = stats['build_steps']
+	build_value = stats['value_from_building']
+	buildings_built = stats['buildings_built']
+	total_steps = max(1, stats['steps'])
 
-	time_penalty = time_taken * config.SEGMENT_TIME_PENALTY
-	distance_penalty = distance * config.SEGMENT_DISTANCE_PENALTY
+	build_fraction = min(1.0, build_steps / total_steps) if total_steps > 0 else 0.0
+	penalty_scale = 1.0 - (build_fraction * config.BUILDING_REWARD_SCALE)
+
+	time_penalty = time_taken * config.SEGMENT_TIME_PENALTY * penalty_scale
+	distance_penalty = distance * config.SEGMENT_DISTANCE_PENALTY * penalty_scale
 	damage_penalty = damage_taken * config.SEGMENT_DAMAGE_PENALTY
 
+	build_reward = build_value / max(1, buildings_built) * config.VISION_REWARD_SCALE
+
 	if success:
-		return config.SEGMENT_BASE_REWARD - time_penalty - distance_penalty - damage_penalty
-	return -config.FAILURE_BASE_PENALTY - time_penalty - distance_penalty - damage_penalty
+		return config.SEGMENT_BASE_REWARD - time_penalty - distance_penalty - damage_penalty + build_reward
+	return -config.FAILURE_BASE_PENALTY - time_penalty - distance_penalty - damage_penalty + build_reward
 
 
 def _train_buffer(buffer, unit_id, segment_reward):
@@ -677,6 +760,9 @@ def finalize_segment_training(unit_id, success, reason):
 		state.segment_stats[unit_id]['damage_taken'] = 0.0
 		state.segment_stats[unit_id]['steps'] = 0
 		state.segment_stats[unit_id]['last_mass_time'] = now
+		state.segment_stats[unit_id]['buildings_built'] = 0
+		state.segment_stats[unit_id]['value_from_building'] = 0.0
+		state.segment_stats[unit_id]['build_steps'] = 0
 
 	end_time = time.time()
 	state.process_times.append(end_time - start_time)
