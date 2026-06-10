@@ -698,7 +698,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         steps_since_build = state.step_counter - state.last_build_step.get(unit_id, 0)
         if not getattr(state, 'evalRun', False) and steps_since_build >= config.FORCE_BUILD_EVERY_N_STEPS:
             discrete_action = config.ACTION_BUILD
-            state.last_build_step[unit_id] = state.step_counter
+            # state.last_build_step[unit_id] = state.step_counter
         
         # If it was the forced build step, skip choosing a new action to allow the build to go through, otherwise choose action as normal
         if not discrete_action:
@@ -711,6 +711,10 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     discrete_action = random.randint(0, config.NUM_DISCRETE_ACTIONS - 1)
                 else:
                     discrete_action = torch.argmax(action_logits, dim=-1).item()
+
+                state.writer.add_scalar('Action_Selection/epsilon',
+                                epsilon if not getattr(state, 'evalRun', False) else 0.0,
+                                state.step_counter)
             else:
                 discrete_action = torch.argmax(action_logits, dim=-1).item()
         
@@ -1153,9 +1157,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         state.writer.add_scalar('Action_Selection/discrete_action_chosen', 
                          float(discrete_action), state.step_counter)
-        state.writer.add_scalar('Action_Selection/epsilon',
-                                epsilon if not getattr(state, 'evalRun', False) else 0.0,
-                                state.step_counter)
+        
 
         action_probs = torch.softmax(action_logits.squeeze(0), dim=-1).cpu().numpy()
         state.writer.add_scalar('Action_Selection/prob_move', action_probs[config.ACTION_MOVE], state.step_counter)
@@ -1493,10 +1495,39 @@ def train_agent(
                 # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
                 # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
                 # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
-                for _ in range(10):
-                    tx = random.uniform(0, config.STANDARD_MAP_WIDTH)
-                    tz = random.uniform(0, config.STANDARD_MAP_HEIGHT)
-                    if map_utils.is_position_buildable(tx, tz):
+                # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
+                h_vis, w_vis = vision_image.shape
+                max_ray_steps = max(h_vis, w_vis)
+                num_rays = 24
+                angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
+
+                for angle in angles:
+                    # Generate all steps along this ray at once
+                    steps = np.arange(2, max_ray_steps)
+                    txs = (unit_nx + steps * np.cos(angle)).astype(int)
+                    tzs = (unit_nz + steps * np.sin(angle)).astype(int)
+
+                    # Clip and find valid (in-bounds) indices
+                    in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
+                    if not np.any(in_bounds):
+                        continue
+
+                    txs_valid = txs[in_bounds]
+                    tzs_valid = tzs[in_bounds]
+
+                    # Sample the vision image along the ray
+                    ray_values = vision_image[tzs_valid, txs_valid]
+
+                    # Find the first position that is NOT radar-covered (< 0.4 threshold)
+                    unknown_mask = ray_values < 0.4
+                    if not np.any(unknown_mask):
+                        continue
+
+                    first_unknown = np.argmax(unknown_mask)
+                    tx = float(txs_valid[first_unknown])
+                    tz = float(tzs_valid[first_unknown])
+
+                    if map_utils.is_position_buildable(tx, tz, "armrad"):
                         candidates.append((tx, tz, 'vision_edge_build'))
 
 

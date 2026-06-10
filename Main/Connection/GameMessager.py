@@ -172,9 +172,9 @@ def receive_messages(conn, addr):
 
 			# Verify if enemy in eUnits and eKUnits, if so remove from known enemy units (to avoid duplicates)
 			# IE known is a subset of enemy, but may have some units not currently visible (fog of war)
-			for unit in state.eUnits:
-				if any(unit['id'] == eu['id'] for eu in state.eKUnits):
-					state.eUnits.remove(unit)
+			for unit in state.eKUnits:
+				if any(unit['id'] == eu['id'] for eu in state.eUnits):
+					state.eKUnits.remove(unit)
 
 			# Remove from known if the enemy location has been passed and thus, their location is entirely unknown
 			# Requires distance checks between enemy unit loc and friendly LOS
@@ -521,6 +521,7 @@ def receive_messages(conn, addr):
 					)
 
 					if discrete_action == config.ACTION_BUILD and action_command is not None:
+						state.last_build_step[unit['id']] = state.step_counter
 						state.build_committed_target[unit['id']] = best_target_world
 						state.build_committed_since_step[unit['id']] = state.step_counter
 						state.build_committed_distance[unit['id']] = ((unit['x'] - best_target_world[0]) ** 2 + (unit['z'] - best_target_world[1]) ** 2) ** 0.5
