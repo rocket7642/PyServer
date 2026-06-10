@@ -557,9 +557,9 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	# vision improvement is credited across the entire build period,
 	# not just the single step the radar comes online.
 
-	pre_build_baseline = state.pre_build_vision_baseline
+	pre_build_baseline = state.previous_build_vision_baseline
 
-	if pre_build_baseline is not None:
+	if pre_build_baseline != 0 :
 		# During active construction: compare against the moment building began
 		vision_delta = currentVisionScore - pre_build_baseline
 	else:
@@ -620,8 +620,8 @@ def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
     # --- Vision coverage reward (sustained, using frozen baseline) ---
     if vision_image is not None:
         currentVisionScore = float(np.sum(vision_image > 0))
-        pre_build_baseline = state.pre_build_vision_baseline.get(unit_id)
-        if pre_build_baseline is not None:
+        pre_build_baseline = state.previous_build_vision_baseline
+        if pre_build_baseline != 0:
             vision_delta = max(0.0, currentVisionScore - pre_build_baseline)
         else:
             prior_scores = state.previous_vision_scores[-10:]

@@ -73,7 +73,7 @@ build_committed_target = {}
 build_committed_since_step = {}
 build_committed_distance = {}
 
-pre_build_vision_baseline = 0
+previous_build_vision_baseline = 0
 
 previous_chosen_targets = {}
 

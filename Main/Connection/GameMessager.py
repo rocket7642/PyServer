@@ -224,9 +224,9 @@ def receive_messages(conn, addr):
 						prev_pos = state.previous_positions.get(unit['id'], (unit['x'], unit['z']))
 						prev_y = state.previous_y_positions.get(unit['id'], unit['y'])
 						if unit['is_constructing'] == 1:
-							state.pre_build_vision_baseline = np.sum(state.vision_image) if state.vision_image is not None else 0.0 # used to garentee it is maintained
+							state.previous_build_vision_baseline = np.sum(state.vision_image) if state.vision_image is not None else 0.0 # used to garentee it is maintained
 						else:
-							state.pre_build_vision_baseline = None
+							state.previous_build_vision_baseline = 0
 						damage_taken = max(0.0, prev_health - unit['health'])
 						enemy_range_image = map_utils.generate_enemy_range_image(
 							enemy_units,
@@ -336,7 +336,7 @@ def receive_messages(conn, addr):
 								state.segment_stats[unit['id']]['buildings_built'] += 1
 								print(f"Unit {unit['id']} likely completed a building. Total buildings built in this segment: {state.segment_stats[unit['id']]['buildings_built']}")
 								# Add the vision increase as a reward for completing the building.
-								state.segment_stats[unit['id']]['value_from_building'] += (np.sum(state.vision_image) if state.vision_image is not None else 0.0) - state.previous_building_vision_baseline
+								state.segment_stats[unit['id']]['value_from_building'] += (np.sum(state.vision_image) if state.vision_image is not None else 0.0) - state.previous_build_vision_baseline
 
 							state.previous_build_progress[unit['id']] = current_progress
 
