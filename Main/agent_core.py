@@ -699,6 +699,9 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         if not getattr(state, 'evalRun', False) and steps_since_build >= config.FORCE_BUILD_EVERY_N_STEPS:
             discrete_action = config.ACTION_BUILD
             # state.last_build_step[unit_id] = state.step_counter
+
+        # Testing statement, enforce build action
+        # discrete_action = config.ACTION_BUILD
         
         # If it was the forced build step, skip choosing a new action to allow the build to go through, otherwise choose action as normal
         if not discrete_action:

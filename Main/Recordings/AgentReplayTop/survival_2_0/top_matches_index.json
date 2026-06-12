@@ -12,6 +12,28 @@
       "exported_at": "2026-06-08T20:13:59.485525"
     },
     {
+      "file": "agent_match_20260610_132405_score_222p84.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 222.84118617129138,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1465,
+      "segments": 7,
+      "exported_at": "2026-06-10T13:24:05.726483"
+    },
+    {
+      "file": "agent_match_20260610_134404_score_195p68.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 195.68098619899698,
+      "success": true,
+      "reason": "game_ended",
+      "samples": 29,
+      "segments": 1,
+      "exported_at": "2026-06-10T13:44:04.105853"
+    },
+    {
       "file": "agent_match_20260608_215717_score_m523p76.json",
       "map_name": "Survival 2.0",
       "map_slug": "survival_2_0",
