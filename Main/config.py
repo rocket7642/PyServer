@@ -5,7 +5,7 @@ BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = True # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
 # EPISODIC TRAINING SETTINGS 
 EPISODE_TIMEOUT_SECONDS = 120

@@ -23,6 +23,17 @@
       "exported_at": "2026-06-10T13:24:05.726483"
     },
     {
+      "file": "agent_match_20260612_104830_score_212p05.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 212.04972310358113,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1779,
+      "segments": 8,
+      "exported_at": "2026-06-12T10:48:30.806440"
+    },
+    {
       "file": "agent_match_20260610_134404_score_195p68.json",
       "map_name": "Survival 2.0",
       "map_slug": "survival_2_0",
@@ -32,6 +43,28 @@
       "samples": 29,
       "segments": 1,
       "exported_at": "2026-06-10T13:44:04.105853"
+    },
+    {
+      "file": "agent_match_20260612_072637_score_m201p49.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -201.4904040197399,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1860,
+      "segments": 7,
+      "exported_at": "2026-06-12T07:26:37.914836"
+    },
+    {
+      "file": "agent_match_20260612_064308_score_m307p67.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -307.6715879705946,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1709,
+      "segments": 6,
+      "exported_at": "2026-06-12T06:43:08.482313"
     },
     {
       "file": "agent_match_20260608_215717_score_m523p76.json",
@@ -45,6 +78,61 @@
       "exported_at": "2026-06-08T21:57:17.050154"
     },
     {
+      "file": "agent_match_20260612_083955_score_m907p31.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -907.3113447828,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1709,
+      "segments": 6,
+      "exported_at": "2026-06-12T08:39:55.144411"
+    },
+    {
+      "file": "agent_match_20260612_103221_score_m1081p85.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -1081.8545789333984,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1906,
+      "segments": 8,
+      "exported_at": "2026-06-12T10:32:21.293707"
+    },
+    {
+      "file": "agent_match_20260612_053120_score_m1140p19.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -1140.1917335863516,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1744,
+      "segments": 6,
+      "exported_at": "2026-06-12T05:31:20.751566"
+    },
+    {
+      "file": "agent_match_20260612_092108_score_m1429p78.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -1429.7797587199404,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1804,
+      "segments": 7,
+      "exported_at": "2026-06-12T09:21:08.133025"
+    },
+    {
+      "file": "agent_match_20260612_065610_score_m1470p21.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -1470.2127423566158,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1741,
+      "segments": 7,
+      "exported_at": "2026-06-12T06:56:10.756611"
+    },
+    {
       "file": "agent_match_20260608_231512_score_m2025p89.json",
       "map_name": "Survival 2.0",
       "map_slug": "survival_2_0",
@@ -56,37 +144,26 @@
       "exported_at": "2026-06-08T23:15:12.662446"
     },
     {
-      "file": "agent_match_20260608_211443_score_m2203p62.json",
+      "file": "agent_match_20260612_090631_score_m2120p31.json",
       "map_name": "Survival 2.0",
       "map_slug": "survival_2_0",
-      "match_score": -2203.6186381583057,
+      "match_score": -2120.3080378142936,
       "success": true,
       "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 1250,
-      "segments": 8,
-      "exported_at": "2026-06-08T21:14:43.116691"
-    },
-    {
-      "file": "agent_match_20260608_224451_score_m3569p82.json",
-      "map_name": "Survival 2.0",
-      "map_slug": "survival_2_0",
-      "match_score": -3569.8177319735055,
-      "success": false,
-      "reason": "death |> Survival time 3.00s below threshold 7s",
-      "samples": 103,
-      "segments": 6,
-      "exported_at": "2026-06-08T22:44:51.124271"
-    },
-    {
-      "file": "agent_match_20260608_214347_score_m6029p79.json",
-      "map_name": "Survival 2.0",
-      "map_slug": "survival_2_0",
-      "match_score": -6029.789601881605,
-      "success": true,
-      "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 869,
+      "samples": 1790,
       "segments": 5,
-      "exported_at": "2026-06-08T21:43:47.094295"
+      "exported_at": "2026-06-12T09:06:31.837590"
+    },
+    {
+      "file": "agent_match_20260612_043615_score_m2192p26.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": -2192.2648831114275,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1644,
+      "segments": 6,
+      "exported_at": "2026-06-12T04:36:15.643046"
     }
   ]
 }
