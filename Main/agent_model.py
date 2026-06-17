@@ -213,7 +213,11 @@ class RTSAgent(nn.Module):
             friendly_vectors.append([
                 map_utils.normalize_x(u['x']) - unit_nx,
                 map_utils.normalize_z(u['z']) - unit_nz,
-                u['health']
+                u['health'],
+                float(u.get('is_constructing', 0)),
+                float(u.get('active_build_progress', 0.0)),
+                map_utils.normalize_range(u.get('radar_range', 0.0)) / config.STANDARD_MAP_WIDTH,
+                map_utils.normalize_range(u.get('sight_range', 0.0)) / config.STANDARD_MAP_WIDTH,
             ])
         if friendly_vectors:
             friendly_tensor = torch.tensor(friendly_vectors, dtype=torch.float32, device=device)
