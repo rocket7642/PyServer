@@ -100,6 +100,28 @@
       "exported_at": "2026-06-12T05:56:20.383702"
     },
     {
+      "file": "agent_match_20260622_095602_score_m2823p68.json",
+      "map_name": "Showcase 2.0",
+      "map_slug": "showcase_2_0",
+      "match_score": -2823.6849253907003,
+      "success": false,
+      "reason": "death |> Survival time 2.00s below threshold 7s",
+      "samples": 339,
+      "segments": 7,
+      "exported_at": "2026-06-22T09:56:02.126362"
+    },
+    {
+      "file": "agent_match_20260617_030534_score_m2849p46.json",
+      "map_name": "Showcase 2.0",
+      "map_slug": "showcase_2_0",
+      "match_score": -2849.4597686885313,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 525,
+      "segments": 10,
+      "exported_at": "2026-06-17T03:05:34.050659"
+    },
+    {
       "file": "agent_match_20260612_092418_score_m2987p29.json",
       "map_name": "Showcase 2.0",
       "map_slug": "showcase_2_0",
