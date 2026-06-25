@@ -230,6 +230,7 @@ BUILD_TRANSIT_STALL_PENALTY = -0.5
 
 BUILDING_REWARD_SCALE = 0.8
 BUILD_PROGRESS_REWARD_SCALE = 10.0
+BUILD_CANDIDATE_RADIUS = 3
 
 # SENTINEL FILE SETTINGS 
 # Path to the sentinel file that signals the training script to stop.

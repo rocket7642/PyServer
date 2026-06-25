@@ -455,13 +455,21 @@ def receive_messages(conn, addr):
 					state.previous_y_positions[unit['id']] = unit['y']
 					state.previous_positions[unit['id']] = (unit['x'], unit['z'])
 
-					action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
-						state_vec,
-						unit['x'],
-						unit['z'],
-						unit['y'],
-						unit['id']
-					)
+					# Bypass weight system, prevent it from doing something while building
+					if unit['is_constructing'] == 1:
+						action = config.NOOP_ACTION
+						best_target = (map_utils.normalize_x(unit['x']), map_utils.normalize_z(unit['z']))
+						best_score = 0.0
+						best_candidate_kind = 'noop'
+						discrete_action = config.ACTION_BUILD
+					else:
+						action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
+							state_vec,
+							unit['x'],
+							unit['z'],
+							unit['y'],
+							unit['id']
+						)
 
 					# Store chosen discrete action (Move vs Build) for training
 					state.previous_discrete_actions[unit['id']] = discrete_action

@@ -59,7 +59,7 @@ def compute_build_features(
         and abs(target_nx - prev_target[0]) < 1e-3
         and abs(target_nz - prev_target[1]) < 1e-3
     )
-    features[1] = 1.0 if is_continuing else 0.0
+    features[1] = 5.0 if is_continuing else 0.0
 
     # Feature 2: enemy_proximity
     # The closer to enemies, the higher the signal. The agent should learn a negative weight here.
@@ -147,7 +147,7 @@ def compute_build_features(
             u_bottom = uz + uh / 2.0
             
             if (target_left < u_right) and (target_right > u_left) and (target_top < u_bottom) and (target_bottom > u_top):
-                blocking_proximity = -2.0 # Heavy negative signal for collision!
+                blocking_proximity = -20.0 # VeryHeavy negative signal for collision!
                 break
                 
     features[5] = blocking_proximity

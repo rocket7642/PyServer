@@ -957,7 +957,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     tz = unit_nz + dz
                     tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                    if map_utils.is_position_buildable(tx, tz, "armrad"):
+                    dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                    if map_utils.is_position_buildable(tx, tz, "armrad") and dist <= config.BUILD_CANDIDATE_RADIUS:
                         candidates.append((tx, tz, 'build'))
                         candidate_meta.append(None)
 
@@ -969,7 +970,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         tz = mass[1] + dz
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                        if map_utils.is_position_buildable(tx, tz, "armrad"):
+                        dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist <= config.BUILD_CANDIDATE_RADIUS:
                             candidates.append((tx, tz, 'build'))
                             candidate_meta.append(None)
 
@@ -1481,7 +1483,8 @@ def train_agent(
                         tz = unit_nz + dz
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                        if map_utils.is_position_buildable(tx, tz):
+                        dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                        if map_utils.is_position_buildable(tx, tz) and dist <= config.BUILD_CANDIDATE_RADIUS:
                             candidates.append((tx, tz, 'build'))
 
                 # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
@@ -1492,7 +1495,8 @@ def train_agent(
                             tz = mass[1] + dz
                             tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                             tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                            if map_utils.is_position_buildable(tx, tz):
+                            dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                            if map_utils.is_position_buildable(tx, tz) and dist <= config.BUILD_CANDIDATE_RADIUS:
                                 candidates.append((tx, tz, 'build'))
 
                 # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
