@@ -696,8 +696,10 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         discrete_action = None
 
         steps_since_build = state.step_counter - state.last_build_step.get(unit_id, 0)
+        forced_build_this_step = False
         if not getattr(state, 'evalRun', False) and steps_since_build >= config.FORCE_BUILD_EVERY_N_STEPS:
             discrete_action = config.ACTION_BUILD
+            forced_build_this_step = True
             # state.last_build_step[unit_id] = state.step_counter
 
         # Testing statement, enforce build action
@@ -1248,7 +1250,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         if state.step_counter % 100 == 0:
             state.writer.add_histogram('Action_Scores/distribution', np.array(action_scores), state.step_counter)
 
-        return best_action, best_target, best_score, best_candidate_kind, discrete_action
+        return best_action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step
 
 
 def train_agent(
@@ -1269,6 +1271,7 @@ def train_agent(
     mass_destination=None,
     action_kind=None,
     unit_id=None,
+    forced_build=False
 ):
     """Perform a single TD (temporal difference) training step using the transition data and clamped Q-targets."""
     if getattr(state, 'evalRun', False):
@@ -1618,6 +1621,23 @@ def train_agent(
     else:
         max_next_q = 0
 
+    # Update the per-action-type Q baseline using EMA
+    current_q_detached = current_q.detach().item()
+    if discrete_action == config.ACTION_MOVE:
+        state.move_q_ema = (1 - state.q_ema_alpha) * state.move_q_ema + state.q_ema_alpha * current_q_detached
+        q_baseline = state.move_q_ema
+    else:
+        state.build_q_ema = (1 - state.q_ema_alpha) * state.build_q_ema + state.q_ema_alpha * current_q_detached
+        q_baseline = state.build_q_ema
+
+    # Advantage normalized relative to this action type's historical Q-values
+    # This prevents BUILD being penalized just because MOVE has higher absolute Q-values
+    adv = current_q_detached - q_baseline
+
+    state.writer.add_scalar('Training/move_q_ema', state.move_q_ema, state.step_counter)
+    state.writer.add_scalar('Training/build_q_ema', state.build_q_ema, state.step_counter)
+    state.writer.add_scalar('Training/discrete_advantage', adv, state.step_counter)
+
     current_q_val = current_q.detach().item()
     target_raw = reward + 0.99 * max_next_q
     
@@ -1643,16 +1663,32 @@ def train_agent(
     # However, RL classification is tricky because we're just matching Q targets. 
     # For now, let's treat the discrete action chosen as the 'label', and we weight it by the TD advantage.
     # A simple but effective method: encourage actions that had positive advantage, discourage negative.
-    adv = target_value - current_q_val
-    action_log_probs = torch.nn.functional.log_softmax(action_logits.squeeze(0), dim=-1)
+    # adv = target_value - current_q_val
+    # action_log_probs = torch.nn.functional.log_softmax(action_logits.squeeze(0), dim=-1)
+
+    action_probs = torch.softmax(action_logits.squeeze(0), dim=-1)
+    action_log_probs = torch.log(action_probs + 1e-8)
+
+    if forced_build:
+        loss_discrete = -action_log_probs[config.ACTION_BUILD] * 1.0 # Forced build action is treated as a strong positive signal
+    else:
     # Simple advantage-weighted policy gradient for the discrete head
-    loss_discrete = -action_log_probs[discrete_action] * adv
+        loss_discrete = -action_log_probs[discrete_action] * adv
+
+    # Add entropy bonus — negative entropy is minimized, so this resists collapse
+    entropy = -(action_probs * action_log_probs).sum()
+    loss_discrete = loss_discrete - config.entropy_coeff * entropy
     
     loss = loss_continuous + loss_discrete
     
     state.writer.add_scalar('Training/loss', loss.item(), state.step_counter)
     state.writer.add_scalar('Training/loss_continuous', loss_continuous.item(), state.step_counter)
     state.writer.add_scalar('Training/loss_discrete', loss_discrete.item(), state.step_counter)
+
+    # ADD after the existing state.writer.add_scalar('Training/loss_discrete', ...) line:
+    state.writer.add_scalar('Training/entropy', entropy.item(), state.step_counter)
+    state.writer.add_scalar('Training/prob_build_train', action_probs[config.ACTION_BUILD].item(), state.step_counter)
+    state.writer.add_scalar('Training/prob_move_train', action_probs[config.ACTION_MOVE].item(), state.step_counter)
 
     optimizer.zero_grad()
     torch.autograd.set_detect_anomaly(True)
@@ -1702,6 +1738,9 @@ def _reset_agent_parameters(model: nn.Module):
             module.reset_parameters()
     if hasattr(model, "_initialize_cnn_weights"):
         model._initialize_cnn_weights()
+
+    nn.init.uniform_(model.action_head.weight, -0.001, 0.001)
+    nn.init.zeros_(model.action_head.bias)
 
 
 def load_agent():

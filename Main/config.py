@@ -5,7 +5,7 @@ BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = True  # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
 # EPISODIC TRAINING SETTINGS 
 EPISODE_TIMEOUT_SECONDS = 120
@@ -160,6 +160,9 @@ ENABLE_MODEL_GRAPH_LOG = True
 
 # EPOCH DRIFT SETTINGS 
 td_cap = 5.0
+
+# tune this; higher = stronger resistance to collapse
+entropy_coeff = 0.05
 
 # OUTPUT WEIGHT CONSTRAINTS 
 ENFORCE_DISTANCE_REDUCTION_NONNEG = True

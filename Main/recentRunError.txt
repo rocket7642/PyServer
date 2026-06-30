@@ -1,53 +1,67 @@
-2026-06-28 11:37:24,943 - INFO - Eval run selected for run #168; seeded with 1337.
-F:\School\Capstone\Python\PyServer\Main\agent_model.py:146: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+2026-06-29 10:14:23,605 - INFO - Training run selected for run #25.
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:150: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
   if 0 <= idx < move_features.shape[-1]:
-2026-06-28 11:37:25,165 - INFO - TensorBoard logging to: runs/feature_based_agent_20260628_113723
-2026-06-28 11:37:25,166 - INFO - Run mode: eval (run #168)
-2026-06-28 11:37:25,166 - INFO - View with: tensorboard --logdir=runs
-2026-06-28 11:37:25,167 - INFO - Server listening on 127.0.0.1:25000...
-2026-06-28 11:38:19,227 - INFO - [NEW CONNECTION] ('127.0.0.1', 64315) connected.
-2026-06-28 11:38:19,341 - INFO - Map dimensions: 8192 x 8192
-2026-06-28 11:38:19,342 - INFO - Map name: Showcase 2.0
-2026-06-28 11:38:19,777 - INFO - Game server running. Press Ctrl+C to stop gracefully.
-2026-06-28 11:38:19,777 - INFO - Monitoring for game completion or termination signal...
+2026-06-29 10:14:23,818 - INFO - TensorBoard logging to: runs/feature_based_agent_20260629_101422
+2026-06-29 10:14:23,819 - INFO - Run mode: training (run #25)
+2026-06-29 10:14:23,819 - INFO - View with: tensorboard --logdir=runs
+2026-06-29 10:14:23,820 - INFO - Server listening on 127.0.0.1:25000...
+2026-06-29 10:15:19,654 - INFO - [NEW CONNECTION] ('127.0.0.1', 57609) connected.
+2026-06-29 10:15:19,762 - INFO - Map dimensions: 8192 x 8192
+2026-06-29 10:15:19,763 - INFO - Map name: Survival 2.0
+2026-06-29 10:15:20,435 - INFO - Game server running. Press Ctrl+C to stop gracefully.
+2026-06-29 10:15:20,436 - INFO - Monitoring for game completion or termination signal...
 
-2026-06-28 11:47:51,386 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
-2026-06-28 11:47:51,386 - INFO - 
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 553, in receive_messages
+    conn.sendall(action_command.encode('utf-8'))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 137, in receive_messages
+    data = conn.recv(1024)
+           ^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+2026-06-29 10:21:50,907 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
+2026-06-29 10:21:50,908 - INFO - 
 [SHUTDOWN] Closing connections and finalizing...
+2026-06-29 10:21:53,935 - INFO - Closing connection.
+2026-06-29 10:21:53,936 - INFO - Finalizing rewards and saving agent... (no terminal result finalized)
+F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\autograd\graph.py:865: UserWarning: Error detected in AddmmBackward0. Traceback of forward call that caused the error:
+  File "F:\School\Capstone\Python\PyServer\Main\Socket ML.py", line 361, in <module>
+    PeriodicRewards.finalize_all_units(False, reason)
+  File "F:\School\Capstone\Python\PyServer\Main\Rewards\PeriodicRewards.py", line 814, in finalize_all_units
+    _train_buffer(seg['transitions'], seg['unit_id'], seg['segment_reward'])
+  File "F:\School\Capstone\Python\PyServer\Main\Rewards\PeriodicRewards.py", line 701, in _train_buffer
+    agent_core.train_agent(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1285, in train_agent
+    action_logits, move_weights, build_weights, _ = agent(input_seq, hidden)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "F:\School\Capstone\Python\PyServer\Main\agent_model.py", line 147, in forward
+    build_features = self.build_head(x)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+ (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\python_anomaly_mode.cpp:127.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
 Traceback (most recent call last):
-  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 137, in receive_messages
-    data = conn.recv(1024)
-           ^^^^^^^^^^^^^^^
-OSError: [WinError 10038] An operation was attempted on something that is not a socket
-Exception in thread Thread-2 (receive_messages):
-Traceback (most recent call last):
-  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 137, in receive_messages
-    data = conn.recv(1024)
-           ^^^^^^^^^^^^^^^
-OSError: [WinError 10038] An operation was attempted on something that is not a socket
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\Users\conno\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1052, in _bootstrap_inner
-    self.run()
-  File "C:\Users\conno\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 989, in run
-    self._target(*self._args, **self._kwargs)
-  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 680, in receive_messages
-    state.writer.add_image(
-  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\writer.py", line 634, in add_image
-    image(tag, img_tensor, dataformats=dataformats), global_step, walltime
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\summary.py", line 592, in image
-    tensor = convert_to_HWC(tensor, dataformats)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\_utils.py", line 110, in convert_to_HWC
-    raise AssertionError(f"size of input tensor and input format are different. \
-AssertionError: size of input tensor and input format are different.         tensor shape: (1024, 1024), input_format: HWC
-2026-06-28 11:47:51,440 - INFO - Closing connection.
-2026-06-28 11:47:51,441 - INFO - Finalizing rewards and saving agent... (no terminal result finalized)
-2026-06-28 11:47:51,561 - INFO - Closing TensorBoard writer...
-2026-06-28 11:47:51,561 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260628_113723
-2026-06-28 11:47:51,561 - INFO - View results with: tensorboard --logdir=runs
-2026-06-28 11:47:51,562 - INFO - 
-[COMPLETE] Server shutdown successfully.
+  File "F:\School\Capstone\Python\PyServer\Main\Socket ML.py", line 361, in <module>
+    PeriodicRewards.finalize_all_units(False, reason)
+  File "F:\School\Capstone\Python\PyServer\Main\Rewards\PeriodicRewards.py", line 814, in finalize_all_units
+    _train_buffer(seg['transitions'], seg['unit_id'], seg['segment_reward'])
+  File "F:\School\Capstone\Python\PyServer\Main\Rewards\PeriodicRewards.py", line 701, in _train_buffer
+    agent_core.train_agent(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1695, in train_agent
+    loss.backward()
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\_tensor.py", line 630, in backward
+    torch.autograd.backward(
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\autograd\__init__.py", line 364, in backward
+    _engine_run_backward(
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\autograd\graph.py", line 865, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation: [torch.FloatTensor [64, 8]], which is output 0 of AsStridedBackward0, is at version 157; expected version 156 instead. Hint: the backtrace further above shows the operation that failed to compute its gradient. The variable in question was changed in there or anywhere later. Good luck!

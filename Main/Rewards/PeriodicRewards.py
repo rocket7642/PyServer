@@ -710,7 +710,8 @@ def _train_buffer(buffer, unit_id, segment_reward):
 			transition['target_x'], transition['target_z'],
 			transition.get('mass_destination'),
 			transition.get('action_kind'),
-			unit_id
+			unit_id,
+			forced_build=transition.get('forced_build', False)
 		)
 
 

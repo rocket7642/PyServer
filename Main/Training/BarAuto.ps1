@@ -27,7 +27,7 @@ $scriptArg = $engineDir + "\_scriptL.txt"
 $scriptArgEval = "\_scriptShowcase.txt"
 $scriptArgTraining = "\_scriptTraining.txt"
 
-$totalRunTimeHours = 7                       # How long the script should loop
+$totalRunTimeHours = 6                       # How long the script should loop
 
 # --- Script Logic ---
 $endTime = (Get-Date).AddHours($totalRunTimeHours)
@@ -45,7 +45,7 @@ do {
 
     # Start the program and keep a reference to it
     Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Starting program..."
-    $process = Start-Process -FilePath $PythonExe -ArgumentList "`"$PythonScript`"" -RedirectStandardOutput $recentRun -RedirectStandardError $recentRunError -PassThru 
+    $process = Start-Process -FilePath $PythonExe -ArgumentList "`"$PythonScript`"" -RedirectStandardOutput $recentRun -RedirectStandardError $recentRunError -PassThru -WindowStyle Minimized
 
     Start-Sleep -Seconds (30) 
 
@@ -66,7 +66,8 @@ do {
     $process2 = Start-Process -FilePath $exePath `
     -ArgumentList "--write-dir", "`"$dataDir`"", "`"$scriptArg`"" `
     -WorkingDirectory $engineDir `
-    -PassThru
+    -PassThru `
+    -WindowStyle Minimized
     
     # Start-Process -FilePath "C:\Path\To\BAR\engine\...\spring.exe" -ArgumentList "C:\Path\To\Script\script.txt" -WindowStyle Hidden
 

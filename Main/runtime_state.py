@@ -68,6 +68,7 @@ previous_action_kinds = {}
 previous_build_progress = {}
 previous_command_steps = {}
 cancel_command_penalties = {}
+previous_forced_builds = {} # tracks whether a build action was forced due to the FORCE_BUILD_EVERY_N_STEPS rule
 
 build_committed_target = {}
 build_committed_since_step = {}
@@ -117,3 +118,7 @@ unit_defs_loaded = False
 
 # Sentinel Time path for tracking survival time in the training script
 sentinel_time_path = None
+
+move_q_ema = 0.0
+build_q_ema = 0.0
+q_ema_alpha = 0.01

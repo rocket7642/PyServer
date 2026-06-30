@@ -1,3 +1,5 @@
+from xml.parsers.expat import model
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -96,6 +98,8 @@ class RTSAgent(nn.Module):
 
         # New set for building/moving split
         self.action_head = nn.Linear(64, config.NUM_DISCRETE_ACTIONS)
+        nn.init.uniform_(self.action_head.weight, -0.001, 0.001)
+        nn.init.zeros_(self.action_head.bias)
         self.move_head = nn.Linear(64, config.NUM_ACTION_FEATURES)
         self.build_head = nn.Linear(64, config.NUM_BUILD_FEATURES)
 

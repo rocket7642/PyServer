@@ -355,7 +355,8 @@ def receive_messages(conn, addr):
 								'target_x': state.previous_targets.get(unit['id'], (unit['x'], unit['z']))[0],
 								'target_z': state.previous_targets.get(unit['id'], (unit['x'], unit['z']))[1],
 								'mass_destination': state.mass_destinations.get(unit['id'], None),
-								'potential_reward': potential_reward
+								'potential_reward': potential_reward,
+								'forced_build': state.previous_forced_builds.get(unit['id'], False)
 							})
 
 							state.writer.add_scalar('Move_Potential/total', potential_reward, state.step_counter)
@@ -463,7 +464,7 @@ def receive_messages(conn, addr):
 					# 	best_candidate_kind = 'noop'
 					# 	discrete_action = config.ACTION_BUILD
 					# else:
-					action, best_target, best_score, best_candidate_kind, discrete_action = agent_core.get_action(
+					action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step = agent_core.get_action(
 						state_vec,
 						unit['x'],
 						unit['z'],
@@ -473,6 +474,7 @@ def receive_messages(conn, addr):
 
 					# Store chosen discrete action (Move vs Build) for training
 					state.previous_discrete_actions[unit['id']] = discrete_action
+					state.previous_forced_builds[unit['id']] = forced_build_this_step
 
 					denorm_tx = map_utils.denormalize_x(best_target[0])
 					denorm_tz = map_utils.denormalize_z(best_target[1])
