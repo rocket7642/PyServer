@@ -5,7 +5,7 @@ BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = True  # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = False  # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
 # EPISODIC TRAINING SETTINGS 
 EPISODE_TIMEOUT_SECONDS = 120
@@ -234,6 +234,8 @@ BUILD_TRANSIT_STALL_PENALTY = -0.5
 BUILDING_REWARD_SCALE = 0.8
 BUILD_PROGRESS_REWARD_SCALE = 10.0
 BUILD_CANDIDATE_RADIUS = 3
+BUILD_TARGET_SWITCH_MARGIN = 0.15
+BUILD_CONTINUITY_BONUS = 5.0
 
 # SENTINEL FILE SETTINGS 
 # Path to the sentinel file that signals the training script to stop.

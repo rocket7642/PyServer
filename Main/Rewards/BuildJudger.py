@@ -50,16 +50,22 @@ def compute_build_features(
         features[0] = max(0.0, 1.0 - (min_f_dist / float(config.STANDARD_MAP_WIDTH * 0.15)))  # Normalize by map size for consistency across maps
 
     # Feature 1: is_continuing_commitment (Noop Equivalent)
-    prev_target = state.previous_targets.get(unit_id)
     prev_discrete = state.previous_discrete_actions.get(unit_id)
+    committed_target_world = state.build_committed_target.get(unit_id)
+
+    if committed_target_world is not None:
+        committed_nx = map_utils.normalize_x(committed_target_world[0])
+        committed_nz = map_utils.normalize_z(committed_target_world[1])
+    else:
+        committed_nx = committed_nz = None
 
     is_continuing = (
         prev_discrete == config.ACTION_BUILD
-        and prev_target is not None
-        and abs(target_nx - prev_target[0]) < 1e-3
-        and abs(target_nz - prev_target[1]) < 1e-3
+        and committed_nx is not None
+        and abs(target_nx - committed_nx) < 1e-3
+        and abs(target_nz - committed_nz) < 1e-3
     )
-    features[1] = 5.0 if is_continuing else 0.0
+    features[1] = config.BUILD_CONTINUITY_BONUS if is_continuing else 0.0
 
     # Feature 2: enemy_proximity
     # The closer to enemies, the higher the signal. The agent should learn a negative weight here.
@@ -160,7 +166,7 @@ def compute_build_features(
         else None
     )
 
-    if prev_discrete == config.ACTION_BUILD and prev_target is not None:
+    if is_continuing:
         original_dist = state.build_committed_distance.get(unit_id, None)
         current_dist = ((target_nx - unit_nx)**2 + (target_nz - unit_nz)**2)**0.5
         if original_dist is not None and original_dist > 1e-3:

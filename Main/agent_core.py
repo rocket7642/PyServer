@@ -951,6 +951,17 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             state.writer.add_scalar('Action_Selection/adaptive_candidate_count', float(len(adaptive_generated)), state.step_counter)
 
         if discrete_action == config.ACTION_BUILD:
+            # Always re-evaluate the exact committed build target, regardless of grid sampling,
+            # so continuity/transit-progress features have a guaranteed candidate to attach to.
+            committed_target = state.build_committed_target.get(unit_id)
+            if committed_target is not None:
+                cx = map_utils.normalize_x(committed_target[0])
+                cz = map_utils.normalize_z(committed_target[1])
+                cx = max(0, min(config.STANDARD_MAP_WIDTH, cx))
+                cz = max(0, min(config.STANDARD_MAP_HEIGHT, cz))
+                candidates.append((cx, cz, 'committed_build'))
+                candidate_meta.append(None)
+
             # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
             # For simplicity, let's consider a small grid around the unit for potential build locations.
             for dx in np.linspace(-20, 20, num=3):
@@ -1133,6 +1144,31 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 print(f"Error computing action features: {exc}")
                 continue
 
+        if discrete_action == config.ACTION_BUILD:
+            committed_target = state.build_committed_target.get(unit_id)
+            if committed_target is not None:
+                committed_nx = map_utils.normalize_x(committed_target[0])
+                committed_nz = map_utils.normalize_z(committed_target[1])
+
+                # Find the score this step assigned to the committed-target candidate specifically
+                committed_score = None
+                for idx, (tx, tz, kind) in enumerate(candidates):
+                    if kind == 'committed_build' and abs(tx - committed_nx) < 1e-3 and abs(tz - committed_nz) < 1e-3:
+                        committed_score = action_scores[idx]
+                        break
+
+                if committed_score is not None and best_candidate_kind != 'committed_build':
+                    # Only let a different candidate win if it clears the committed score by a margin
+                    required_score = committed_score * (1.0 + config.BUILD_TARGET_SWITCH_MARGIN) \
+                        if committed_score > 0 else committed_score - abs(committed_score) * config.BUILD_TARGET_SWITCH_MARGIN
+
+                    if best_score < required_score:
+                        # Revert to the committed target instead of switching
+                        best_score = committed_score
+                        best_target = (committed_nx, committed_nz)
+                        best_candidate_kind = 'committed_build'
+                        best_candidate_meta = None
+
         state.previous_chosen_targets[unit_id] = (best_target[0], best_target[1], best_candidate_kind)
 
         if discrete_action == config.ACTION_BUILD and build_scores:
@@ -1225,8 +1261,14 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 chosenActionVar = 6
             case 'noop':
                 chosenActionVar = 7
-            case _:
+            case 'vision_edge_build':
                 chosenActionVar = 8
+            case 'committed_build':
+                chosenActionVar = 9
+            case 'build':
+                chosenActionVar = 10
+            case _:
+                chosenActionVar = 11
         state.writer.add_scalar('Action_Selection/chosen_action', 
                                 chosenActionVar,
                                   state.step_counter)
@@ -1271,7 +1313,11 @@ def train_agent(
     mass_destination=None,
     action_kind=None,
     unit_id=None,
-    forced_build=False
+    forced_build=False,
+    build_committed_target=None,       
+    build_committed_since_step=None,   
+    build_committed_distance=None,     
+    
 ):
     """Perform a single TD (temporal difference) training step using the transition data and clamped Q-targets."""
     if getattr(state, 'evalRun', False):
@@ -1477,6 +1523,15 @@ def train_agent(
                         candidates.append((wx, wz, 'terrain_waypoint'))
 
             if next_discrete_action == config.ACTION_BUILD:
+                # Always re-evaluate the exact committed build target, regardless of grid sampling,
+                # so continuity/transit-progress features have a guaranteed candidate to attach to.
+                committed_target = build_committed_target
+                if committed_target is not None:
+                    cx = map_utils.normalize_x(committed_target[0])
+                    cz = map_utils.normalize_z(committed_target[1])
+                    cx = max(0, min(config.STANDARD_MAP_WIDTH, cx))
+                    cz = max(0, min(config.STANDARD_MAP_HEIGHT, cz))
+                    candidates.append((cx, cz, 'committed_build'))
 
                 # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
                 # For simplicity, let's consider a small grid around the unit for potential build locations.

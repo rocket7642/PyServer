@@ -356,7 +356,10 @@ def receive_messages(conn, addr):
 								'target_z': state.previous_targets.get(unit['id'], (unit['x'], unit['z']))[1],
 								'mass_destination': state.mass_destinations.get(unit['id'], None),
 								'potential_reward': potential_reward,
-								'forced_build': state.previous_forced_builds.get(unit['id'], False)
+								'forced_build': state.previous_forced_builds.get(unit['id'], False),
+								'build_committed_target': state.build_committed_target.get(unit['id']),
+								'build_committed_since_step': state.build_committed_since_step.get(unit['id']),
+								'build_committed_distance': state.build_committed_distance.get(unit['id'])
 							})
 
 							state.writer.add_scalar('Move_Potential/total', potential_reward, state.step_counter)

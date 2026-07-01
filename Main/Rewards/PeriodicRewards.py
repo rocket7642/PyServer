@@ -711,7 +711,10 @@ def _train_buffer(buffer, unit_id, segment_reward):
 			transition.get('mass_destination'),
 			transition.get('action_kind'),
 			unit_id,
-			forced_build=transition.get('forced_build', False)
+			forced_build=transition.get('forced_build', False),
+			build_committed_target=transition.get('build_committed_target'),
+            build_committed_since_step=transition.get('build_committed_since_step'),
+            build_committed_distance=transition.get('build_committed_distance'),
 		)
 
 
