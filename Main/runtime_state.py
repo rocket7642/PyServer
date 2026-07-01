@@ -12,6 +12,8 @@ eKUnits = []
 eRUnits = []
 fEnergy = 0
 fMass = 0
+# discrete_decision_counter = 0
+
 
 # Map data
 map_heights = None

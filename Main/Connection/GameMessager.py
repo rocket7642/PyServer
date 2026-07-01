@@ -203,6 +203,9 @@ def receive_messages(conn, addr):
 			if friendly_units:
 				print(f"Sample unit: {friendly_units[0]}")
 
+			if "TURN" in message:
+				state.step_counter += 1
+
 			for unit in friendly_units:
 				# Verify if its a moveable unit or commandable unit (ie fighters or factories)
 				if unit['type'] != "UNIT":
@@ -214,7 +217,7 @@ def receive_messages(conn, addr):
 
 				if "TURN" in message:
 					try:
-						state.step_counter += 1
+						# state.step_counter += 1
 						now = time.time()
 						PeriodicRewards.init_segment_tracking(unit)
 
@@ -259,7 +262,7 @@ def receive_messages(conn, addr):
 
 						# Determine if the unit has reached the build site or has timed out trying to reach the build site
 						if state.build_committed_since_step.get(unit['id'], None) is not None:
-							if unit['is_constructing'] == 1:
+							if unit['is_constructing'] == 1 or (state.step_counter - state.build_committed_since_step[unit['id']] > config.BUILD_COMMIT_TIMEOUT_STEPS):
 								print(f"Unit {unit['id']} has started constructing. Clearing build commitment.")
 								state.build_committed_target.pop(unit['id'], None)
 								state.build_committed_since_step.pop(unit['id'], None)

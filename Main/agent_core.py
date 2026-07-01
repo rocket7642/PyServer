@@ -753,6 +753,9 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         for u in state.eKUnits:
             if all(u['id'] != eu['id'] for eu in all_enemies):
                 all_enemies.append(u)
+        for u in state.eRUnits:
+            if all(u['id'] != eu['id'] for eu in all_enemies):
+                all_enemies.append(u)
 
         enemy_range_image = map_utils.generate_enemy_range_image(
             all_enemies,
@@ -795,9 +798,20 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             if prev_candidate is not None:
                 prev_kind = prev_candidate[2] if len(prev_candidate) > 2 else 'previous'
                 is_build_kind = prev_kind in ('build', 'vision_edge_build')
-                if (discrete_action == config.ACTION_BUILD) == is_build_kind:
+                still_valid = True
+                if is_build_kind:
+                    # Scan through existing units to see if the build target is still valid (not already built)
+                    for u in state.units:
+                        if u.get('id') == unit_id:
+                            continue
+                        if (map_utils.normalize_x(u.get('x')) < prev_candidate[0] + 1 and map_utils.normalize_x(u.get('x')) > prev_candidate[0] - 1) and (map_utils.normalize_z(u.get('z')) < prev_candidate[1] + 1 and map_utils.normalize_z(u.get('z')) > prev_candidate[1] - 1) and u.get("is_constructing") == 0:
+                            still_valid = False
+                            break
+                if (discrete_action == config.ACTION_BUILD) == is_build_kind and still_valid:
                     candidates.append(prev_candidate)
                     candidate_meta.append({'kind': 'previous'})
+                elif not still_valid:
+                    state.previous_chosen_targets.pop(unit_id, None)
 
         if discrete_action == config.ACTION_MOVE:
 
@@ -954,6 +968,22 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             # Always re-evaluate the exact committed build target, regardless of grid sampling,
             # so continuity/transit-progress features have a guaranteed candidate to attach to.
             committed_target = state.build_committed_target.get(unit_id)
+
+            if committed_target is not None:
+                since_step = state.build_committed_since_step.get(unit_id, state.step_counter)
+                steps_committed = state.step_counter - since_step
+                cx = map_utils.normalize_x(committed_target[0])
+                cz = map_utils.normalize_z(committed_target[1])
+
+                timed_out = steps_committed > config.BUILD_COMMIT_TIMEOUT_STEPS
+                now_blocked = not map_utils.is_position_buildable(cx, cz, "armrad")
+
+                if timed_out or now_blocked:
+                    state.build_committed_target.pop(unit_id, None)
+                    state.build_committed_since_step.pop(unit_id, None)
+                    state.build_committed_distance.pop(unit_id, None)
+                    committed_target = None
+
             if committed_target is not None:
                 cx = map_utils.normalize_x(committed_target[0])
                 cz = map_utils.normalize_z(committed_target[1])
@@ -971,7 +1001,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                     dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                    if map_utils.is_position_buildable(tx, tz, "armrad") and dist <= config.BUILD_CANDIDATE_RADIUS:
+                    if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS:
                         candidates.append((tx, tz, 'build'))
                         candidate_meta.append(None)
 
@@ -984,7 +1014,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                         dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist <= config.BUILD_CANDIDATE_RADIUS:
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS:
                             candidates.append((tx, tz, 'build'))
                             candidate_meta.append(None)
 
@@ -1542,7 +1572,7 @@ def train_agent(
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                         dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                        if map_utils.is_position_buildable(tx, tz) and dist <= config.BUILD_CANDIDATE_RADIUS:
+                        if map_utils.is_position_buildable(tx, tz) and dist >= config.BUILD_CANDIDATE_RADIUS:
                             candidates.append((tx, tz, 'build'))
 
                 # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
@@ -1554,7 +1584,7 @@ def train_agent(
                             tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                             tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                             dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                            if map_utils.is_position_buildable(tx, tz) and dist <= config.BUILD_CANDIDATE_RADIUS:
+                            if map_utils.is_position_buildable(tx, tz) and dist >= config.BUILD_CANDIDATE_RADIUS:
                                 candidates.append((tx, tz, 'build'))
 
                 # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
@@ -1678,19 +1708,34 @@ def train_agent(
 
     # Update the per-action-type Q baseline using EMA
     current_q_detached = current_q.detach().item()
-    if discrete_action == config.ACTION_MOVE:
-        state.move_q_ema = (1 - state.q_ema_alpha) * state.move_q_ema + state.q_ema_alpha * current_q_detached
-        q_baseline = state.move_q_ema
-    else:
-        state.build_q_ema = (1 - state.q_ema_alpha) * state.build_q_ema + state.q_ema_alpha * current_q_detached
-        q_baseline = state.build_q_ema
+    # if discrete_action == config.ACTION_MOVE:
+    #     state.move_q_ema = (1 - state.q_ema_alpha) * state.move_q_ema + state.q_ema_alpha * current_q_detached
+    #     q_baseline = state.move_q_ema
+    # else:
+    #     state.build_q_ema = (1 - state.q_ema_alpha) * state.build_q_ema + state.q_ema_alpha * current_q_detached
+    #     q_baseline = state.build_q_ema
 
-    # Advantage normalized relative to this action type's historical Q-values
-    # This prevents BUILD being penalized just because MOVE has higher absolute Q-values
-    adv = current_q_detached - q_baseline
+    with torch.no_grad():
+        alt_weights = build_weights.squeeze(0) if discrete_action == config.ACTION_MOVE else move_weights.squeeze(0)
+        if discrete_action == config.ACTION_MOVE:
+            alt_features = BuildJudger.compute_build_features(
+                unit_nx, unit_nz, unit_ny, target_nx, target_nz,
+                active_mass, all_enemies, state.units, False,
+                vision_image=vision_image, target_structure_name="armrad", unit_id=unit_id
+            )
+        else:
+            alt_features = MoveJudger.compute_action_features(
+                "MOVE", unit_nx, unit_nz, unit_ny, active_mass,
+                target_nx, target_nz, enemy_range_image=enemy_range_image,
+                enemy_units=all_enemies, vision_image=vision_image
+            )
+        alt_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in alt_features]
+        alt_q = torch.dot(alt_weights, torch.tensor(alt_features, dtype=torch.float32)).item()
 
-    state.writer.add_scalar('Training/move_q_ema', state.move_q_ema, state.step_counter)
-    state.writer.add_scalar('Training/build_q_ema', state.build_q_ema, state.step_counter)
+    adv = current_q_detached - alt_q
+
+    # state.writer.add_scalar('Training/move_q_ema', state.move_q_ema, state.step_counter)
+    # state.writer.add_scalar('Training/build_q_ema', state.build_q_ema, state.step_counter)
     state.writer.add_scalar('Training/discrete_advantage', adv, state.step_counter)
 
     current_q_val = current_q.detach().item()
@@ -1724,8 +1769,9 @@ def train_agent(
     action_probs = torch.softmax(action_logits.squeeze(0), dim=-1)
     action_log_probs = torch.log(action_probs + 1e-8)
 
+    # small guaranteed nudge so BUILD still gets sampled
     if forced_build:
-        loss_discrete = -action_log_probs[config.ACTION_BUILD] * 1.0 # Forced build action is treated as a strong positive signal
+        loss_discrete = -action_log_probs[config.ACTION_BUILD] * (adv + config.FORCED_BUILD_EXPLORE_WEIGHT)
     else:
     # Simple advantage-weighted policy gradient for the discrete head
         loss_discrete = -action_log_probs[discrete_action] * adv

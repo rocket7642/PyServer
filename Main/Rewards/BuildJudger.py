@@ -64,6 +64,7 @@ def compute_build_features(
         and committed_nx is not None
         and abs(target_nx - committed_nx) < 1e-3
         and abs(target_nz - committed_nz) < 1e-3
+        and map_utils.is_position_buildable(committed_nx, committed_nz, target_structure_name)
     )
     features[1] = config.BUILD_CONTINUITY_BONUS if is_continuing else 0.0
 
@@ -141,6 +142,8 @@ def compute_build_features(
         target_bottom = target_nz + th_norm / 2.0
         
         for u in friendly_units + enemy_units:
+            if u.get("is_constructing") > 0:
+                continue  # Ignore units that are currently constructing, as they don't block placement.
             ux = map_utils.normalize_x(u['x'])
             uz = map_utils.normalize_z(u['z'])
 
@@ -152,8 +155,13 @@ def compute_build_features(
             u_top = uz - uh / 2.0
             u_bottom = uz + uh / 2.0
             
-            if (target_left < u_right) and (target_right > u_left) and (target_top < u_bottom) and (target_bottom > u_top):
-                blocking_proximity = -20.0 # VeryHeavy negative signal for collision!
+            # Slightly larger than the actual footprint to provide buffer zone
+            if (target_left < u_right + 1) and (target_right > u_left - 1) and (target_top < u_bottom + 1) and (target_bottom > u_top - 1):
+                incomplete =  u.get("is_constructing") > 0 or u.get("active_build_progress") < 1
+                if incomplete:
+                    blocking_proximity = 0 # Heavy negative signal for collision with an incomplete unit/building
+                else:
+                    blocking_proximity = -100.0 # VeryHeavy negative signal for collision!
                 break
                 
     features[5] = blocking_proximity
