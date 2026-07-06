@@ -12,6 +12,28 @@
       "exported_at": "2026-06-05T16:10:45.678228"
     },
     {
+      "file": "agent_match_20260701_180331_score_m255p56.json",
+      "map_name": "Showcase 2.0",
+      "map_slug": "showcase_2_0",
+      "match_score": -255.56493625640869,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1028,
+      "segments": 5,
+      "exported_at": "2026-07-01T18:03:31.722333"
+    },
+    {
+      "file": "agent_match_20260701_162228_score_m256p23.json",
+      "map_name": "Showcase 2.0",
+      "map_slug": "showcase_2_0",
+      "match_score": -256.22609677314756,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 913,
+      "segments": 5,
+      "exported_at": "2026-07-01T16:22:28.958319"
+    },
+    {
       "file": "agent_match_20260628_233053_score_m256p46.json",
       "map_name": "Showcase 2.0",
       "map_slug": "showcase_2_0",
@@ -142,28 +164,6 @@
       "samples": 1701,
       "segments": 5,
       "exported_at": "2026-06-12T07:37:27.929963"
-    },
-    {
-      "file": "agent_match_20260616_173518_score_m257p33.json",
-      "map_name": "Showcase 2.0",
-      "map_slug": "showcase_2_0",
-      "match_score": -257.331161737442,
-      "success": true,
-      "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 1364,
-      "segments": 5,
-      "exported_at": "2026-06-16T17:35:18.290028"
-    },
-    {
-      "file": "agent_match_20260616_180048_score_m257p57.json",
-      "map_name": "Showcase 2.0",
-      "map_slug": "showcase_2_0",
-      "match_score": -257.56551961898805,
-      "success": true,
-      "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 1487,
-      "segments": 5,
-      "exported_at": "2026-06-16T18:00:48.206309"
     }
   ]
 }

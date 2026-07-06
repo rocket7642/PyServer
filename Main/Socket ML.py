@@ -88,7 +88,8 @@ def _configure_run_mode(counter_path, should_train):
 
 def _persist_run_mode(counter_path, completed_runs):
     """Record that the current run finished so the next launch can advance the cycle."""
-    _write_completed_run_count(counter_path, completed_runs + 1)
+    if(config.SHOULD_TRAIN == True):
+        _write_completed_run_count(counter_path, completed_runs + 1)
 
 
 def _write_current_run_mode(run_mode_path):

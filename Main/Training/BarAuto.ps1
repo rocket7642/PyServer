@@ -27,7 +27,7 @@ $scriptArg = $engineDir + "\_scriptL.txt"
 $scriptArgEval = "\_scriptShowcase.txt"
 $scriptArgTraining = "\_scriptTraining.txt"
 
-$totalRunTimeHours = 6                       # How long the script should loop
+$totalRunTimeHours = 4                       # How long the script should loop
 
 # --- Script Logic ---
 $endTime = (Get-Date).AddHours($totalRunTimeHours)
