@@ -702,6 +702,19 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             forced_build_this_step = True
             # state.last_build_step[unit_id] = state.step_counter
 
+        # BUILD COMMITMENT LOCK: while a build is committed or under construction,
+        # hold the discrete head on BUILD so transits/constructions survive epsilon
+        # and argmax flips. BUILD_COMMIT_TIMEOUT_STEPS (handled below) is the escape hatch.
+        if discrete_action is None:
+            committed = state.build_committed_target.get(unit_id)
+            is_constructing = False
+            for u in state.units:
+                if u.get('id') == unit_id:
+                    is_constructing = (u.get('is_constructing', 0) == 1)
+                    break
+            if committed is not None or is_constructing:
+                discrete_action = config.ACTION_BUILD
+
         # Testing statement, enforce build action
         # discrete_action = config.ACTION_BUILD
         
@@ -771,6 +784,13 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             state.normalized_map_heights
         )
 
+        structure_vision_image = map_utils.generate_structure_vision_image(
+            state.units,
+            state.map_width,
+            state.map_height,
+            state.normalized_map_heights
+        )
+
         unit_speed_norm = _get_unit_speed_norm(unit_id)
         unit_hp, unit_max_hp = _get_unit_health_context(unit_id)
         unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
@@ -791,6 +811,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         candidates = []
         candidate_meta = []  
+        move_feature_rows = []
+        build_feature_rows = []
 
         # regardless of what the next action is, maintain the previously chosen candidate assuming there is one 
         if unit_id is not None:
@@ -1001,7 +1023,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                     tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                     dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                    if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS:
+                    if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
                         candidates.append((tx, tz, 'build'))
                         candidate_meta.append(None)
 
@@ -1014,7 +1036,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                         dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS:
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
                             candidates.append((tx, tz, 'build'))
                             candidate_meta.append(None)
 
@@ -1022,14 +1044,16 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
             # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
             # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
-            h_vis, w_vis = vision_image.shape
+            edge_source = structure_vision_image if structure_vision_image is not None else vision_image
+            h_vis, w_vis = edge_source.shape
             max_ray_steps = max(h_vis, w_vis)
             num_rays = 24
             angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
 
             for angle in angles:
                 # Generate all steps along this ray at once
-                steps = np.arange(2, max_ray_steps)
+                max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
+                steps = np.arange(2, int(min(max_ray_steps, max_commit_range)))
                 txs = (unit_nx + steps * np.cos(angle)).astype(int)
                 tzs = (unit_nz + steps * np.sin(angle)).astype(int)
 
@@ -1042,7 +1066,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 tzs_valid = tzs[in_bounds]
 
                 # Sample the vision image along the ray
-                ray_values = vision_image[tzs_valid, txs_valid]
+                ray_values = edge_source[tzs_valid, txs_valid]
 
                 # Find the first position that is NOT radar-covered (< 0.4 threshold)
                 unknown_mask = ray_values < 0.4
@@ -1050,20 +1074,29 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     continue
 
                 first_unknown = np.argmax(unknown_mask)
-                tx = float(txs_valid[first_unknown])
-                tz = float(tzs_valid[first_unknown])
+                # tx = float(txs_valid[first_unknown])
+                # tz = float(tzs_valid[first_unknown])
+                land_idx = max(0, first_unknown - 3)          # last known cells, not the unknown one
+                for probe in range(land_idx, max(-1, land_idx - 3), -1):
+                    tx, tz = float(txs_valid[probe]), float(tzs_valid[probe])
+                    if map_utils.is_position_buildable(tx, tz, "armrad") and not map_utils.covered_by_existing_radar(tx, tz):
+                        candidates.append((tx, tz, 'vision_edge_build'))
+                        candidate_meta.append(None)
+                        break
 
-                if map_utils.is_position_buildable(tx, tz, "armrad"):
-                    candidates.append((tx, tz, 'vision_edge_build'))
-                    candidate_meta.append(None)
-
+            n_edge = sum(1 for _c in candidates if _c[2] == 'vision_edge_build')
+            n_grid = sum(1 for _c in candidates if _c[2] == 'build')
+            state.writer.add_scalar('Action_Selection/vision_edge_candidates', float(n_edge), state.step_counter)
+            state.writer.add_scalar('Action_Selection/build_grid_candidates', float(n_grid), state.step_counter)
 
         action_scores = []
         best_score = -float('inf')
         best_target = (unit_nx, unit_nz)
         best_candidate_kind = 'noop'
         best_candidate_meta = None
-        chosen_action_features = [0.0] * config.NUM_ACTION_FEATURES
+        chosen_action_features = [0.0] * (
+            config.NUM_BUILD_FEATURES if discrete_action == config.ACTION_BUILD else config.NUM_ACTION_FEATURES
+        )
 
         noop_score = None
         move_scores = []
@@ -1127,6 +1160,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     features = _inject_hazard_prediction_feature(features, direct_penalty)
                     features_tensor = torch.tensor(features, dtype=torch.float32)
                     score = torch.dot(feature_weights, features_tensor).item()
+                    move_feature_rows.append(list(features))
                 else:
                     # EVALUATE BUILDING
                     features = BuildJudger.compute_build_features(
@@ -1138,7 +1172,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         is_noop,
                         vision_image=vision_image,
                         target_structure_name="armrad",
-                        unit_id=unit_id
+                        unit_id=unit_id,
+                        structure_vision_image=structure_vision_image,
                     )
                     
                     if features is None:
@@ -1146,15 +1181,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         
                     features_tensor = torch.tensor(features, dtype=torch.float32)
                     score = torch.dot(build_weights, features_tensor).item()
-                
-                # Need to calculate what type of enemy it is as retreat from a proj/missile will likely still hit if its a consistent movement.
-                # enemy_type = None
-                # for enemy in all_enemies:
-                #     enemy_type = enemy.weapon_type
-
-                #     # Once the type is determined, process existing candidates based on this
-                #     break
-
+                    build_feature_rows.append(list(features))
 
                 action_scores.append(score)
                 if discrete_action == config.ACTION_BUILD:
@@ -1173,6 +1200,13 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             except Exception as exc:
                 print(f"Error computing action features: {exc}")
                 continue
+
+        # If BUILD was chosen but no candidate survived filtering, degrade to a noop
+        # instead of leaving best_score at -inf / targeting the unit's own feet.
+        if discrete_action == config.ACTION_BUILD and best_score == -float('inf'):
+            best_score = 0.0
+            best_target = (unit_nx, unit_nz)
+            best_candidate_kind = 'noop'
 
         if discrete_action == config.ACTION_BUILD:
             committed_target = state.build_committed_target.get(unit_id)
@@ -1198,6 +1232,57 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         best_target = (committed_nx, committed_nz)
                         best_candidate_kind = 'committed_build'
                         best_candidate_meta = None
+            
+        # --- Other-head baseline for the discrete advantage ---
+        # Score what the *other* head would have done this step, so train_agent can
+        # compare each head's performance against its own running statistics.
+        if discrete_action == config.ACTION_BUILD:
+            # Other head is MOVE: baseline = approach the mass destination if possible, else stand still
+            if mass_destination is not None and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
+                other_features = MoveJudger.compute_action_features(
+                    "MOVE",
+                    unit_nx, unit_nz, unit_ny,
+                    active_mass,
+                    mass_destination[0], mass_destination[1],
+                    enemy_range_image=enemy_range_image,
+                    enemy_units=all_enemies,
+                    vision_image=vision_image
+                )
+            else:
+                other_features = MoveJudger.compute_action_features(
+                    config.NOOP_ACTION,
+                    unit_nx, unit_nz, unit_ny,
+                    active_mass,
+                    enemy_range_image=enemy_range_image,
+                    enemy_units=all_enemies,
+                    vision_image=vision_image
+                )
+            if other_features is None:
+                other_features = [0.0] * config.NUM_ACTION_FEATURES
+            other_best = torch.dot(feature_weights, torch.tensor(other_features, dtype=torch.float32)).item()
+        else:
+            # Other head is BUILD: baseline = the committed build target if one exists, else building in place
+            committed_target = state.build_committed_target.get(unit_id)
+            if committed_target is not None:
+                other_bx = map_utils.normalize_x(committed_target[0])
+                other_bz = map_utils.normalize_z(committed_target[1])
+            else:
+                other_bx, other_bz = unit_nx, unit_nz
+            other_features = BuildJudger.compute_build_features(
+                unit_nx, unit_nz, unit_ny,
+                other_bx, other_bz,
+                active_mass,
+                all_enemies,
+                state.units,
+                False,
+                vision_image=vision_image,
+                target_structure_name="armrad",
+                unit_id=unit_id,
+                structure_vision_image=structure_vision_image,
+            )
+            if other_features is None:
+                other_features = [0.0] * config.NUM_BUILD_FEATURES
+            other_best = torch.dot(build_weights, torch.tensor(other_features, dtype=torch.float32)).item()
 
         state.previous_chosen_targets[unit_id] = (best_target[0], best_target[1], best_candidate_kind)
 
@@ -1238,7 +1323,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         is_noop = (abs(best_target[0] - unit_nx) < 1e-3 and abs(best_target[1] - unit_nz) < 1e-3)
         best_action = config.NOOP_ACTION if is_noop else "MOVE"
-        if is_noop:
+        if is_noop and discrete_action == config.ACTION_MOVE:
             noop_features = MoveJudger.compute_action_features(
                 config.NOOP_ACTION,
                 unit_nx,
@@ -1306,7 +1391,10 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         # state.writer.add_scalar('Action_Selection/is_noop', 1.0 if best_action == config.NOOP_ACTION else 0.0, state.step_counter)
 
         if discrete_action == config.ACTION_BUILD:
-            best_action = "BUILD"
+            if best_candidate_kind == 'noop':
+                best_action = config.NOOP_ACTION  # no valid build spot this step
+            else:
+                best_action = "BUILD"
             
             print(f"Building chosen by unit {unit_id}! Target picked: {best_target}")
             for name, weight in zip(config.BUILD_FEATURE_NAMES, build_weights):
@@ -1322,8 +1410,28 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         if state.step_counter % 100 == 0:
             state.writer.add_histogram('Action_Scores/distribution', np.array(action_scores), state.step_counter)
 
-        return best_action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step
+        snapshot_rows = move_feature_rows if discrete_action == config.ACTION_MOVE else build_feature_rows
+        if not snapshot_rows:
+            snapshot_rows = [list(chosen_action_features)]
 
+        decision_snapshot = {
+            'chosen_features': list(chosen_action_features),
+            'chosen_head': discrete_action,
+            'chosen_best': best_score,
+            'other_best': other_best,
+            'candidate_features': snapshot_rows,
+            'hidden_pre': (hidden[0].detach().clone(), hidden[1].detach().clone()),
+            'hidden_post': (new_hidden[0].detach().clone(), new_hidden[1].detach().clone()),
+        }
+
+        return best_action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot
+
+def _normalize_head_q(head_key, q):
+    m, v = state.head_q_stats.get(head_key, (q, 1.0))   # seed mean with first value
+    m = 0.99 * m + 0.01 * q
+    v = 0.99 * v + 0.01 * (q - m) ** 2
+    state.head_q_stats[head_key] = (m, v)
+    return (q - m) / (v ** 0.5 + 1e-6)
 
 def train_agent(
     state_vec,
@@ -1346,17 +1454,21 @@ def train_agent(
     forced_build=False,
     build_committed_target=None,       
     build_committed_since_step=None,   
-    build_committed_distance=None,     
+    build_committed_distance=None,   
+    decision_snapshot=None,
+    next_snapshot=None
     
 ):
     """Perform a single TD (temporal difference) training step using the transition data and clamped Q-targets."""
     if getattr(state, 'evalRun', False):
         return
+    if decision_snapshot is None:
+        return  # legacy transition without a snapshot; nothing consistent to train on
+    state.train_step_counter += 1
 
-    if unit_id is not None:
-        hidden = state.previous_lstm_hidden_states.get(unit_id, init_lstm_hidden())
-    else:
-        hidden = init_lstm_hidden()
+    hidden = decision_snapshot.get('hidden_pre')
+    if hidden is None:
+        hidden = state.previous_lstm_hidden_states.get(unit_id, init_lstm_hidden()) if unit_id is not None else init_lstm_hidden()
     input_seq = state_vec.unsqueeze(0).unsqueeze(0)
     action_logits, move_weights, build_weights, _ = agent(input_seq, hidden)
     
@@ -1365,378 +1477,37 @@ def train_agent(
     else:
         current_weights = move_weights.squeeze(0)
 
-    unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
-    active_mass = [mass_destination] if mass_destination is not None else unvisited_mass
-    unit_nx = map_utils.normalize_x(unit_x)
-    unit_nz = map_utils.normalize_z(unit_z)
-    unit_ny = map_utils.normalize_y(unit_y)
-    target_nx = map_utils.normalize_x(target_x) if target_x is not None else unit_nx
-    target_nz = map_utils.normalize_z(target_z) if target_z is not None else unit_nz
-
-    # Combine all known enemies for feature computation
-    all_enemies = list(state.eUnits)
-    for u in state.eKUnits:
-        if all(u['id'] != eu['id'] for eu in all_enemies):
-            all_enemies.append(u)
-
-    enemy_range_image = map_utils.generate_enemy_range_image(
-        state.eUnits,
-        state.map_width,
-        state.map_height,
-        state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
-    )
-
-    vision_image = map_utils.generate_vision_image(
-        state.units,
-        state.map_width,
-        state.map_height,
-        state.normalized_map_heights
-    )
-
-    if discrete_action == config.ACTION_BUILD:
-        action_features = BuildJudger.compute_build_features(
-            unit_nx, unit_nz, unit_ny,
-            target_nx, target_nz,
-            active_mass,
-            all_enemies,
-            state.units, # friendly units
-            False, # is_noop doesn't make as much sense for build actions but we'll set it to false for consistency in training since we want the features to reflect the actual action taken
-            vision_image=vision_image,
-            target_structure_name="armrad",
-            unit_id=unit_id
-        )
-    else:
-        action_features = MoveJudger.compute_action_features(
-            action,
-            unit_nx,
-            unit_nz,
-            unit_ny,
-            active_mass,
-            target_nx,
-            target_nz,
-            enemy_range_image=enemy_range_image,
-            enemy_units=all_enemies,
-            vision_image=vision_image
-        )
-
-    unit_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
-    unit_hp, unit_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
-
-    is_noop_action = action == config.NOOP_ACTION or (
-        abs(target_nx - unit_nx) < 1e-3 and abs(target_nz - unit_nz) < 1e-3
-    )
-    if discrete_action == config.ACTION_MOVE:
-        current_direct_penalty = 0.0
-        
-        if not is_noop_action:
-            current_kind = action_kind if action_kind is not None else 'grid'
-            current_bias = _hazard_bias_for_candidate_kind(current_kind)
-            if current_bias > 0.0:
-                current_direct_penalty = _compute_direct_approach_penalty(
-                    unit_nx,
-                    unit_nz,
-                    target_nx,
-                    target_nz,
-                    all_enemies,
-                    enemy_range_image,
-                    unit_speed_norm,
-                    unit_hp=unit_hp,
-                    unit_max_hp=unit_max_hp,
-                    bias=current_bias,
-                )
-        action_features = _inject_hazard_prediction_feature(action_features, current_direct_penalty)
-    
-    # Validate features don't contain inf/nan
-    action_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in action_features]
-    
-    features_tensor = torch.tensor(action_features, dtype=torch.float32)
-
+    chosen_features = [
+        np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0
+        for f in decision_snapshot['chosen_features']
+    ]
+    features_tensor = torch.tensor(chosen_features, dtype=torch.float32)
     current_q = torch.dot(current_weights, features_tensor)
 
-    if not done:
+    if not done and next_snapshot is not None:
         with torch.no_grad():
-            next_hidden = state.lstm_hidden_states.get(unit_id, init_lstm_hidden())
+            next_hidden = decision_snapshot.get('hidden_post')
+            if next_hidden is None:
+                next_hidden = state.lstm_hidden_states.get(unit_id, init_lstm_hidden()) if unit_id is not None else init_lstm_hidden()
             next_input_seq = next_state.unsqueeze(0).unsqueeze(0)
-            next_action_logits, next_move_weights, next_build_weights, _ = agent(next_input_seq, next_hidden)
-            
-            # Predict best action for Next State
-            next_discrete_action = torch.argmax(next_action_logits, dim=-1).item()
-            
-            if next_discrete_action == config.ACTION_BUILD:
-                next_weights = next_build_weights.squeeze(0)
-            else:
-                next_weights = next_move_weights.squeeze(0)
-            
-            max_next_q = -float('inf')
-            candidates = []
+            _, next_move_w, next_build_w, _ = agent(next_input_seq, next_hidden)
 
-            # Re-inject the previously chosen target into next-state candidates
-            # to mirror get_action's continuity behaviour
-            if target_x is not None and target_z is not None:
-                target_nx_prev = map_utils.normalize_x(target_x)
-                target_nz_prev = map_utils.normalize_z(target_z)
-                if map_utils.is_position_reachable(target_nx_prev, target_nz_prev):
-                    candidates.append((target_nx_prev, target_nz_prev, 'previous'))
-
-            if next_discrete_action == config.ACTION_MOVE:
-                for dx in np.linspace(-200, 200, num=10):
-                    for dz in np.linspace(-200, 200, num=10):
-                        tx = unit_nx + dx
-                        tz = unit_nz + dz
-                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                        # Only add reachable candidates
-                        if map_utils.is_position_reachable(tx, tz):
-                            candidates.append((tx, tz, 'grid'))
-                # Current next position is always valid
-                next_nx_pos = map_utils.normalize_x(next_unit_x)
-                next_nz_pos = map_utils.normalize_z(next_unit_z)
-                candidates.append((next_nx_pos, next_nz_pos, 'noop'))
-
-                # Generate escape candidates for TD target calculation
-                esc_dx, esc_dz = map_utils.compute_enemy_escape_direction(next_nx_pos, next_nz_pos, all_enemies)
-                if abs(esc_dx) > 1e-6 or abs(esc_dz) > 1e-6:
-                    import math
-                    for dist_mult in [0.5, 1.0, 1.5]:
-                        esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                        for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
-                            base_angle = math.atan2(esc_dz, esc_dx)
-                            angle = base_angle + angle_offset * math.pi
-                            tx = next_nx_pos + math.cos(angle) * esc_dist
-                            tz = next_nz_pos + math.sin(angle) * esc_dist
-                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                            if map_utils.is_position_reachable(tx, tz):
-                                candidates.append((tx, tz, 'escape'))
-
-                # Lateral dodge candidates for TD target (projectile/missile enemies)
-                for eu in all_enemies:
-                    wtype = eu.get('weapon_type', 'projectile')
-                    if wtype in ('projectile', 'missile'):
-                        eu_nx = map_utils.normalize_x(eu['x'])
-                        eu_nz = map_utils.normalize_z(eu['z'])
-                        fire_dx = next_nx_pos - eu_nx
-                        fire_dz = next_nz_pos - eu_nz
-                        fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
-                        if fire_mag > 1e-6:
-                            perp_dx = -fire_dz / fire_mag
-                            perp_dz = fire_dx / fire_mag
-                            for sign in [1.0, -1.0]:
-                                for dist_mult in [0.5, 1.0]:
-                                    d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                                    tx = next_nx_pos + sign * perp_dx * d
-                                    tz = next_nz_pos + sign * perp_dz * d
-                                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                                    if map_utils.is_position_reachable(tx, tz):
-                                        candidates.append((tx, tz, 'strafe'))
-
-                if mass_destination is not None:
-                    dest_world_x = map_utils.denormalize_x(mass_destination[0])
-                    dest_world_z = map_utils.denormalize_z(mass_destination[1])
-                    dist_to_dest = ((dest_world_x - next_unit_x) ** 2 + (dest_world_z - next_unit_z) ** 2) ** 0.5
-                    # Only add mass destination if reachable and within approach radius
-                    if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
-                        candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
-                    
-                    # Add terrain waypoints for TD target calculation
-                    next_nx_norm = map_utils.normalize_x(next_unit_x)
-                    next_nz_norm = map_utils.normalize_z(next_unit_z)
-                    terrain_waypoints = map_utils.extract_terrain_waypoints(
-                        mass_destination,
-                        next_nx_norm,
-                        next_nz_norm,
-                        count=config.TERRAIN_WAYPOINT_COUNT,
-                        search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
-                    )
-                    for wx, wz in terrain_waypoints:
-                        candidates.append((wx, wz, 'terrain_waypoint'))
-
-            if next_discrete_action == config.ACTION_BUILD:
-                # Always re-evaluate the exact committed build target, regardless of grid sampling,
-                # so continuity/transit-progress features have a guaranteed candidate to attach to.
-                committed_target = build_committed_target
-                if committed_target is not None:
-                    cx = map_utils.normalize_x(committed_target[0])
-                    cz = map_utils.normalize_z(committed_target[1])
-                    cx = max(0, min(config.STANDARD_MAP_WIDTH, cx))
-                    cz = max(0, min(config.STANDARD_MAP_HEIGHT, cz))
-                    candidates.append((cx, cz, 'committed_build'))
-
-                # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
-                # For simplicity, let's consider a small grid around the unit for potential build locations.
-                for dx in np.linspace(-20, 20, num=3):
-                    for dz in np.linspace(-20, 20, num=3):
-                        tx = unit_nx + dx
-                        tz = unit_nz + dz
-                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                        dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                        if map_utils.is_position_buildable(tx, tz) and dist >= config.BUILD_CANDIDATE_RADIUS:
-                            candidates.append((tx, tz, 'build'))
-
-                # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
-                for mass in active_mass:
-                    for dx in np.linspace(-20, 20, num=3):
-                        for dz in np.linspace(-20, 20, num=3):
-                            tx = mass[0] + dx
-                            tz = mass[1] + dz
-                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                            dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                            if map_utils.is_position_buildable(tx, tz) and dist >= config.BUILD_CANDIDATE_RADIUS:
-                                candidates.append((tx, tz, 'build'))
-
-                # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
-                # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
-                # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
-                # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
-                h_vis, w_vis = vision_image.shape
-                max_ray_steps = max(h_vis, w_vis)
-                num_rays = 24
-                angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
-
-                for angle in angles:
-                    # Generate all steps along this ray at once
-                    steps = np.arange(2, max_ray_steps)
-                    txs = (unit_nx + steps * np.cos(angle)).astype(int)
-                    tzs = (unit_nz + steps * np.sin(angle)).astype(int)
-
-                    # Clip and find valid (in-bounds) indices
-                    in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
-                    if not np.any(in_bounds):
-                        continue
-
-                    txs_valid = txs[in_bounds]
-                    tzs_valid = tzs[in_bounds]
-
-                    # Sample the vision image along the ray
-                    ray_values = vision_image[tzs_valid, txs_valid]
-
-                    # Find the first position that is NOT radar-covered (< 0.4 threshold)
-                    unknown_mask = ray_values < 0.4
-                    if not np.any(unknown_mask):
-                        continue
-
-                    first_unknown = np.argmax(unknown_mask)
-                    tx = float(txs_valid[first_unknown])
-                    tz = float(tzs_valid[first_unknown])
-
-                    if map_utils.is_position_buildable(tx, tz, "armrad"):
-                        candidates.append((tx, tz, 'vision_edge_build'))
-
-
-
-            next_unvisited = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
-            next_active_mass = [mass_destination] if mass_destination is not None else next_unvisited
-            next_enemy_range_image = map_utils.generate_enemy_range_image(
-                state.eUnits,
-                state.map_width,
-                state.map_height,
-                state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
-            )
-
-            next_vision_image = map_utils.generate_vision_image(
-                state.units,
-                state.map_width,
-                state.map_height,
-                state.normalized_map_heights
-            )
-
-            next_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
-            next_hp, next_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
-
-            for (tx, tz, next_kind) in candidates:
-                next_nx = map_utils.normalize_x(next_unit_x)
-                next_nz = map_utils.normalize_z(next_unit_z)
-                next_ny = map_utils.normalize_y(next_unit_y)
-                is_next_noop = abs(tx - next_nx) < 1e-3 and abs(tz - next_nz) < 1e-3
-
-                if next_discrete_action == config.ACTION_MOVE:
-                    next_action = config.NOOP_ACTION if next_kind == 'noop' else "MOVE"
-                    next_features = MoveJudger.compute_action_features(
-                        next_action,
-                        next_nx,
-                        next_nz,
-                        next_ny,
-                        next_active_mass,
-                        tx,
-                        tz,
-                        enemy_range_image=next_enemy_range_image,
-                        enemy_units=all_enemies,
-                        vision_image=next_vision_image
-                    )
-                    next_direct_penalty = 0.0
-                    if not is_next_noop:
-                        next_bias = _hazard_bias_for_candidate_kind(next_kind)
-                        if next_bias > 0.0:
-                            next_direct_penalty = _compute_direct_approach_penalty(
-                                next_nx,
-                                next_nz,
-                                tx,
-                                tz,
-                                all_enemies,
-                                next_enemy_range_image,
-                                next_speed_norm,
-                                unit_hp=next_hp,
-                                unit_max_hp=next_max_hp,
-                                bias=next_bias,
-                            )
-                    next_features = _inject_hazard_prediction_feature(next_features, next_direct_penalty)
-                else:
-                    next_features = BuildJudger.compute_build_features(
-                        next_nx, next_nz, next_ny,
-                        tx, tz,
-                        next_active_mass,
-                        all_enemies,
-                        state.units, # friendly units
-                        is_next_noop,
-                        vision_image=next_vision_image,
-                        target_structure_name="armrad",
-                        unit_id=unit_id
-                    )
-                    
-                if next_features is None:
-                    next_features = [0.0] * (config.NUM_BUILD_FEATURES if next_discrete_action == config.ACTION_BUILD else config.NUM_ACTION_FEATURES)
-
-                next_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in next_features]
-                next_features_tensor = torch.tensor(next_features, dtype=torch.float32)
-                next_q = torch.dot(next_weights, next_features_tensor)
-                max_next_q = max(max_next_q, next_q.item())
+            rows = next_snapshot.get('candidate_features') or [next_snapshot['chosen_features']]
+            head_w = (next_build_w if next_snapshot['chosen_head'] == config.ACTION_BUILD else next_move_w).squeeze(0)
+            feats = torch.tensor(rows, dtype=torch.float32)
+            feats = torch.nan_to_num(feats, nan=0.0, posinf=1e6, neginf=-1e6)
+            max_next_q = torch.max(feats @ head_w).item()
     else:
-        max_next_q = 0
+        max_next_q = 0.0
 
-    # Update the per-action-type Q baseline using EMA
-    current_q_detached = current_q.detach().item()
-    # if discrete_action == config.ACTION_MOVE:
-    #     state.move_q_ema = (1 - state.q_ema_alpha) * state.move_q_ema + state.q_ema_alpha * current_q_detached
-    #     q_baseline = state.move_q_ema
-    # else:
-    #     state.build_q_ema = (1 - state.q_ema_alpha) * state.build_q_ema + state.q_ema_alpha * current_q_detached
-    #     q_baseline = state.build_q_ema
-
-    with torch.no_grad():
-        alt_weights = build_weights.squeeze(0) if discrete_action == config.ACTION_MOVE else move_weights.squeeze(0)
-        if discrete_action == config.ACTION_MOVE:
-            alt_features = BuildJudger.compute_build_features(
-                unit_nx, unit_nz, unit_ny, target_nx, target_nz,
-                active_mass, all_enemies, state.units, False,
-                vision_image=vision_image, target_structure_name="armrad", unit_id=unit_id
-            )
-        else:
-            alt_features = MoveJudger.compute_action_features(
-                "MOVE", unit_nx, unit_nz, unit_ny, active_mass,
-                target_nx, target_nz, enemy_range_image=enemy_range_image,
-                enemy_units=all_enemies, vision_image=vision_image
-            )
-        alt_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in alt_features]
-        alt_q = torch.dot(alt_weights, torch.tensor(alt_features, dtype=torch.float32)).item()
-
-    adv = current_q_detached - alt_q
+    chosen_key = 'build' if discrete_action == config.ACTION_BUILD else 'move'
+    other_key  = 'move' if chosen_key == 'build' else 'build'
+    adv = _normalize_head_q(chosen_key, decision_snapshot['chosen_best']) \
+        - _normalize_head_q(other_key, decision_snapshot['other_best'])
 
     # state.writer.add_scalar('Training/move_q_ema', state.move_q_ema, state.step_counter)
     # state.writer.add_scalar('Training/build_q_ema', state.build_q_ema, state.step_counter)
-    state.writer.add_scalar('Training/discrete_advantage', adv, state.step_counter)
+    state.writer.add_scalar('Training/discrete_advantage', adv, state.train_step_counter)
 
     current_q_val = current_q.detach().item()
     target_raw = reward + 0.99 * max_next_q
@@ -1752,10 +1523,10 @@ def train_agent(
 
     td_error = abs(target_value - current_q_val)
 
-    state.writer.add_scalar('Training/current_q_value', current_q.item(), state.step_counter)
-    state.writer.add_scalar('Training/target_q_value', target_value, state.step_counter)
-    state.writer.add_scalar('Training/max_next_q', max_next_q, state.step_counter)
-    state.writer.add_scalar('Training/td_error', td_error, state.step_counter)
+    state.writer.add_scalar('Training/current_q_value', current_q.item(), state.train_step_counter)
+    state.writer.add_scalar('Training/target_q_value', target_value, state.train_step_counter)
+    state.writer.add_scalar('Training/max_next_q', max_next_q, state.train_step_counter)
+    state.writer.add_scalar('Training/td_error', td_error, state.train_step_counter)
 
     loss_continuous = criterion(current_q, target_tensor)
     
@@ -1771,7 +1542,7 @@ def train_agent(
 
     # small guaranteed nudge so BUILD still gets sampled
     if forced_build:
-        loss_discrete = -action_log_probs[config.ACTION_BUILD] * (adv + config.FORCED_BUILD_EXPLORE_WEIGHT)
+        loss_discrete = -action_log_probs[config.ACTION_BUILD] * max(adv + config.FORCED_BUILD_EXPLORE_WEIGHT, 0.05)
     else:
     # Simple advantage-weighted policy gradient for the discrete head
         loss_discrete = -action_log_probs[discrete_action] * adv
@@ -1782,17 +1553,18 @@ def train_agent(
     
     loss = loss_continuous + loss_discrete
     
-    state.writer.add_scalar('Training/loss', loss.item(), state.step_counter)
-    state.writer.add_scalar('Training/loss_continuous', loss_continuous.item(), state.step_counter)
-    state.writer.add_scalar('Training/loss_discrete', loss_discrete.item(), state.step_counter)
+    state.writer.add_scalar('Training/loss', loss.item(), state.train_step_counter)
+    state.writer.add_scalar('Training/loss_continuous', loss_continuous.item(), state.train_step_counter)
+    state.writer.add_scalar('Training/loss_discrete', loss_discrete.item(), state.train_step_counter)
 
     # ADD after the existing state.writer.add_scalar('Training/loss_discrete', ...) line:
-    state.writer.add_scalar('Training/entropy', entropy.item(), state.step_counter)
-    state.writer.add_scalar('Training/prob_build_train', action_probs[config.ACTION_BUILD].item(), state.step_counter)
-    state.writer.add_scalar('Training/prob_move_train', action_probs[config.ACTION_MOVE].item(), state.step_counter)
+    state.writer.add_scalar('Training/entropy', entropy.item(), state.train_step_counter)
+    state.writer.add_scalar('Training/prob_build_train', action_probs[config.ACTION_BUILD].item(), state.train_step_counter)
+    state.writer.add_scalar('Training/prob_move_train', action_probs[config.ACTION_MOVE].item(), state.train_step_counter)
+    state.writer.add_scalar('Training/logit_gap', (action_logits.squeeze(0)[config.ACTION_BUILD] - action_logits.squeeze(0)[config.ACTION_MOVE]).item(), state.train_step_counter)
 
     optimizer.zero_grad()
-    torch.autograd.set_detect_anomaly(True)
+    # torch.autograd.set_detect_anomaly(True) # Debugging option for NaN gradients; can be slow, so only enable if needed
     loss.backward()
 
     torch.nn.utils.clip_grad_norm_(agent.parameters(), max_norm=1.0)
@@ -1802,7 +1574,7 @@ def train_agent(
         if param.grad is not None:
             total_grad_norm += param.grad.norm().item() ** 2
     total_grad_norm = total_grad_norm ** 0.5
-    state.writer.add_scalar('Training/gradient_norm', total_grad_norm, state.step_counter)
+    state.writer.add_scalar('Training/gradient_norm', total_grad_norm, state.train_step_counter)
 
     optimizer.step()
 

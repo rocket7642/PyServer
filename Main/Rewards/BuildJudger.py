@@ -14,7 +14,8 @@ def compute_build_features(
     is_noop,
     vision_image=None,
     target_structure_name="armrad",
-    unit_id=None
+    unit_id=None,
+    structure_vision_image=None
 ):
     """
     Compute features for evaluating a potential building placement location.
@@ -142,7 +143,7 @@ def compute_build_features(
         target_bottom = target_nz + th_norm / 2.0
         
         for u in friendly_units + enemy_units:
-            if u.get("is_constructing") > 0:
+            if (u.get("is_constructing") or 0) > 0:
                 continue  # Ignore units that are currently constructing, as they don't block placement.
             ux = map_utils.normalize_x(u['x'])
             uz = map_utils.normalize_z(u['z'])
@@ -157,9 +158,10 @@ def compute_build_features(
             
             # Slightly larger than the actual footprint to provide buffer zone
             if (target_left < u_right + 1) and (target_right > u_left - 1) and (target_top < u_bottom + 1) and (target_bottom > u_top - 1):
-                incomplete =  u.get("is_constructing") > 0 or u.get("active_build_progress") < 1
+                incomplete =  (u.get("is_constructing") or 0) > 0 or (u.get("active_build_progress") or 1.0) < 1
                 if incomplete:
                     blocking_proximity = 0 # Heavy negative signal for collision with an incomplete unit/building
+                    continue
                 else:
                     blocking_proximity = -100.0 # VeryHeavy negative signal for collision!
                 break
@@ -195,19 +197,22 @@ def compute_build_features(
     # unknown (vision_image == 0). High value means building here reveals a lot.
     # This is the primary signal for "build in fog boundary before advancing."
     prospective_vision_gain = 0.0
-    if vision_image is not None:
+    # Evaluate against *permanent* (structure-only) coverage when available, so the
+    # unit's own moving vision bubble doesn't shrink the apparent gain on approach.
+    vis_src = structure_vision_image if structure_vision_image is not None else vision_image
+    if vis_src is not None:
         radar_range = unit_defs.get_unit_ranges(target_structure_name).get('radar_range', 0)
         if radar_range > 0 and state.map_width > 0 and state.map_height > 0:
             range_scale = (config.STANDARD_MAP_WIDTH / state.map_width +
                         config.STANDARD_MAP_HEIGHT / state.map_height) / 2.0
             r_pixels = int(radar_range * range_scale)
-            h, w = vision_image.shape
+            h, w = vis_src.shape
             cx, cz = int(np.clip(target_nx, 0, w - 1)), int(np.clip(target_nz, 0, h - 1))
             x_min = max(0, cx - r_pixels)
             x_max = min(w - 1, cx + r_pixels)
             z_min = max(0, cz - r_pixels)
             z_max = min(h - 1, cz + r_pixels)
-            patch = vision_image[z_min:z_max+1, x_min:x_max+1]
+            patch = vis_src[z_min:z_max+1, x_min:x_max+1]
             if patch.size > 0:
                 # Fraction of cells in radar radius that are fully unknown
                 prospective_vision_gain = float(np.mean(patch == 0))

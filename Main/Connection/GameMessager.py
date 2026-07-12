@@ -340,7 +340,11 @@ def receive_messages(conn, addr):
 								print(f"Unit {unit['id']} likely completed a building. Total buildings built in this segment: {state.segment_stats[unit['id']]['buildings_built']}")
 								# Add the vision increase as a reward for completing the building.
 								state.segment_stats[unit['id']]['value_from_building'] += (np.sum(state.vision_image) if state.vision_image is not None else 0.0) - state.previous_build_vision_baseline
-
+								# Release the build commitment now that the structure is complete
+								state.build_committed_target.pop(unit['id'], None)
+								state.build_committed_since_step.pop(unit['id'], None)
+								state.build_committed_distance.pop(unit['id'], None)
+								
 							state.previous_build_progress[unit['id']] = current_progress
 
 							state.segment_buffers[unit['id']].append({
@@ -362,7 +366,8 @@ def receive_messages(conn, addr):
 								'forced_build': state.previous_forced_builds.get(unit['id'], False),
 								'build_committed_target': state.build_committed_target.get(unit['id']),
 								'build_committed_since_step': state.build_committed_since_step.get(unit['id']),
-								'build_committed_distance': state.build_committed_distance.get(unit['id'])
+								'build_committed_distance': state.build_committed_distance.get(unit['id']),
+								'decision_snapshot': state.decision_snapshots.get(unit['id'], None)
 							})
 
 							state.writer.add_scalar('Move_Potential/total', potential_reward, state.step_counter)
@@ -470,7 +475,7 @@ def receive_messages(conn, addr):
 					# 	best_candidate_kind = 'noop'
 					# 	discrete_action = config.ACTION_BUILD
 					# else:
-					action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step = agent_core.get_action(
+					action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
 						state_vec,
 						unit['x'],
 						unit['z'],
@@ -481,6 +486,7 @@ def receive_messages(conn, addr):
 					# Store chosen discrete action (Move vs Build) for training
 					state.previous_discrete_actions[unit['id']] = discrete_action
 					state.previous_forced_builds[unit['id']] = forced_build_this_step
+					state.decision_snapshots[unit['id']] = decision_snapshot
 
 					denorm_tx = map_utils.denormalize_x(best_target[0])
 					denorm_tz = map_utils.denormalize_z(best_target[1])
@@ -538,10 +544,25 @@ def receive_messages(conn, addr):
 
 					if discrete_action == config.ACTION_BUILD and action_command is not None:
 						state.last_build_step[unit['id']] = state.step_counter
-						state.build_committed_target[unit['id']] = best_target_world
-						state.build_committed_since_step[unit['id']] = state.step_counter
-						state.build_committed_distance[unit['id']] = ((unit['x'] - best_target_world[0]) ** 2 + (unit['z'] - best_target_world[1]) ** 2) ** 0.5
-						print(f"Unit {unit['id']} committed to building at {best_target_world} starting at step {state.step_counter} with distance {state.build_committed_distance[unit['id']]:.1f}")
+						existing_commit = state.build_committed_target.get(unit['id'])
+						if existing_commit is None or best_candidate_kind != 'committed_build':
+							# New commitment, or a deliberate switch that cleared the margin
+							state.build_committed_target[unit['id']] = best_target_world
+							state.build_committed_since_step[unit['id']] = state.step_counter
+							state.build_committed_distance[unit['id']] = ((unit['x'] - best_target_world[0]) ** 2 + (unit['z'] - best_target_world[1]) ** 2) ** 0.5
+							print(f"Unit {unit['id']} committed to building at {best_target_world} starting at step {state.step_counter} with distance {state.build_committed_distance[unit['id']]:.1f}")
+						# else: continuing toward the committed target — leave since_step/distance intact
+
+					# Suppress re-sending an identical build order: an immediate BU at the
+					# same coords each second can cancel/restart construction game-side.
+					if (action_command is not None
+							and discrete_action == config.ACTION_BUILD
+							and state.previous_actions.get(unit['id']) == "BUILD"
+							and last_target is not None):
+						dist_to_last = ((best_target_world[0] - last_target[0]) ** 2 + (best_target_world[1] - last_target[1]) ** 2) ** 0.5
+						if dist_to_last <= config.COMMAND_DISTANCE_EPS:
+							action_command = None
+							print(f"Unit {unit['id']} continuing existing build order (no resend)")
 
 					if action_command is not None:
 						if last_target is not None:

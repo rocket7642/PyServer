@@ -698,6 +698,7 @@ def _train_buffer(buffer, unit_id, segment_reward):
 		next_state_full = map_utils.reconstruct_state_with_map(agent_core.agent, transition['next_state'])
 		total_reward = transition['potential_reward'] + per_step_bonus
 		done = (i == len(buffer) - 1)
+		next_snapshot = buffer[i + 1]['decision_snapshot'] if i + 1 < len(buffer) else None
 		agent_core.train_agent(
 			state_full,
 			transition.get('discrete_action', config.ACTION_MOVE),
@@ -713,8 +714,10 @@ def _train_buffer(buffer, unit_id, segment_reward):
 			unit_id,
 			forced_build=transition.get('forced_build', False),
 			build_committed_target=transition.get('build_committed_target'),
-            build_committed_since_step=transition.get('build_committed_since_step'),
-            build_committed_distance=transition.get('build_committed_distance'),
+			build_committed_since_step=transition.get('build_committed_since_step'),
+			build_committed_distance=transition.get('build_committed_distance'),
+			decision_snapshot=transition['decision_snapshot'],
+			next_snapshot=next_snapshot
 		)
 
 

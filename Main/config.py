@@ -162,7 +162,7 @@ ENABLE_MODEL_GRAPH_LOG = True
 td_cap = 5.0
 
 # tune this; higher = stronger resistance to collapse
-entropy_coeff = 0.05
+entropy_coeff = 0.15 # Temporary raised from 0.05 while builds are failing
 
 # OUTPUT WEIGHT CONSTRAINTS 
 ENFORCE_DISTANCE_REDUCTION_NONNEG = True
@@ -223,7 +223,7 @@ ADAPTIVE_PRUNE_MIN_VISITS = 4
 
 # Decay for head selection logits to encourage exploration of different heads.
 DISCRETE_EPSILON_START = 0.3   # 30% random discrete action at start
-DISCRETE_EPSILON_MIN   = 0.05  # floor at 5% exploration permanently
+DISCRETE_EPSILON_MIN   = 0.15  # floor at 5% exploration permanently # Temporary raised from 0.05 while builds are failing
 DISCRETE_EPSILON_DECAY = 0.995 # decay per step
 FORCE_BUILD_EVERY_N_STEPS = 50  # force ACTION_BUILD every N steps per unit
 
@@ -236,7 +236,7 @@ BUILDING_REWARD_SCALE = 0.8
 BUILD_PROGRESS_REWARD_SCALE = 10.0
 BUILD_CANDIDATE_RADIUS = 3
 BUILD_TARGET_SWITCH_MARGIN = 0.15
-BUILD_CONTINUITY_BONUS = 5.0
+BUILD_CONTINUITY_BONUS = 0.75
 
 # SENTINEL FILE SETTINGS 
 # Path to the sentinel file that signals the training script to stop.

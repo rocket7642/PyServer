@@ -54,6 +54,7 @@ run_name = f"feature_based_agent_{datetime.datetime.now().strftime('%Y%m%d_%H%M%
 writer = SummaryWriter(f"runs/{run_name}")
 run_started_at = time.time()
 step_counter = 0
+train_step_counter = 0  # x-axis for Training/* scalars; step_counter freezes during end-of-match training
 
 previous_healths = {}
 unit_max_healths = {}
@@ -71,6 +72,8 @@ previous_build_progress = {}
 previous_command_steps = {}
 cancel_command_penalties = {}
 previous_forced_builds = {} # tracks whether a build action was forced due to the FORCE_BUILD_EVERY_N_STEPS rule
+decision_snapshots = {} # Stores the decision snapshot for each unit at the time of action selection, which can be used for training and analysis.
+head_q_stats = {}
 
 build_committed_target = {}
 build_committed_since_step = {}

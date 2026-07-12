@@ -262,6 +262,23 @@ def generate_vision_image(friendly_units, map_w, map_h, map_heights):
 
     return vis_img
 
+def generate_structure_vision_image(friendly_units, map_w, map_h, map_heights):
+    """Vision/radar coverage from immobile units only. This is the *permanent*
+    coverage used for build-value evaluation: the agent unit's own moving vision
+    bubble must not count, or approach shrinks the apparent gain and the target
+    horizon recedes."""
+    structures = [u for u in friendly_units if u.get('speed', 0) == 0]
+    return generate_vision_image(structures, map_w, map_h, map_heights)
+
+def covered_by_existing_radar(tx, tz, coverage_frac=0.5):
+    for u in state.units:
+        if u.get('name') == 'armrad':
+            unx, unz = normalize_x(u['x']), normalize_z(u['z'])
+            r_norm = normalize_range(u.get('radar_range', 0))
+            if ((unx - tx)**2 + (unz - tz)**2) ** 0.5 < coverage_frac * r_norm:
+                return True
+    return False
+
 def is_position_buildable(tx, tz, unit="armrad"):
     """Check if a position is buildable based on terrain cost map (e.g. not blocked by impassable terrain)."""
     if state.terrain_cost_map is None:
