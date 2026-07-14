@@ -1,7 +1,7 @@
 {
-  "best_score": 0.0,
-  "run_id": 6,
-  "snapshot": "feature_based_agent_20260706_161313_run_0006_eval.pth",
-  "timestamp": 1783380221.4260736,
+  "best_score": -256.5120577096939,
+  "run_id": 24,
+  "snapshot": "feature_based_agent_20260713_154948_run_0024_eval.pth",
+  "timestamp": 1783983615.523712,
   "map_name": "Showcase 2.0"
 }

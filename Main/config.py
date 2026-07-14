@@ -159,14 +159,16 @@ LSTM_NUM_LAYERS = 1
 ENABLE_MODEL_GRAPH_LOG = True
 
 # EPOCH DRIFT SETTINGS 
-td_cap = 5.0
+# td_cap = 5.0
 
 # tune this; higher = stronger resistance to collapse
 entropy_coeff = 0.15 # Temporary raised from 0.05 while builds are failing
 
 # OUTPUT WEIGHT CONSTRAINTS 
-ENFORCE_DISTANCE_REDUCTION_NONNEG = True
-DISTANCE_REDUCTION_INDEX = 0
+# OUTPUT WEIGHT SIGN CONSTRAINTS (A3) — enforced via softplus in agent_core.constrain_head_weights
+MOVE_NONNEG_INDICES = [0]           # distance_reduction
+BUILD_NONNEG_INDICES = [1, 6, 7]    # is_continuing, transit_progress, prospective_vision_gain
+BUILD_NONPOS_INDICES = [2, 5]       # enemy_proximity, blocking_proximity
 
 FEATURE_NAMES = [
     "distance_reduction",
@@ -230,13 +232,15 @@ FORCE_BUILD_EVERY_N_STEPS = 50  # force ACTION_BUILD every N steps per unit
 # BUILD COMMITMENT SETTINGS
 BUILD_COMMIT_TIMEOUT_STEPS = 60
 BUILD_TRANSIT_STALL_PENALTY = -0.5
-FORCED_BUILD_EXPLORE_WEIGHT = 0.1
+# FORCED_BUILD_EXPLORE_WEIGHT = 0.1
+BUILD_RESEND_COOLDOWN_STEPS = 5
+POST_BUILD_DECISION_WINDOW = 3
 
 BUILDING_REWARD_SCALE = 0.8
 BUILD_PROGRESS_REWARD_SCALE = 10.0
 BUILD_CANDIDATE_RADIUS = 3
-BUILD_TARGET_SWITCH_MARGIN = 0.15
-BUILD_CONTINUITY_BONUS = 0.75
+# BUILD_TARGET_SWITCH_MARGIN = 0.15
+# BUILD_CONTINUITY_BONUS = 0.75
 
 # SENTINEL FILE SETTINGS 
 # Path to the sentinel file that signals the training script to stop.

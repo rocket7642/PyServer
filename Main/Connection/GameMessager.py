@@ -344,6 +344,8 @@ def receive_messages(conn, addr):
 								state.build_committed_target.pop(unit['id'], None)
 								state.build_committed_since_step.pop(unit['id'], None)
 								state.build_committed_distance.pop(unit['id'], None)
+								print(f"[COMMIT] Unit {unit['id']} commitment released on completion at step {state.step_counter}")
+								state.build_released_step[unit['id']] = state.step_counter
 								
 							state.previous_build_progress[unit['id']] = current_progress
 
@@ -550,7 +552,7 @@ def receive_messages(conn, addr):
 							state.build_committed_target[unit['id']] = best_target_world
 							state.build_committed_since_step[unit['id']] = state.step_counter
 							state.build_committed_distance[unit['id']] = ((unit['x'] - best_target_world[0]) ** 2 + (unit['z'] - best_target_world[1]) ** 2) ** 0.5
-							print(f"Unit {unit['id']} committed to building at {best_target_world} starting at step {state.step_counter} with distance {state.build_committed_distance[unit['id']]:.1f}")
+							print(f"Unit {unit['id']} committed to building at {best_target_world} (kind={best_candidate_kind}) starting at step {state.step_counter} with distance {state.build_committed_distance[unit['id']]:.1f}")
 						# else: continuing toward the committed target — leave since_step/distance intact
 
 					# Suppress re-sending an identical build order: an immediate BU at the
@@ -560,7 +562,11 @@ def receive_messages(conn, addr):
 							and state.previous_actions.get(unit['id']) == "BUILD"
 							and last_target is not None):
 						dist_to_last = ((best_target_world[0] - last_target[0]) ** 2 + (best_target_world[1] - last_target[1]) ** 2) ** 0.5
-						if dist_to_last <= config.COMMAND_DISTANCE_EPS:
+						prev_pos = state.previous_positions.get(unit['id'])
+						unit_moved = prev_pos is not None and ((unit['x'] - prev_pos[0]) ** 2 + (unit['z'] - prev_pos[1]) ** 2) ** 0.5 > 1.0
+						order_active = (unit.get('is_constructing', 0) == 1) or unit_moved
+						steps_since_send = state.previous_command_steps.get(unit['id'], 9999)
+						if dist_to_last <= config.COMMAND_DISTANCE_EPS and (order_active or steps_since_send < config.BUILD_RESEND_COOLDOWN_STEPS):
 							action_command = None
 							print(f"Unit {unit['id']} continuing existing build order (no resend)")
 

@@ -73,11 +73,15 @@ previous_command_steps = {}
 cancel_command_penalties = {}
 previous_forced_builds = {} # tracks whether a build action was forced due to the FORCE_BUILD_EVERY_N_STEPS rule
 decision_snapshots = {} # Stores the decision snapshot for each unit at the time of action selection, which can be used for training and analysis.
-head_q_stats = {}
+# head_q_stats = {}
+return_baseline = None   # EMA of Monte-Carlo returns (policy-gradient baseline)
+return_var = 1.0         # EMA variance of returns (advantage normalization)
+return_ema_alpha = 0.01
 
 build_committed_target = {}
 build_committed_since_step = {}
 build_committed_distance = {}
+build_released_step = {}
 
 previous_build_vision_baseline = 0
 

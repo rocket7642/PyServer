@@ -1,22 +1,37 @@
-2026-07-07 10:46:15,465 - INFO - Training run selected for run #69.
-F:\School\Capstone\Python\PyServer\Main\agent_model.py:150: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
-  if 0 <= idx < move_features.shape[-1]:
-2026-07-07 10:46:15,696 - INFO - TensorBoard logging to: runs/feature_based_agent_20260707_104614
-2026-07-07 10:46:15,697 - INFO - Run mode: training (run #69)
-2026-07-07 10:46:15,697 - INFO - View with: tensorboard --logdir=runs
-2026-07-07 10:46:15,698 - INFO - Server listening on 127.0.0.1:25000...
-2026-07-07 10:47:04,608 - INFO - [NEW CONNECTION] ('127.0.0.1', 50110) connected.
-2026-07-07 10:47:04,727 - INFO - Map dimensions: 8192 x 8192
-2026-07-07 10:47:04,727 - INFO - Map name: Survival 2.0
-2026-07-07 10:47:05,473 - INFO - Game server running. Press Ctrl+C to stop gracefully.
-2026-07-07 10:47:05,474 - INFO - Monitoring for game completion or termination signal...
+2026-07-13 18:16:51,969 - INFO - Training run selected for run #40.
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:141: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if 0 <= idx < w.shape[-1]:
+2026-07-13 18:16:52,242 - INFO - TensorBoard logging to: runs/feature_based_agent_20260713_181650
+2026-07-13 18:16:52,243 - INFO - Run mode: training (run #40)
+2026-07-13 18:16:52,243 - INFO - View with: tensorboard --logdir=runs
+2026-07-13 18:16:52,244 - INFO - Server listening on 127.0.0.1:25000...
+2026-07-13 18:17:50,440 - INFO - [NEW CONNECTION] ('127.0.0.1', 55113) connected.
+2026-07-13 18:17:50,563 - INFO - Map dimensions: 8192 x 8192
+2026-07-13 18:17:50,564 - INFO - Map name: Survival 2.0
+2026-07-13 18:17:51,271 - INFO - Game server running. Press Ctrl+C to stop gracefully.
+2026-07-13 18:17:51,272 - INFO - Monitoring for game completion or termination signal...
 
-2026-07-07 10:51:42,435 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
-2026-07-07 10:51:42,435 - INFO - 
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 480, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1376, in get_action
+    state.writer.add_histogram('Action_Scores/distribution', np.array(action_scores), state.step_counter)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\writer.py", line 508, in add_histogram
+    histogram(tag, values, bins, max_bins=max_bins), global_step, walltime
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\summary.py", line 503, in histogram
+    hist = make_histogram(values.astype(float), bins, max_bins)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\summary.py", line 511, in make_histogram
+    raise ValueError("The input has no element.")
+ValueError: The input has no element.
+2026-07-13 18:27:18,115 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
+2026-07-13 18:27:18,116 - INFO - 
 [SHUTDOWN] Closing connections and finalizing...
-2026-07-07 10:51:42,436 - INFO - Match outcome already finalized; skipping duplicate save.
-2026-07-07 10:51:42,436 - INFO - Closing TensorBoard writer...
-2026-07-07 10:51:42,436 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260707_104614
-2026-07-07 10:51:42,437 - INFO - View results with: tensorboard --logdir=runs
-2026-07-07 10:51:42,437 - INFO - 
+2026-07-13 18:27:18,117 - INFO - Match outcome already finalized; skipping duplicate save.
+2026-07-13 18:27:18,117 - INFO - Closing TensorBoard writer...
+2026-07-13 18:27:18,117 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260713_181650
+2026-07-13 18:27:18,117 - INFO - View results with: tensorboard --logdir=runs
+2026-07-13 18:27:18,118 - INFO - 
 [COMPLETE] Server shutdown successfully.

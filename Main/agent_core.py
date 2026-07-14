@@ -694,6 +694,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         input_seq = state_vec.unsqueeze(0).unsqueeze(0)
         action_logits, move_features, build_features, new_hidden = agent(input_seq, hidden)
         discrete_action = None
+        head_was_free = False
 
         steps_since_build = state.step_counter - state.last_build_step.get(unit_id, 0)
         forced_build_this_step = False
@@ -712,7 +713,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 if u.get('id') == unit_id:
                     is_constructing = (u.get('is_constructing', 0) == 1)
                     break
-            if committed is not None or is_constructing:
+            recently_released = (state.step_counter - state.build_released_step.get(unit_id, -9999)) <= config.POST_BUILD_DECISION_WINDOW
+            if is_constructing or (committed is not None and not recently_released):
                 discrete_action = config.ACTION_BUILD
 
         # Testing statement, enforce build action
@@ -720,6 +722,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         
         # If it was the forced build step, skip choosing a new action to allow the build to go through, otherwise choose action as normal
         if not discrete_action:
+            head_was_free = True
             # Determine the action type (Move vs Build)
             # discrete_action = torch.argmax(action_logits, dim=-1).item()
             if not getattr(state, 'evalRun', False):
@@ -735,6 +738,14 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                                 state.step_counter)
             else:
                 discrete_action = torch.argmax(action_logits, dim=-1).item()
+                
+        # A freely-chosen MOVE overrides any lingering commitment (the head decided).
+        if head_was_free and discrete_action == config.ACTION_MOVE and state.build_committed_target.get(unit_id) is not None:
+            state.build_committed_target.pop(unit_id, None)
+            state.build_committed_since_step.pop(unit_id, None)
+            state.build_committed_distance.pop(unit_id, None)
+            state.build_released_step[unit_id] = state.step_counter
+            print(f"[COMMIT] Unit {unit_id} commitment released by free MOVE choice")
         
         # Currently, all logic below is based on movement. We will output the move_features 
         # and handle the build features if the discrete_action is ACTION_BUILD.
@@ -1004,6 +1015,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     state.build_committed_target.pop(unit_id, None)
                     state.build_committed_since_step.pop(unit_id, None)
                     state.build_committed_distance.pop(unit_id, None)
+                    print(f"[COMMIT] Unit {unit_id} commitment released ({'timeout' if timed_out else 'blocked'}) after {steps_committed} steps")
+                    state.build_released_step[unit_id] = state.step_counter
                     committed_target = None
 
             if committed_target is not None:
@@ -1014,25 +1027,15 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 candidates.append((cx, cz, 'committed_build'))
                 candidate_meta.append(None)
 
-            # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
-            # For simplicity, let's consider a small grid around the unit for potential build locations.
-            for dx in np.linspace(-20, 20, num=3):
-                for dz in np.linspace(-20, 20, num=3):
-                    tx = unit_nx + dx
-                    tz = unit_nz + dz
-                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                    dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                    if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
-                        candidates.append((tx, tz, 'build'))
-                        candidate_meta.append(None)
-
-            # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
-            for mass in active_mass:
+            # A4 HARD LOCK: while a valid commitment exists, the committed site is
+            # the only build candidate. Scoring's job is choosing NEW sites only.
+            if committed_target is None:
+                # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
+                # For simplicity, let's consider a small grid around the unit for potential build locations.
                 for dx in np.linspace(-20, 20, num=3):
                     for dz in np.linspace(-20, 20, num=3):
-                        tx = mass[0] + dx
-                        tz = mass[1] + dz
+                        tx = unit_nx + dx
+                        tz = unit_nz + dz
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                         dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
@@ -1040,49 +1043,62 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             candidates.append((tx, tz, 'build'))
                             candidate_meta.append(None)
 
-            # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
-            # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
-            # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
-            # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
-            edge_source = structure_vision_image if structure_vision_image is not None else vision_image
-            h_vis, w_vis = edge_source.shape
-            max_ray_steps = max(h_vis, w_vis)
-            num_rays = 24
-            angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
+                # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
+                for mass in active_mass:
+                    for dx in np.linspace(-20, 20, num=3):
+                        for dz in np.linspace(-20, 20, num=3):
+                            tx = mass[0] + dx
+                            tz = mass[1] + dz
+                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                            dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                            if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
+                                candidates.append((tx, tz, 'build'))
+                                candidate_meta.append(None)
 
-            for angle in angles:
-                # Generate all steps along this ray at once
-                max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
-                steps = np.arange(2, int(min(max_ray_steps, max_commit_range)))
-                txs = (unit_nx + steps * np.cos(angle)).astype(int)
-                tzs = (unit_nz + steps * np.sin(angle)).astype(int)
+                # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
+                # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
+                # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
+                # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
+                edge_source = structure_vision_image if structure_vision_image is not None else vision_image
+                h_vis, w_vis = edge_source.shape
+                max_ray_steps = max(h_vis, w_vis)
+                num_rays = 24
+                angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
 
-                # Clip and find valid (in-bounds) indices
-                in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
-                if not np.any(in_bounds):
-                    continue
+                for angle in angles:
+                    # Generate all steps along this ray at once
+                    max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
+                    steps = np.arange(2, int(min(max_ray_steps, max_commit_range)))
+                    txs = (unit_nx + steps * np.cos(angle)).astype(int)
+                    tzs = (unit_nz + steps * np.sin(angle)).astype(int)
 
-                txs_valid = txs[in_bounds]
-                tzs_valid = tzs[in_bounds]
+                    # Clip and find valid (in-bounds) indices
+                    in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
+                    if not np.any(in_bounds):
+                        continue
 
-                # Sample the vision image along the ray
-                ray_values = edge_source[tzs_valid, txs_valid]
+                    txs_valid = txs[in_bounds]
+                    tzs_valid = tzs[in_bounds]
 
-                # Find the first position that is NOT radar-covered (< 0.4 threshold)
-                unknown_mask = ray_values < 0.4
-                if not np.any(unknown_mask):
-                    continue
+                    # Sample the vision image along the ray
+                    ray_values = edge_source[tzs_valid, txs_valid]
 
-                first_unknown = np.argmax(unknown_mask)
-                # tx = float(txs_valid[first_unknown])
-                # tz = float(tzs_valid[first_unknown])
-                land_idx = max(0, first_unknown - 3)          # last known cells, not the unknown one
-                for probe in range(land_idx, max(-1, land_idx - 3), -1):
-                    tx, tz = float(txs_valid[probe]), float(tzs_valid[probe])
-                    if map_utils.is_position_buildable(tx, tz, "armrad") and not map_utils.covered_by_existing_radar(tx, tz):
-                        candidates.append((tx, tz, 'vision_edge_build'))
-                        candidate_meta.append(None)
-                        break
+                    # Find the first position that is NOT radar-covered (< 0.4 threshold)
+                    unknown_mask = ray_values < 0.4
+                    if not np.any(unknown_mask):
+                        continue
+
+                    first_unknown = np.argmax(unknown_mask)
+                    # tx = float(txs_valid[first_unknown])
+                    # tz = float(tzs_valid[first_unknown])
+                    land_idx = max(0, first_unknown - 3)          # last known cells, not the unknown one
+                    for probe in range(land_idx, max(-1, land_idx - 3), -1):
+                        tx, tz = float(txs_valid[probe]), float(tzs_valid[probe])
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and not map_utils.covered_by_existing_radar(tx, tz):
+                            candidates.append((tx, tz, 'vision_edge_build'))
+                            candidate_meta.append(None)
+                            break
 
             n_edge = sum(1 for _c in candidates if _c[2] == 'vision_edge_build')
             n_grid = sum(1 for _c in candidates if _c[2] == 'build')
@@ -1208,81 +1224,30 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
             best_target = (unit_nx, unit_nz)
             best_candidate_kind = 'noop'
 
-        if discrete_action == config.ACTION_BUILD:
-            committed_target = state.build_committed_target.get(unit_id)
-            if committed_target is not None:
-                committed_nx = map_utils.normalize_x(committed_target[0])
-                committed_nz = map_utils.normalize_z(committed_target[1])
+        # if discrete_action == config.ACTION_BUILD:
+        #     committed_target = state.build_committed_target.get(unit_id)
+        #     if committed_target is not None:
+        #         committed_nx = map_utils.normalize_x(committed_target[0])
+        #         committed_nz = map_utils.normalize_z(committed_target[1])
 
-                # Find the score this step assigned to the committed-target candidate specifically
-                committed_score = None
-                for idx, (tx, tz, kind) in enumerate(candidates):
-                    if kind == 'committed_build' and abs(tx - committed_nx) < 1e-3 and abs(tz - committed_nz) < 1e-3:
-                        committed_score = action_scores[idx]
-                        break
+        #         # Find the score this step assigned to the committed-target candidate specifically
+        #         committed_score = None
+        #         for idx, (tx, tz, kind) in enumerate(candidates):
+        #             if kind == 'committed_build' and abs(tx - committed_nx) < 1e-3 and abs(tz - committed_nz) < 1e-3:
+        #                 committed_score = action_scores[idx]
+        #                 break
 
-                if committed_score is not None and best_candidate_kind != 'committed_build':
-                    # Only let a different candidate win if it clears the committed score by a margin
-                    required_score = committed_score * (1.0 + config.BUILD_TARGET_SWITCH_MARGIN) \
-                        if committed_score > 0 else committed_score - abs(committed_score) * config.BUILD_TARGET_SWITCH_MARGIN
+        #         if committed_score is not None and best_candidate_kind != 'committed_build':
+        #             # Only let a different candidate win if it clears the committed score by a margin
+        #             required_score = committed_score * (1.0 + config.BUILD_TARGET_SWITCH_MARGIN) \
+        #                 if committed_score > 0 else committed_score - abs(committed_score) * config.BUILD_TARGET_SWITCH_MARGIN
 
-                    if best_score < required_score:
-                        # Revert to the committed target instead of switching
-                        best_score = committed_score
-                        best_target = (committed_nx, committed_nz)
-                        best_candidate_kind = 'committed_build'
-                        best_candidate_meta = None
-            
-        # --- Other-head baseline for the discrete advantage ---
-        # Score what the *other* head would have done this step, so train_agent can
-        # compare each head's performance against its own running statistics.
-        if discrete_action == config.ACTION_BUILD:
-            # Other head is MOVE: baseline = approach the mass destination if possible, else stand still
-            if mass_destination is not None and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
-                other_features = MoveJudger.compute_action_features(
-                    "MOVE",
-                    unit_nx, unit_nz, unit_ny,
-                    active_mass,
-                    mass_destination[0], mass_destination[1],
-                    enemy_range_image=enemy_range_image,
-                    enemy_units=all_enemies,
-                    vision_image=vision_image
-                )
-            else:
-                other_features = MoveJudger.compute_action_features(
-                    config.NOOP_ACTION,
-                    unit_nx, unit_nz, unit_ny,
-                    active_mass,
-                    enemy_range_image=enemy_range_image,
-                    enemy_units=all_enemies,
-                    vision_image=vision_image
-                )
-            if other_features is None:
-                other_features = [0.0] * config.NUM_ACTION_FEATURES
-            other_best = torch.dot(feature_weights, torch.tensor(other_features, dtype=torch.float32)).item()
-        else:
-            # Other head is BUILD: baseline = the committed build target if one exists, else building in place
-            committed_target = state.build_committed_target.get(unit_id)
-            if committed_target is not None:
-                other_bx = map_utils.normalize_x(committed_target[0])
-                other_bz = map_utils.normalize_z(committed_target[1])
-            else:
-                other_bx, other_bz = unit_nx, unit_nz
-            other_features = BuildJudger.compute_build_features(
-                unit_nx, unit_nz, unit_ny,
-                other_bx, other_bz,
-                active_mass,
-                all_enemies,
-                state.units,
-                False,
-                vision_image=vision_image,
-                target_structure_name="armrad",
-                unit_id=unit_id,
-                structure_vision_image=structure_vision_image,
-            )
-            if other_features is None:
-                other_features = [0.0] * config.NUM_BUILD_FEATURES
-            other_best = torch.dot(build_weights, torch.tensor(other_features, dtype=torch.float32)).item()
+        #             if best_score < required_score:
+        #                 # Revert to the committed target instead of switching
+        #                 best_score = committed_score
+        #                 best_target = (committed_nx, committed_nz)
+        #                 best_candidate_kind = 'committed_build'
+        #                 best_candidate_meta = None
 
         state.previous_chosen_targets[unit_id] = (best_target[0], best_target[1], best_candidate_kind)
 
@@ -1410,60 +1375,33 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         if state.step_counter % 100 == 0:
             state.writer.add_histogram('Action_Scores/distribution', np.array(action_scores), state.step_counter)
 
-        snapshot_rows = move_feature_rows if discrete_action == config.ACTION_MOVE else build_feature_rows
-        if not snapshot_rows:
-            snapshot_rows = [list(chosen_action_features)]
 
         decision_snapshot = {
             'chosen_features': list(chosen_action_features),
             'chosen_head': discrete_action,
-            'chosen_best': best_score,
-            'other_best': other_best,
-            'candidate_features': snapshot_rows,
+            'head_was_free': head_was_free,
             'hidden_pre': (hidden[0].detach().clone(), hidden[1].detach().clone()),
-            'hidden_post': (new_hidden[0].detach().clone(), new_hidden[1].detach().clone()),
         }
 
         return best_action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot
-
-def _normalize_head_q(head_key, q):
-    m, v = state.head_q_stats.get(head_key, (q, 1.0))   # seed mean with first value
-    m = 0.99 * m + 0.01 * q
-    v = 0.99 * v + 0.01 * (q - m) ** 2
-    state.head_q_stats[head_key] = (m, v)
-    return (q - m) / (v ** 0.5 + 1e-6)
 
 def train_agent(
     state_vec,
     discrete_action,
     action,
-    reward,
-    next_state,
-    done,
-    unit_x,
-    unit_z,
-    unit_y,
-    next_unit_x,
-    next_unit_z,
-    next_unit_y,
-    target_x=None,
-    target_z=None,
-    mass_destination=None,
-    action_kind=None,
+    mc_return,
     unit_id=None,
     forced_build=False,
-    build_committed_target=None,       
-    build_committed_since_step=None,   
-    build_committed_distance=None,   
     decision_snapshot=None,
-    next_snapshot=None
-    
 ):
-    """Perform a single TD (temporal difference) training step using the transition data and clamped Q-targets."""
+    """Single training step: regress the chosen candidate's Q toward the observed
+    Monte-Carlo return (no bootstrapping), and update the discrete head with a
+    return-based policy gradient (REINFORCE + running baseline), applied only on
+    steps where the head genuinely made the decision."""
     if getattr(state, 'evalRun', False):
         return
     if decision_snapshot is None:
-        return  # legacy transition without a snapshot; nothing consistent to train on
+        return
     state.train_step_counter += 1
 
     hidden = decision_snapshot.get('hidden_pre')
@@ -1471,7 +1409,7 @@ def train_agent(
         hidden = state.previous_lstm_hidden_states.get(unit_id, init_lstm_hidden()) if unit_id is not None else init_lstm_hidden()
     input_seq = state_vec.unsqueeze(0).unsqueeze(0)
     action_logits, move_weights, build_weights, _ = agent(input_seq, hidden)
-    
+
     if discrete_action == config.ACTION_BUILD:
         current_weights = build_weights.squeeze(0)
     else:
@@ -1484,101 +1422,52 @@ def train_agent(
     features_tensor = torch.tensor(chosen_features, dtype=torch.float32)
     current_q = torch.dot(current_weights, features_tensor)
 
-    if not done and next_snapshot is not None:
-        with torch.no_grad():
-            next_hidden = decision_snapshot.get('hidden_post')
-            if next_hidden is None:
-                next_hidden = state.lstm_hidden_states.get(unit_id, init_lstm_hidden()) if unit_id is not None else init_lstm_hidden()
-            next_input_seq = next_state.unsqueeze(0).unsqueeze(0)
-            _, next_move_w, next_build_w, _ = agent(next_input_seq, next_hidden)
-
-            rows = next_snapshot.get('candidate_features') or [next_snapshot['chosen_features']]
-            head_w = (next_build_w if next_snapshot['chosen_head'] == config.ACTION_BUILD else next_move_w).squeeze(0)
-            feats = torch.tensor(rows, dtype=torch.float32)
-            feats = torch.nan_to_num(feats, nan=0.0, posinf=1e6, neginf=-1e6)
-            max_next_q = torch.max(feats @ head_w).item()
-    else:
-        max_next_q = 0.0
-
-    chosen_key = 'build' if discrete_action == config.ACTION_BUILD else 'move'
-    other_key  = 'move' if chosen_key == 'build' else 'build'
-    adv = _normalize_head_q(chosen_key, decision_snapshot['chosen_best']) \
-        - _normalize_head_q(other_key, decision_snapshot['other_best'])
-
-    # state.writer.add_scalar('Training/move_q_ema', state.move_q_ema, state.step_counter)
-    # state.writer.add_scalar('Training/build_q_ema', state.build_q_ema, state.step_counter)
-    state.writer.add_scalar('Training/discrete_advantage', adv, state.train_step_counter)
-
-    current_q_val = current_q.detach().item()
-    target_raw = reward + 0.99 * max_next_q
-    
-    # Validate reward doesn't contain inf/nan
-    if np.isinf(target_raw) or np.isnan(target_raw):
-        print(f"[WARNING] Invalid target_raw: {target_raw} (reward={reward}, max_next_q={max_next_q})")
-        target_raw = np.clip(target_raw, -1e6, 1e6)
-    
-    td_raw = np.clip(target_raw - current_q_val, -config.td_cap, config.td_cap)
-    target_value = current_q_val + td_raw
-    target_tensor = torch.tensor(target_value, dtype=torch.float32, device=current_q.device)
-
-    td_error = abs(target_value - current_q_val)
-
-    state.writer.add_scalar('Training/current_q_value', current_q.item(), state.train_step_counter)
-    state.writer.add_scalar('Training/target_q_value', target_value, state.train_step_counter)
-    state.writer.add_scalar('Training/max_next_q', max_next_q, state.train_step_counter)
-    state.writer.add_scalar('Training/td_error', td_error, state.train_step_counter)
-
+    # --- A2: value regression toward the Monte-Carlo return ---
+    if np.isinf(mc_return) or np.isnan(mc_return):
+        print(f"[WARNING] Invalid mc_return: {mc_return}, skipping step")
+        return
+    target_tensor = torch.tensor(float(mc_return), dtype=torch.float32, device=current_q.device)
     loss_continuous = criterion(current_q, target_tensor)
-    
-    # Calculate discrete classification loss (we want to encourage the agent to pick the action that led to this TD value
-    # However, RL classification is tricky because we're just matching Q targets. 
-    # For now, let's treat the discrete action chosen as the 'label', and we weight it by the TD advantage.
-    # A simple but effective method: encourage actions that had positive advantage, discourage negative.
-    # adv = target_value - current_q_val
-    # action_log_probs = torch.nn.functional.log_softmax(action_logits.squeeze(0), dim=-1)
 
+    # --- Additions 1 & 3: running baseline + std-normalized advantage ---
+    if state.return_baseline is None:
+        state.return_baseline = float(mc_return)
+    a = state.return_ema_alpha if state.train_step_counter > 100 else 0.1
+    state.return_baseline = (1 - a) * state.return_baseline + a * float(mc_return)
+    state.return_var = (1 - a) * state.return_var + a * (float(mc_return) - state.return_baseline) ** 2
+    adv = (float(mc_return) - state.return_baseline) / (state.return_var ** 0.5 + 1e-6)
+    adv = max(-5.0, min(5.0, adv))
+
+    # --- Addition 2: policy gradient only on genuine decision points ---
     action_probs = torch.softmax(action_logits.squeeze(0), dim=-1)
     action_log_probs = torch.log(action_probs + 1e-8)
-
-    # small guaranteed nudge so BUILD still gets sampled
-    if forced_build:
-        loss_discrete = -action_log_probs[config.ACTION_BUILD] * max(adv + config.FORCED_BUILD_EXPLORE_WEIGHT, 0.05)
-    else:
-    # Simple advantage-weighted policy gradient for the discrete head
-        loss_discrete = -action_log_probs[discrete_action] * adv
-
-    # Add entropy bonus — negative entropy is minimized, so this resists collapse
     entropy = -(action_probs * action_log_probs).sum()
-    loss_discrete = loss_discrete - config.entropy_coeff * entropy
-    
+
+    head_was_free = decision_snapshot.get('head_was_free', False)
+    if head_was_free:
+        loss_discrete = -action_log_probs[discrete_action] * adv - config.entropy_coeff * entropy
+    else:
+        loss_discrete = torch.tensor(0.0)
+
     loss = loss_continuous + loss_discrete
-    
+
+    state.writer.add_scalar('Training/mc_return', float(mc_return), state.train_step_counter)
+    state.writer.add_scalar('Training/return_baseline', state.return_baseline, state.train_step_counter)
+    state.writer.add_scalar('Training/discrete_advantage', adv, state.train_step_counter)
+    state.writer.add_scalar('Training/current_q_value', current_q.item(), state.train_step_counter)
+    state.writer.add_scalar('Training/head_was_free', 1.0 if head_was_free else 0.0, state.train_step_counter)
     state.writer.add_scalar('Training/loss', loss.item(), state.train_step_counter)
     state.writer.add_scalar('Training/loss_continuous', loss_continuous.item(), state.train_step_counter)
-    state.writer.add_scalar('Training/loss_discrete', loss_discrete.item(), state.train_step_counter)
-
-    # ADD after the existing state.writer.add_scalar('Training/loss_discrete', ...) line:
-    state.writer.add_scalar('Training/entropy', entropy.item(), state.train_step_counter)
-    state.writer.add_scalar('Training/prob_build_train', action_probs[config.ACTION_BUILD].item(), state.train_step_counter)
-    state.writer.add_scalar('Training/prob_move_train', action_probs[config.ACTION_MOVE].item(), state.train_step_counter)
-    state.writer.add_scalar('Training/logit_gap', (action_logits.squeeze(0)[config.ACTION_BUILD] - action_logits.squeeze(0)[config.ACTION_MOVE]).item(), state.train_step_counter)
+    if head_was_free:
+        state.writer.add_scalar('Training/loss_discrete', loss_discrete.item(), state.train_step_counter)
+        state.writer.add_scalar('Training/entropy', entropy.item(), state.train_step_counter)
+        state.writer.add_scalar('Training/prob_build_train', action_probs[config.ACTION_BUILD].item(), state.train_step_counter)
+        state.writer.add_scalar('Training/logit_gap', (action_logits.squeeze(0)[config.ACTION_BUILD] - action_logits.squeeze(0)[config.ACTION_MOVE]).item(), state.train_step_counter)
 
     optimizer.zero_grad()
-    # torch.autograd.set_detect_anomaly(True) # Debugging option for NaN gradients; can be slow, so only enable if needed
     loss.backward()
-
     torch.nn.utils.clip_grad_norm_(agent.parameters(), max_norm=1.0)
-
-    total_grad_norm = 0.0
-    for param in agent.parameters():
-        if param.grad is not None:
-            total_grad_norm += param.grad.norm().item() ** 2
-    total_grad_norm = total_grad_norm ** 0.5
-    state.writer.add_scalar('Training/gradient_norm', total_grad_norm, state.train_step_counter)
-
     optimizer.step()
-
-    # Might be worth doing the standardization here to prevent certain negatives
 
 
 def save_agent():

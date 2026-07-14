@@ -1,5 +1,3 @@
-from xml.parsers.expat import model
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -136,6 +134,17 @@ class RTSAgent(nn.Module):
                 if module.bias is not None:
                     nn.init.constant_(module.bias, 0)
 
+    @staticmethod
+    def _apply_sign_constraints(w, indices, positive=True):
+        """Softplus-constrain selected output indices to a fixed sign."""
+        for idx in indices:
+            if 0 <= idx < w.shape[-1]:
+                seg = F.softplus(w[..., idx:idx+1])
+                if not positive:
+                    seg = -seg
+                w = torch.cat([w[..., :idx], seg, w[..., idx+1:]], dim=-1)
+        return w
+
     def forward(self, x, hidden=None):
         """Forward pass: run encoded state through the LSTM and FC layers to produce action feature weights."""
         lstm_out, new_hidden = self.lstm(x, hidden)
@@ -145,13 +154,10 @@ class RTSAgent(nn.Module):
         action_logits = self.action_head(x)
         move_features = self.move_head(x)
         build_features = self.build_head(x)
-        if config.ENFORCE_DISTANCE_REDUCTION_NONNEG:
-            idx = config.DISTANCE_REDUCTION_INDEX
-            if 0 <= idx < move_features.shape[-1]:
-                before = move_features[..., :idx]
-                constrained = F.softplus(move_features[..., idx:idx+1])
-                after = move_features[..., idx+1:]
-                move_features = torch.cat([before, constrained, after], dim=-1)
+        # A3: enforce known feature-weight signs via softplus (differentiable).
+        move_features = self._apply_sign_constraints(move_features, config.MOVE_NONNEG_INDICES, positive=True)
+        build_features = self._apply_sign_constraints(build_features, config.BUILD_NONNEG_INDICES, positive=True)
+        build_features = self._apply_sign_constraints(build_features, config.BUILD_NONPOS_INDICES, positive=False)
         return action_logits, move_features, build_features, new_hidden
 
     def encode_state_parts(self, agent_unit, friendly_units, enemy_units):

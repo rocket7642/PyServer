@@ -137,7 +137,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		target_cost = compute_mass_spot_score(target_x, target_z, best_spot)
 		# Handle unreachable paths - assign large negative penalty to discourage unreachable moves
 		if np.isinf(current_cost) or np.isinf(target_cost):
-			dist_reduction = -10.0
+			dist_reduction = -1.0
 		else:
 			dist_reduction = float(np.tanh((current_cost - target_cost) / 200.0))  # Squash to [-1, 1] range for stability
 		features.append(dist_reduction)
@@ -221,7 +221,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 			enemy_dist_change = target_enemy_dist - current_enemy_dist
 		else:
 			enemy_dist_change = 0.0
-		features.append(enemy_dist_change / 100.0)  # scale down
+		features.append(max(-1.0, min(1.0, enemy_dist_change / 100.0)))  # scale down, clamped
 	else:
 		features.append(0.0)
 

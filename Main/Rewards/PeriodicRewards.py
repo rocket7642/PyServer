@@ -597,6 +597,7 @@ def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
     components = {
         'build_progress': 0.0,
         'build_completion': 0.0,
+		'build_approach': 0.0,
         'vision_coverage': 0.0,
         'path_danger': 0.0,
         'distance': 0.0,
@@ -616,6 +617,17 @@ def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
         build_progress_reward = progress_delta * config.BUILD_PROGRESS_REWARD_SCALE
         total += build_progress_reward
         components['build_progress'] = build_progress_reward
+
+	# --- A5: approach shaping toward the committed build site ---
+    # Mirrors the move head's distance potential so a build decision starts
+    # paying immediately during transit, not only once construction begins.
+    committed = state.build_committed_target.get(unit_id)
+    if committed is not None and is_constructing == 0:
+        prev_d = ((prev_pos[0] - committed[0]) ** 2 + (prev_pos[1] - committed[1]) ** 2) ** 0.5
+        curr_d = ((curr_pos[0] - committed[0]) ** 2 + (curr_pos[1] - committed[1]) ** 2) ** 0.5
+        approach_reward = map_utils.normalize_distance(prev_d - curr_d) * config.POTENTIAL_DISTANCE_SCALE
+        total += approach_reward
+        components['build_approach'] = approach_reward
 
     # --- Vision coverage reward (sustained, using frozen baseline) ---
     if vision_image is not None:
@@ -691,33 +703,28 @@ def compute_segment_reward(unit_id, success, now):
 
 
 def _train_buffer(buffer, unit_id, segment_reward):
-	"""Run TD training on a list of transitions with a pre-computed segment reward."""
+	"""Train on a segment using discounted Monte-Carlo returns (no bootstrapping)."""
 	per_step_bonus = segment_reward / max(1, len(buffer))
-	for i, transition in enumerate(list(buffer)):
+	transitions = list(buffer)
+
+	# Backward pass: G_t = r_t + gamma * G_{t+1}
+	G = 0.0
+	returns = [0.0] * len(transitions)
+	for i in range(len(transitions) - 1, -1, -1):
+		r = transitions[i]['potential_reward'] + per_step_bonus
+		G = r + 0.95 * G
+		returns[i] = G
+
+	for i, transition in enumerate(transitions):
 		state_full = map_utils.reconstruct_state_with_map(agent_core.agent, transition['state'])
-		next_state_full = map_utils.reconstruct_state_with_map(agent_core.agent, transition['next_state'])
-		total_reward = transition['potential_reward'] + per_step_bonus
-		done = (i == len(buffer) - 1)
-		next_snapshot = buffer[i + 1]['decision_snapshot'] if i + 1 < len(buffer) else None
 		agent_core.train_agent(
 			state_full,
 			transition.get('discrete_action', config.ACTION_MOVE),
 			transition['action'],
-			total_reward,
-			next_state_full,
-			done,
-			transition['unit_x'], transition['unit_z'], transition['unit_y'],
-			transition['next_unit_x'], transition['next_unit_z'], transition['next_unit_y'],
-			transition['target_x'], transition['target_z'],
-			transition.get('mass_destination'),
-			transition.get('action_kind'),
-			unit_id,
+			returns[i],
+			unit_id=unit_id,
 			forced_build=transition.get('forced_build', False),
-			build_committed_target=transition.get('build_committed_target'),
-			build_committed_since_step=transition.get('build_committed_since_step'),
-			build_committed_distance=transition.get('build_committed_distance'),
 			decision_snapshot=transition['decision_snapshot'],
-			next_snapshot=next_snapshot
 		)
 
 
