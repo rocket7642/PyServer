@@ -852,6 +852,133 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 elif not still_valid:
                     state.previous_chosen_targets.pop(unit_id, None)
 
+        
+        if discrete_action == config.ACTION_BUILD:
+            # Always re-evaluate the exact committed build target, regardless of grid sampling,
+            # so continuity/transit-progress features have a guaranteed candidate to attach to.
+            committed_target = state.build_committed_target.get(unit_id)
+
+            if committed_target is not None:
+                since_step = state.build_committed_since_step.get(unit_id, state.step_counter)
+                steps_committed = state.step_counter - since_step
+                cx = map_utils.normalize_x(committed_target[0])
+                cz = map_utils.normalize_z(committed_target[1])
+
+                timed_out = steps_committed > config.BUILD_COMMIT_TIMEOUT_STEPS
+                now_blocked = not map_utils.is_position_buildable(cx, cz, "armrad")
+
+                if timed_out or now_blocked:
+                    state.build_committed_target.pop(unit_id, None)
+                    state.build_committed_since_step.pop(unit_id, None)
+                    state.build_committed_distance.pop(unit_id, None)
+                    print(f"[COMMIT] Unit {unit_id} commitment released ({'timeout' if timed_out else 'blocked'}) after {steps_committed} steps")
+                    state.build_released_step[unit_id] = state.step_counter
+                    committed_target = None
+
+            if committed_target is not None:
+                cx = map_utils.normalize_x(committed_target[0])
+                cz = map_utils.normalize_z(committed_target[1])
+                cx = max(0, min(config.STANDARD_MAP_WIDTH, cx))
+                cz = max(0, min(config.STANDARD_MAP_HEIGHT, cz))
+                candidates.append((cx, cz, 'committed_build'))
+                candidate_meta.append(None)
+
+            n_ray_unbuildable = 0
+            n_ray_covered = 0
+
+            # A4 HARD LOCK: while a valid commitment exists, the committed site is
+            # the only build candidate. Scoring's job is choosing NEW sites only.
+            if committed_target is None:
+                # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
+                # For simplicity, let's consider a small grid around the unit for potential build locations.
+                for dx in np.linspace(-20, 20, num=3):
+                    for dz in np.linspace(-20, 20, num=3):
+                        tx = unit_nx + dx
+                        tz = unit_nz + dz
+                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                        dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
+                            candidates.append((tx, tz, 'build'))
+                            candidate_meta.append(None)
+
+                # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
+                for mass in active_mass:
+                    for dx in np.linspace(-20, 20, num=3):
+                        for dz in np.linspace(-20, 20, num=3):
+                            tx = mass[0] + dx
+                            tz = mass[1] + dz
+                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                            dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                            if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
+                                candidates.append((tx, tz, 'build'))
+                                candidate_meta.append(None)
+
+                # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
+                # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
+                # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
+                # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
+                edge_source = structure_vision_image if structure_vision_image is not None else vision_image
+                h_vis, w_vis = edge_source.shape
+                max_ray_steps = max(h_vis, w_vis)
+                num_rays = 24
+                angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
+                
+
+                for angle in angles:
+                    # Generate all steps along this ray at once
+                    max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
+                    steps = np.arange(2, int(min(max_ray_steps, max_commit_range)))
+                    txs = (unit_nx + steps * np.cos(angle)).astype(int)
+                    tzs = (unit_nz + steps * np.sin(angle)).astype(int)
+
+                    # Clip and find valid (in-bounds) indices
+                    in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
+                    if not np.any(in_bounds):
+                        continue
+
+                    txs_valid = txs[in_bounds]
+                    tzs_valid = tzs[in_bounds]
+
+                    # Sample the vision image along the ray
+                    ray_values = edge_source[tzs_valid, txs_valid]
+
+                    # Find the first position that is NOT radar-covered (< 0.4 threshold)
+                    unknown_mask = ray_values < 0.4
+                    if not np.any(unknown_mask):
+                        continue
+
+                    first_unknown = np.argmax(unknown_mask)
+                    # tx = float(txs_valid[first_unknown])
+                    # tz = float(tzs_valid[first_unknown])
+                    land_idx = max(0, first_unknown - 3)          # last known cells, not the unknown one
+                    for probe in range(land_idx, max(-1, land_idx - 3), -1):
+                        tx, tz = float(txs_valid[probe]), float(tzs_valid[probe])
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and not map_utils.covered_by_existing_radar(tx, tz):
+                            candidates.append((tx, tz, 'vision_edge_build'))
+                            candidate_meta.append(None)
+                            break
+                        else:
+                            if map_utils.covered_by_existing_radar(tx, tz):
+                                n_ray_covered += 1
+                            if not map_utils.is_position_buildable(tx, tz, "armrad"):
+                                n_ray_unbuildable += 1
+
+            n_edge = sum(1 for _c in candidates if _c[2] == 'vision_edge_build')
+            n_grid = sum(1 for _c in candidates if _c[2] == 'build')
+            if n_edge == 0:
+                print(f"Unit {unit_id}: edge rays rejected — unbuildable={n_ray_unbuildable}, covered={n_ray_covered}")
+            state.writer.add_scalar('Action_Selection/vision_edge_candidates', float(n_edge), state.step_counter)
+            state.writer.add_scalar('Action_Selection/build_grid_candidates', float(n_grid), state.step_counter)
+
+        # If BUILD was chosen but no valid site exists anywhere, the action is dead:
+        # degrade to MOVE this step so the unit does something useful instead of idling.
+        if discrete_action == config.ACTION_BUILD and not candidates:
+            print(f"Unit {unit_id}: no valid build sites this step; degrading to MOVE")
+            discrete_action = config.ACTION_MOVE
+            head_was_free = False  # the head chose BUILD; the environment overrode it
+
         if discrete_action == config.ACTION_MOVE:
 
             # Swapped from 10 candidates in both directions to 3 x 3 at 200 x 200
@@ -1003,113 +1130,6 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
             state.writer.add_scalar('Action_Selection/adaptive_candidate_count', float(len(adaptive_generated)), state.step_counter)
 
-        if discrete_action == config.ACTION_BUILD:
-            # Always re-evaluate the exact committed build target, regardless of grid sampling,
-            # so continuity/transit-progress features have a guaranteed candidate to attach to.
-            committed_target = state.build_committed_target.get(unit_id)
-
-            if committed_target is not None:
-                since_step = state.build_committed_since_step.get(unit_id, state.step_counter)
-                steps_committed = state.step_counter - since_step
-                cx = map_utils.normalize_x(committed_target[0])
-                cz = map_utils.normalize_z(committed_target[1])
-
-                timed_out = steps_committed > config.BUILD_COMMIT_TIMEOUT_STEPS
-                now_blocked = not map_utils.is_position_buildable(cx, cz, "armrad")
-
-                if timed_out or now_blocked:
-                    state.build_committed_target.pop(unit_id, None)
-                    state.build_committed_since_step.pop(unit_id, None)
-                    state.build_committed_distance.pop(unit_id, None)
-                    print(f"[COMMIT] Unit {unit_id} commitment released ({'timeout' if timed_out else 'blocked'}) after {steps_committed} steps")
-                    state.build_released_step[unit_id] = state.step_counter
-                    committed_target = None
-
-            if committed_target is not None:
-                cx = map_utils.normalize_x(committed_target[0])
-                cz = map_utils.normalize_z(committed_target[1])
-                cx = max(0, min(config.STANDARD_MAP_WIDTH, cx))
-                cz = max(0, min(config.STANDARD_MAP_HEIGHT, cz))
-                candidates.append((cx, cz, 'committed_build'))
-                candidate_meta.append(None)
-
-            # A4 HARD LOCK: while a valid commitment exists, the committed site is
-            # the only build candidate. Scoring's job is choosing NEW sites only.
-            if committed_target is None:
-                # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
-                # For simplicity, let's consider a small grid around the unit for potential build locations.
-                for dx in np.linspace(-20, 20, num=3):
-                    for dz in np.linspace(-20, 20, num=3):
-                        tx = unit_nx + dx
-                        tz = unit_nz + dz
-                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                        dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
-                            candidates.append((tx, tz, 'build'))
-                            candidate_meta.append(None)
-
-                # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
-                for mass in active_mass:
-                    for dx in np.linspace(-20, 20, num=3):
-                        for dz in np.linspace(-20, 20, num=3):
-                            tx = mass[0] + dx
-                            tz = mass[1] + dz
-                            tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                            tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                            dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                            if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
-                                candidates.append((tx, tz, 'build'))
-                                candidate_meta.append(None)
-
-                # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
-                # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
-                # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
-                # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
-                edge_source = structure_vision_image if structure_vision_image is not None else vision_image
-                h_vis, w_vis = edge_source.shape
-                max_ray_steps = max(h_vis, w_vis)
-                num_rays = 24
-                angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
-
-                for angle in angles:
-                    # Generate all steps along this ray at once
-                    max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
-                    steps = np.arange(2, int(min(max_ray_steps, max_commit_range)))
-                    txs = (unit_nx + steps * np.cos(angle)).astype(int)
-                    tzs = (unit_nz + steps * np.sin(angle)).astype(int)
-
-                    # Clip and find valid (in-bounds) indices
-                    in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
-                    if not np.any(in_bounds):
-                        continue
-
-                    txs_valid = txs[in_bounds]
-                    tzs_valid = tzs[in_bounds]
-
-                    # Sample the vision image along the ray
-                    ray_values = edge_source[tzs_valid, txs_valid]
-
-                    # Find the first position that is NOT radar-covered (< 0.4 threshold)
-                    unknown_mask = ray_values < 0.4
-                    if not np.any(unknown_mask):
-                        continue
-
-                    first_unknown = np.argmax(unknown_mask)
-                    # tx = float(txs_valid[first_unknown])
-                    # tz = float(tzs_valid[first_unknown])
-                    land_idx = max(0, first_unknown - 3)          # last known cells, not the unknown one
-                    for probe in range(land_idx, max(-1, land_idx - 3), -1):
-                        tx, tz = float(txs_valid[probe]), float(tzs_valid[probe])
-                        if map_utils.is_position_buildable(tx, tz, "armrad") and not map_utils.covered_by_existing_radar(tx, tz):
-                            candidates.append((tx, tz, 'vision_edge_build'))
-                            candidate_meta.append(None)
-                            break
-
-            n_edge = sum(1 for _c in candidates if _c[2] == 'vision_edge_build')
-            n_grid = sum(1 for _c in candidates if _c[2] == 'build')
-            state.writer.add_scalar('Action_Selection/vision_edge_candidates', float(n_edge), state.step_counter)
-            state.writer.add_scalar('Action_Selection/build_grid_candidates', float(n_grid), state.step_counter)
 
         action_scores = []
         best_score = -float('inf')

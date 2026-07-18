@@ -277,13 +277,6 @@ def receive_messages(conn, addr):
 							else:
 								e_unit['cloaked'] = False
 
-						# Determine if the unit has reached the build site or has timed out trying to reach the build site
-						if state.build_committed_since_step.get(unit['id'], None) is not None:
-							if unit['is_constructing'] == 1 or (state.step_counter - state.build_committed_since_step[unit['id']] > config.BUILD_COMMIT_TIMEOUT_STEPS):
-								print(f"Unit {unit['id']} has started constructing. Clearing build commitment.")
-								state.build_committed_target.pop(unit['id'], None)
-								state.build_committed_since_step.pop(unit['id'], None)
-								state.build_committed_distance.pop(unit['id'], None)
 
 						if prev_state is not None and prev_action is not None:
 							unvisited_mass = [
