@@ -15,7 +15,7 @@ $recentRunError = "recentRunError.txt"
 
 # $PyGUIWindowTitle = "Socket Reader" 
 
-$engineDir = "F:\BAR Beyond All Reason\Beyond-All-Reason\data\engine\recoil_2025.06.24"
+$engineDir = "F:\BAR Beyond All Reason\Beyond-All-Reason\data\engine\recoil_2026.06.11"
 $dataDir   = "F:\BAR Beyond All Reason\Beyond-All-Reason\data"
 $exePath   = $engineDir + "\spring-headless.exe"
 $scriptArg = $engineDir + "\_scriptL.txt"  
@@ -27,7 +27,7 @@ $scriptArg = $engineDir + "\_scriptL.txt"
 $scriptArgEval = "\_scriptShowcase.txt"
 $scriptArgTraining = "\_scriptTraining.txt"
 
-$totalRunTimeHours = 3                       # How long the script should loop
+$totalRunTimeHours = 1                       # How long the script should loop
 
 # --- Script Logic ---
 $endTime = (Get-Date).AddHours($totalRunTimeHours)

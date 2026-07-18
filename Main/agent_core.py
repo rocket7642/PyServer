@@ -840,7 +840,13 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         if (map_utils.normalize_x(u.get('x')) < prev_candidate[0] + 1 and map_utils.normalize_x(u.get('x')) > prev_candidate[0] - 1) and (map_utils.normalize_z(u.get('z')) < prev_candidate[1] + 1 and map_utils.normalize_z(u.get('z')) > prev_candidate[1] - 1) and u.get("is_constructing") == 0:
                             still_valid = False
                             break
-                if (discrete_action == config.ACTION_BUILD) == is_build_kind and still_valid:
+                committed_now = state.build_committed_target.get(unit_id)
+                duplicates_commit = (
+                    is_build_kind and committed_now is not None
+                    and abs(prev_candidate[0] - map_utils.normalize_x(committed_now[0])) < 2
+                    and abs(prev_candidate[1] - map_utils.normalize_z(committed_now[1])) < 2
+                )
+                if (discrete_action == config.ACTION_BUILD) == is_build_kind and still_valid and not duplicates_commit:
                     candidates.append(prev_candidate)
                     candidate_meta.append({'kind': 'previous'})
                 elif not still_valid:

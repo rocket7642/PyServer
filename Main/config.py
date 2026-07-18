@@ -1,6 +1,6 @@
 HOST = "127.0.0.1"
 PORT = 25000
-BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
+BAR_DIRECTORY = 'F:/BAR Beyond All Reason/New BAR/Beyond-All-Reason/data'
 
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?

@@ -164,6 +164,23 @@ def receive_messages(conn, addr):
 								print(f"[WARNING] Malformed RESOURCES line: '{line}'")
 						else:
 							print(f"[WARNING] Malformed RESOURCES line: '{line}'")
+			finished_units = []
+			if "FINISHED" in message:
+				in_finished = False
+				for line in message.strip().split('\n'):
+					if line.startswith("FINISHED"):
+						in_finished = True
+						continue
+					if in_finished:
+						if line.startswith("END"):
+							break
+						parts = line.split(' ')
+						if len(parts) >= 2:
+							try:
+								finished_units.append((int(parts[0]), parts[1]))
+								print(f"[FINISHED] Structure {parts[1]} (id {parts[0]}) completed")
+							except ValueError:
+								print(f"[WARNING] Malformed FINISHED line: '{line}'")
 			# Merge radar into known enemy units, ensuring no duplicates (radar may have some units not currently visible in known due to fog of war, but if a unit is in both, we want to avoid duplicates)
 			# Need to keep in mind, enemies can enter radar without being identified, this requires us to generalize what they are until confirmed.
 			for unit in state.eRUnits:
@@ -334,7 +351,9 @@ def receive_messages(conn, addr):
 							prev_progress = state.previous_build_progress.get(unit['id'], 0.0)
 							current_progress = unit['active_build_progress']
 
-							if prev_progress > 0.7 and current_progress < 0.1 and unit["is_constructing"] == 0:
+							structure_finished = any(uid != unit['id'] for uid, name in finished_units)
+							heuristic_finished = prev_progress > 0.7 and current_progress < 0.1 and unit["is_constructing"] == 0
+							if structure_finished or heuristic_finished:
 								# This indicates either a build finish, a cancel near completion (I will assume for the sake of the integration that it is a finish however)
 								state.segment_stats[unit['id']]['buildings_built'] += 1
 								print(f"Unit {unit['id']} likely completed a building. Total buildings built in this segment: {state.segment_stats[unit['id']]['buildings_built']}")
@@ -547,7 +566,11 @@ def receive_messages(conn, addr):
 					if discrete_action == config.ACTION_BUILD and action_command is not None:
 						state.last_build_step[unit['id']] = state.step_counter
 						existing_commit = state.build_committed_target.get(unit['id'])
-						if existing_commit is None or best_candidate_kind != 'committed_build':
+						same_target = (
+							existing_commit is not None
+							and ((existing_commit[0] - best_target_world[0]) ** 2 + (existing_commit[1] - best_target_world[1]) ** 2) ** 0.5 <= config.COMMAND_DISTANCE_EPS
+						)
+						if existing_commit is None or (best_candidate_kind != 'committed_build' and not same_target):
 							# New commitment, or a deliberate switch that cleared the margin
 							state.build_committed_target[unit['id']] = best_target_world
 							state.build_committed_since_step[unit['id']] = state.step_counter
