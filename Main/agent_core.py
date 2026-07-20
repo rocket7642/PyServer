@@ -818,6 +818,19 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         )
 
         mass_destination = select_mass_destination(unit_id, unit_nx, unit_nz, available_mass)
+        # OBJECTIVE PRIORITY: an unvisited mass destination within final-approach range
+        # takes precedence over starting a new build. Doesn't interrupt existing
+        # commitments or active construction.
+        if (discrete_action == config.ACTION_BUILD
+                and mass_destination is not None
+                and state.build_committed_target.get(unit_id) is None):
+            approach_norm = map_utils.normalize_distance(config.MASS_FINAL_APPROACH_RADIUS)
+            dest_dist = ((mass_destination[0] - unit_nx) ** 2 + (mass_destination[1] - unit_nz) ** 2) ** 0.5
+            unit_constructing = any(u.get('id') == unit_id and u.get('is_constructing', 0) == 1 for u in state.units)
+            if dest_dist <= approach_norm and not unit_constructing:
+                print(f"Unit {unit_id}: unvisited mass within approach range ({dest_dist:.1f}); prioritizing capture over build")
+                discrete_action = config.ACTION_MOVE
+                head_was_free = False
         active_mass = [mass_destination] if mass_destination is not None else available_mass
 
         candidates = []
@@ -867,11 +880,24 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 timed_out = steps_committed > config.BUILD_COMMIT_TIMEOUT_STEPS
                 now_blocked = not map_utils.is_position_buildable(cx, cz, "armrad")
 
-                if timed_out or now_blocked:
+                # DANGER RELEASE: abandon a transit (not an active construction) when an
+                # enemy can plausibly engage — the move head's escape logic takes over.
+                in_danger = False
+                unit_constructing = any(u.get('id') == unit_id and u.get('is_constructing', 0) == 1 for u in state.units)
+                if not unit_constructing:
+                    for eu in all_enemies:
+                        e_range = map_utils.normalize_range(float(eu.get('range', 0) or config.DEFAULT_ENEMY_RANGE))
+                        e_dist = ((map_utils.normalize_x(eu['x']) - unit_nx) ** 2 + (map_utils.normalize_z(eu['z']) - unit_nz) ** 2) ** 0.5
+                        if e_dist < e_range * 1.5:
+                            in_danger = True
+                            break
+
+                if timed_out or now_blocked or in_danger:
                     state.build_committed_target.pop(unit_id, None)
                     state.build_committed_since_step.pop(unit_id, None)
                     state.build_committed_distance.pop(unit_id, None)
-                    print(f"[COMMIT] Unit {unit_id} commitment released ({'timeout' if timed_out else 'blocked'}) after {steps_committed} steps")
+                    reason = 'timeout' if timed_out else ('blocked' if now_blocked else 'danger')
+                    print(f"[COMMIT] Unit {unit_id} commitment released ({reason}) after {steps_committed} steps")
                     state.build_released_step[unit_id] = state.step_counter
                     committed_target = None
 
@@ -885,6 +911,9 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
             n_ray_unbuildable = 0
             n_ray_covered = 0
+            n_ray_no_unknown = 0
+            n_ray_oob = 0
+            ray_gen_ran = False
 
             # A4 HARD LOCK: while a valid commitment exists, the committed site is
             # the only build candidate. Scoring's job is choosing NEW sites only.
@@ -903,7 +932,14 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             candidate_meta.append(None)
 
                 # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
+                # Cap commit distance: only spawn build candidates near mass spots the
+                # unit could actually reach within the commit timeout. Distant mass areas
+                # get built at when the unit travels there for capture.
+                max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
                 for mass in active_mass:
+                    mass_dist = ((mass[0] - unit_nx) ** 2 + (mass[1] - unit_nz) ** 2) ** 0.5
+                    if mass_dist > max_commit_range:
+                        continue
                     for dx in np.linspace(-20, 20, num=3):
                         for dz in np.linspace(-20, 20, num=3):
                             tx = mass[0] + dx
@@ -925,10 +961,10 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 num_rays = 24
                 angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
                 
-
+                ray_gen_ran = True
                 for angle in angles:
                     # Generate all steps along this ray at once
-                    max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
+                    # max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
                     steps = np.arange(2, int(min(max_ray_steps, max_commit_range)))
                     txs = (unit_nx + steps * np.cos(angle)).astype(int)
                     tzs = (unit_nz + steps * np.sin(angle)).astype(int)
@@ -936,6 +972,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     # Clip and find valid (in-bounds) indices
                     in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
                     if not np.any(in_bounds):
+                        n_ray_oob += 1
                         continue
 
                     txs_valid = txs[in_bounds]
@@ -947,6 +984,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     # Find the first position that is NOT radar-covered (< 0.4 threshold)
                     unknown_mask = ray_values < 0.4
                     if not np.any(unknown_mask):
+                        n_ray_no_unknown += 1
                         continue
 
                     first_unknown = np.argmax(unknown_mask)
@@ -967,8 +1005,8 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
             n_edge = sum(1 for _c in candidates if _c[2] == 'vision_edge_build')
             n_grid = sum(1 for _c in candidates if _c[2] == 'build')
-            if n_edge == 0:
-                print(f"Unit {unit_id}: edge rays rejected — unbuildable={n_ray_unbuildable}, covered={n_ray_covered}")
+            if ray_gen_ran and n_edge == 0:
+                print(f"Unit {unit_id}: edge rays produced 0 — no_unknown={n_ray_no_unknown}, oob={n_ray_oob}, unbuildable={n_ray_unbuildable}, covered={n_ray_covered}")
             state.writer.add_scalar('Action_Selection/vision_edge_candidates', float(n_edge), state.step_counter)
             state.writer.add_scalar('Action_Selection/build_grid_candidates', float(n_grid), state.step_counter)
 

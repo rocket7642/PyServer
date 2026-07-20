@@ -67,6 +67,28 @@
       "exported_at": "2026-07-18T07:43:57.978818"
     },
     {
+      "file": "agent_match_20260719_083108_score_597p00.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 597.0029150798222,
+      "success": false,
+      "reason": "disconnect/death |> Survival time 3.00s below threshold 7s",
+      "samples": 470,
+      "segments": 5,
+      "exported_at": "2026-07-19T08:31:08.639365"
+    },
+    {
+      "file": "agent_match_20260719_073931_score_545p04.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 545.0367775644193,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1670,
+      "segments": 8,
+      "exported_at": "2026-07-19T07:39:31.424544"
+    },
+    {
       "file": "agent_match_20260701_164117_score_523p67.json",
       "map_name": "Survival 2.0",
       "map_slug": "survival_2_0",
@@ -76,6 +98,39 @@
       "samples": 1138,
       "segments": 7,
       "exported_at": "2026-07-01T16:41:17.818970"
+    },
+    {
+      "file": "agent_match_20260719_093821_score_517p76.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 517.7559051513672,
+      "success": false,
+      "reason": "disconnect/death |> Survival time 4.00s below threshold 7s",
+      "samples": 579,
+      "segments": 5,
+      "exported_at": "2026-07-19T09:38:21.760835"
+    },
+    {
+      "file": "agent_match_20260719_064645_score_514p98.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 514.9761914547013,
+      "success": false,
+      "reason": "disconnect/death |> Survival time 4.00s below threshold 7s",
+      "samples": 703,
+      "segments": 4,
+      "exported_at": "2026-07-19T06:46:45.837029"
+    },
+    {
+      "file": "agent_match_20260719_061736_score_499p18.json",
+      "map_name": "Survival 2.0",
+      "map_slug": "survival_2_0",
+      "match_score": 499.18042820238077,
+      "success": false,
+      "reason": "disconnect/death |> Survival time 3.00s below threshold 7s",
+      "samples": 662,
+      "segments": 4,
+      "exported_at": "2026-07-19T06:17:36.916330"
     },
     {
       "file": "agent_match_20260608_201359_score_394p90.json",
@@ -100,70 +155,15 @@
       "exported_at": "2026-07-18T04:13:16.791012"
     },
     {
-      "file": "agent_match_20260706_182607_score_277p33.json",
+      "file": "agent_match_20260719_101939_score_305p55.json",
       "map_name": "Survival 2.0",
       "map_slug": "survival_2_0",
-      "match_score": 277.3333490034911,
+      "match_score": 305.55178682417085,
       "success": true,
-      "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 1584,
-      "segments": 7,
-      "exported_at": "2026-07-06T18:26:07.842624"
-    },
-    {
-      "file": "agent_match_20260610_132405_score_222p84.json",
-      "map_name": "Survival 2.0",
-      "map_slug": "survival_2_0",
-      "match_score": 222.84118617129138,
-      "success": true,
-      "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 1465,
-      "segments": 7,
-      "exported_at": "2026-06-10T13:24:05.726483"
-    },
-    {
-      "file": "agent_match_20260612_104830_score_212p05.json",
-      "map_name": "Survival 2.0",
-      "map_slug": "survival_2_0",
-      "match_score": 212.04972310358113,
-      "success": true,
-      "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 1779,
-      "segments": 8,
-      "exported_at": "2026-06-12T10:48:30.806440"
-    },
-    {
-      "file": "agent_match_20260616_171455_score_199p78.json",
-      "map_name": "Survival 2.0",
-      "map_slug": "survival_2_0",
-      "match_score": 199.78075668811798,
-      "success": true,
-      "reason": "game_ended |> Survival time 0.00s below threshold 7s",
-      "samples": 3,
-      "segments": 1,
-      "exported_at": "2026-06-16T17:14:55.476569"
-    },
-    {
-      "file": "agent_match_20260616_165704_score_199p14.json",
-      "map_name": "Survival 2.0",
-      "map_slug": "survival_2_0",
-      "match_score": 199.14395503997804,
-      "success": true,
-      "reason": "game_ended |> Survival time 1.00s below threshold 7s",
-      "samples": 2,
-      "segments": 1,
-      "exported_at": "2026-06-16T16:57:04.074006"
-    },
-    {
-      "file": "agent_match_20260718_083450_score_198p52.json",
-      "map_name": "Survival 2.0",
-      "map_slug": "survival_2_0",
-      "match_score": 198.52205276489258,
-      "success": true,
-      "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 1679,
-      "segments": 7,
-      "exported_at": "2026-07-18T08:34:50.844241"
+      "reason": "Survived for 7.00 minutes (threshold 7s)",
+      "samples": 966,
+      "segments": 5,
+      "exported_at": "2026-07-19T10:19:39.114904"
     }
   ]
 }

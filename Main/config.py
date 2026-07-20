@@ -51,7 +51,7 @@ PATH_DANGER_PENALTY_SCALE = 10.0
 PATH_DANGER_MIN_HIT_PENALTY = 2.0
 
 # Enemy avoidance settings
-ENEMY_PROXIMITY_THRESHOLD = 400.0  # normalized distance within which enemy avoidance kicks in
+ENEMY_PROXIMITY_THRESHOLD = 75.0  # normalized ≈ 600 world ≈ 2x typical weapon range
 ENEMY_AVOIDANCE_REWARD_SCALE = 0.15  # reward scale for increasing distance from enemies
 ENEMY_RANGE_FALLOFF_BUFFER = 1.3  # multiplier on enemy weapon range for gradient falloff
 ESCAPE_CANDIDATE_COUNT = 3  # number of escape direction candidates to generate
@@ -230,7 +230,7 @@ DISCRETE_EPSILON_DECAY = 0.995 # decay per step
 FORCE_BUILD_EVERY_N_STEPS = 50  # force ACTION_BUILD every N steps per unit
 
 # BUILD COMMITMENT SETTINGS
-BUILD_COMMIT_TIMEOUT_STEPS = 60
+BUILD_COMMIT_TIMEOUT_STEPS = 15
 BUILD_TRANSIT_STALL_PENALTY = -0.5
 # FORCED_BUILD_EXPLORE_WEIGHT = 0.1
 BUILD_RESEND_COOLDOWN_STEPS = 5
