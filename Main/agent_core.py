@@ -329,8 +329,7 @@ def _filter_mass_spots_by_threat(
         if spot not in unvisited_set:
             blocked_until_by_spot.pop(spot, None)
 
-    allowed_spots = []
-    blocked_count = 0
+    scored_spots = []  # (spot, risk_score, currently_blocked_after_update)
 
     for spot in unvisited_mass:
         risk_score = _compute_direct_approach_penalty(
@@ -352,19 +351,27 @@ def _filter_mass_spots_by_threat(
         if currently_blocked:
             if risk_score <= config.MASS_SPOT_UNBLOCK_RISK_THRESHOLD:
                 blocked_until_by_spot.pop(spot, None)
-                allowed_spots.append(spot)
-            else:
-                blocked_count += 1
+                currently_blocked = False
         else:
             if risk_score >= config.MASS_SPOT_BLOCK_RISK_THRESHOLD:
                 blocked_until_by_spot[spot] = state.step_counter + config.MASS_SPOT_BLOCK_COOLDOWN_STEPS
-                blocked_count += 1
-            else:
-                allowed_spots.append(spot)
+                currently_blocked = True
+
+        scored_spots.append((spot, risk_score, currently_blocked))
+
+    # Prefer spots not currently blocked; if all are blocked, fall back to ranking
+    # every spot by risk so a destination always exists (NC2 "lesser threat" behavior).
+    allowed_spots = [s for s, _, blocked in scored_spots if not blocked]
+    blocked_count = sum(1 for _, _, blocked in scored_spots if blocked)
+
+    if not allowed_spots:
+        scored_spots.sort(key=lambda item: item[1])  # ascending risk
+        allowed_spots = [scored_spots[0][0]]  # pick the lowest-risk spot
+        print(f"[RISK] Unit {unit_id} all spots threatened; ranking by risk, lowest={scored_spots[0][1]:.0f}")
 
     if unvisited_mass:
         blocked_ratio = blocked_count / float(len(unvisited_mass))
-        # state.writer.add_scalar('Mass_Destination/blocked_spots', blocked_count, state.step_counter)
+        state.writer.add_scalar('Mass_Destination/blocked_spots', blocked_count, state.step_counter)
         state.writer.add_scalar('Mass_Destination/blocked_ratio', blocked_ratio, state.step_counter)
 
     return allowed_spots
@@ -684,6 +691,32 @@ def _update_adaptive_template_feedback(
 
     _prune_adaptive_templates(unit_id)
 
+def _site_in_enemy_range(tx, tz, enemies, buffer=1.5):
+    """True if a site sits within any enemy's engagement envelope (with margin)."""
+    for eu in enemies:
+        e_range = map_utils.normalize_range(float(eu.get('range', 0) or config.DEFAULT_ENEMY_RANGE))
+        e_dist = ((map_utils.normalize_x(eu['x']) - tx) ** 2 + (map_utils.normalize_z(eu['z']) - tz) ** 2) ** 0.5
+        if e_dist < e_range * buffer:
+            return True
+    return False
+
+
+def _near_danger_site(unit_id, tx, tz, radius=15.0):
+    """True if the site is near a recently danger-released build site (cooldown)."""
+    sites = state.danger_released_sites.get(unit_id)
+    if not sites:
+        return False
+    sites[:] = [s for s in sites if s[2] > state.step_counter]
+    return any(((sx - tx) ** 2 + (sz - tz) ** 2) ** 0.5 < radius for sx, sz, _ in sites)
+
+
+def _site_is_known(tx, tz):
+    """True if the site is within current vision/radar coverage (B1: build on seen ground)."""
+    vi = state.vision_image
+    if vi is None:
+        return True
+    h, w = vi.shape
+    return float(vi[int(np.clip(tz, 0, h - 1)), int(np.clip(tx, 0, w - 1))]) >= 0.4
 
 def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
     """Run the agent's policy to select the best action and move target for a unit given its encoded state."""
@@ -695,10 +728,15 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         action_logits, move_features, build_features, new_hidden = agent(input_seq, hidden)
         discrete_action = None
         head_was_free = False
+        # RECORDING OVERRIDE: pin the head for scenario capture. Bypasses forced-build,
+        # the commitment lock, epsilon, and argmax; head_was_free stays False so any
+        # accidental training run gives the head no policy credit.
+        if config.FORCE_DISCRETE_ACTION is not None:
+            discrete_action = config.FORCE_DISCRETE_ACTION
 
         steps_since_build = state.step_counter - state.last_build_step.get(unit_id, 0)
         forced_build_this_step = False
-        if not getattr(state, 'evalRun', False) and steps_since_build >= config.FORCE_BUILD_EVERY_N_STEPS:
+        if config.FORCE_DISCRETE_ACTION is None and not getattr(state, 'evalRun', False) and steps_since_build >= config.FORCE_BUILD_EVERY_N_STEPS:
             discrete_action = config.ACTION_BUILD
             forced_build_this_step = True
             # state.last_build_step[unit_id] = state.step_counter
@@ -721,7 +759,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         # discrete_action = config.ACTION_BUILD
         
         # If it was the forced build step, skip choosing a new action to allow the build to go through, otherwise choose action as normal
-        if not discrete_action:
+        if discrete_action is None:
             head_was_free = True
             # Determine the action type (Move vs Build)
             # discrete_action = torch.argmax(action_logits, dim=-1).item()
@@ -821,7 +859,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         # OBJECTIVE PRIORITY: an unvisited mass destination within final-approach range
         # takes precedence over starting a new build. Doesn't interrupt existing
         # commitments or active construction.
-        if (discrete_action == config.ACTION_BUILD
+        if (discrete_action == config.ACTION_BUILD and config.FORCE_DISCRETE_ACTION is None
                 and mass_destination is not None
                 and state.build_committed_target.get(unit_id) is None):
             approach_norm = map_utils.normalize_distance(config.MASS_FINAL_APPROACH_RADIUS)
@@ -883,19 +921,20 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 # DANGER RELEASE: abandon a transit (not an active construction) when an
                 # enemy can plausibly engage — the move head's escape logic takes over.
                 in_danger = False
-                unit_constructing = any(u.get('id') == unit_id and u.get('is_constructing', 0) == 1 for u in state.units)
-                if not unit_constructing:
-                    for eu in all_enemies:
-                        e_range = map_utils.normalize_range(float(eu.get('range', 0) or config.DEFAULT_ENEMY_RANGE))
-                        e_dist = ((map_utils.normalize_x(eu['x']) - unit_nx) ** 2 + (map_utils.normalize_z(eu['z']) - unit_nz) ** 2) ** 0.5
-                        if e_dist < e_range * 1.5:
-                            in_danger = True
-                            break
+                for eu in all_enemies:
+                    e_range = map_utils.normalize_range(float(eu.get('range', 0) or config.DEFAULT_ENEMY_RANGE))
+                    e_dist = ((map_utils.normalize_x(eu['x']) - unit_nx) ** 2 + (map_utils.normalize_z(eu['z']) - unit_nz) ** 2) ** 0.5
+                    if e_dist < e_range * 1.5:
+                        in_danger = True
+                        break
 
                 if timed_out or now_blocked or in_danger:
                     state.build_committed_target.pop(unit_id, None)
                     state.build_committed_since_step.pop(unit_id, None)
                     state.build_committed_distance.pop(unit_id, None)
+                    if in_danger:
+                        state.danger_released_sites.setdefault(unit_id, []).append(
+                            (cx, cz, state.step_counter + config.DANGER_SITE_COOLDOWN_STEPS))
                     reason = 'timeout' if timed_out else ('blocked' if now_blocked else 'danger')
                     print(f"[COMMIT] Unit {unit_id} commitment released ({reason}) after {steps_committed} steps")
                     state.build_released_step[unit_id] = state.step_counter
@@ -927,7 +966,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                         tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                         tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                         dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz) and _site_is_known(tx, tz) and not _site_in_enemy_range(tx, tz, all_enemies) and not _near_danger_site(unit_id, tx, tz):
                             candidates.append((tx, tz, 'build'))
                             candidate_meta.append(None)
 
@@ -947,7 +986,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                             tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
                             dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
-                            if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz):
+                            if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz) and _site_is_known(tx, tz) and not _site_in_enemy_range(tx, tz, all_enemies) and not _near_danger_site(unit_id, tx, tz):
                                 candidates.append((tx, tz, 'build'))
                                 candidate_meta.append(None)
 
@@ -993,7 +1032,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     land_idx = max(0, first_unknown - 3)          # last known cells, not the unknown one
                     for probe in range(land_idx, max(-1, land_idx - 3), -1):
                         tx, tz = float(txs_valid[probe]), float(tzs_valid[probe])
-                        if map_utils.is_position_buildable(tx, tz, "armrad") and not map_utils.covered_by_existing_radar(tx, tz):
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and not _site_in_enemy_range(tx, tz, all_enemies) and not _near_danger_site(unit_id, tx, tz):
                             candidates.append((tx, tz, 'vision_edge_build'))
                             candidate_meta.append(None)
                             break
@@ -1012,7 +1051,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
 
         # If BUILD was chosen but no valid site exists anywhere, the action is dead:
         # degrade to MOVE this step so the unit does something useful instead of idling.
-        if discrete_action == config.ACTION_BUILD and not candidates:
+        if discrete_action == config.ACTION_BUILD and not candidates and config.FORCE_DISCRETE_ACTION != config.ACTION_BUILD:
             print(f"Unit {unit_id}: no valid build sites this step; degrading to MOVE")
             discrete_action = config.ACTION_MOVE
             head_was_free = False  # the head chose BUILD; the environment overrode it
@@ -1183,7 +1222,15 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         build_scores = []
         direct_approach_penalties = []
 
-        
+        state.writer.add_scalar('Action/candidate_count', float(len(candidates)), state.step_counter) # just action as this applies to build and move
+        # Generate a vision image for the candidates locations as well every 20 steps
+        if state.step_counter % 20 == 0 and vision_image is not None:
+            candidate_vision_image = np.zeros_like(vision_image)
+            for tx, tz, kind in candidates:
+                cxi = int(np.clip(tx, 0, vision_image.shape[1] - 1))
+                czi = int(np.clip(tz, 0, vision_image.shape[0] - 1))
+                candidate_vision_image[czi, cxi] = 1.0
+            state.writer.add_image('Action/candidate_position_image', candidate_vision_image, state.step_counter, dataformats='HW')
         
         for idx, (tx, tz, candidate_kind) in enumerate(candidates):
             try:
@@ -1236,6 +1283,19 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                             bias=hazard_bias,
                         )
                         direct_approach_penalties.append(direct_penalty)
+
+                    elif is_noop:
+                        # Standing still is only safe if the current cell is safe. Sample the
+                        # danger surface at the unit's position (0 outside any range, high when
+                        # exposed) so NOOP isn't a free escape from the hazard term.
+                        if enemy_range_image is not None:
+                            h_ri, w_ri = enemy_range_image.shape
+                            cxi = int(np.clip(unit_nx, 0, w_ri - 1))
+                            czi = int(np.clip(unit_nz, 0, h_ri - 1))
+                            cell_danger = float(enemy_range_image[czi, cxi])
+                            # Scale into the same magnitude domain the path penalty produces,
+                            # so NOOP and moving candidates are squashed comparably.
+                            direct_penalty = cell_danger * config.NOOP_DANGER_SCALE
 
                     features = _inject_hazard_prediction_feature(features, direct_penalty)
                     features_tensor = torch.tensor(features, dtype=torch.float32)

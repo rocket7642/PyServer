@@ -483,6 +483,7 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 				# Find DPS of the nearest enemy for threat scaling
 				_, nearest_ex, nearest_ez = prev_enemy_info
 				nearest_dps = 50.0  # default
+				nearest_wtype = 'projectile' # default
 				best_match_dist = float('inf')
 				for eu in all_enemies:
 					eu_nx = map_utils.normalize_x(eu['x'])
@@ -491,8 +492,12 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 					if d < best_match_dist:
 						best_match_dist = d
 						nearest_dps = eu.get('dps', 50.0)
+						nearest_wtype = eu.get('weapon_type', 'projectile')
 				dps_multiplier = 1.0 + unit_defs.normalize_dps(nearest_dps) * config.DPS_THREAT_SCALE
-				enemy_avoidance_reward = dist_change * config.ENEMY_AVOIDANCE_REWARD_SCALE * dps_multiplier
+				# Range-keeping is the correct evasion vs instant-hit weapons; vs travel-time
+				# weapons, lateral dodging should compete, so radial retreat pays less.
+				type_multiplier = 1.0 if nearest_wtype in ('hitscan', 'beam') else 0.4
+				enemy_avoidance_reward = dist_change * config.ENEMY_AVOIDANCE_REWARD_SCALE * dps_multiplier * type_multiplier
 
 	if not unvisited_mass:
 		path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)

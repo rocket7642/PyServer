@@ -151,6 +151,15 @@ def receive_messages(conn, addr):
 				state.eKUnits = parse_units(message, "KNOWN_ENEMY_UNITS")
 			if "RADAR_ENEMY_UNITS" in message:
 				state.eRUnits = parse_units(message, "RADAR_ENEMY_UNITS") # This will need to be integrated into one of the other lists (known likely)
+				# Radar-only contacts carry no identity: assign a cautious prior so the
+				# risk machinery (range image, approach penalty, spot blocking) can see
+				# them. Real stats replace the prior automatically once identified.
+				for ru in state.eRUnits:
+					if not ru.get('range'):
+						ru['range'] = config.DEFAULT_ENEMY_RANGE
+					if not ru.get('dps'):
+						ru['dps'] = 50.0
+					ru.setdefault('weapon_type', 'projectile')
 			if "RESOURCES" in message:
 				lines = message.strip().split('\n')
 				for line in lines:

@@ -56,6 +56,17 @@
       "exported_at": "2026-07-18T07:09:57.946513"
     },
     {
+      "file": "agent_match_20260720_034112_score_m256p11.json",
+      "map_name": "Showcase 2.0",
+      "map_slug": "showcase_2_0",
+      "match_score": -256.1087740898132,
+      "success": true,
+      "reason": "Survived for 10.00 minutes (threshold 7s)",
+      "samples": 1930,
+      "segments": 5,
+      "exported_at": "2026-07-20T03:41:12.351155"
+    },
+    {
       "file": "agent_match_20260701_162228_score_m256p23.json",
       "map_name": "Showcase 2.0",
       "map_slug": "showcase_2_0",
@@ -153,17 +164,6 @@
       "samples": 1313,
       "segments": 5,
       "exported_at": "2026-07-06T18:37:43.342268"
-    },
-    {
-      "file": "agent_match_20260707_035950_score_m256p92.json",
-      "map_name": "Showcase 2.0",
-      "map_slug": "showcase_2_0",
-      "match_score": -256.9192626953125,
-      "success": true,
-      "reason": "Survived for 10.00 minutes (threshold 7s)",
-      "samples": 1915,
-      "segments": 5,
-      "exported_at": "2026-07-07T03:59:50.815518"
     }
   ]
 }

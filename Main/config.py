@@ -2,10 +2,19 @@ HOST = "127.0.0.1"
 PORT = 25000
 BAR_DIRECTORY = 'F:/BAR Beyond All Reason/New BAR/Beyond-All-Reason/data'
 
+# Types of valid actions
+ACTION_MOVE = 0
+ACTION_BUILD = 1
+NUM_DISCRETE_ACTIONS = 2
+
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
 SHOULD_TRAIN = False  # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+
+# RECORDING / SCENARIO OVERRIDE — None for normal operation;
+# ACTION_MOVE (0) or ACTION_BUILD (1) to pin the head for scenario capture.
+FORCE_DISCRETE_ACTION = ACTION_MOVE
 
 # EPISODIC TRAINING SETTINGS 
 EPISODE_TIMEOUT_SECONDS = 120
@@ -62,8 +71,8 @@ MIN_EFFECTIVE_SPEED_NORM = 1.0  # minimum normalized speed to avoid huge time es
 DIRECT_APPROACH_SAMPLE_SPACING = 24.0  # normalized units between path samples for danger-time estimation
 DIRECT_APPROACH_DPS_SECONDS_SCALE = 1  # converts DPS*seconds-in-range into score penalty
 DIRECT_APPROACH_DANGER_WEIGHT_SCALE = 1.5  # amplifies penalty in high-intensity danger zones
-MASS_SPOT_BLOCK_RISK_THRESHOLD = 75.0  # block a mass destination when estimated risk exceeds this value
-MASS_SPOT_UNBLOCK_RISK_THRESHOLD = 30.0  # unblock only after risk drops below this lower threshold
+MASS_SPOT_BLOCK_RISK_THRESHOLD = 500.0  # block a mass destination when estimated risk exceeds this value
+MASS_SPOT_UNBLOCK_RISK_THRESHOLD = 100.0  # unblock only after risk drops below this lower threshold
 MASS_SPOT_BLOCK_COOLDOWN_STEPS = 10  # minimum steps to keep a risky mass spot blocked
 
 # Building Scales
@@ -81,6 +90,8 @@ MAX_AOE_RADIUS = 200.0  # normalization ceiling for AoE radius
 MAX_DPS = 400.0  # normalization ceiling for DPS
 DODGE_LATERAL_BONUS = 0.3  # bonus for perpendicular movement vs projectile enemies
 DPS_THREAT_SCALE = 0.2  # scaling factor for DPS-weighted avoidance rewards
+
+NOOP_DANGER_SCALE = 500
 
 # Segment (mass-spot) rewards
 SEGMENT_BASE_REWARD = 200.0
@@ -113,11 +124,6 @@ NUM_BUILD_FEATURES = 8 # Building
 # 5: blocking_proximity (Don't build if it would collide with an existing unit, provides a negative signal)
 # 6: transit_progress (How far along towards a chosen building site has the unit gotten, to encourage completing building commitments once started)
 # 7: prospective_vision_gain (Fraction of cells within radar radius that are unknown)
-
-# Types of valid actions
-ACTION_MOVE = 0
-ACTION_BUILD = 1
-NUM_DISCRETE_ACTIONS = 2
 
 # Terrain sampling for path-based penalties
 PATH_TERRAIN_WEIGHT = 0.25
@@ -166,7 +172,8 @@ entropy_coeff = 0.15 # Temporary raised from 0.05 while builds are failing
 
 # OUTPUT WEIGHT CONSTRAINTS 
 # OUTPUT WEIGHT SIGN CONSTRAINTS (A3) — enforced via softplus in agent_core.constrain_head_weights
-MOVE_NONNEG_INDICES = [0]           # distance_reduction
+MOVE_NONPOS_INDICES = [1]
+MOVE_NONNEG_INDICES = [0, 7, 8]           # distance_reduction, skirt_alignment, dodge_viability
 BUILD_NONNEG_INDICES = [1, 6, 7]    # is_continuing, transit_progress, prospective_vision_gain
 BUILD_NONPOS_INDICES = [2, 5]       # enemy_proximity, blocking_proximity
 
@@ -235,6 +242,7 @@ BUILD_TRANSIT_STALL_PENALTY = -0.5
 # FORCED_BUILD_EXPLORE_WEIGHT = 0.1
 BUILD_RESEND_COOLDOWN_STEPS = 5
 POST_BUILD_DECISION_WINDOW = 3
+DANGER_SITE_COOLDOWN_STEPS = 30
 
 BUILDING_REWARD_SCALE = 0.8
 BUILD_PROGRESS_REWARD_SCALE = 10.0

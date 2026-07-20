@@ -156,6 +156,7 @@ class RTSAgent(nn.Module):
         build_features = self.build_head(x)
         # A3: enforce known feature-weight signs via softplus (differentiable).
         move_features = self._apply_sign_constraints(move_features, config.MOVE_NONNEG_INDICES, positive=True)
+        move_features = self._apply_sign_constraints(move_features, config.MOVE_NONPOS_INDICES, positive=False)
         build_features = self._apply_sign_constraints(build_features, config.BUILD_NONNEG_INDICES, positive=True)
         build_features = self._apply_sign_constraints(build_features, config.BUILD_NONPOS_INDICES, positive=False)
         return action_logits, move_features, build_features, new_hidden

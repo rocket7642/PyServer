@@ -82,6 +82,7 @@ build_committed_target = {}
 build_committed_since_step = {}
 build_committed_distance = {}
 build_released_step = {}
+danger_released_sites = {}
 
 previous_build_vision_baseline = 0
 
