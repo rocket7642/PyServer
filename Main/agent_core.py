@@ -1032,7 +1032,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                     land_idx = max(0, first_unknown - 3)          # last known cells, not the unknown one
                     for probe in range(land_idx, max(-1, land_idx - 3), -1):
                         tx, tz = float(txs_valid[probe]), float(tzs_valid[probe])
-                        if map_utils.is_position_buildable(tx, tz, "armrad") and not _site_in_enemy_range(tx, tz, all_enemies) and not _near_danger_site(unit_id, tx, tz):
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and not map_utils.covered_by_existing_radar(tx, tz) and not _site_in_enemy_range(tx, tz, all_enemies) and not _near_danger_site(unit_id, tx, tz):
                             candidates.append((tx, tz, 'vision_edge_build'))
                             candidate_meta.append(None)
                             break

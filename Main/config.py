@@ -14,7 +14,7 @@ SHOULD_TRAIN = False  # Set to False to disable training from a match (for testi
 
 # RECORDING / SCENARIO OVERRIDE — None for normal operation;
 # ACTION_MOVE (0) or ACTION_BUILD (1) to pin the head for scenario capture.
-FORCE_DISCRETE_ACTION = ACTION_MOVE
+FORCE_DISCRETE_ACTION = None
 
 # EPISODIC TRAINING SETTINGS 
 EPISODE_TIMEOUT_SECONDS = 120
