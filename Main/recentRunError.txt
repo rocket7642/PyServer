@@ -1,28 +1,792 @@
-2026-05-19 11:15:50,347 - INFO - Eval run selected for run #94; seeded with 1337.
-F:\School\Capstone\Python\PyServer\Main\agent_model.py:96: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
-  if 0 <= idx < feature_weights.shape[-1]:
-2026-05-19 11:15:50,538 - INFO - TensorBoard logging to: runs/feature_based_agent_20260519_111549
-2026-05-19 11:15:50,539 - INFO - Run mode: eval (run #94)
-2026-05-19 11:15:50,539 - INFO - View with: tensorboard --logdir=runs
-2026-05-19 11:15:50,540 - INFO - Server listening on 127.0.0.1:25000...
-2026-05-19 11:16:42,402 - INFO - [NEW CONNECTION] ('127.0.0.1', 59770) connected.
-2026-05-19 11:16:42,541 - INFO - Map dimensions: 8192 x 8192
-2026-05-19 11:16:42,542 - INFO - Map name: Showcase 2.0
-2026-05-19 11:16:42,968 - INFO - Game server running. Press Ctrl+C to stop gracefully.
-2026-05-19 11:16:42,969 - INFO - Monitoring for game completion or termination signal...
+2026-07-20 15:10:19,404 - INFO - Training run selected for run #202.
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:141: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if 0 <= idx < w.shape[-1]:
+2026-07-20 15:10:19,683 - INFO - TensorBoard logging to: runs/feature_based_agent_20260720_151018
+2026-07-20 15:10:19,684 - INFO - Run mode: training (run #202)
+2026-07-20 15:10:19,684 - INFO - View with: tensorboard --logdir=runs
+2026-07-20 15:10:19,686 - INFO - Server listening on 127.0.0.1:25000...
+2026-07-20 15:11:13,785 - INFO - [NEW CONNECTION] ('127.0.0.1', 55552) connected.
+2026-07-20 15:11:13,915 - INFO - Map dimensions: 8192 x 8192
+2026-07-20 15:11:13,916 - INFO - Map name: Survival 2.0
+2026-07-20 15:11:14,610 - INFO - Game server running. Press Ctrl+C to stop gracefully.
+2026-07-20 15:11:14,620 - INFO - Monitoring for game completion or termination signal...
 
-2026-05-19 11:26:16,964 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
-2026-05-19 11:26:16,965 - INFO - 
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 501, in receive_messages
+    action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
+                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 1433, in get_action
+    _update_adaptive_template_feedback(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 679, in _update_adaptive_template_feedback
+    _promote_candidate_template(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 497, in _promote_candidate_template
+    resolved = _resolve_template_anchor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 445, in _resolve_template_anchor
+    anchor_x, anchor_z = mass_destination
+    ^^^^^^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 2)
+2026-07-20 15:20:46,782 - INFO - [SENTINEL] Stop requested via F:\School\Capstone\Python\PyServer\Main\stop.txt
+2026-07-20 15:20:46,783 - INFO - 
 [SHUTDOWN] Closing connections and finalizing...
 Traceback (most recent call last):
-  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 115, in receive_messages
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 611, in receive_messages
+    conn.sendall(action_command.encode('utf-8'))
+OSError: [WinError 10038] An operation was attempted on something that is not a socket
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 137, in receive_messages
     data = conn.recv(1024)
            ^^^^^^^^^^^^^^^
 OSError: [WinError 10038] An operation was attempted on something that is not a socket
-2026-05-19 11:26:17,116 - INFO - Closing connection.
-2026-05-19 11:26:17,136 - INFO - Training disabled; skipping reward finalization and agent save.
-2026-05-19 11:26:17,152 - INFO - Closing TensorBoard writer...
-2026-05-19 11:26:17,160 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260519_111549
-2026-05-19 11:26:17,161 - INFO - View results with: tensorboard --logdir=runs
-2026-05-19 11:26:17,161 - INFO - 
+Exception in thread Thread-2 (receive_messages):
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 137, in receive_messages
+    data = conn.recv(1024)
+           ^^^^^^^^^^^^^^^
+OSError: [WinError 10038] An operation was attempted on something that is not a socket
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\conno\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 1052, in _bootstrap_inner
+    self.run()
+  File "C:\Users\conno\AppData\Local\Programs\Python\Python312\Lib\threading.py", line 989, in run
+    self._target(*self._args, **self._kwargs)
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 740, in receive_messages
+    state.writer.add_image(
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\writer.py", line 634, in add_image
+    image(tag, img_tensor, dataformats=dataformats), global_step, walltime
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\summary.py", line 592, in image
+    tensor = convert_to_HWC(tensor, dataformats)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\utils\tensorboard\_utils.py", line 110, in convert_to_HWC
+    raise AssertionError(f"size of input tensor and input format are different. \
+AssertionError: size of input tensor and input format are different.         tensor shape: (1024, 1024), input_format: HWC
+2026-07-20 15:20:47,326 - INFO - Closing connection.
+2026-07-20 15:20:47,326 - INFO - Finalizing rewards and saving agent... (no terminal result finalized)
+2026-07-20 15:20:53,386 - INFO - Closing TensorBoard writer...
+2026-07-20 15:20:53,387 - INFO - TensorBoard logs saved to: runs/feature_based_agent_20260720_151018
+2026-07-20 15:20:53,387 - INFO - View results with: tensorboard --logdir=runs
+2026-07-20 15:20:53,387 - INFO - 
 [COMPLETE] Server shutdown successfully.

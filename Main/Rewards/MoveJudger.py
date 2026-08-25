@@ -98,7 +98,7 @@ def get_top_mass_spots(unit_x, unit_z, unvisited_mass, limit=4):
 	return ranked[:limit]
 
 
-def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, target_x=None, target_z=None, enemy_range_image=None, enemy_units=None):
+def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, target_x=None, target_z=None, enemy_range_image=None, enemy_units=None, vision_image=None):
 	"""Compute the feature vector for an action (NOOP or MOVE) used to score candidates via dot product with learned weights."""
 	features = []
 
@@ -137,9 +137,9 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		target_cost = compute_mass_spot_score(target_x, target_z, best_spot)
 		# Handle unreachable paths - assign large negative penalty to discourage unreachable moves
 		if np.isinf(current_cost) or np.isinf(target_cost):
-			dist_reduction = -10.0
+			dist_reduction = -1.0
 		else:
-			dist_reduction = (current_cost - target_cost) / 100.0
+			dist_reduction = float(np.tanh((current_cost - target_cost) / 200.0))  # Squash to [-1, 1] range for stability
 		features.append(dist_reduction)
 	else:
 		features.append(0.0)
@@ -164,6 +164,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 		sample_count=config.PATH_SAMPLE_COUNT,
 	)
 	magnitude_feature = -move_magnitude / 100.0 + terrain_path_penalty
+	magnitude_feature = max(-1.0,  min(magnitude_feature, 1.0))  # Cap the penalty to prevent extreme values from dominating
 	features.append(magnitude_feature)
 
 	# Remove terrain penalty for now since heights don't matter, only path up them, which this does not convey
@@ -220,7 +221,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 			enemy_dist_change = target_enemy_dist - current_enemy_dist
 		else:
 			enemy_dist_change = 0.0
-		features.append(enemy_dist_change / 100.0)  # scale down
+		features.append(max(-1.0, min(1.0, enemy_dist_change / 100.0)))  # scale down, clamped
 	else:
 		features.append(0.0)
 
@@ -281,6 +282,7 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 					dodgeable_count += 1
 		if dodgeable_count > 0:
 			dodge_score /= dodgeable_count
+	dodge_score = min(dodge_score, 1.0)  # Cap to prevent extreme values
 	features.append(dodge_score)
 	features.append(0.0)  # hazard_prediction (filled by caller in agent_core)
 

@@ -10,6 +10,10 @@ units = []
 eUnits = []
 eKUnits = []
 eRUnits = []
+fEnergy = 0
+fMass = 0
+# discrete_decision_counter = 0
+
 
 # Map data
 map_heights = None
@@ -29,6 +33,10 @@ map_spots_source = ""
 cached_map_embedding = None
 cached_map_embedding_device = None
 
+# Vision image
+vision_image = None
+previous_vision_scores = [] # Rolling values of vision score for each unit to detect improvements/deteriorations in vision over time, which can be a useful training signal.
+
 # Cost field for mass point pathfinding
 terrain_cost_map = None
 mass_cost_fields = {}
@@ -46,20 +54,39 @@ run_name = f"feature_based_agent_{datetime.datetime.now().strftime('%Y%m%d_%H%M%
 writer = SummaryWriter(f"runs/{run_name}")
 run_started_at = time.time()
 step_counter = 0
+train_step_counter = 0  # x-axis for Training/* scalars; step_counter freezes during end-of-match training
 
 previous_healths = {}
 unit_max_healths = {}
 previous_states = {}
 previous_states_no_map = {}
 previous_actions = {}
+previous_discrete_actions = {} # tracks MOVE = 0, BUILD = 1
 previous_positions = {}
 previous_y_positions = {}
 previous_distances = {}
 previous_targets = {}
 previous_action_scores = {}
 previous_action_kinds = {}
+previous_build_progress = {}
 previous_command_steps = {}
 cancel_command_penalties = {}
+previous_forced_builds = {} # tracks whether a build action was forced due to the FORCE_BUILD_EVERY_N_STEPS rule
+decision_snapshots = {} # Stores the decision snapshot for each unit at the time of action selection, which can be used for training and analysis.
+# head_q_stats = {}
+return_baseline = None   # EMA of Monte-Carlo returns (policy-gradient baseline)
+return_var = 1.0         # EMA variance of returns (advantage normalization)
+return_ema_alpha = 0.01
+
+build_committed_target = {}
+build_committed_since_step = {}
+build_committed_distance = {}
+build_released_step = {}
+danger_released_sites = {}
+
+previous_build_vision_baseline = 0
+
+previous_chosen_targets = {}
 
 lstm_hidden_states = {}
 previous_lstm_hidden_states = {}
@@ -71,6 +98,8 @@ mass_spot_blocked_until = {}
 # Per-unit adaptive candidate templates used to generate context-relative movement variants.
 adaptive_candidate_templates = {}
 adaptive_template_next_id = 1
+
+last_build_step = {}
 
 model_graph_logged = False
 
@@ -99,3 +128,7 @@ unit_defs_loaded = False
 
 # Sentinel Time path for tracking survival time in the training script
 sentinel_time_path = None
+
+move_q_ema = 0.0
+build_q_ema = 0.0
+q_ema_alpha = 0.01

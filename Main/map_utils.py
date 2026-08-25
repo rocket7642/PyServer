@@ -3,6 +3,7 @@ import torch
 from pathlib import Path
 import hashlib
 
+import unit_defs
 import config
 import runtime_state as state
 
@@ -124,10 +125,24 @@ def get_cached_map_embedding(agent, device):
     state.cached_map_embedding_device = device
     return state.cached_map_embedding
 
+def get_vision_embedding(agent, vision_image, device):
+    """Encode the vision image using the agent's vision CNN to produce a fixed-size embedding."""
+    if vision_image is None:
+        return torch.zeros(config.VISION_EMBED_SIZE, dtype=torch.float32, device=device)
+
+    img_array = np.array(vision_image, dtype=np.float32)
+    img_array = np.nan_to_num(img_array, nan=0.0, posinf=0.0, neginf=0.0)
+    img_tensor = torch.tensor(img_array, dtype=torch.float32, device=device).unsqueeze(0).unsqueeze(0)
+    with torch.no_grad():
+        vision_cnn_out = agent.vision_cnn(img_tensor)
+        vision_emb = agent.vision_fc(vision_cnn_out.squeeze(0))
+        vision_emb = torch.nan_to_num(vision_emb, nan=0.0, posinf=0.0, neginf=0.0)
+    return vision_emb
+
 
 def reconstruct_state_with_map(agent, state_no_map):
     """Reinsert the cached map embedding into a state vector that was stored without it."""
-    split_idx = config.SELF_EMBED_SIZE + config.MASS_EMBED_SIZE
+    split_idx = config.SELF_EMBED_SIZE + config.ECO_EMBED_SIZE + config.MASS_EMBED_SIZE 
     device = state_no_map.device
     map_emb = get_cached_map_embedding(agent, device)
     prefix = state_no_map[:split_idx]
@@ -163,6 +178,126 @@ def reward_map_to_rgb(reward_map):
     green = reward
     blue = np.clip(0.25 * (1.0 - np.abs(2.0 * reward - 1.0)), 0.0, 0.25)
     return np.stack([red, green, blue], axis=-1).astype(np.float32)
+
+import math
+
+def generate_vision_image(friendly_units, map_w, map_h, map_heights):
+    """Generate a vision and radar coverage map.
+    Returns a normalized float32 array: 1.0 = spotted by sight, 0.5 = spotted by radar, 0.0 = fog.
+    Calculates simple raycasts to simulate terrain blocking for radar and LOS.
+    """
+    if map_heights is None:
+        return None
+        
+    h, w = map_heights.shape
+    vis_img = np.zeros((h, w), dtype=np.float32)
+    
+    if not friendly_units:
+        return vis_img
+        
+    range_scale = 1.0
+    if map_w > 0 and map_h > 0:
+        scale_x = float(w) / map_w
+        scale_z = float(h) / map_h
+        range_scale = (scale_x + scale_z) / 2.0
+
+    height_range = float(state.map_height_max - state.map_height_min) if np.isfinite(state.map_height_max) else 1.0
+    y_world_per_norm = height_range / max(float(config.STANDARD_MAP_Y), 1e-6)
+    x_world_step = max(((state.map_width/8) / float(config.STANDARD_MAP_WIDTH)) if hasattr(state, 'map_width') and state.map_width > 0 else 1.0, 1e-6)
+    
+    # We will use the config threshold safely 
+    max_block_slope = config.MAX_TRAVERSABLE_SLOPE * 2.0
+    
+    num_rays = 48
+    angles = np.linspace(0, 2 * math.pi, num_rays, endpoint=False)
+    dx_all = np.cos(angles)
+    dz_all = np.sin(angles)
+    
+    for unit in friendly_units:
+        radar_range = unit.get('radar_range', 0)
+        sight_range = unit.get('sight_range', 0)
+        max_range = max(radar_range, sight_range)
+        if max_range <= 0:
+            continue
+            
+        ex = int(normalize_x(unit.get('x', 0)))
+        ez = int(normalize_z(unit.get('z', 0)))
+        if not (0 <= ez < h and 0 <= ex < w):
+            continue
+            
+        unit_h = map_heights[ez, ex]
+        r_pixel = int(max_range * range_scale)
+        if r_pixel <= 0:
+            continue
+            
+        radar_pixel = int(radar_range * range_scale)
+        sight_pixel = int(sight_range * range_scale)
+        
+        vis_img[ez, ex] = max(vis_img[ez, ex], 1.0 if sight_pixel > 0 else 0.5)
+        
+        for dx, dz in zip(dx_all, dz_all):
+            max_slope = -float('inf')
+            for step in range(1, r_pixel + 1):
+                px = int(ex + step * dx)
+                pz = int(ez + step * dz)
+                
+                if not (0 <= px < w and 0 <= pz < h):
+                    break
+                    
+                target_h = map_heights[pz, px]
+                dh_world = (target_h - unit_h) * y_world_per_norm
+                dist_world = step * x_world_step
+                
+                slope = dh_world / dist_world if dist_world > 0 else 0
+                
+                if slope < max_slope and max_slope > max_block_slope:
+                    break
+                    
+                max_slope = max(max_slope, slope)
+                
+                if step <= sight_pixel:
+                    vis_img[pz, px] = max(vis_img[pz, px], 1.0)
+                elif step <= radar_pixel:
+                    vis_img[pz, px] = max(vis_img[pz, px], 0.5)
+
+    return vis_img
+
+def generate_structure_vision_image(friendly_units, map_w, map_h, map_heights):
+    """Vision/radar coverage from immobile units only. This is the *permanent*
+    coverage used for build-value evaluation: the agent unit's own moving vision
+    bubble must not count, or approach shrinks the apparent gain and the target
+    horizon recedes."""
+    structures = [u for u in friendly_units if u.get('speed', 0) == 0]
+    return generate_vision_image(structures, map_w, map_h, map_heights)
+
+def covered_by_existing_radar(tx, tz, coverage_frac=0.5):
+    for u in state.units:
+        if u.get('name') == 'armrad':
+            unx, unz = normalize_x(u['x']), normalize_z(u['z'])
+            r_norm = normalize_range(u.get('radar_range', 0))
+            if ((unx - tx)**2 + (unz - tz)**2) ** 0.5 < coverage_frac * r_norm:
+                return True
+    return False
+
+def is_position_buildable(tx, tz, unit="armrad"):
+    """Check if a position is buildable based on terrain cost map (e.g. not blocked by impassable terrain)."""
+    if state.terrain_cost_map is None:
+        return False
+    unit_size = unit_defs.get_unit_size(unit)
+    tw = unit_size.get("width", 1) * 16.0
+    th = unit_size.get("height", 1) * 16.0
+    map_w = state.map_width
+    map_h = state.map_height
+    if map_w <= 0 or map_h <= 0:
+        return False
+    tw_norm = (tw / map_w) * config.STANDARD_MAP_WIDTH
+    th_norm = (th / map_h) * config.STANDARD_MAP_HEIGHT
+    left = int(max(0, min(config.STANDARD_MAP_WIDTH - 1, tx - tw_norm / 2.0)))
+    right = int(max(0, min(config.STANDARD_MAP_WIDTH - 1, tx + tw_norm / 2.0)))
+    top = int(max(0, min(config.STANDARD_MAP_HEIGHT - 1, tz - th_norm / 2.0)))
+    bottom = int(max(0, min(config.STANDARD_MAP_HEIGHT - 1, tz + th_norm / 2.0)))
+
+    return np.all(np.isfinite(state.terrain_cost_map[top:bottom+1, left:right+1]))
 
 
 def generate_enemy_range_image(enemy_units, map_w, map_h, map_heights_shape, enemy_range=None):

@@ -11,23 +11,23 @@ $runFile = "runMode.txt"
 $recentRun = "recentRun.txt"
 $recentRunError = "recentRunError.txt"
 
-# .\spring-headless.exe --write-dir "F:\BAR Beyond All Reason\Beyond-All-Reason\data" _script.txt
+# .\spring-headless.exe --write-dir "F:\BAR Beyond All Reason\New BAR\Beyond-All-Reason\data" _script.txt
 
-$PyGUIWindowTitle = "Socket Reader" 
+# $PyGUIWindowTitle = "Socket Reader" 
 
-$engineDir = "F:\BAR Beyond All Reason\Beyond-All-Reason\data\engine\recoil_2025.06.19"
-$dataDir   = "F:\BAR Beyond All Reason\Beyond-All-Reason\data"
+$engineDir = "F:\BAR Beyond All Reason\New BAR\Beyond-All-Reason\data\engine\recoil_2026.06.12"
+$dataDir   = "F:\BAR Beyond All Reason\New BAR\Beyond-All-Reason\data"
 $exePath   = $engineDir + "\spring-headless.exe"
 $scriptArg = $engineDir + "\_scriptL.txt"  
 
-$scriptArgM = "\_scriptM.txt"
-$scriptArgP = "\_scriptP.txt"
-$scriptArgL = "\_scriptL.txt" 
-$scriptArgC = "\_scriptC.txt" 
+# $scriptArgM = "\_scriptM.txt"
+# $scriptArgP = "\_scriptP.txt"
+# $scriptArgL = "\_scriptL.txt" 
+# $scriptArgC = "\_scriptC.txt" 
 $scriptArgEval = "\_scriptShowcase.txt"
 $scriptArgTraining = "\_scriptTraining.txt"
 
-$totalRunTimeHours = 7                       # How long the script should loop
+$totalRunTimeHours = 1                       # How long the script should loop
 
 # --- Script Logic ---
 $endTime = (Get-Date).AddHours($totalRunTimeHours)
@@ -45,7 +45,7 @@ do {
 
     # Start the program and keep a reference to it
     Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Starting program..."
-    $process = Start-Process -FilePath $PythonExe -ArgumentList "`"$PythonScript`"" -RedirectStandardOutput $recentRun -RedirectStandardError $recentRunError -PassThru 
+    $process = Start-Process -FilePath $PythonExe -ArgumentList "`"$PythonScript`"" -RedirectStandardOutput $recentRun -RedirectStandardError $recentRunError -PassThru -WindowStyle Minimized
 
     Start-Sleep -Seconds (30) 
 
@@ -66,7 +66,8 @@ do {
     $process2 = Start-Process -FilePath $exePath `
     -ArgumentList "--write-dir", "`"$dataDir`"", "`"$scriptArg`"" `
     -WorkingDirectory $engineDir `
-    -PassThru
+    -PassThru `
+    -WindowStyle Minimized
     
     # Start-Process -FilePath "C:\Path\To\BAR\engine\...\spring.exe" -ArgumentList "C:\Path\To\Script\script.txt" -WindowStyle Hidden
 

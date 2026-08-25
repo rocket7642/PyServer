@@ -1,3 +1,5 @@
+import random
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -8,17 +10,20 @@ import config
 import map_utils
 import runtime_state as state
 from Rewards import MoveJudger
+from Rewards import BuildJudger
 from agent_model import RTSAgent
 
 ENCODER_OUTPUT_SIZE = (
     config.SELF_EMBED_SIZE
+    + config.ECO_EMBED_SIZE
     + config.MASS_EMBED_SIZE
     + config.MAP_EMBED_SIZE
     + config.FRIENDLY_EMBED_SIZE
-    + config.ENEMY_EMBED_SIZE
+    + config.ENEMY_EMBED_SIZE 
+    + config.VISION_EMBED_SIZE
 )
 
-agent = RTSAgent(input_size=ENCODER_OUTPUT_SIZE, num_features=config.NUM_ACTION_FEATURES)
+agent = RTSAgent(input_size=ENCODER_OUTPUT_SIZE)
 # Lowered from 0.001 to 0.0001 for testing
 # Added in weight decay for better generalization and to help prevent overfitting to the training data, which can be especially important given the complexity of the environment and the potential for noisy rewards
 optimizer = optim.Adam(agent.parameters(), lr=0.0001, weight_decay=0.05) 
@@ -324,8 +329,7 @@ def _filter_mass_spots_by_threat(
         if spot not in unvisited_set:
             blocked_until_by_spot.pop(spot, None)
 
-    allowed_spots = []
-    blocked_count = 0
+    scored_spots = []  # (spot, risk_score, currently_blocked_after_update)
 
     for spot in unvisited_mass:
         risk_score = _compute_direct_approach_penalty(
@@ -347,19 +351,27 @@ def _filter_mass_spots_by_threat(
         if currently_blocked:
             if risk_score <= config.MASS_SPOT_UNBLOCK_RISK_THRESHOLD:
                 blocked_until_by_spot.pop(spot, None)
-                allowed_spots.append(spot)
-            else:
-                blocked_count += 1
+                currently_blocked = False
         else:
             if risk_score >= config.MASS_SPOT_BLOCK_RISK_THRESHOLD:
                 blocked_until_by_spot[spot] = state.step_counter + config.MASS_SPOT_BLOCK_COOLDOWN_STEPS
-                blocked_count += 1
-            else:
-                allowed_spots.append(spot)
+                currently_blocked = True
+
+        scored_spots.append((spot, risk_score, currently_blocked))
+
+    # Prefer spots not currently blocked; if all are blocked, fall back to ranking
+    # every spot by risk so a destination always exists (NC2 "lesser threat" behavior).
+    allowed_spots = [s for s, _, blocked in scored_spots if not blocked]
+    blocked_count = sum(1 for _, _, blocked in scored_spots if blocked)
+
+    if not allowed_spots:
+        scored_spots.sort(key=lambda item: item[1])  # ascending risk
+        allowed_spots = [scored_spots[0][0]]  # pick the lowest-risk spot
+        print(f"[RISK] Unit {unit_id} all spots threatened; ranking by risk, lowest={scored_spots[0][1]:.0f}")
 
     if unvisited_mass:
         blocked_ratio = blocked_count / float(len(unvisited_mass))
-        # state.writer.add_scalar('Mass_Destination/blocked_spots', blocked_count, state.step_counter)
+        state.writer.add_scalar('Mass_Destination/blocked_spots', blocked_count, state.step_counter)
         state.writer.add_scalar('Mass_Destination/blocked_ratio', blocked_ratio, state.step_counter)
 
     return allowed_spots
@@ -679,6 +691,32 @@ def _update_adaptive_template_feedback(
 
     _prune_adaptive_templates(unit_id)
 
+def _site_in_enemy_range(tx, tz, enemies, buffer=1.5):
+    """True if a site sits within any enemy's engagement envelope (with margin)."""
+    for eu in enemies:
+        e_range = map_utils.normalize_range(float(eu.get('range', 0) or config.DEFAULT_ENEMY_RANGE))
+        e_dist = ((map_utils.normalize_x(eu['x']) - tx) ** 2 + (map_utils.normalize_z(eu['z']) - tz) ** 2) ** 0.5
+        if e_dist < e_range * buffer:
+            return True
+    return False
+
+
+def _near_danger_site(unit_id, tx, tz, radius=15.0):
+    """True if the site is near a recently danger-released build site (cooldown)."""
+    sites = state.danger_released_sites.get(unit_id)
+    if not sites:
+        return False
+    sites[:] = [s for s in sites if s[2] > state.step_counter]
+    return any(((sx - tx) ** 2 + (sz - tz) ** 2) ** 0.5 < radius for sx, sz, _ in sites)
+
+
+def _site_is_known(tx, tz):
+    """True if the site is within current vision/radar coverage (B1: build on seen ground)."""
+    vi = state.vision_image
+    if vi is None:
+        return True
+    h, w = vi.shape
+    return float(vi[int(np.clip(tz, 0, h - 1)), int(np.clip(tx, 0, w - 1))]) >= 0.4
 
 def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
     """Run the agent's policy to select the best action and move target for a unit given its encoded state."""
@@ -687,15 +725,81 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         state.previous_lstm_hidden_states[unit_id] = (hidden[0].detach(), hidden[1].detach())
 
         input_seq = state_vec.unsqueeze(0).unsqueeze(0)
-        feature_weights, new_hidden = agent(input_seq, hidden)
-        feature_weights = feature_weights.squeeze(0)
+        action_logits, move_features, build_features, new_hidden = agent(input_seq, hidden)
+        discrete_action = None
+        head_was_free = False
+        # RECORDING OVERRIDE: pin the head for scenario capture. Bypasses forced-build,
+        # the commitment lock, epsilon, and argmax; head_was_free stays False so any
+        # accidental training run gives the head no policy credit.
+        if config.FORCE_DISCRETE_ACTION is not None:
+            discrete_action = config.FORCE_DISCRETE_ACTION
+
+        steps_since_build = state.step_counter - state.last_build_step.get(unit_id, 0)
+        forced_build_this_step = False
+        if config.FORCE_DISCRETE_ACTION is None and not getattr(state, 'evalRun', False) and steps_since_build >= config.FORCE_BUILD_EVERY_N_STEPS:
+            discrete_action = config.ACTION_BUILD
+            forced_build_this_step = True
+            # state.last_build_step[unit_id] = state.step_counter
+
+        # BUILD COMMITMENT LOCK: while a build is committed or under construction,
+        # hold the discrete head on BUILD so transits/constructions survive epsilon
+        # and argmax flips. BUILD_COMMIT_TIMEOUT_STEPS (handled below) is the escape hatch.
+        if discrete_action is None:
+            committed = state.build_committed_target.get(unit_id)
+            is_constructing = False
+            for u in state.units:
+                if u.get('id') == unit_id:
+                    is_constructing = (u.get('is_constructing', 0) == 1)
+                    break
+            recently_released = (state.step_counter - state.build_released_step.get(unit_id, -9999)) <= config.POST_BUILD_DECISION_WINDOW
+            if is_constructing or (committed is not None and not recently_released):
+                discrete_action = config.ACTION_BUILD
+
+        # Testing statement, enforce build action
+        # discrete_action = config.ACTION_BUILD
+        
+        # If it was the forced build step, skip choosing a new action to allow the build to go through, otherwise choose action as normal
+        if discrete_action is None:
+            head_was_free = True
+            # Determine the action type (Move vs Build)
+            # discrete_action = torch.argmax(action_logits, dim=-1).item()
+            if not getattr(state, 'evalRun', False):
+                epsilon = max(config.DISCRETE_EPSILON_MIN,
+                            config.DISCRETE_EPSILON_START * (config.DISCRETE_EPSILON_DECAY ** state.step_counter))
+                if random.random() < epsilon:
+                    discrete_action = random.randint(0, config.NUM_DISCRETE_ACTIONS - 1)
+                else:
+                    discrete_action = torch.argmax(action_logits, dim=-1).item()
+
+                state.writer.add_scalar('Action_Selection/epsilon',
+                                epsilon if not getattr(state, 'evalRun', False) else 0.0,
+                                state.step_counter)
+            else:
+                discrete_action = torch.argmax(action_logits, dim=-1).item()
+                
+        # A freely-chosen MOVE overrides any lingering commitment (the head decided).
+        if head_was_free and discrete_action == config.ACTION_MOVE and state.build_committed_target.get(unit_id) is not None:
+            state.build_committed_target.pop(unit_id, None)
+            state.build_committed_since_step.pop(unit_id, None)
+            state.build_committed_distance.pop(unit_id, None)
+            state.build_released_step[unit_id] = state.step_counter
+            print(f"[COMMIT] Unit {unit_id} commitment released by free MOVE choice")
+        
+        # Currently, all logic below is based on movement. We will output the move_features 
+        # and handle the build features if the discrete_action is ACTION_BUILD.
+        feature_weights = move_features.squeeze(0)
+        build_weights = build_features.squeeze(0)
 
         state.lstm_hidden_states[unit_id] = (new_hidden[0].detach(), new_hidden[1].detach())
 
-        print(f"\nFeature weights for unit {unit_id}:")
+        print(f"\nMove feature weights for unit {unit_id}:")
         for name, weight in zip(config.FEATURE_NAMES, feature_weights):
             print(f"  {name}: {weight.item():.4f}")
             state.writer.add_scalar(f"Feature_Weights/{name}", weight.item(), state.step_counter)
+        print(f"\nBuild feature weights for unit {unit_id}:")
+        for name, weight in zip(config.BUILD_FEATURE_NAMES, build_weights):
+            print(f"  {name}: {weight.item():.4f}")
+            state.writer.add_scalar(f"Build_Weights/{name}", weight.item(), state.step_counter)
 
         # # Log hazard_prediction weight separately for easy monitoring
         # if len(feature_weights) > 0:
@@ -711,12 +815,29 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         for u in state.eKUnits:
             if all(u['id'] != eu['id'] for eu in all_enemies):
                 all_enemies.append(u)
+        for u in state.eRUnits:
+            if all(u['id'] != eu['id'] for eu in all_enemies):
+                all_enemies.append(u)
 
         enemy_range_image = map_utils.generate_enemy_range_image(
             all_enemies,
             state.map_width,
             state.map_height,
             state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
+        )
+
+        vision_image = map_utils.generate_vision_image(
+            state.units,
+            state.map_width,
+            state.map_height,
+            state.normalized_map_heights
+        )
+
+        structure_vision_image = map_utils.generate_structure_vision_image(
+            state.units,
+            state.map_width,
+            state.map_height,
+            state.normalized_map_heights
         )
 
         unit_speed_norm = _get_unit_speed_norm(unit_id)
@@ -735,237 +856,480 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
         )
 
         mass_destination = select_mass_destination(unit_id, unit_nx, unit_nz, available_mass)
+        # OBJECTIVE PRIORITY: an unvisited mass destination within final-approach range
+        # takes precedence over starting a new build. Doesn't interrupt existing
+        # commitments or active construction.
+        if (discrete_action == config.ACTION_BUILD and config.FORCE_DISCRETE_ACTION is None
+                and mass_destination is not None
+                and state.build_committed_target.get(unit_id) is None):
+            approach_norm = map_utils.normalize_distance(config.MASS_FINAL_APPROACH_RADIUS)
+            dest_dist = ((mass_destination[0] - unit_nx) ** 2 + (mass_destination[1] - unit_nz) ** 2) ** 0.5
+            unit_constructing = any(u.get('id') == unit_id and u.get('is_constructing', 0) == 1 for u in state.units)
+            if dest_dist <= approach_norm and not unit_constructing:
+                print(f"Unit {unit_id}: unvisited mass within approach range ({dest_dist:.1f}); prioritizing capture over build")
+                discrete_action = config.ACTION_MOVE
+                head_was_free = False
         active_mass = [mass_destination] if mass_destination is not None else available_mass
 
         candidates = []
-        candidate_meta = []
+        candidate_meta = []  
+        move_feature_rows = []
+        build_feature_rows = []
 
-        # Swapped from 10 candidates in both directions to 3 x 3 at 200 x 200
-        for dx in np.linspace(-40, 40, num=3):
-            for dz in np.linspace(-40, 40, num=3):
-                tx = unit_nx + dx
-                tz = unit_nz + dz
-                tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                # Only add reachable candidates
-                if map_utils.is_position_reachable(tx, tz):
-                    candidates.append((tx, tz, 'grid'))
-                    candidate_meta.append(None)
+        # regardless of what the next action is, maintain the previously chosen candidate assuming there is one 
+        if unit_id is not None:
+            prev_candidate = state.previous_chosen_targets.get(unit_id)
+            if prev_candidate is not None:
+                prev_kind = prev_candidate[2] if len(prev_candidate) > 2 else 'previous'
+                is_build_kind = prev_kind in ('build', 'vision_edge_build')
+                still_valid = True
+                if is_build_kind:
+                    # Scan through existing units to see if the build target is still valid (not already built)
+                    for u in state.units:
+                        if u.get('id') == unit_id:
+                            continue
+                        if (map_utils.normalize_x(u.get('x')) < prev_candidate[0] + 1 and map_utils.normalize_x(u.get('x')) > prev_candidate[0] - 1) and (map_utils.normalize_z(u.get('z')) < prev_candidate[1] + 1 and map_utils.normalize_z(u.get('z')) > prev_candidate[1] - 1) and u.get("is_constructing") == 0:
+                            still_valid = False
+                            break
+                committed_now = state.build_committed_target.get(unit_id)
+                duplicates_commit = (
+                    is_build_kind and committed_now is not None
+                    and abs(prev_candidate[0] - map_utils.normalize_x(committed_now[0])) < 2
+                    and abs(prev_candidate[1] - map_utils.normalize_z(committed_now[1])) < 2
+                )
+                if (discrete_action == config.ACTION_BUILD) == is_build_kind and still_valid and not duplicates_commit:
+                    candidates.append(prev_candidate)
+                    candidate_meta.append({'kind': 'previous'})
+                elif not still_valid:
+                    state.previous_chosen_targets.pop(unit_id, None)
 
-        # Current position is always valid
-        candidates.append((unit_nx, unit_nz, 'noop'))
-        candidate_meta.append(None)
+        
+        if discrete_action == config.ACTION_BUILD:
+            # Always re-evaluate the exact committed build target, regardless of grid sampling,
+            # so continuity/transit-progress features have a guaranteed candidate to attach to.
+            committed_target = state.build_committed_target.get(unit_id)
 
-        # Generate escape candidates pointing away from nearby enemies
-        # Also add lateral dodge candidates for projectile/missile enemies
-        escape_dx, escape_dz = map_utils.compute_enemy_escape_direction(unit_nx, unit_nz, all_enemies)
-        if abs(escape_dx) > 1e-6 or abs(escape_dz) > 1e-6:
-            for dist_mult in [0.5, 1.0, 1.5]:
-                esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
-                    import math
-                    base_angle = math.atan2(escape_dz, escape_dx)
-                    angle = base_angle + angle_offset * math.pi
-                    tx = unit_nx + math.cos(angle) * esc_dist
-                    tz = unit_nz + math.sin(angle) * esc_dist
-                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+            if committed_target is not None:
+                since_step = state.build_committed_since_step.get(unit_id, state.step_counter)
+                steps_committed = state.step_counter - since_step
+                cx = map_utils.normalize_x(committed_target[0])
+                cz = map_utils.normalize_z(committed_target[1])
 
-                    # outsideEnemyRange = True
-                    # for enemy in all_enemies:
-                    #     ex = map_utils.normalize_x(enemy['x'])
-                    #     ez = map_utils.normalize_z(enemy['z'])
-                    #     enemy_range = map_utils.normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
-                    #     dist_to_enemy = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
-                    #     if dist_to_enemy <= enemy_range:
-                    #         outsideEnemyRange = False
-                    #         break
+                timed_out = steps_committed > config.BUILD_COMMIT_TIMEOUT_STEPS
+                now_blocked = not map_utils.is_position_buildable(cx, cz, "armrad")
 
-                    # Verify if the canidate is reachable and outside the enemy range before adding
-                    # TEMPORARY CHANGE, no longer has to be outside enemy range, just has to be reachable. The threat of being in range of an enemy is now handled by the hazard prediction feature and the model's learned weighting of it, allowing for more nuanced decisions about when to risk being in range for better positioning or mass gathering.
-                    if map_utils.is_position_reachable(tx, tz): #and outsideEnemyRange:
-                        candidates.append((tx, tz, 'escape'))
-                        candidate_meta.append(None)
+                # DANGER RELEASE: abandon a transit (not an active construction) when an
+                # enemy can plausibly engage — the move head's escape logic takes over.
+                in_danger = False
+                for eu in all_enemies:
+                    e_range = map_utils.normalize_range(float(eu.get('range', 0) or config.DEFAULT_ENEMY_RANGE))
+                    e_dist = ((map_utils.normalize_x(eu['x']) - unit_nx) ** 2 + (map_utils.normalize_z(eu['z']) - unit_nz) ** 2) ** 0.5
+                    if e_dist < e_range * 1.5:
+                        in_danger = True
+                        break
 
-        # Lateral dodge candidates perpendicular to incoming fire from projectile/missile enemies
-        import math
-        for eu in all_enemies:
-            wtype = eu.get('weapon_type', 'projectile')
-            if wtype in ('projectile', 'missile'):
-                eu_nx = map_utils.normalize_x(eu['x'])
-                eu_nz = map_utils.normalize_z(eu['z'])
-                fire_dx = unit_nx - eu_nx
-                fire_dz = unit_nz - eu_nz
-                fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
-                if fire_mag > 1e-6:
-                    # Perpendicular directions (90 degrees to fire line)
-                    perp_dx = -fire_dz / fire_mag
-                    perp_dz = fire_dx / fire_mag
-                    for sign in [1.0, -1.0]:
-                        for dist_mult in [0.5, 1.0]:
-                            d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                            tx = unit_nx + sign * perp_dx * d
-                            tz = unit_nz + sign * perp_dz * d
+                if timed_out or now_blocked or in_danger:
+                    state.build_committed_target.pop(unit_id, None)
+                    state.build_committed_since_step.pop(unit_id, None)
+                    state.build_committed_distance.pop(unit_id, None)
+                    if in_danger:
+                        state.danger_released_sites.setdefault(unit_id, []).append(
+                            (cx, cz, state.step_counter + config.DANGER_SITE_COOLDOWN_STEPS))
+                    reason = 'timeout' if timed_out else ('blocked' if now_blocked else 'danger')
+                    print(f"[COMMIT] Unit {unit_id} commitment released ({reason}) after {steps_committed} steps")
+                    state.build_released_step[unit_id] = state.step_counter
+                    committed_target = None
+
+            if committed_target is not None:
+                cx = map_utils.normalize_x(committed_target[0])
+                cz = map_utils.normalize_z(committed_target[1])
+                cx = max(0, min(config.STANDARD_MAP_WIDTH, cx))
+                cz = max(0, min(config.STANDARD_MAP_HEIGHT, cz))
+                candidates.append((cx, cz, 'committed_build'))
+                candidate_meta.append(None)
+
+            n_ray_unbuildable = 0
+            n_ray_covered = 0
+            n_ray_no_unknown = 0
+            n_ray_oob = 0
+            ray_gen_ran = False
+
+            # A4 HARD LOCK: while a valid commitment exists, the committed site is
+            # the only build candidate. Scoring's job is choosing NEW sites only.
+            if committed_target is None:
+                # For building, we can consider a different set of candidates, such as nearby buildable locations or specific strategic points.
+                # For simplicity, let's consider a small grid around the unit for potential build locations.
+                for dx in np.linspace(-20, 20, num=3):
+                    for dz in np.linspace(-20, 20, num=3):
+                        tx = unit_nx + dx
+                        tz = unit_nz + dz
+                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                        dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz) and _site_is_known(tx, tz) and not _site_in_enemy_range(tx, tz, all_enemies) and not _near_danger_site(unit_id, tx, tz):
+                            candidates.append((tx, tz, 'build'))
+                            candidate_meta.append(None)
+
+                # Also generate a small circle of build candidates around mass points if they are nearby, as building near mass can be a common strategy.
+                # Cap commit distance: only spawn build candidates near mass spots the
+                # unit could actually reach within the commit timeout. Distant mass areas
+                # get built at when the unit travels there for capture.
+                max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
+                for mass in active_mass:
+                    mass_dist = ((mass[0] - unit_nx) ** 2 + (mass[1] - unit_nz) ** 2) ** 0.5
+                    if mass_dist > max_commit_range:
+                        continue
+                    for dx in np.linspace(-20, 20, num=3):
+                        for dz in np.linspace(-20, 20, num=3):
+                            tx = mass[0] + dx
+                            tz = mass[1] + dz
                             tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                             tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-
-                            # further_from_enemy = True
-                            # candidate_enemy_dist = ((tx - eu_nx) ** 2 + (tz - eu_nz) ** 2) ** 0.5
-                            # if candidate_enemy_dist <= fire_mag:
-                            #     further_from_enemy = False
-
-                            # Same as above, no longer requiring the dodge candidate to be further from the enemy, just reachable, since the model can learn to weigh the hazard prediction feature to understand the risk of being in range and make more nuanced decisions.
-                            if map_utils.is_position_reachable(tx, tz): #and further_from_enemy:
-                                candidates.append((tx, tz, 'strafe'))
+                            dist = ((tx - unit_nx) ** 2 + (tz - unit_nz) ** 2) ** 0.5
+                            if map_utils.is_position_buildable(tx, tz, "armrad") and dist >= config.BUILD_CANDIDATE_RADIUS  and not map_utils.covered_by_existing_radar(tx, tz) and _site_is_known(tx, tz) and not _site_in_enemy_range(tx, tz, all_enemies) and not _near_danger_site(unit_id, tx, tz):
+                                candidates.append((tx, tz, 'build'))
                                 candidate_meta.append(None)
 
-        # Short-range scatter candidates for throwing off predictive projectiles.
-        # These stay close to the current position to avoid large path deviations.
-        for enemy in all_enemies:
-            wtype = enemy.get('weapon_type', 'projectile')
-            if wtype in ('projectile', 'missile'):
-                ex = map_utils.normalize_x(enemy['x'])
-                ez = map_utils.normalize_z(enemy['z'])
-                fire_dx = unit_nx - ex
-                fire_dz = unit_nz - ez
-                fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
-                if fire_mag > 1e-6:
-                    perp_dx = -fire_dz / fire_mag
-                    perp_dz = fire_dx / fire_mag
-                    # Prefer tiny lateral jinks plus slight forward/back offsets.
-                    # This creates a compact scatter pattern around the unit.
-                    forward_dx = fire_dx / fire_mag
-                    forward_dz = fire_dz / fire_mag
-                    for lateral_sign in [1.0, -1.0]:
-                        for forward_sign in [0.0, 1.0, -1.0]:
-                            for dist_mult in [0.08, 0.14, 0.2]:
+                # Maybe include some relating to flat terrain but generic flat terrain points might not be too useful
+                # Include at edge of current radar vision as well, as expanding vision can be a key reason to build. (randomly choose like 10)
+                # Gonna need to scan the vision image for this (1 LOS, 0.5 Radar, 0 unknown), look for points that are currently unknown but adjacent to known, as those are the ones that building could reveal. Could also weight them by how many unknown cells they would reveal in the vision image.
+                # Go out in 24 directions around the unit until you hit a tile that is listed as unknown in the vision image, then add that as a candidate
+                edge_source = structure_vision_image if structure_vision_image is not None else vision_image
+                h_vis, w_vis = edge_source.shape
+                max_ray_steps = max(h_vis, w_vis)
+                num_rays = 24
+                angles = np.linspace(0, 2 * np.pi, num_rays, endpoint=False)
+                
+                ray_gen_ran = True
+                for angle in angles:
+                    # Generate all steps along this ray at once
+                    # max_commit_range = max(40.0, unit_speed_norm * config.BUILD_COMMIT_TIMEOUT_STEPS)
+                    steps = np.arange(2, int(min(max_ray_steps, max_commit_range)))
+                    txs = (unit_nx + steps * np.cos(angle)).astype(int)
+                    tzs = (unit_nz + steps * np.sin(angle)).astype(int)
+
+                    # Clip and find valid (in-bounds) indices
+                    in_bounds = (txs >= 0) & (txs < w_vis) & (tzs >= 0) & (tzs < h_vis)
+                    if not np.any(in_bounds):
+                        n_ray_oob += 1
+                        continue
+
+                    txs_valid = txs[in_bounds]
+                    tzs_valid = tzs[in_bounds]
+
+                    # Sample the vision image along the ray
+                    ray_values = edge_source[tzs_valid, txs_valid]
+
+                    # Find the first position that is NOT radar-covered (< 0.4 threshold)
+                    unknown_mask = ray_values < 0.4
+                    if not np.any(unknown_mask):
+                        n_ray_no_unknown += 1
+                        continue
+
+                    first_unknown = np.argmax(unknown_mask)
+                    # tx = float(txs_valid[first_unknown])
+                    # tz = float(tzs_valid[first_unknown])
+                    land_idx = max(0, first_unknown - 3)          # last known cells, not the unknown one
+                    for probe in range(land_idx, max(-1, land_idx - 3), -1):
+                        tx, tz = float(txs_valid[probe]), float(tzs_valid[probe])
+                        if map_utils.is_position_buildable(tx, tz, "armrad") and not map_utils.covered_by_existing_radar(tx, tz) and not _site_in_enemy_range(tx, tz, all_enemies) and not _near_danger_site(unit_id, tx, tz):
+                            candidates.append((tx, tz, 'vision_edge_build'))
+                            candidate_meta.append(None)
+                            break
+                        else:
+                            if map_utils.covered_by_existing_radar(tx, tz):
+                                n_ray_covered += 1
+                            if not map_utils.is_position_buildable(tx, tz, "armrad"):
+                                n_ray_unbuildable += 1
+
+            n_edge = sum(1 for _c in candidates if _c[2] == 'vision_edge_build')
+            n_grid = sum(1 for _c in candidates if _c[2] == 'build')
+            if ray_gen_ran and n_edge == 0:
+                print(f"Unit {unit_id}: edge rays produced 0 — no_unknown={n_ray_no_unknown}, oob={n_ray_oob}, unbuildable={n_ray_unbuildable}, covered={n_ray_covered}")
+            state.writer.add_scalar('Action_Selection/vision_edge_candidates', float(n_edge), state.step_counter)
+            state.writer.add_scalar('Action_Selection/build_grid_candidates', float(n_grid), state.step_counter)
+
+        # If BUILD was chosen but no valid site exists anywhere, the action is dead:
+        # degrade to MOVE this step so the unit does something useful instead of idling.
+        if discrete_action == config.ACTION_BUILD and not candidates and config.FORCE_DISCRETE_ACTION != config.ACTION_BUILD:
+            print(f"Unit {unit_id}: no valid build sites this step; degrading to MOVE")
+            discrete_action = config.ACTION_MOVE
+            head_was_free = False  # the head chose BUILD; the environment overrode it
+
+        if discrete_action == config.ACTION_MOVE:
+
+            # Swapped from 10 candidates in both directions to 3 x 3 at 200 x 200
+            for dx in np.linspace(-40, 40, num=3):
+                for dz in np.linspace(-40, 40, num=3):
+                    tx = unit_nx + dx
+                    tz = unit_nz + dz
+                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                    # Only add reachable candidates
+                    if map_utils.is_position_reachable(tx, tz):
+                        candidates.append((tx, tz, 'grid'))
+                        candidate_meta.append(None)
+
+            # Current position is always valid
+            candidates.append((unit_nx, unit_nz, 'noop'))
+            candidate_meta.append(None)
+
+            # Generate escape candidates pointing away from nearby enemies
+            # Also add lateral dodge candidates for projectile/missile enemies
+            escape_dx, escape_dz = map_utils.compute_enemy_escape_direction(unit_nx, unit_nz, all_enemies)
+            if abs(escape_dx) > 1e-6 or abs(escape_dz) > 1e-6:
+                for dist_mult in [0.5, 1.0, 1.5]:
+                    esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                    for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
+                        import math
+                        base_angle = math.atan2(escape_dz, escape_dx)
+                        angle = base_angle + angle_offset * math.pi
+                        tx = unit_nx + math.cos(angle) * esc_dist
+                        tz = unit_nz + math.sin(angle) * esc_dist
+                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+
+                        # outsideEnemyRange = True
+                        # for enemy in all_enemies:
+                        #     ex = map_utils.normalize_x(enemy['x'])
+                        #     ez = map_utils.normalize_z(enemy['z'])
+                        #     enemy_range = map_utils.normalize_range(enemy.get('range', config.DEFAULT_ENEMY_RANGE))
+                        #     dist_to_enemy = ((tx - ex) ** 2 + (tz - ez) ** 2) ** 0.5
+                        #     if dist_to_enemy <= enemy_range:
+                        #         outsideEnemyRange = False
+                        #         break
+
+                        # Verify if the canidate is reachable and outside the enemy range before adding
+                        # TEMPORARY CHANGE, no longer has to be outside enemy range, just has to be reachable. The threat of being in range of an enemy is now handled by the hazard prediction feature and the model's learned weighting of it, allowing for more nuanced decisions about when to risk being in range for better positioning or mass gathering.
+                        if map_utils.is_position_reachable(tx, tz): #and outsideEnemyRange:
+                            candidates.append((tx, tz, 'escape'))
+                            candidate_meta.append(None)
+
+            # Lateral dodge candidates perpendicular to incoming fire from projectile/missile enemies
+            import math
+            for eu in all_enemies:
+                wtype = eu.get('weapon_type', 'projectile')
+                if wtype in ('projectile', 'missile'):
+                    eu_nx = map_utils.normalize_x(eu['x'])
+                    eu_nz = map_utils.normalize_z(eu['z'])
+                    fire_dx = unit_nx - eu_nx
+                    fire_dz = unit_nz - eu_nz
+                    fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+                    if fire_mag > 1e-6:
+                        # Perpendicular directions (90 degrees to fire line)
+                        perp_dx = -fire_dz / fire_mag
+                        perp_dz = fire_dx / fire_mag
+                        for sign in [1.0, -1.0]:
+                            for dist_mult in [0.5, 1.0]:
                                 d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                                tx = unit_nx + (lateral_sign * perp_dx + 0.45 * forward_sign * forward_dx) * d
-                                tz = unit_nz + (lateral_sign * perp_dz + 0.45 * forward_sign * forward_dz) * d
+                                tx = unit_nx + sign * perp_dx * d
+                                tz = unit_nz + sign * perp_dz * d
                                 tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
                                 tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                                if map_utils.is_position_reachable(tx, tz):
-                                    candidates.append((tx, tz, 'dodge'))
+
+                                # further_from_enemy = True
+                                # candidate_enemy_dist = ((tx - eu_nx) ** 2 + (tz - eu_nz) ** 2) ** 0.5
+                                # if candidate_enemy_dist <= fire_mag:
+                                #     further_from_enemy = False
+
+                                # Same as above, no longer requiring the dodge candidate to be further from the enemy, just reachable, since the model can learn to weigh the hazard prediction feature to understand the risk of being in range and make more nuanced decisions.
+                                if map_utils.is_position_reachable(tx, tz): #and further_from_enemy:
+                                    candidates.append((tx, tz, 'strafe'))
                                     candidate_meta.append(None)
 
-        if mass_destination is not None:
-            dest_world_x = map_utils.denormalize_x(mass_destination[0])
-            dest_world_z = map_utils.denormalize_z(mass_destination[1])
-            dist_to_dest = ((dest_world_x - unit_x) ** 2 + (dest_world_z - unit_z) ** 2) ** 0.5
-            # Only add mass destination if reachable and within approach radius
-            if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
-                candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
-                candidate_meta.append(None)
-            
-            # Extract terrain-guided waypoints from cost field
-            terrain_waypoints = map_utils.extract_terrain_waypoints(
-                mass_destination,
+            # Short-range scatter candidates for throwing off predictive projectiles.
+            # These stay close to the current position to avoid large path deviations.
+            for enemy in all_enemies:
+                wtype = enemy.get('weapon_type', 'projectile')
+                if wtype in ('projectile', 'missile'):
+                    ex = map_utils.normalize_x(enemy['x'])
+                    ez = map_utils.normalize_z(enemy['z'])
+                    fire_dx = unit_nx - ex
+                    fire_dz = unit_nz - ez
+                    fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
+                    if fire_mag > 1e-6:
+                        perp_dx = -fire_dz / fire_mag
+                        perp_dz = fire_dx / fire_mag
+                        # Prefer tiny lateral jinks plus slight forward/back offsets.
+                        # This creates a compact scatter pattern around the unit.
+                        forward_dx = fire_dx / fire_mag
+                        forward_dz = fire_dz / fire_mag
+                        for lateral_sign in [1.0, -1.0]:
+                            for forward_sign in [0.0, 1.0, -1.0]:
+                                for dist_mult in [0.08, 0.14, 0.2]:
+                                    d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
+                                    tx = unit_nx + (lateral_sign * perp_dx + 0.45 * forward_sign * forward_dx) * d
+                                    tz = unit_nz + (lateral_sign * perp_dz + 0.45 * forward_sign * forward_dz) * d
+                                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
+                                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
+                                    if map_utils.is_position_reachable(tx, tz):
+                                        candidates.append((tx, tz, 'dodge'))
+                                        candidate_meta.append(None)
+
+            if mass_destination is not None:
+                dest_world_x = map_utils.denormalize_x(mass_destination[0])
+                dest_world_z = map_utils.denormalize_z(mass_destination[1])
+                dist_to_dest = ((dest_world_x - unit_x) ** 2 + (dest_world_z - unit_z) ** 2) ** 0.5
+                # Only add mass destination if reachable and within approach radius
+                if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
+                    candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
+                    candidate_meta.append(None)
+                
+                # Extract terrain-guided waypoints from cost field
+                terrain_waypoints = map_utils.extract_terrain_waypoints(
+                    mass_destination,
+                    unit_nx,
+                    unit_nz,
+                    count=config.TERRAIN_WAYPOINT_COUNT,
+                    search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
+                )
+                for wx, wz in terrain_waypoints:
+                    candidates.append((wx, wz, 'terrain_waypoint'))
+                    candidate_meta.append(None)
+                # if terrain_waypoints:
+                #     state.writer.add_scalar(
+                #         'Action_Selection/terrain_waypoints_generated',
+                #         len(terrain_waypoints),
+                #         state.step_counter
+                #     )
+
+            adaptive_generated = _generate_adaptive_candidates(
+                unit_id,
                 unit_nx,
                 unit_nz,
-                count=config.TERRAIN_WAYPOINT_COUNT,
-                search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
+                mass_destination,
+                all_enemies,
+                candidates,
             )
-            for wx, wz in terrain_waypoints:
-                candidates.append((wx, wz, 'terrain_waypoint'))
-                candidate_meta.append(None)
-            # if terrain_waypoints:
-            #     state.writer.add_scalar(
-            #         'Action_Selection/terrain_waypoints_generated',
-            #         len(terrain_waypoints),
-            #         state.step_counter
-            #     )
+            for adaptive in adaptive_generated:
+                candidates.append((adaptive['tx'], adaptive['tz'], adaptive['kind']))
+                candidate_meta.append(adaptive)
 
-        adaptive_generated = _generate_adaptive_candidates(
-            unit_id,
-            unit_nx,
-            unit_nz,
-            mass_destination,
-            all_enemies,
-            candidates,
-        )
-        for adaptive in adaptive_generated:
-            candidates.append((adaptive['tx'], adaptive['tz'], adaptive['kind']))
-            candidate_meta.append(adaptive)
+            state.writer.add_scalar('Action_Selection/adaptive_candidate_count', float(len(adaptive_generated)), state.step_counter)
 
-        state.writer.add_scalar('Action_Selection/adaptive_candidate_count', float(len(adaptive_generated)), state.step_counter)
 
         action_scores = []
         best_score = -float('inf')
         best_target = (unit_nx, unit_nz)
         best_candidate_kind = 'noop'
         best_candidate_meta = None
-        chosen_action_features = [0.0] * config.NUM_ACTION_FEATURES
+        chosen_action_features = [0.0] * (
+            config.NUM_BUILD_FEATURES if discrete_action == config.ACTION_BUILD else config.NUM_ACTION_FEATURES
+        )
 
         noop_score = None
         move_scores = []
+        build_scores = []
         direct_approach_penalties = []
 
+        state.writer.add_scalar('Action/candidate_count', float(len(candidates)), state.step_counter) # just action as this applies to build and move
+        # Generate a vision image for the candidates locations as well every 20 steps
+        if state.step_counter % 20 == 0 and vision_image is not None:
+            candidate_vision_image = np.zeros_like(vision_image)
+            for tx, tz, kind in candidates:
+                cxi = int(np.clip(tx, 0, vision_image.shape[1] - 1))
+                czi = int(np.clip(tz, 0, vision_image.shape[0] - 1))
+                candidate_vision_image[czi, cxi] = 1.0
+            state.writer.add_image('Action/candidate_position_image', candidate_vision_image, state.step_counter, dataformats='HW')
+        
         for idx, (tx, tz, candidate_kind) in enumerate(candidates):
             try:
                 this_meta = candidate_meta[idx] if idx < len(candidate_meta) else None
-                if abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3:
-                    features = MoveJudger.compute_action_features(
-                        config.NOOP_ACTION,
-                        unit_nx,
-                        unit_nz,
-                        unit_ny,
-                        active_mass,
-                        enemy_range_image=enemy_range_image,
-                        enemy_units=all_enemies,
-                    )
-                else:
-                    features = MoveJudger.compute_action_features(
-                        "MOVE",
-                        unit_nx,
-                        unit_nz,
-                        unit_ny,
-                        active_mass,
-                        tx,
-                        tz,
-                        enemy_range_image=enemy_range_image,
-                        enemy_units=all_enemies,
-                    )
-
-                if features is None:
-                    features = [0.0] * config.NUM_ACTION_FEATURES
-
-                direct_penalty = 0.0
-                hazard_bias = _hazard_bias_for_candidate_kind(candidate_kind)
-                if hazard_bias > 0.0:
-                    direct_penalty = _compute_direct_approach_penalty(
-                        unit_nx,
-                        unit_nz,
-                        tx,
-                        tz,
-                        all_enemies,
-                        enemy_range_image,
-                        unit_speed_norm,
-                        unit_hp=unit_hp,
-                        unit_max_hp=unit_max_hp,
-                        bias=hazard_bias,
-                    )
-                    direct_approach_penalties.append(direct_penalty)
-
-                features = _inject_hazard_prediction_feature(features, direct_penalty)
-
-                features_tensor = torch.tensor(features, dtype=torch.float32)
-                score = torch.dot(feature_weights, features_tensor).item()
+                is_noop = (abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3)
                 
-                # Need to calculate what type of enemy it is as retreat from a proj/missile will likely still hit if its a consistent movement.
-                # enemy_type = None
-                # for enemy in all_enemies:
-                #     enemy_type = enemy.weapon_type
+                if discrete_action == config.ACTION_MOVE:
+                    # EVALUATE MOVEMENT
+                    if is_noop:
+                        features = MoveJudger.compute_action_features(
+                            config.NOOP_ACTION,
+                            unit_nx,
+                            unit_nz,
+                            unit_ny,
+                            active_mass,
+                            enemy_range_image=enemy_range_image,
+                            enemy_units=all_enemies,
+                            vision_image=vision_image
+                        )
+                    else:
+                        features = MoveJudger.compute_action_features(
+                            "MOVE",
+                            unit_nx,
+                            unit_nz,
+                            unit_ny,
+                            active_mass,
+                            tx,
+                            tz,
+                            enemy_range_image=enemy_range_image,
+                            enemy_units=all_enemies,
+                            vision_image=vision_image
+                        )
 
-                #     # Once the type is determined, process existing candidates based on this
-                #     break
+                    if features is None:
+                        features = [0.0] * config.NUM_ACTION_FEATURES
 
+                    direct_penalty = 0.0
+                    hazard_bias = _hazard_bias_for_candidate_kind(candidate_kind)
+                    if hazard_bias > 0.0 and not is_noop:
+                        direct_penalty = _compute_direct_approach_penalty(
+                            unit_nx,
+                            unit_nz,
+                            tx,
+                            tz,
+                            all_enemies,
+                            enemy_range_image,
+                            unit_speed_norm,
+                            unit_hp=unit_hp,
+                            unit_max_hp=unit_max_hp,
+                            bias=hazard_bias,
+                        )
+                        direct_approach_penalties.append(direct_penalty)
+
+                    elif is_noop:
+                        # Standing still is only safe if the current cell is safe. Sample the
+                        # danger surface at the unit's position (0 outside any range, high when
+                        # exposed) so NOOP isn't a free escape from the hazard term.
+                        if enemy_range_image is not None:
+                            h_ri, w_ri = enemy_range_image.shape
+                            cxi = int(np.clip(unit_nx, 0, w_ri - 1))
+                            czi = int(np.clip(unit_nz, 0, h_ri - 1))
+                            cell_danger = float(enemy_range_image[czi, cxi])
+                            # Scale into the same magnitude domain the path penalty produces,
+                            # so NOOP and moving candidates are squashed comparably.
+                            direct_penalty = cell_danger * config.NOOP_DANGER_SCALE
+
+                    features = _inject_hazard_prediction_feature(features, direct_penalty)
+                    features_tensor = torch.tensor(features, dtype=torch.float32)
+                    score = torch.dot(feature_weights, features_tensor).item()
+                    move_feature_rows.append(list(features))
+                else:
+                    # EVALUATE BUILDING
+                    features = BuildJudger.compute_build_features(
+                        unit_nx, unit_nz, unit_ny,
+                        tx, tz,
+                        active_mass,
+                        all_enemies,
+                        state.units, # friendly units
+                        is_noop,
+                        vision_image=vision_image,
+                        target_structure_name="armrad",
+                        unit_id=unit_id,
+                        structure_vision_image=structure_vision_image,
+                    )
+                    
+                    if features is None:
+                        features = [0.0] * config.NUM_BUILD_FEATURES
+                        
+                    features_tensor = torch.tensor(features, dtype=torch.float32)
+                    score = torch.dot(build_weights, features_tensor).item()
+                    build_feature_rows.append(list(features))
 
                 action_scores.append(score)
-
-                if abs(tx - unit_nx) < 1e-3 and abs(tz - unit_nz) < 1e-3:
-                    noop_score = score
-                else:
+                if discrete_action == config.ACTION_BUILD:
+                    build_scores.append(score)
+                elif not is_noop:
                     move_scores.append(score)
+                else:
+                    noop_score = score
 
                 if score > best_score:
                     best_score = score
@@ -977,28 +1341,78 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 print(f"Error computing action features: {exc}")
                 continue
 
-        if move_scores:
+        # If BUILD was chosen but no candidate survived filtering, degrade to a noop
+        # instead of leaving best_score at -inf / targeting the unit's own feet.
+        if discrete_action == config.ACTION_BUILD and best_score == -float('inf'):
+            best_score = 0.0
+            best_target = (unit_nx, unit_nz)
+            best_candidate_kind = 'noop'
+
+        # if discrete_action == config.ACTION_BUILD:
+        #     committed_target = state.build_committed_target.get(unit_id)
+        #     if committed_target is not None:
+        #         committed_nx = map_utils.normalize_x(committed_target[0])
+        #         committed_nz = map_utils.normalize_z(committed_target[1])
+
+        #         # Find the score this step assigned to the committed-target candidate specifically
+        #         committed_score = None
+        #         for idx, (tx, tz, kind) in enumerate(candidates):
+        #             if kind == 'committed_build' and abs(tx - committed_nx) < 1e-3 and abs(tz - committed_nz) < 1e-3:
+        #                 committed_score = action_scores[idx]
+        #                 break
+
+        #         if committed_score is not None and best_candidate_kind != 'committed_build':
+        #             # Only let a different candidate win if it clears the committed score by a margin
+        #             required_score = committed_score * (1.0 + config.BUILD_TARGET_SWITCH_MARGIN) \
+        #                 if committed_score > 0 else committed_score - abs(committed_score) * config.BUILD_TARGET_SWITCH_MARGIN
+
+        #             if best_score < required_score:
+        #                 # Revert to the committed target instead of switching
+        #                 best_score = committed_score
+        #                 best_target = (committed_nx, committed_nz)
+        #                 best_candidate_kind = 'committed_build'
+        #                 best_candidate_meta = None
+
+        state.previous_chosen_targets[unit_id] = (best_target[0], best_target[1], best_candidate_kind)
+
+        if discrete_action == config.ACTION_BUILD and build_scores:
             print(
-                f"Unit {unit_id}: NOOP score={noop_score:.3f}, "
-                f"MOVE scores: min={min(move_scores):.3f}, max={max(move_scores):.3f}, "
+                f"Unit {unit_id}: [BUILD] Candidates={len(build_scores)}, "
+                f"BUILD scores: min={min(build_scores):.3f}, max={max(build_scores):.3f}, "
+                f"mean={np.mean(build_scores):.3f}"
+            )
+        elif discrete_action == config.ACTION_MOVE and move_scores:
+            print(
+                f"Unit {unit_id}: [MOVE] NOOP={noop_score:.3f}, "
+                f"Move scores: min={min(move_scores):.3f}, max={max(move_scores):.3f}, "
                 f"mean={np.mean(move_scores):.3f}"
             )
 
-        # if direct_approach_penalties:
-        #     state.writer.add_scalar(
-        #         'Action_Selection/direct_approach_penalty_mean',
-        #         float(np.mean(direct_approach_penalties)),
-        #         state.step_counter,
-        #     )
-        #     state.writer.add_scalar(
-        #         'Action_Selection/direct_approach_penalty_max',
-        #         float(np.max(direct_approach_penalties)),
-        #         state.step_counter,
-        #     )
+        if move_scores:
+            state.writer.add_scalar('Action_Selection/move_score_min', min(move_scores), state.step_counter)
+            state.writer.add_scalar('Action_Selection/move_score_max', max(move_scores), state.step_counter)
+            state.writer.add_scalar('Action_Selection/move_score_mean', np.mean(move_scores), state.step_counter)
+        if build_scores:
+            state.writer.add_scalar('Action_Selection/build_score_min', min(build_scores), state.step_counter)
+            state.writer.add_scalar('Action_Selection/build_score_max', max(build_scores), state.step_counter)
+            state.writer.add_scalar('Action_Selection/build_score_mean', np.mean(build_scores), state.step_counter)
+
+        if noop_score is not None:
+            state.writer.add_scalar('Action_Selection/noop_score', noop_score, state.step_counter)
+        else:
+            state.writer.add_scalar('Action_Selection/noop_score', 0.0, state.step_counter)
+
+        state.writer.add_scalar('Action_Selection/discrete_action_chosen', 
+                         float(discrete_action), state.step_counter)
+        
+
+        action_probs = torch.softmax(action_logits.squeeze(0), dim=-1).cpu().numpy()
+        state.writer.add_scalar('Action_Selection/prob_move', action_probs[config.ACTION_MOVE], state.step_counter)
+        state.writer.add_scalar('Action_Selection/prob_build', action_probs[config.ACTION_BUILD], state.step_counter)
 
         is_noop = (abs(best_target[0] - unit_nx) < 1e-3 and abs(best_target[1] - unit_nz) < 1e-3)
         best_action = config.NOOP_ACTION if is_noop else "MOVE"
-        if is_noop:
+        if is_noop and discrete_action == config.ACTION_MOVE:
             noop_features = MoveJudger.compute_action_features(
                 config.NOOP_ACTION,
                 unit_nx,
@@ -1007,6 +1421,7 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 unvisited_mass,
                 enemy_range_image=enemy_range_image,
                 enemy_units=all_enemies,
+                vision_image=vision_image
             )
             if noop_features is not None:
                 chosen_action_features = noop_features
@@ -1050,289 +1465,133 @@ def get_action(state_vec, unit_x, unit_z, unit_y, unit_id):
                 chosenActionVar = 6
             case 'noop':
                 chosenActionVar = 7
-            case _:
+            case 'vision_edge_build':
                 chosenActionVar = 8
+            case 'committed_build':
+                chosenActionVar = 9
+            case 'build':
+                chosenActionVar = 10
+            case _:
+                chosenActionVar = 11
         state.writer.add_scalar('Action_Selection/chosen_action', 
                                 chosenActionVar,
                                   state.step_counter)
 
         # state.writer.add_scalar('Action_Selection/is_noop', 1.0 if best_action == config.NOOP_ACTION else 0.0, state.step_counter)
 
-        for name, feature_val in zip(config.FEATURE_NAMES, chosen_action_features):
-            state.writer.add_scalar(f"Chosen_Action_Features/{name}", feature_val, state.step_counter)
+        if discrete_action == config.ACTION_BUILD:
+            if best_candidate_kind == 'noop':
+                best_action = config.NOOP_ACTION  # no valid build spot this step
+            else:
+                best_action = "BUILD"
+            
+            print(f"Building chosen by unit {unit_id}! Target picked: {best_target}")
+            for name, weight in zip(config.BUILD_FEATURE_NAMES, build_weights):
+                 state.writer.add_scalar(f"Feature_Weights/Build_{name}", weight.item(), state.step_counter)
+
+            # We also want to log chosen_build_features for analytics, similar to move features
+            for name, feature_val in zip(config.BUILD_FEATURE_NAMES, chosen_action_features):
+                state.writer.add_scalar(f"Chosen_Action_Features/Build_{name}", feature_val, state.step_counter)
+        else:
+            for name, feature_val in zip(config.FEATURE_NAMES, chosen_action_features):
+                state.writer.add_scalar(f"Chosen_Action_Features/{name}", feature_val, state.step_counter)
 
         if state.step_counter % 100 == 0:
             state.writer.add_histogram('Action_Scores/distribution', np.array(action_scores), state.step_counter)
 
-        return best_action, best_target, best_score, best_candidate_kind
 
+        decision_snapshot = {
+            'chosen_features': list(chosen_action_features),
+            'chosen_head': discrete_action,
+            'head_was_free': head_was_free,
+            'hidden_pre': (hidden[0].detach().clone(), hidden[1].detach().clone()),
+        }
+
+        return best_action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot
 
 def train_agent(
     state_vec,
+    discrete_action,
     action,
-    reward,
-    next_state,
-    done,
-    unit_x,
-    unit_z,
-    unit_y,
-    next_unit_x,
-    next_unit_z,
-    next_unit_y,
-    target_x=None,
-    target_z=None,
-    mass_destination=None,
-    action_kind=None,
+    mc_return,
     unit_id=None,
+    forced_build=False,
+    decision_snapshot=None,
 ):
-    """Perform a single TD (temporal difference) training step using the transition data and clamped Q-targets."""
+    """Single training step: regress the chosen candidate's Q toward the observed
+    Monte-Carlo return (no bootstrapping), and update the discrete head with a
+    return-based policy gradient (REINFORCE + running baseline), applied only on
+    steps where the head genuinely made the decision."""
     if getattr(state, 'evalRun', False):
         return
+    if decision_snapshot is None:
+        return
+    state.train_step_counter += 1
 
-    if unit_id is not None:
-        hidden = state.previous_lstm_hidden_states.get(unit_id, init_lstm_hidden())
-    else:
-        hidden = init_lstm_hidden()
+    hidden = decision_snapshot.get('hidden_pre')
+    if hidden is None:
+        hidden = state.previous_lstm_hidden_states.get(unit_id, init_lstm_hidden()) if unit_id is not None else init_lstm_hidden()
     input_seq = state_vec.unsqueeze(0).unsqueeze(0)
-    current_weights, _ = agent(input_seq, hidden)
-    current_weights = current_weights.squeeze(0)
+    action_logits, move_weights, build_weights, _ = agent(input_seq, hidden)
 
-    unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
-    active_mass = [mass_destination] if mass_destination is not None else unvisited_mass
-    unit_nx = map_utils.normalize_x(unit_x)
-    unit_nz = map_utils.normalize_z(unit_z)
-    unit_ny = map_utils.normalize_y(unit_y)
-    target_nx = map_utils.normalize_x(target_x) if target_x is not None else unit_nx
-    target_nz = map_utils.normalize_z(target_z) if target_z is not None else unit_nz
+    if discrete_action == config.ACTION_BUILD:
+        current_weights = build_weights.squeeze(0)
+    else:
+        current_weights = move_weights.squeeze(0)
 
-    # Combine all known enemies for feature computation
-    all_enemies = list(state.eUnits)
-    for u in state.eKUnits:
-        if all(u['id'] != eu['id'] for eu in all_enemies):
-            all_enemies.append(u)
-
-    enemy_range_image = map_utils.generate_enemy_range_image(
-        state.eUnits,
-        state.map_width,
-        state.map_height,
-        state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
-    )
-
-    action_features = MoveJudger.compute_action_features(
-        action,
-        unit_nx,
-        unit_nz,
-        unit_ny,
-        active_mass,
-        target_nx,
-        target_nz,
-        enemy_range_image=enemy_range_image,
-        enemy_units=all_enemies,
-    )
-
-    unit_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
-    unit_hp, unit_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
-
-    current_direct_penalty = 0.0
-    is_noop_action = action == config.NOOP_ACTION or (
-        abs(target_nx - unit_nx) < 1e-3 and abs(target_nz - unit_nz) < 1e-3
-    )
-    if not is_noop_action:
-        current_kind = action_kind if action_kind is not None else 'grid'
-        current_bias = _hazard_bias_for_candidate_kind(current_kind)
-        if current_bias > 0.0:
-            current_direct_penalty = _compute_direct_approach_penalty(
-                unit_nx,
-                unit_nz,
-                target_nx,
-                target_nz,
-                all_enemies,
-                enemy_range_image,
-                unit_speed_norm,
-                unit_hp=unit_hp,
-                unit_max_hp=unit_max_hp,
-                bias=current_bias,
-            )
-    action_features = _inject_hazard_prediction_feature(action_features, current_direct_penalty)
-    
-    # Validate features don't contain inf/nan
-    action_features = [np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0 for f in action_features]
-    
-    features_tensor = torch.tensor(action_features, dtype=torch.float32)
-
+    chosen_features = [
+        np.clip(f, -1e6, 1e6) if not (np.isinf(f) or np.isnan(f)) else 0.0
+        for f in decision_snapshot['chosen_features']
+    ]
+    features_tensor = torch.tensor(chosen_features, dtype=torch.float32)
     current_q = torch.dot(current_weights, features_tensor)
 
-    if not done:
-        with torch.no_grad():
-            next_hidden = state.lstm_hidden_states.get(unit_id, init_lstm_hidden())
-            next_input_seq = next_state.unsqueeze(0).unsqueeze(0)
-            next_weights, _ = agent(next_input_seq, next_hidden)
-            next_weights = next_weights.squeeze(0)
-            max_next_q = -float('inf')
-            candidates = []
-            for dx in np.linspace(-200, 200, num=10):
-                for dz in np.linspace(-200, 200, num=10):
-                    tx = unit_nx + dx
-                    tz = unit_nz + dz
-                    tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                    tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                    # Only add reachable candidates
-                    if map_utils.is_position_reachable(tx, tz):
-                        candidates.append((tx, tz, 'grid'))
-            # Current next position is always valid
-            next_nx_pos = map_utils.normalize_x(next_unit_x)
-            next_nz_pos = map_utils.normalize_z(next_unit_z)
-            candidates.append((next_nx_pos, next_nz_pos, 'noop'))
+    # --- A2: value regression toward the Monte-Carlo return ---
+    if np.isinf(mc_return) or np.isnan(mc_return):
+        print(f"[WARNING] Invalid mc_return: {mc_return}, skipping step")
+        return
+    target_tensor = torch.tensor(float(mc_return), dtype=torch.float32, device=current_q.device)
+    loss_continuous = criterion(current_q, target_tensor)
 
-            # Generate escape candidates for TD target calculation
-            esc_dx, esc_dz = map_utils.compute_enemy_escape_direction(next_nx_pos, next_nz_pos, all_enemies)
-            if abs(esc_dx) > 1e-6 or abs(esc_dz) > 1e-6:
-                import math
-                for dist_mult in [0.5, 1.0, 1.5]:
-                    esc_dist = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                    for angle_offset in np.linspace(-0.5, 0.5, config.ESCAPE_CANDIDATE_COUNT):
-                        base_angle = math.atan2(esc_dz, esc_dx)
-                        angle = base_angle + angle_offset * math.pi
-                        tx = next_nx_pos + math.cos(angle) * esc_dist
-                        tz = next_nz_pos + math.sin(angle) * esc_dist
-                        tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                        tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                        if map_utils.is_position_reachable(tx, tz):
-                            candidates.append((tx, tz, 'escape'))
+    # --- Additions 1 & 3: running baseline + std-normalized advantage ---
+    if state.return_baseline is None:
+        state.return_baseline = float(mc_return)
+    a = state.return_ema_alpha if state.train_step_counter > 100 else 0.1
+    state.return_baseline = (1 - a) * state.return_baseline + a * float(mc_return)
+    state.return_var = (1 - a) * state.return_var + a * (float(mc_return) - state.return_baseline) ** 2
+    adv = (float(mc_return) - state.return_baseline) / (state.return_var ** 0.5 + 1e-6)
+    adv = max(-5.0, min(5.0, adv))
 
-            # Lateral dodge candidates for TD target (projectile/missile enemies)
-            for eu in all_enemies:
-                wtype = eu.get('weapon_type', 'projectile')
-                if wtype in ('projectile', 'missile'):
-                    eu_nx = map_utils.normalize_x(eu['x'])
-                    eu_nz = map_utils.normalize_z(eu['z'])
-                    fire_dx = next_nx_pos - eu_nx
-                    fire_dz = next_nz_pos - eu_nz
-                    fire_mag = (fire_dx ** 2 + fire_dz ** 2) ** 0.5
-                    if fire_mag > 1e-6:
-                        perp_dx = -fire_dz / fire_mag
-                        perp_dz = fire_dx / fire_mag
-                        for sign in [1.0, -1.0]:
-                            for dist_mult in [0.5, 1.0]:
-                                d = config.ESCAPE_CANDIDATE_DISTANCE * dist_mult
-                                tx = next_nx_pos + sign * perp_dx * d
-                                tz = next_nz_pos + sign * perp_dz * d
-                                tx = max(0, min(config.STANDARD_MAP_WIDTH, tx))
-                                tz = max(0, min(config.STANDARD_MAP_HEIGHT, tz))
-                                if map_utils.is_position_reachable(tx, tz):
-                                    candidates.append((tx, tz, 'strafe'))
+    # --- Addition 2: policy gradient only on genuine decision points ---
+    action_probs = torch.softmax(action_logits.squeeze(0), dim=-1)
+    action_log_probs = torch.log(action_probs + 1e-8)
+    entropy = -(action_probs * action_log_probs).sum()
 
-            if mass_destination is not None:
-                dest_world_x = map_utils.denormalize_x(mass_destination[0])
-                dest_world_z = map_utils.denormalize_z(mass_destination[1])
-                dist_to_dest = ((dest_world_x - next_unit_x) ** 2 + (dest_world_z - next_unit_z) ** 2) ** 0.5
-                # Only add mass destination if reachable and within approach radius
-                if dist_to_dest <= config.MASS_FINAL_APPROACH_RADIUS and map_utils.is_position_reachable(mass_destination[0], mass_destination[1]):
-                    candidates.append((mass_destination[0], mass_destination[1], 'mass_destination'))
-                
-                # Add terrain waypoints for TD target calculation
-                next_nx_norm = map_utils.normalize_x(next_unit_x)
-                next_nz_norm = map_utils.normalize_z(next_unit_z)
-                terrain_waypoints = map_utils.extract_terrain_waypoints(
-                    mass_destination,
-                    next_nx_norm,
-                    next_nz_norm,
-                    count=config.TERRAIN_WAYPOINT_COUNT,
-                    search_radius=config.TERRAIN_WAYPOINT_SEARCH_RADIUS
-                )
-                for wx, wz in terrain_waypoints:
-                    candidates.append((wx, wz, 'terrain_waypoint'))
-
-            next_unvisited = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
-            next_active_mass = [mass_destination] if mass_destination is not None else next_unvisited
-            next_enemy_range_image = map_utils.generate_enemy_range_image(
-                state.eUnits,
-                state.map_width,
-                state.map_height,
-                state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
-            )
-
-            next_speed_norm = _get_unit_speed_norm(unit_id) if unit_id is not None else config.MIN_EFFECTIVE_SPEED_NORM
-            next_hp, next_max_hp = _get_unit_health_context(unit_id) if unit_id is not None else (None, None)
-
-            for (tx, tz, next_kind) in candidates:
-                next_nx = map_utils.normalize_x(next_unit_x)
-                next_nz = map_utils.normalize_z(next_unit_z)
-                next_ny = map_utils.normalize_y(next_unit_y)
-                next_action = config.NOOP_ACTION if next_kind == 'noop' else "MOVE"
-                next_features = MoveJudger.compute_action_features(
-                    next_action,
-                    next_nx,
-                    next_nz,
-                    next_ny,
-                    next_active_mass,
-                    tx,
-                    tz,
-                    enemy_range_image=next_enemy_range_image,
-                    enemy_units=all_enemies,
-                )
-                next_direct_penalty = 0.0
-                is_next_noop = abs(tx - next_nx) < 1e-3 and abs(tz - next_nz) < 1e-3
-                if not is_next_noop:
-                    next_bias = _hazard_bias_for_candidate_kind(next_kind)
-                    if next_bias > 0.0:
-                        next_direct_penalty = _compute_direct_approach_penalty(
-                            next_nx,
-                            next_nz,
-                            tx,
-                            tz,
-                            all_enemies,
-                            next_enemy_range_image,
-                            next_speed_norm,
-                            unit_hp=next_hp,
-                            unit_max_hp=next_max_hp,
-                            bias=next_bias,
-                        )
-                next_features = _inject_hazard_prediction_feature(next_features, next_direct_penalty)
-                next_features_tensor = torch.tensor(next_features, dtype=torch.float32)
-                next_q = torch.dot(next_weights, next_features_tensor)
-                max_next_q = max(max_next_q, next_q.item())
+    head_was_free = decision_snapshot.get('head_was_free', False)
+    if head_was_free:
+        loss_discrete = -action_log_probs[discrete_action] * adv - config.entropy_coeff * entropy
     else:
-        max_next_q = 0
+        loss_discrete = torch.tensor(0.0)
 
-    current_q_val = current_q.detach().item()
-    target_raw = reward + 0.99 * max_next_q
-    
-    # Validate reward doesn't contain inf/nan
-    if np.isinf(target_raw) or np.isnan(target_raw):
-        print(f"[WARNING] Invalid target_raw: {target_raw} (reward={reward}, max_next_q={max_next_q})")
-        target_raw = np.clip(target_raw, -1e6, 1e6)
-    
-    td_raw = np.clip(target_raw - current_q_val, -config.td_cap, config.td_cap)
-    target_value = current_q_val + td_raw
-    target_tensor = torch.tensor(target_value, dtype=torch.float32, device=current_q.device)
+    loss = loss_continuous + loss_discrete
 
-    td_error = abs(target_value - current_q_val)
-
-    state.writer.add_scalar('Training/current_q_value', current_q.item(), state.step_counter)
-    state.writer.add_scalar('Training/target_q_value', target_value, state.step_counter)
-    state.writer.add_scalar('Training/max_next_q', max_next_q, state.step_counter)
-    state.writer.add_scalar('Training/td_error', td_error, state.step_counter)
-
-    loss = criterion(current_q, target_tensor)
-    state.writer.add_scalar('Training/loss', loss.item(), state.step_counter)
+    state.writer.add_scalar('Training/mc_return', float(mc_return), state.train_step_counter)
+    state.writer.add_scalar('Training/return_baseline', state.return_baseline, state.train_step_counter)
+    state.writer.add_scalar('Training/discrete_advantage', adv, state.train_step_counter)
+    state.writer.add_scalar('Training/current_q_value', current_q.item(), state.train_step_counter)
+    state.writer.add_scalar('Training/head_was_free', 1.0 if head_was_free else 0.0, state.train_step_counter)
+    state.writer.add_scalar('Training/loss', loss.item(), state.train_step_counter)
+    state.writer.add_scalar('Training/loss_continuous', loss_continuous.item(), state.train_step_counter)
+    if head_was_free:
+        state.writer.add_scalar('Training/loss_discrete', loss_discrete.item(), state.train_step_counter)
+        state.writer.add_scalar('Training/entropy', entropy.item(), state.train_step_counter)
+        state.writer.add_scalar('Training/prob_build_train', action_probs[config.ACTION_BUILD].item(), state.train_step_counter)
+        state.writer.add_scalar('Training/logit_gap', (action_logits.squeeze(0)[config.ACTION_BUILD] - action_logits.squeeze(0)[config.ACTION_MOVE]).item(), state.train_step_counter)
 
     optimizer.zero_grad()
-    torch.autograd.set_detect_anomaly(True)
     loss.backward()
-
     torch.nn.utils.clip_grad_norm_(agent.parameters(), max_norm=1.0)
-
-    total_grad_norm = 0.0
-    for param in agent.parameters():
-        if param.grad is not None:
-            total_grad_norm += param.grad.norm().item() ** 2
-    total_grad_norm = total_grad_norm ** 0.5
-    state.writer.add_scalar('Training/gradient_norm', total_grad_norm, state.step_counter)
-
     optimizer.step()
-
-    # Might be worth doing the standardization here to prevent certain negatives
 
 
 def save_agent():
@@ -1365,6 +1624,9 @@ def _reset_agent_parameters(model: nn.Module):
             module.reset_parameters()
     if hasattr(model, "_initialize_cnn_weights"):
         model._initialize_cnn_weights()
+
+    nn.init.uniform_(model.action_head.weight, -0.001, 0.001)
+    nn.init.zeros_(model.action_head.bias)
 
 
 def load_agent():

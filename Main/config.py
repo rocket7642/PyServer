@@ -1,13 +1,22 @@
 HOST = "127.0.0.1"
 PORT = 25000
-BAR_DIRECTORY = 'F:/BAR Beyond All Reason/Beyond-All-Reason/data'
+BAR_DIRECTORY = 'F:/BAR Beyond All Reason/New BAR/Beyond-All-Reason/data'
+
+# Types of valid actions
+ACTION_MOVE = 0
+ACTION_BUILD = 1
+NUM_DISCRETE_ACTIONS = 2
 
 # == TRAINING SETTINGS ==
 # When should training occur, at each mass point or once all are reached?
 TRAIN_AT_EACH_MASS_POINT = False
-SHOULD_TRAIN = False # Set to False to disable training from a match (for testing the current weights or gathering data without training)
+SHOULD_TRAIN = False  # Set to False to disable training from a match (for testing the current weights or gathering data without training)
 
-# === EPISODIC TRAINING SETTINGS ===
+# RECORDING / SCENARIO OVERRIDE — None for normal operation;
+# ACTION_MOVE (0) or ACTION_BUILD (1) to pin the head for scenario capture.
+FORCE_DISCRETE_ACTION = None
+
+# EPISODIC TRAINING SETTINGS 
 EPISODE_TIMEOUT_SECONDS = 120
 END_MATCH_WHEN_ALL_MASS_REACHED = False  # if True, finalize full match/training set at 100% mass completion; if False, reset spots and continue
 MASS_REACH_RADIUS = 100
@@ -15,7 +24,7 @@ MASS_FINAL_APPROACH_RADIUS = 140
 MASS_DESTINATION_SWAP_THRESHOLD = 0.10
 MAX_SEGMENT_STEPS = 300
 
-# === ONLINE REPLAY EXPORT SETTINGS ===
+# ONLINE REPLAY EXPORT SETTINGS 
 # Save replay-style datasets from live agent runs and keep only the top matches by score.
 SAVE_TOP_MATCH_DATASET = True
 TOP_MATCHES_TO_KEEP = 15
@@ -23,12 +32,12 @@ AGENT_REPLAY_EXPORT_DIR = "Recordings/AgentReplayTop"
 # Keep only a fraction of NOOP samples to better match human replay distribution.
 AGENT_REPLAY_NOOP_KEEP_RATIO = 0.2
 
-# === STANDARDIZED MAP SETTINGS ===
+# STANDARDIZED MAP SETTINGS 
 STANDARD_MAP_WIDTH = 1024
 STANDARD_MAP_HEIGHT = 1024
 STANDARD_MAP_Y = 256
 
-# === ACTION SETTINGS (NOW CONTINUOUS TARGETS) ===
+# ACTION SETTINGS (NOW CONTINUOUS TARGETS) 
 NOOP_ACTION = "NOOP"
 
 # Sampling settings for continuous target selection
@@ -51,7 +60,7 @@ PATH_DANGER_PENALTY_SCALE = 10.0
 PATH_DANGER_MIN_HIT_PENALTY = 2.0
 
 # Enemy avoidance settings
-ENEMY_PROXIMITY_THRESHOLD = 400.0  # normalized distance within which enemy avoidance kicks in
+ENEMY_PROXIMITY_THRESHOLD = 75.0  # normalized ≈ 600 world ≈ 2x typical weapon range
 ENEMY_AVOIDANCE_REWARD_SCALE = 0.15  # reward scale for increasing distance from enemies
 ENEMY_RANGE_FALLOFF_BUFFER = 1.3  # multiplier on enemy weapon range for gradient falloff
 ESCAPE_CANDIDATE_COUNT = 3  # number of escape direction candidates to generate
@@ -62,11 +71,14 @@ MIN_EFFECTIVE_SPEED_NORM = 1.0  # minimum normalized speed to avoid huge time es
 DIRECT_APPROACH_SAMPLE_SPACING = 24.0  # normalized units between path samples for danger-time estimation
 DIRECT_APPROACH_DPS_SECONDS_SCALE = 1  # converts DPS*seconds-in-range into score penalty
 DIRECT_APPROACH_DANGER_WEIGHT_SCALE = 1.5  # amplifies penalty in high-intensity danger zones
-MASS_SPOT_BLOCK_RISK_THRESHOLD = 75.0  # block a mass destination when estimated risk exceeds this value
-MASS_SPOT_UNBLOCK_RISK_THRESHOLD = 30.0  # unblock only after risk drops below this lower threshold
+MASS_SPOT_BLOCK_RISK_THRESHOLD = 500.0  # block a mass destination when estimated risk exceeds this value
+MASS_SPOT_UNBLOCK_RISK_THRESHOLD = 100.0  # unblock only after risk drops below this lower threshold
 MASS_SPOT_BLOCK_COOLDOWN_STEPS = 10  # minimum steps to keep a risky mass spot blocked
 
-# === WEAPON TYPE SETTINGS ===
+# Building Scales
+VISION_REWARD_SCALE = 0.003
+
+# WEAPON TYPE SETTINGS 
 UNIT_DEFS_PATH = "data/unit_defs.json"
 WEAPON_HITSCAN = 0
 WEAPON_PROJECTILE = 1
@@ -79,6 +91,8 @@ MAX_DPS = 400.0  # normalization ceiling for DPS
 DODGE_LATERAL_BONUS = 0.3  # bonus for perpendicular movement vs projectile enemies
 DPS_THREAT_SCALE = 0.2  # scaling factor for DPS-weighted avoidance rewards
 
+NOOP_DANGER_SCALE = 500
+
 # Segment (mass-spot) rewards
 SEGMENT_BASE_REWARD = 200.0
 FAILURE_BASE_PENALTY = 100.0
@@ -88,7 +102,28 @@ SEGMENT_DAMAGE_PENALTY = 1.0
 HEIGHT_DISTANCE_FACTOR = 0.2
 
 # Number of action features for the potential field
-NUM_ACTION_FEATURES = 10
+NUM_ACTION_FEATURES = 10 # Moving
+# Contains:
+# 0: distance_reduction
+# 1: move_magnitude
+# 2: is_noop
+# 3: danger_zone
+# 4: enemy_distance_change
+# 5: nearest_enemy_proximity
+# 6: escape_alignment
+# 7: skirt_alignment
+# 8: dodge_viability
+# 9: hazard_prediction
+NUM_BUILD_FEATURES = 8 # Building 
+# Contains:
+# 0: friendly_proximity (Place near friendlies, away from enemies)
+# 1: is_continuing_commitment (keep building/traveling to what has already started, equivalent to noop for builds)
+# 2: enemy_proximity (Don't build near enemies)
+# 3: mass_spot_proximity (Prefer building near mass spots)
+# 4: terrain_suitability (Prefer building on flatter terrain)
+# 5: blocking_proximity (Don't build if it would collide with an existing unit, provides a negative signal)
+# 6: transit_progress (How far along towards a chosen building site has the unit gotten, to encourage completing building commitments once started)
+# 7: prospective_vision_gain (Fraction of cells within radar radius that are unknown)
 
 # Terrain sampling for path-based penalties
 PATH_TERRAIN_WEIGHT = 0.25
@@ -107,31 +142,40 @@ MAP_CACHE_VERSION = 12
 # Mass value weighting for cost fields: higher pulls path cost down near high-value spots
 MASS_VALUE_ALPHA = 0.5  # in [0,1]
 
-# === ENCODER SETTINGS ===
-SELF_FEATURES_SIZE = 9
+# ENCODER SETTINGS 
+SELF_FEATURES_SIZE = 11 # Added active_build_progress, is_constructing
 SELF_EMBED_SIZE = 16
+ECO_FEATURES_SIZE = 2 # fEnergy, fMass
+ECO_EMBED_SIZE = 8
 MASS_FEATURES_SIZE = 3
 MASS_EMBED_SIZE = 8
 MAP_FEATURES_SIZE = 6
 MAP_EMBED_SIZE = 16
-UNIT_FEATURES_SIZE = 3
+VISION_EMBED_SIZE = 16
+UNIT_FEATURES_SIZE = 7 # Was 3, 
 ENEMY_FEATURES_SIZE = 11
 FRIENDLY_EMBED_SIZE = 16
 ENEMY_EMBED_SIZE = 16
 
-# === LSTM SETTINGS ===
+# LSTM SETTINGS 
 LSTM_HIDDEN_SIZE = 64
 LSTM_NUM_LAYERS = 1
 
-# === MODEL VISUALIZATION SETTINGS ===
+# MODEL VISUALIZATION SETTINGS 
 ENABLE_MODEL_GRAPH_LOG = True
 
-# === EPOCH DRIFT SETTINGS ===
-td_cap = 5.0
+# EPOCH DRIFT SETTINGS 
+# td_cap = 5.0
 
-# === OUTPUT WEIGHT CONSTRAINTS ===
-ENFORCE_DISTANCE_REDUCTION_NONNEG = True
-DISTANCE_REDUCTION_INDEX = 0
+# tune this; higher = stronger resistance to collapse
+entropy_coeff = 0.15 # Temporary raised from 0.05 while builds are failing
+
+# OUTPUT WEIGHT CONSTRAINTS 
+# OUTPUT WEIGHT SIGN CONSTRAINTS (A3) — enforced via softplus in agent_core.constrain_head_weights
+MOVE_NONPOS_INDICES = [1]
+MOVE_NONNEG_INDICES = [0, 7, 8]           # distance_reduction, skirt_alignment, dodge_viability
+BUILD_NONNEG_INDICES = [1, 6, 7]    # is_continuing, transit_progress, prospective_vision_gain
+BUILD_NONPOS_INDICES = [2, 5]       # enemy_proximity, blocking_proximity
 
 FEATURE_NAMES = [
     "distance_reduction",
@@ -149,7 +193,18 @@ FEATURE_NAMES = [
     "hazard_prediction"
 ]
 
-# === ADAPTIVE CANDIDATE SETTINGS ===
+BUILD_FEATURE_NAMES = [
+    "friendly_proximity",
+    "is_continuing_commitment",
+    "enemy_proximity",
+    "mass_spot_proximity",
+    "terrain_suitability",
+    "blocking_proximity",
+    "transit_progress",
+    "prospective_vision_gain"
+]
+
+# ADAPTIVE CANDIDATE SETTINGS 
 # Enables context-anchored candidate templates that mutate around base candidates.
 ADAPTIVE_CANDIDATES_ENABLED = True
 # Max persistent templates tracked per unit.
@@ -175,7 +230,27 @@ ADAPTIVE_PROMOTION_SCORE = 0.05
 ADAPTIVE_PRUNE_SCORE = -0.5
 ADAPTIVE_PRUNE_MIN_VISITS = 4
 
-# === SENTINEL FILE SETTINGS ===
+# Decay for head selection logits to encourage exploration of different heads.
+DISCRETE_EPSILON_START = 0.3   # 30% random discrete action at start
+DISCRETE_EPSILON_MIN   = 0.15  # floor at 5% exploration permanently # Temporary raised from 0.05 while builds are failing
+DISCRETE_EPSILON_DECAY = 0.995 # decay per step
+FORCE_BUILD_EVERY_N_STEPS = 50  # force ACTION_BUILD every N steps per unit
+
+# BUILD COMMITMENT SETTINGS
+BUILD_COMMIT_TIMEOUT_STEPS = 15
+BUILD_TRANSIT_STALL_PENALTY = -0.5
+# FORCED_BUILD_EXPLORE_WEIGHT = 0.1
+BUILD_RESEND_COOLDOWN_STEPS = 5
+POST_BUILD_DECISION_WINDOW = 3
+DANGER_SITE_COOLDOWN_STEPS = 30
+
+BUILDING_REWARD_SCALE = 0.8
+BUILD_PROGRESS_REWARD_SCALE = 10.0
+BUILD_CANDIDATE_RADIUS = 3
+# BUILD_TARGET_SWITCH_MARGIN = 0.15
+# BUILD_CONTINUITY_BONUS = 0.75
+
+# SENTINEL FILE SETTINGS 
 # Path to the sentinel file that signals the training script to stop.
 SENTINEL_FILE_PATH = "stop.txt"
 # Path to the sentinel file that contains the survival time.
@@ -183,7 +258,7 @@ TIME_FILE_PATH = "time.txt"
 # Min number from TIME_FILE_PATH required for success (minute increments, running at 5x speed, so 1 = 5 real minutes).
 SURVIVAL_TIME_THRESHOLD = 7
 
-# === EVAL RUN SCHEDULING ===
+# EVAL RUN SCHEDULING 
 # Run one eval match after this many training matches.
 EVAL_TRAIN_RUNS_PER_CYCLE = 5
 # Number of eval matches at the end of each cycle.

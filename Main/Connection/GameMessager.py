@@ -1,6 +1,7 @@
 import traceback
 import time
 import socket
+import numpy as np
 
 import config
 import runtime_state as state
@@ -21,7 +22,7 @@ def parse_units(message, header):
 				line = lines[i]
 				if line.strip():
 					parts = line.split(' ')
-					if len(parts) >= 7:
+					if len(parts) >= 9:
 						unit = {
 							'id': int(parts[0]),
 							'name': parts[1],
@@ -30,11 +31,24 @@ def parse_units(message, header):
 							'z': float(parts[4]),
 							#'range': float(parts[5]),
 							'health': float(parts[5]),
-							'speed': float(parts[6])
+							'speed': float(parts[6]),
+							'is_constructing': int(parts[7]), # 1 or 0
+							'active_build_progress': float(parts[8])
 						}
-						# Enrich with weapon type data from unit definitions
+						# Enrich with all data so PyTorch tensors have fixed shapes
+						unitType = unit_defs.get_unit_type(unit['name'])
 						weapon_info = unit_defs.get_weapon_info(unit['name'])
+						ranges = unit_defs.get_unit_ranges(unit['name'])
+						costs = unit_defs.get_costs(unit['name'])
+						sizes = unit_defs.get_unit_size(unit['name'])
+
 						unit.update(weapon_info)
+						unit.update(ranges)
+						unit.update(costs)
+						unit.update(sizes)
+						unit.update({"type": unitType})
+						unit.update({"cloaked": False}) # Will be updated later based on vision vs known enemy units (we don't currently care about our units cloaking)
+						
 						units_list.append(unit)
 					else:
 						print(f"[WARNING] Malformed unit line: '{line}'")
@@ -48,9 +62,17 @@ def parse_units(message, header):
 
 
 def format_action(action, unit_id, unit_x, unit_z, unit_y, target_x=None, target_z=None):
-	"""Format a move action into a command string to send to the game, choosing queued or immediate based on distance."""
+	"""Format an action into a command string to send to the game, choosing queued or immediate based on distance."""
 	if action == config.NOOP_ACTION or target_x is None or target_z is None:
 		return None
+	
+	if action == "BUILD":
+		# Assuming game engine expects a build command, e.g., "BU [unit_id] [target_x] [target_z] [target_y] [building_type]"
+		# You can change the "PlaceholderBuilding" string or the actual packet syntax as needed by your C# side.
+		command = "C: BU I" 
+		return f"{command} {unit_id} {target_x} {target_z} {unit_y} armrad\n"
+	
+	# Default Move logic
 	distance = ((target_x - unit_x) ** 2 + (target_z - unit_z) ** 2) ** 0.5
 	command = "C: MU Q" if distance > 50 else "C: MU I"
 	return f"{command} {unit_id} {target_x} {target_z} {unit_y}\n"
@@ -129,7 +151,45 @@ def receive_messages(conn, addr):
 				state.eKUnits = parse_units(message, "KNOWN_ENEMY_UNITS")
 			if "RADAR_ENEMY_UNITS" in message:
 				state.eRUnits = parse_units(message, "RADAR_ENEMY_UNITS") # This will need to be integrated into one of the other lists (known likely)
-
+				# Radar-only contacts carry no identity: assign a cautious prior so the
+				# risk machinery (range image, approach penalty, spot blocking) can see
+				# them. Real stats replace the prior automatically once identified.
+				for ru in state.eRUnits:
+					if not ru.get('range'):
+						ru['range'] = config.DEFAULT_ENEMY_RANGE
+					if not ru.get('dps'):
+						ru['dps'] = 50.0
+					ru.setdefault('weapon_type', 'projectile')
+			if "RESOURCES" in message:
+				lines = message.strip().split('\n')
+				for line in lines:
+					if line.startswith("RESOURCES"):
+						parts = line.split(' ')
+						if len(parts) >= 3:
+							try:
+								state.fEnergy = float(parts[1])
+								state.fMass = float(parts[2])
+							except ValueError:
+								print(f"[WARNING] Malformed RESOURCES line: '{line}'")
+						else:
+							print(f"[WARNING] Malformed RESOURCES line: '{line}'")
+			finished_units = []
+			if "FINISHED" in message:
+				in_finished = False
+				for line in message.strip().split('\n'):
+					if line.startswith("FINISHED"):
+						in_finished = True
+						continue
+					if in_finished:
+						if line.startswith("END"):
+							break
+						parts = line.split(' ')
+						if len(parts) >= 2:
+							try:
+								finished_units.append((int(parts[0]), parts[1]))
+								print(f"[FINISHED] Structure {parts[1]} (id {parts[0]}) completed")
+							except ValueError:
+								print(f"[WARNING] Malformed FINISHED line: '{line}'")
 			# Merge radar into known enemy units, ensuring no duplicates (radar may have some units not currently visible in known due to fog of war, but if a unit is in both, we want to avoid duplicates)
 			# Need to keep in mind, enemies can enter radar without being identified, this requires us to generalize what they are until confirmed.
 			for unit in state.eRUnits:
@@ -138,9 +198,9 @@ def receive_messages(conn, addr):
 
 			# Verify if enemy in eUnits and eKUnits, if so remove from known enemy units (to avoid duplicates)
 			# IE known is a subset of enemy, but may have some units not currently visible (fog of war)
-			for unit in state.eUnits:
-				if any(unit['id'] == eu['id'] for eu in state.eKUnits):
-					state.eUnits.remove(unit)
+			for unit in state.eKUnits:
+				if any(unit['id'] == eu['id'] for eu in state.eUnits):
+					state.eKUnits.remove(unit)
 
 			# Remove from known if the enemy location has been passed and thus, their location is entirely unknown
 			# Requires distance checks between enemy unit loc and friendly LOS
@@ -169,13 +229,21 @@ def receive_messages(conn, addr):
 			if friendly_units:
 				print(f"Sample unit: {friendly_units[0]}")
 
+			if "TURN" in message:
+				state.step_counter += 1
+
 			for unit in friendly_units:
+				# Verify if its a moveable unit or commandable unit (ie fighters or factories)
+				if unit['type'] != "UNIT":
+					print(f"Unit {unit['id']} ({unit['name']}) is not a commandable unit. Skipping.")
+					continue
+
 				state_vec = agent_core.get_state(unit, friendly_units, enemy_units)
 				state_no_map = agent_core.get_state_no_map(unit, friendly_units, enemy_units)
 
 				if "TURN" in message:
 					try:
-						state.step_counter += 1
+						# state.step_counter += 1
 						now = time.time()
 						PeriodicRewards.init_segment_tracking(unit)
 
@@ -184,6 +252,10 @@ def receive_messages(conn, addr):
 						prev_action = state.previous_actions.get(unit['id'], None)
 						prev_pos = state.previous_positions.get(unit['id'], (unit['x'], unit['z']))
 						prev_y = state.previous_y_positions.get(unit['id'], unit['y'])
+						if unit['is_constructing'] == 1:
+							state.previous_build_vision_baseline = np.sum(state.vision_image) if state.vision_image is not None else 0.0 # used to garentee it is maintained
+						else:
+							state.previous_build_vision_baseline = 0
 						damage_taken = max(0.0, prev_health - unit['health'])
 						enemy_range_image = map_utils.generate_enemy_range_image(
 							enemy_units,
@@ -192,19 +264,65 @@ def receive_messages(conn, addr):
 							state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
 						)
 
+						state.previous_vision_scores.append(np.sum(state.vision_image) if state.vision_image is not None else 0.0)
+						vision_image = map_utils.generate_vision_image(
+							friendly_units,
+							state.map_width,
+							state.map_height,
+							state.normalized_map_heights
+						)
+						state.vision_image = vision_image
+
+						# Determine if any unknown units from the known unit list are within LOS, if they are they are cloaked
+						# This utilizes the vision image created above
+						for e_unit in state.eKUnits:
+							if any(e_unit['id'] == eu['id'] for eu in enemy_units):
+								continue # This unit is currently visible, so skip
+							nx = map_utils.normalize_x(e_unit['x'])
+							nz = map_utils.normalize_z(e_unit['z'])
+							vis_value = vision_image[int(nz * state.vision_image.shape[0]), int(nx * state.vision_image.shape[1])]
+							if vis_value > 0.5: # If the vision image has any value greater than 0.5, that means LOS (and thus cloaked), otherwise it is either in radar or out of view.
+								e_unit['cloaked'] = True
+							else:
+								e_unit['cloaked'] = False
+
+
 						if prev_state is not None and prev_action is not None:
 							unvisited_mass = [
 								p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm
 								if p not in state.visited_mass_spots_norm
 							]
-							potential_reward, components = PeriodicRewards.compute_move_potential(
-								prev_pos,
-								(unit['x'], unit['z']),
-								prev_y,
-								unit['y'],
-								unvisited_mass,
-								enemy_range_image=enemy_range_image,
-							)
+							# potential_reward, components = PeriodicRewards.compute_move_potential(
+							# 	prev_pos,
+							# 	(unit['x'], unit['z']),
+							# 	prev_y,
+							# 	unit['y'],
+							# 	unvisited_mass,
+							# 	enemy_range_image=enemy_range_image,
+							# 	vision_image=vision_image,
+							# 	unit_id=unit['id'],
+							# )
+							if unit['is_constructing'] == 1:
+								potential_reward, components = PeriodicRewards.compute_build_potential(
+									prev_pos,
+									(unit['x'], unit['z']),
+									prev_y,
+									unit['y'],
+									enemy_range_image=enemy_range_image,
+									vision_image=vision_image,
+									unit=unit
+								)
+							else:
+								potential_reward, components = PeriodicRewards.compute_move_potential(
+									prev_pos,
+									(unit['x'], unit['z']),
+									prev_y,
+									unit['y'],
+									unvisited_mass,
+									enemy_range_image=enemy_range_image,
+									vision_image=vision_image,
+									unit_id=unit['id'],
+								)
 
 							if damage_taken > 0.0:
 								damage_penalty = damage_taken * config.IMMEDIATE_DAMAGE_PENALTY_SCALE
@@ -229,9 +347,32 @@ def receive_messages(conn, addr):
 							if damage_taken > 0.0:
 								state.segment_stats[unit['id']]['damage_taken'] += damage_taken
 							state.segment_stats[unit['id']]['steps'] += 1
+							if unit['is_constructing'] == 1:
+								state.segment_stats[unit['id']]['build_steps'] += 1
+
+							prev_progress = state.previous_build_progress.get(unit['id'], 0.0)
+							current_progress = unit['active_build_progress']
+
+							structure_finished = any(uid != unit['id'] for uid, name in finished_units)
+							heuristic_finished = prev_progress > 0.7 and current_progress < 0.1 and unit["is_constructing"] == 0
+							if structure_finished or heuristic_finished:
+								# This indicates either a build finish, a cancel near completion (I will assume for the sake of the integration that it is a finish however)
+								state.segment_stats[unit['id']]['buildings_built'] += 1
+								print(f"Unit {unit['id']} likely completed a building. Total buildings built in this segment: {state.segment_stats[unit['id']]['buildings_built']}")
+								# Add the vision increase as a reward for completing the building.
+								state.segment_stats[unit['id']]['value_from_building'] += (np.sum(state.vision_image) if state.vision_image is not None else 0.0) - state.previous_build_vision_baseline
+								# Release the build commitment now that the structure is complete
+								state.build_committed_target.pop(unit['id'], None)
+								state.build_committed_since_step.pop(unit['id'], None)
+								state.build_committed_distance.pop(unit['id'], None)
+								print(f"[COMMIT] Unit {unit['id']} commitment released on completion at step {state.step_counter}")
+								state.build_released_step[unit['id']] = state.step_counter
+								
+							state.previous_build_progress[unit['id']] = current_progress
 
 							state.segment_buffers[unit['id']].append({
 								'state': prev_state,
+								'discrete_action': state.previous_discrete_actions.get(unit['id'], config.ACTION_MOVE),
 								'action': prev_action,
 								'action_kind': state.previous_action_kinds.get(unit['id'], None),
 								'next_state': state_no_map,
@@ -244,7 +385,12 @@ def receive_messages(conn, addr):
 								'target_x': state.previous_targets.get(unit['id'], (unit['x'], unit['z']))[0],
 								'target_z': state.previous_targets.get(unit['id'], (unit['x'], unit['z']))[1],
 								'mass_destination': state.mass_destinations.get(unit['id'], None),
-								'potential_reward': potential_reward
+								'potential_reward': potential_reward,
+								'forced_build': state.previous_forced_builds.get(unit['id'], False),
+								'build_committed_target': state.build_committed_target.get(unit['id']),
+								'build_committed_since_step': state.build_committed_since_step.get(unit['id']),
+								'build_committed_distance': state.build_committed_distance.get(unit['id']),
+								'decision_snapshot': state.decision_snapshots.get(unit['id'], None)
 							})
 
 							state.writer.add_scalar('Move_Potential/total', potential_reward, state.step_counter)
@@ -255,6 +401,9 @@ def receive_messages(conn, addr):
 							state.writer.add_scalar('Move_Potential/path_terrain', components.get('path_terrain', 0.0), state.step_counter)
 							state.writer.add_scalar('Move_Potential/enemy_avoidance', components.get('enemy_avoidance', 0.0), state.step_counter)
 							state.writer.add_scalar('Move_Potential/damage_taken', components.get('damage_taken', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/vision_coverage', components.get('vision_coverage', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/build_progress', components.get('build_progress', 0.0), state.step_counter)
+							state.writer.add_scalar('Move_Potential/build_completion', components.get('build_completion', 0.0), state.step_counter)
 						elif unit['id'] not in state.previous_actions:
 							print(
 								f"[INFO] Skipping move potential for unit {unit['id']} "
@@ -341,13 +490,26 @@ def receive_messages(conn, addr):
 					state.previous_y_positions[unit['id']] = unit['y']
 					state.previous_positions[unit['id']] = (unit['x'], unit['z'])
 
-					action, best_target, best_score, best_candidate_kind = agent_core.get_action(
+					# Bypass weight system, prevent it from doing something while building
+					# if unit['is_constructing'] == 1:
+					# 	action = config.NOOP_ACTION
+					# 	best_target = (map_utils.normalize_x(unit['x']), map_utils.normalize_z(unit['z']))
+					# 	best_score = 0.0
+					# 	best_candidate_kind = 'noop'
+					# 	discrete_action = config.ACTION_BUILD
+					# else:
+					action, best_target, best_score, best_candidate_kind, discrete_action, forced_build_this_step, decision_snapshot = agent_core.get_action(
 						state_vec,
 						unit['x'],
 						unit['z'],
 						unit['y'],
 						unit['id']
 					)
+
+					# Store chosen discrete action (Move vs Build) for training
+					state.previous_discrete_actions[unit['id']] = discrete_action
+					state.previous_forced_builds[unit['id']] = forced_build_this_step
+					state.decision_snapshots[unit['id']] = decision_snapshot
 
 					denorm_tx = map_utils.denormalize_x(best_target[0])
 					denorm_tz = map_utils.denormalize_z(best_target[1])
@@ -402,6 +564,37 @@ def receive_messages(conn, addr):
 						best_target_world[0],
 						best_target_world[1]
 					)
+
+					if discrete_action == config.ACTION_BUILD and action_command is not None:
+						state.last_build_step[unit['id']] = state.step_counter
+						existing_commit = state.build_committed_target.get(unit['id'])
+						same_target = (
+							existing_commit is not None
+							and ((existing_commit[0] - best_target_world[0]) ** 2 + (existing_commit[1] - best_target_world[1]) ** 2) ** 0.5 <= config.COMMAND_DISTANCE_EPS
+						)
+						if existing_commit is None or (best_candidate_kind != 'committed_build' and not same_target):
+							# New commitment, or a deliberate switch that cleared the margin
+							state.build_committed_target[unit['id']] = best_target_world
+							state.build_committed_since_step[unit['id']] = state.step_counter
+							state.build_committed_distance[unit['id']] = ((unit['x'] - best_target_world[0]) ** 2 + (unit['z'] - best_target_world[1]) ** 2) ** 0.5
+							print(f"Unit {unit['id']} committed to building at {best_target_world} (kind={best_candidate_kind}) starting at step {state.step_counter} with distance {state.build_committed_distance[unit['id']]:.1f}")
+						# else: continuing toward the committed target — leave since_step/distance intact
+
+					# Suppress re-sending an identical build order: an immediate BU at the
+					# same coords each second can cancel/restart construction game-side.
+					if (action_command is not None
+							and discrete_action == config.ACTION_BUILD
+							and state.previous_actions.get(unit['id']) == "BUILD"
+							and last_target is not None):
+						dist_to_last = ((best_target_world[0] - last_target[0]) ** 2 + (best_target_world[1] - last_target[1]) ** 2) ** 0.5
+						prev_pos = state.previous_positions.get(unit['id'])
+						unit_moved = prev_pos is not None and ((unit['x'] - prev_pos[0]) ** 2 + (unit['z'] - prev_pos[1]) ** 2) ** 0.5 > 1.0
+						order_active = (unit.get('is_constructing', 0) == 1) or unit_moved
+						steps_since_send = state.previous_command_steps.get(unit['id'], 9999)
+						if dist_to_last <= config.COMMAND_DISTANCE_EPS and (order_active or steps_since_send < config.BUILD_RESEND_COOLDOWN_STEPS):
+							action_command = None
+							print(f"Unit {unit['id']} continuing existing build order (no resend)")
+
 					if action_command is not None:
 						if last_target is not None:
 							dist_to_last = (
@@ -454,7 +647,25 @@ def receive_messages(conn, addr):
 							state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
 						)
 						if enemy_img is not None:
-							state.writer.add_image('Enemy_Ranges/map', enemy_img, state.step_counter, dataformats='HW')
+							state.writer.add_image(
+								'Enemy_Ranges/map', 
+								enemy_img, 
+								state.step_counter, 
+								dataformats='HW')
+
+						vision_img = map_utils.generate_vision_image(
+							friendly_units,
+							state.map_width,
+							state.map_height,
+							state.normalized_map_heights
+						)
+						if vision_img is not None:
+							state.writer.add_image(
+								'Agent_View/vision',
+								vision_img,
+								state.step_counter,
+								dataformats='HW'
+							)
 
 						if local_view is not None and enemy_img is not None:
 							# use the new map utilities to create a combined visualization of local terrain and enemy ranges
@@ -512,7 +723,26 @@ def receive_messages(conn, addr):
 				state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
 			)
 			if enemy_img is not None:
-				state.writer.add_image('Enemy_Ranges/map', enemy_img, state.step_counter, dataformats='HW')
+				state.writer.add_image(
+					'Enemy_Ranges/map', 
+					enemy_img, 
+					state.step_counter, 
+					dataformats='HW'
+				)
+
+			vision_img = map_utils.generate_vision_image(
+				friendly_units,
+				state.map_width,
+				state.map_height,
+				state.normalized_map_heights
+			)
+			if vision_img is not None:
+				state.writer.add_image(
+					'Agent_View/vision',
+					vision_img,
+					state.step_counter,
+					dataformats='HWC'
+				)
 
 			if local_view is not None and enemy_img is not None:
 				# use the new map utilities to create a combined visualization of local terrain and enemy ranges
