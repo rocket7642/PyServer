@@ -241,142 +241,142 @@ def _save_top_match_dataset(success, reason):
 	state.match_segment_summaries.clear()
 
 
-def compute_reward(agent_unit, prev_health):
-	"""Calculate the total step reward for a unit based on damage, mass collection, distance, inactivity, and danger."""
-	reward = 0
-	unit_id = agent_unit['id']
+# def compute_reward(agent_unit, prev_health):
+# 	"""Calculate the total step reward for a unit based on damage, mass collection, distance, inactivity, and danger."""
+# 	reward = 0
+# 	unit_id = agent_unit['id']
 
-	reward_components = {
-		'damage_penalty': 0,
-		'mass_reward': 0,
-		'distance_improvement': 0,
-		'base_distance_reward': 0,
-		'inactivity_penalty': 0,
-		'no_mass_penalty': 0,
-		#'boundary_penalty': 0,
-		'danger_zone_penalty': 0,
-		'cancel_command_penalty': 0
-	}
+# 	reward_components = {
+# 		'damage_penalty': 0,
+# 		'mass_reward': 0,
+# 		'distance_improvement': 0,
+# 		'base_distance_reward': 0,
+# 		'inactivity_penalty': 0,
+# 		'no_mass_penalty': 0,
+# 		#'boundary_penalty': 0,
+# 		'danger_zone_penalty': 0,
+# 		'cancel_command_penalty': 0
+# 	}
 
-	if agent_unit['health'] < prev_health:
-		damage_penalty = prev_health - agent_unit['health']
-		reward -= damage_penalty
-		reward_components['damage_penalty'] = -damage_penalty
-		print(f"Unit {unit_id} damage penalty: -{damage_penalty}")
+# 	if agent_unit['health'] < prev_health:
+# 		damage_penalty = prev_health - agent_unit['health']
+# 		reward -= damage_penalty
+# 		reward_components['damage_penalty'] = -damage_penalty
+# 		print(f"Unit {unit_id} damage penalty: -{damage_penalty}")
 
-	unit_nx = map_utils.normalize_x(agent_unit['x'])
-	unit_nz = map_utils.normalize_z(agent_unit['z'])
+# 	unit_nx = map_utils.normalize_x(agent_unit['x'])
+# 	unit_nz = map_utils.normalize_z(agent_unit['z'])
 
-	#mass_reward = 0
-	for spot in state.mass_spots:
-		if spot not in state.visited_mass_spots:
-			dist_to_spot = ((spot[0] - agent_unit['x']) ** 2 + (spot[1] - agent_unit['z']) ** 2) ** 0.5
-			if map_utils.normalize_distance(dist_to_spot) < map_utils.normalize_distance(200):
-				state.visited_mass_spots.add(spot)
-				state.visited_mass_spots_norm.add((map_utils.normalize_x(spot[0]), map_utils.normalize_z(spot[1])))
-				reward += 100
-				#mass_reward = 100
-				reward_components['mass_reward'] = 100
-				print(f"Unit {unit_id} mass reward: +100")
-				state.last_mass_visit[unit_id] = 0
-				break
+# 	#mass_reward = 0
+# 	for spot in state.mass_spots:
+# 		if spot not in state.visited_mass_spots:
+# 			dist_to_spot = ((spot[0] - agent_unit['x']) ** 2 + (spot[1] - agent_unit['z']) ** 2) ** 0.5
+# 			if map_utils.normalize_distance(dist_to_spot) < map_utils.normalize_distance(200):
+# 				state.visited_mass_spots.add(spot)
+# 				state.visited_mass_spots_norm.add((map_utils.normalize_x(spot[0]), map_utils.normalize_z(spot[1])))
+# 				reward += 100
+# 				#mass_reward = 100
+# 				reward_components['mass_reward'] = 100
+# 				print(f"Unit {unit_id} mass reward: +100")
+# 				state.last_mass_visit[unit_id] = 0
+# 				break
 
-	unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
-	if unvisited_mass:
-		nearest_mass = min(unvisited_mass, key=lambda p: (p[0] - unit_nx) ** 2 + (p[1] - unit_nz) ** 2)
-		current_dist = ((nearest_mass[0] - unit_nx) ** 2 + (nearest_mass[1] - unit_nz) ** 2) ** 0.5
-		prev_dist = state.previous_distances.get(unit_id, current_dist)
-		print(f"Unit {unit_id} nearest mass: {nearest_mass}, dist: {current_dist:.2f}, prev_dist: {prev_dist:.2f}")
+# 	unvisited_mass = [p for p in state.map_spots_norm if (p[0], p[1]) not in state.visited_mass_spots_norm]
+# 	if unvisited_mass:
+# 		nearest_mass = min(unvisited_mass, key=lambda p: (p[0] - unit_nx) ** 2 + (p[1] - unit_nz) ** 2)
+# 		current_dist = ((nearest_mass[0] - unit_nx) ** 2 + (nearest_mass[1] - unit_nz) ** 2) ** 0.5
+# 		prev_dist = state.previous_distances.get(unit_id, current_dist)
+# 		print(f"Unit {unit_id} nearest mass: {nearest_mass}, dist: {current_dist:.2f}, prev_dist: {prev_dist:.2f}")
 
-		if current_dist < prev_dist:
-			dist_improvement = (prev_dist - current_dist) * 0.1
-			reward += dist_improvement
-			reward_components['distance_improvement'] = dist_improvement
-			print(f"Unit {unit_id} distance improvement: +{dist_improvement:.2f}")
-		elif current_dist > prev_dist:
-			away_penalty = (current_dist - prev_dist) * 0.05
-			reward -= away_penalty
-			reward_components['distance_improvement'] = -away_penalty
-			print(f"Unit {unit_id} moving away penalty: -{away_penalty:.2f}")
+# 		if current_dist < prev_dist:
+# 			dist_improvement = (prev_dist - current_dist) * 0.1
+# 			reward += dist_improvement
+# 			reward_components['distance_improvement'] = dist_improvement
+# 			print(f"Unit {unit_id} distance improvement: +{dist_improvement:.2f}")
+# 		elif current_dist > prev_dist:
+# 			away_penalty = (current_dist - prev_dist) * 0.05
+# 			reward -= away_penalty
+# 			reward_components['distance_improvement'] = -away_penalty
+# 			print(f"Unit {unit_id} moving away penalty: -{away_penalty:.2f}")
 
-		base_dist_reward = max(0, map_utils.normalize_distance(750) - current_dist) * 0.1
-		reward += base_dist_reward
-		reward_components['base_distance_reward'] = base_dist_reward
-		print(f"Unit {unit_id} base distance reward: +{base_dist_reward:.2f}")
+# 		base_dist_reward = max(0, map_utils.normalize_distance(750) - current_dist) * 0.1
+# 		reward += base_dist_reward
+# 		reward_components['base_distance_reward'] = base_dist_reward
+# 		print(f"Unit {unit_id} base distance reward: +{base_dist_reward:.2f}")
 
-		state.previous_distances[unit_id] = current_dist
+# 		state.previous_distances[unit_id] = current_dist
 
-	prev_pos = state.previous_positions.get(unit_id, (agent_unit['x'], agent_unit['z']))
-	dist_moved = ((prev_pos[0] - agent_unit['x']) ** 2 + (prev_pos[1] - agent_unit['z']) ** 2) ** 0.5
-	if map_utils.normalize_distance(dist_moved) < map_utils.normalize_distance(5):
-		state.consecutive_inactive[unit_id] = state.consecutive_inactive.get(unit_id, 0) + 3
-		inactivity_penalty = state.consecutive_inactive[unit_id]
-		reward -= inactivity_penalty
-		reward_components['inactivity_penalty'] = -inactivity_penalty
-		print(
-			f"Unit {unit_id} inactivity penalty: -{inactivity_penalty} "
-			f"(consecutive: {state.consecutive_inactive[unit_id]})"
-		)
-	else:
-		state.consecutive_inactive[unit_id] = 0
+# 	prev_pos = state.previous_positions.get(unit_id, (agent_unit['x'], agent_unit['z']))
+# 	dist_moved = ((prev_pos[0] - agent_unit['x']) ** 2 + (prev_pos[1] - agent_unit['z']) ** 2) ** 0.5
+# 	if map_utils.normalize_distance(dist_moved) < map_utils.normalize_distance(5):
+# 		state.consecutive_inactive[unit_id] = state.consecutive_inactive.get(unit_id, 0) + 3
+# 		inactivity_penalty = state.consecutive_inactive[unit_id]
+# 		reward -= inactivity_penalty
+# 		reward_components['inactivity_penalty'] = -inactivity_penalty
+# 		print(
+# 			f"Unit {unit_id} inactivity penalty: -{inactivity_penalty} "
+# 			f"(consecutive: {state.consecutive_inactive[unit_id]})"
+# 		)
+# 	else:
+# 		state.consecutive_inactive[unit_id] = 0
 
-	state.last_mass_visit[unit_id] = state.last_mass_visit.get(unit_id, 0) + 1
-	no_mass_penalty = state.last_mass_visit[unit_id] * 0.05
-	reward -= no_mass_penalty
-	reward_components['no_mass_penalty'] = -no_mass_penalty
-	print(
-		f"Unit {unit_id} no mass visit penalty: -{no_mass_penalty:.2f} "
-		f"(steps: {state.last_mass_visit[unit_id]})"
-	)
+# 	state.last_mass_visit[unit_id] = state.last_mass_visit.get(unit_id, 0) + 1
+# 	no_mass_penalty = state.last_mass_visit[unit_id] * 0.05
+# 	reward -= no_mass_penalty
+# 	reward_components['no_mass_penalty'] = -no_mass_penalty
+# 	print(
+# 		f"Unit {unit_id} no mass visit penalty: -{no_mass_penalty:.2f} "
+# 		f"(steps: {state.last_mass_visit[unit_id]})"
+# 	)
 
-    # As long as no commands are allowed outside the map, this is not required
-	# boundary_threshold = map_utils.normalize_distance(200)
-	# dist_to_boundary = min(
-	# 	unit_nx,
-	# 	unit_nz,
-	# 	config.STANDARD_MAP_WIDTH - unit_nx,
-	# 	config.STANDARD_MAP_HEIGHT - unit_nz
-	# )
+#     # As long as no commands are allowed outside the map, this is not required
+# 	# boundary_threshold = map_utils.normalize_distance(200)
+# 	# dist_to_boundary = min(
+# 	# 	unit_nx,
+# 	# 	unit_nz,
+# 	# 	config.STANDARD_MAP_WIDTH - unit_nx,
+# 	# 	config.STANDARD_MAP_HEIGHT - unit_nz
+# 	# )
 
-	# if dist_to_boundary < boundary_threshold:
-	# 	boundary_penalty = (boundary_threshold - dist_to_boundary) * 0.2
-	# 	reward -= boundary_penalty
-	# 	reward_components['boundary_penalty'] = -boundary_penalty
-	# 	print(
-	# 		f"Unit {unit_id} boundary penalty: -{boundary_penalty:.2f} "
-	# 		f"(distance to edge: {dist_to_boundary:.1f})"
-	# 	)
+# 	# if dist_to_boundary < boundary_threshold:
+# 	# 	boundary_penalty = (boundary_threshold - dist_to_boundary) * 0.2
+# 	# 	reward -= boundary_penalty
+# 	# 	reward_components['boundary_penalty'] = -boundary_penalty
+# 	# 	print(
+# 	# 		f"Unit {unit_id} boundary penalty: -{boundary_penalty:.2f} "
+# 	# 		f"(distance to edge: {dist_to_boundary:.1f})"
+# 	# 	)
 
-	enemy_range_image = map_utils.generate_enemy_range_image(
-		state.eUnits,
-		state.map_width,
-		state.map_height,
-		state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
-	)
-	if enemy_range_image is not None:
-		map_x = int(map_utils.normalize_x(agent_unit['x']))
-		map_z = int(map_utils.normalize_z(agent_unit['z']))
-		if 0 <= map_z < enemy_range_image.shape[0] and 0 <= map_x < enemy_range_image.shape[1]:
-			if enemy_range_image[map_z, map_x] > 0:
-				danger_penalty = -50.0
-				reward -= danger_penalty
-				reward_components['danger_zone_penalty'] = -danger_penalty
-				print(f"Unit {unit_id} danger zone penalty: -{danger_penalty}")
+# 	enemy_range_image = map_utils.generate_enemy_range_image(
+# 		state.eUnits,
+# 		state.map_width,
+# 		state.map_height,
+# 		state.normalized_map_heights.shape if state.normalized_map_heights is not None else None
+# 	)
+# 	if enemy_range_image is not None:
+# 		map_x = int(map_utils.normalize_x(agent_unit['x']))
+# 		map_z = int(map_utils.normalize_z(agent_unit['z']))
+# 		if 0 <= map_z < enemy_range_image.shape[0] and 0 <= map_x < enemy_range_image.shape[1]:
+# 			if enemy_range_image[map_z, map_x] > 0:
+# 				danger_penalty = -50.0
+# 				reward -= danger_penalty
+# 				reward_components['danger_zone_penalty'] = -danger_penalty
+# 				print(f"Unit {unit_id} danger zone penalty: -{danger_penalty}")
 
-	cancel_penalty = state.cancel_command_penalties.pop(unit_id, 0.0)
-	if cancel_penalty:
-		reward -= cancel_penalty
-		reward_components['cancel_command_penalty'] = -cancel_penalty
-		print(f"Unit {unit_id} cancel command penalty: -{cancel_penalty}")
+# 	cancel_penalty = state.cancel_command_penalties.pop(unit_id, 0.0)
+# 	if cancel_penalty:
+# 		reward -= cancel_penalty
+# 		reward_components['cancel_command_penalty'] = -cancel_penalty
+# 		print(f"Unit {unit_id} cancel command penalty: -{cancel_penalty}")
 
-	state.previous_positions[unit_id] = (agent_unit['x'], agent_unit['z'])
+# 	state.previous_positions[unit_id] = (agent_unit['x'], agent_unit['z'])
 
-	for component_name, component_value in reward_components.items():
-		state.writer.add_scalar(f'Reward_Components/{component_name}', component_value, state.step_counter)
-	state.writer.add_scalar('Reward/total_reward', reward, state.step_counter)
+# 	for component_name, component_value in reward_components.items():
+# 		state.writer.add_scalar(f'Reward_Components/{component_name}', component_value, state.step_counter)
+# 	state.writer.add_scalar('Reward/total_reward', reward, state.step_counter)
 
-	print(f"Unit {unit_id} reward: {reward}")
-	return reward
+# 	print(f"Unit {unit_id} reward: {reward}")
+# 	return reward
 
 
 def init_segment_tracking(unit):
