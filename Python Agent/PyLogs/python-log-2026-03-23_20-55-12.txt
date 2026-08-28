@@ -1,0 +1,2579 @@
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:96: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if 0 <= idx < feature_weights.shape[-1]:
+Feature-based agent weights loaded.
+Model graph logged to TensorBoard (Graphs tab).
+TensorBoard logging to: runs/feature_based_agent_20260323_205515
+View with: tensorboard --logdir=runs
+Server listening on 127.0.0.1:25000...
+Map dimensions: 2048 x 2048
+Loaded cached map cost fields from cache\map_fields\f63e908a71dd264b5079ec45ad07e2919a21d30c47639fb0a1ac71f9fc954d5b.npz
+[NEW CONNECTION] ('127.0.0.1', 51381) connected.
+[unit_defs] Loaded 28 unit definitions from data/unit_defs.json
+[HANDSHAKE] Sent START to ('127.0.0.1', 51381) (attempt 1/30)
+[HANDSHAKE] Received from ('127.0.0.1', 51381): FRIENDLY_UNITS
+27117 armcom 369.000000 160.273163 476.000031 3700.000000 1.250000
+END
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 51381)] KNOWN_ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 51381)] TURN
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 369.000000 160.273163 476.000031 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 369.0, 'y': 160.273163, 'z': 476.000031, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117 mass destination -> (188.00, 180.00) score=73.92
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-530.221, max=97.252, mean=-182.191
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 97.25)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 160.273163
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 369.0, 'y': 160.273163, 'z': 476.000031, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-530.221, max=97.252, mean=-182.191
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 97.25)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 160.273163
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 369.000000 160.273163 476.000031 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 369.0, 'y': 160.273163, 'z': 476.000031, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-530.221, max=97.252, mean=-182.191
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 97.25)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 160.273163
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 369.0, 'y': 160.273163, 'z': 476.000031, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-530.221, max=97.252, mean=-182.191
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 97.25)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 160.273163
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 368.989258 160.232544 476.429840 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 368.989258, 'y': 160.232544, 'z': 476.42984, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-530.221, max=97.252, mean=-180.164
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 97.25)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 160.232544
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 368.989258, 'y': 160.232544, 'z': 476.42984, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-530.221, max=97.252, mean=-180.164
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 97.25)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 160.232544
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 387.283813 155.594116 472.399261 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 387.283813, 'y': 155.594116, 'z': 472.399261, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-540.536, max=96.160, mean=-187.641
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 96.16)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 155.594116
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 387.283813, 'y': 155.594116, 'z': 472.399261, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-540.536, max=96.160, mean=-187.641
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 96.16)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 155.594116
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 383.843994 161.295776 438.484589 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 383.843994, 'y': 161.295776, 'z': 438.484589, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-543.263, max=68.325, mean=-192.836
+Unit 27117 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 68.33)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 376.0 360.0 161.295776
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 383.843994, 'y': 161.295776, 'z': 438.484589, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 27117 (5 steps, reward 200.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 27117 with reward 200.00 in 0.00 seconds. Reason: mass_reached
+Unit 27117 reached a mass spot. Segment deferred.
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117 mass destination -> (620.00, 156.00) score=518.83
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-379.303, max=357.735, mean=18.114
+Unit 27117 chose action MOVE -> target normalized (391.92, 152.58), denormalized (783.8, 305.2) (score 357.73)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 783.8439940000001 305.15125566666666 161.295776
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 380.700287 169.547928 407.061523 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 380.700287, 'y': 169.547928, 'z': 407.061523, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-385.889, max=307.262, mean=-2.099
+Unit 27117 chose action MOVE -> target normalized (390.35, 181.31), denormalized (780.7, 362.6) (score 307.26)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 780.700287 362.61707855555557 169.547928
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 380.700287, 'y': 169.547928, 'z': 407.061523, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-385.889, max=307.262, mean=-2.099
+Unit 27117 chose action MOVE -> target normalized (390.35, 181.31), denormalized (780.7, 362.6) (score 307.26)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 780.700287 362.61707855555557 169.547928
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 377.734436 179.702301 377.413361 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 377.734436, 'y': 179.702301, 'z': 377.413361, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-475.938, max=309.519, mean=-22.120
+Unit 27117 chose action MOVE -> target normalized (388.87, 166.48), denormalized (777.7, 333.0) (score 309.52)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 777.734436 332.96891655555555 179.702301
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 377.734436, 'y': 179.702301, 'z': 377.413361, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-475.938, max=309.519, mean=-22.120
+Unit 27117 chose action MOVE -> target normalized (388.87, 166.48), denormalized (777.7, 333.0) (score 309.52)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 777.734436 332.96891655555555 179.702301
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 400.337250 179.886414 359.236755 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 400.33725, 'y': 179.886414, 'z': 359.236755, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-461.105, max=307.890, mean=-28.778
+Unit 27117 chose action MOVE -> target normalized (400.17, 157.40), denormalized (800.3, 314.8) (score 307.89)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 800.33725 314.79231055555556 179.886414
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 400.33725, 'y': 179.886414, 'z': 359.236755, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-461.105, max=307.890, mean=-28.778
+Unit 27117 chose action MOVE -> target normalized (400.17, 157.40), denormalized (800.3, 314.8) (score 307.89)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 800.33725 314.79231055555556 179.886414
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 437.773926 174.455536 358.692108 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 437.773926, 'y': 174.455536, 'z': 358.692108, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-556.486, max=305.632, mean=-40.909
+Unit 27117 chose action MOVE -> target normalized (418.89, 157.12), denormalized (837.8, 314.2) (score 305.63)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 837.7739260000001 314.24766355555556 174.455536
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 437.773926, 'y': 174.455536, 'z': 358.692108, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-556.486, max=305.632, mean=-40.909
+Unit 27117 chose action MOVE -> target normalized (418.89, 157.12), denormalized (837.8, 314.2) (score 305.63)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 837.7739260000001 314.24766355555556 174.455536
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 475.173798 171.135391 356.290375 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 475.173798, 'y': 171.135391, 'z': 356.290375, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-537.424, max=296.440, mean=-68.840
+Unit 27117 chose action MOVE -> target normalized (437.59, 155.92), denormalized (875.2, 311.8) (score 296.44)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 875.173798 311.8459305555555 171.135391
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 475.173798, 'y': 171.135391, 'z': 356.290375, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-537.424, max=296.440, mean=-68.840
+Unit 27117 chose action MOVE -> target normalized (437.59, 155.92), denormalized (875.2, 311.8) (score 296.44)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 875.173798 311.8459305555555 171.135391
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 511.790466 171.873352 351.877747 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 511.790466, 'y': 171.873352, 'z': 351.877747, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-524.119, max=293.715, mean=-70.478
+Unit 27117 chose action MOVE -> target normalized (455.90, 153.72), denormalized (911.8, 307.4) (score 293.72)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 911.7904659999999 307.43330255555554 171.873352
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 511.790466, 'y': 171.873352, 'z': 351.877747, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-524.119, max=293.715, mean=-70.478
+Unit 27117 chose action MOVE -> target normalized (455.90, 153.72), denormalized (911.8, 307.4) (score 293.72)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 911.7904659999999 307.43330255555554 171.873352
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 547.750427 173.281555 347.719971 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 547.750427, 'y': 173.281555, 'z': 347.719971, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-621.597, max=286.377, mean=-91.939
+Unit 27117 chose action MOVE -> target normalized (473.88, 151.64), denormalized (947.8, 303.3) (score 286.38)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 947.750427 303.27552655555553 173.281555
+[('127.0.0.1', 51381)] ENEMY_UNITS
+754 corthud 947.576782 170.322617 331.929749 1100.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 547.750427, 'y': 173.281555, 'z': 347.719971, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.002, MOVE scores: min=-621.576, max=286.351, mean=-114.991
+Unit 27117 chose action MOVE -> target normalized (473.88, 151.64), denormalized (947.8, 303.3) (score 286.35)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 947.750427 303.27552655555553 173.281555
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 582.393982 176.321274 343.906677 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 582.393982, 'y': 176.321274, 'z': 343.906677, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-588.325, max=281.661, mean=-119.602
+Unit 27117 chose action MOVE -> target normalized (491.20, 149.73), denormalized (982.4, 299.5) (score 281.66)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 982.393982 299.46223255555554 176.321274
+[('127.0.0.1', 51381)] ENEMY_UNITS
+754 corthud 904.140991 171.846420 334.063751 1100.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 582.393982, 'y': 176.321274, 'z': 343.906677, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-588.325, max=281.664, mean=-119.624
+Unit 27117 chose action MOVE -> target normalized (491.20, 149.73), denormalized (982.4, 299.5) (score 281.66)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 982.393982 299.46223255555554 176.321274
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 617.529175 179.015656 340.046082 3597.672607 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 617.529175, 'y': 179.015656, 'z': 340.046082, 'health': 3597.672607, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-582.871, max=274.896, mean=-123.041
+Unit 27117 chose action MOVE -> target normalized (508.76, 147.80), denormalized (1017.5, 295.6) (score 274.90)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1017.529175 295.60163755555556 179.015656
+[('127.0.0.1', 51381)] ENEMY_UNITS
+754 corthud 859.932251 172.087189 336.235687 998.617615 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 617.529175, 'y': 179.015656, 'z': 340.046082, 'health': 3597.672607, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-582.871, max=274.900, mean=-123.179
+Unit 27117 chose action MOVE -> target normalized (508.76, 147.80), denormalized (1017.5, 295.6) (score 274.90)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1017.529175 295.60163755555556 179.015656
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 652.833191 181.359802 336.131165 3604.478271 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 652.833191, 'y': 181.359802, 'z': 336.131165, 'health': 3604.478271, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-570.376, max=272.281, mean=-125.903
+Unit 27117 chose action MOVE -> target normalized (526.42, 145.84), denormalized (1052.8, 291.7) (score 272.28)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1052.8331910000002 291.68672055555555 181.359802
+[('127.0.0.1', 51381)] ENEMY_UNITS
+754 corthud 815.238953 171.320648 338.431519 847.828918 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 652.833191, 'y': 181.359802, 'z': 336.131165, 'health': 3604.478271, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-570.377, max=272.284, mean=-122.644
+Unit 27117 chose action MOVE -> target normalized (526.42, 145.84), denormalized (1052.8, 291.7) (score 272.28)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1052.8331910000002 291.68672055555555 181.359802
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 687.853638 183.656891 332.215546 3507.181152 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 687.853638, 'y': 183.656891, 'z': 332.215546, 'health': 3507.181152, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-560.695, max=376.008, mean=-111.241
+Unit 27117 chose action MOVE -> target normalized (613.00, 150.00), denormalized (1226.0, 300.0) (score 376.01)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1226.0 300.0 183.656891
+[('127.0.0.1', 51381)] ENEMY_UNITS
+754 corthud 770.932007 168.449295 343.238007 727.335388 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 687.853638, 'y': 183.656891, 'z': 332.215546, 'health': 3507.181152, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-560.695, max=376.012, mean=-111.865
+Unit 27117 chose action MOVE -> target normalized (613.00, 150.00), denormalized (1226.0, 300.0) (score 376.01)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1226.0 300.0 183.656891
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 722.877502 185.977020 325.459076 3405.283936 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 722.877502, 'y': 185.97702, 'z': 325.459076, 'health': 3405.283936, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-552.751, max=349.631, mean=-111.351
+Unit 27117 chose action MOVE -> target normalized (616.00, 150.00), denormalized (1232.0, 300.0) (score 349.63)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1232.0 300.0 185.97702
+[('127.0.0.1', 51381)] ENEMY_UNITS
+754 corthud 732.130920 156.639023 366.128265 513.377197 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 722.877502, 'y': 185.97702, 'z': 325.459076, 'health': 3405.283936, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.005, MOVE scores: min=-552.756, max=349.636, mean=-85.234
+Unit 27117 chose action MOVE -> target normalized (616.00, 150.00), denormalized (1232.0, 300.0) (score 349.64)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1232.0 300.0 185.97702
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 758.197388 188.245361 321.067474 3413.802490 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 758.197388, 'y': 188.245361, 'z': 321.067474, 'health': 3413.80249, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-545.697, max=327.354, mean=-65.851
+Unit 27117 chose action MOVE -> target normalized (619.00, 150.00), denormalized (1238.0, 300.0) (score 327.35)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1238.0 300.0 188.245361
+[('127.0.0.1', 51381)] ENEMY_UNITS
+754 corthud 688.479675 153.519699 373.038452 177.964462 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 758.197388, 'y': 188.245361, 'z': 321.067474, 'health': 3413.80249, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-545.700, max=327.356, mean=-60.690
+Unit 27117 chose action MOVE -> target normalized (619.00, 150.00), denormalized (1238.0, 300.0) (score 327.36)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1238.0 300.0 188.245361
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 793.412842 190.814438 319.255951 3249.590820 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 793.412842, 'y': 190.814438, 'z': 319.255951, 'health': 3249.59082, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-540.943, max=302.879, mean=-70.589
+Unit 27117 chose action MOVE -> target normalized (621.00, 150.00), denormalized (1242.0, 300.0) (score 302.88)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1242.0 300.0 190.814438
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 793.412842, 'y': 190.814438, 'z': 319.255951, 'health': 3249.59082, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-540.948, max=302.865, mean=-88.519
+Unit 27117 chose action MOVE -> target normalized (621.00, 150.00), denormalized (1242.0, 300.0) (score 302.86)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1242.0 300.0 190.814438
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 830.274780 190.771454 317.663422 3254.590820 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 830.27478, 'y': 190.771454, 'z': 317.663422, 'health': 3254.59082, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-537.369, max=261.594, mean=-91.139
+Unit 27117 chose action MOVE -> target normalized (610.00, 150.00), denormalized (1220.0, 300.0) (score 261.59)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1220.0 300.0 190.771454
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 830.27478, 'y': 190.771454, 'z': 317.663422, 'health': 3254.59082, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-537.369, max=261.594, mean=-91.139
+Unit 27117 chose action MOVE -> target normalized (610.00, 150.00), denormalized (1220.0, 300.0) (score 261.59)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1220.0 300.0 190.771454
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 866.885071 191.539215 316.089813 3259.590820 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 866.885071, 'y': 191.539215, 'z': 316.089813, 'health': 3259.59082, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-535.235, max=241.425, mean=-106.464
+Unit 27117 chose action MOVE -> target normalized (613.00, 150.00), denormalized (1226.0, 300.0) (score 241.42)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1226.0 300.0 191.539215
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1232.649536 156.006424 317.963440 1100.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 866.885071, 'y': 191.539215, 'z': 316.089813, 'health': 3259.59082, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-535.215, max=241.399, mean=-134.347
+Unit 27117 chose action MOVE -> target normalized (613.00, 150.00), denormalized (1226.0, 300.0) (score 241.40)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1226.0 300.0 191.539215
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 904.341919 190.609833 314.512512 3264.590820 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 904.341919, 'y': 190.609833, 'z': 314.512512, 'health': 3264.59082, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-535.135, max=219.959, mean=-134.250
+Unit 27117 chose action MOVE -> target normalized (617.00, 150.00), denormalized (1234.0, 300.0) (score 219.96)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1234.0 300.0 190.609833
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1209.184814 160.532730 315.330292 1100.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 904.341919, 'y': 190.609833, 'z': 314.512512, 'health': 3264.59082, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-535.135, max=219.961, mean=-134.144
+Unit 27117 chose action MOVE -> target normalized (617.00, 150.00), denormalized (1234.0, 300.0) (score 219.96)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1234.0 300.0 190.609833
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 941.763428 189.089249 312.813904 3164.625000 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 941.763428, 'y': 189.089249, 'z': 312.813904, 'health': 3164.625, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-532.060, max=200.934, mean=-137.346
+Unit 27117 chose action MOVE -> target normalized (620.00, 150.00), denormalized (1240.0, 300.0) (score 200.93)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1240.0 300.0 189.089249
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1209.184814 160.532730 315.330292 1003.742065 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 941.763428, 'y': 189.089249, 'z': 312.813904, 'health': 3164.625, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-532.060, max=200.934, mean=-137.346
+Unit 27117 chose action MOVE -> target normalized (620.00, 150.00), denormalized (1240.0, 300.0) (score 200.93)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1240.0 300.0 189.089249
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 979.174255 188.152679 311.139801 3171.219971 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 979.174255, 'y': 188.152679, 'z': 311.139801, 'health': 3171.219971, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-528.925, max=162.337, mean=-149.326
+Unit 27117 chose action MOVE -> target normalized (609.00, 150.00), denormalized (1218.0, 300.0) (score 162.34)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1218.0 300.0 188.152679
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1209.184814 160.532730 315.330292 851.187866 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 979.174255, 'y': 188.152679, 'z': 311.139801, 'health': 3171.219971, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-528.925, max=162.337, mean=-149.326
+Unit 27117 chose action MOVE -> target normalized (609.00, 150.00), denormalized (1218.0, 300.0) (score 162.34)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1218.0 300.0 188.152679
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1016.638062 186.546463 309.520996 3072.240967 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1016.638062, 'y': 186.546463, 'z': 309.520996, 'health': 3072.240967, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-531.160, max=139.321, mean=-168.393
+Unit 27117 chose action MOVE -> target normalized (613.00, 150.00), denormalized (1226.0, 300.0) (score 139.32)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1226.0 300.0 186.546463
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1209.184814 160.532730 315.330292 773.143494 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1016.638062, 'y': 186.546463, 'z': 309.520996, 'health': 3072.240967, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-531.160, max=139.321, mean=-168.393
+Unit 27117 chose action MOVE -> target normalized (613.00, 150.00), denormalized (1226.0, 300.0) (score 139.32)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1226.0 300.0 186.546463
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1053.986450 186.018799 307.964813 2974.553467 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1053.98645, 'y': 186.018799, 'z': 307.964813, 'health': 2974.553467, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-529.051, max=120.590, mean=-177.213
+Unit 27117 chose action MOVE -> target normalized (616.00, 150.00), denormalized (1232.0, 300.0) (score 120.59)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1232.0 300.0 186.018799
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1209.184814 160.532730 315.330292 619.487061 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1053.98645, 'y': 186.018799, 'z': 307.964813, 'health': 2974.553467, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-529.051, max=120.590, mean=-177.213
+Unit 27117 chose action MOVE -> target normalized (616.00, 150.00), denormalized (1232.0, 300.0) (score 120.59)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1232.0 300.0 186.018799
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1091.444336 184.060410 306.218689 2981.287109 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1091.444336, 'y': 184.06041, 'z': 306.218689, 'health': 2981.287109, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-530.288, max=99.278, mean=-188.159
+Unit 27117 chose action MOVE -> target normalized (620.00, 150.00), denormalized (1240.0, 300.0) (score 99.28)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1240.0 300.0 184.06041
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1209.184814 160.532730 315.330292 429.419281 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1091.444336, 'y': 184.06041, 'z': 306.218689, 'health': 2981.287109, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-530.288, max=99.278, mean=-188.159
+Unit 27117 chose action MOVE -> target normalized (620.00, 150.00), denormalized (1240.0, 300.0) (score 99.28)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1240.0 300.0 184.06041
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1128.916260 181.031677 305.004364 2883.763672 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1128.91626, 'y': 181.031677, 'z': 305.004364, 'health': 2883.763672, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-528.296, max=87.269, mean=-193.829
+Unit 27117 chose action MOVE -> target normalized (620.00, 156.00), denormalized (1240.0, 312.0) (score 87.27)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1240.0 312.0 181.031677
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1209.184814 160.532730 315.330292 263.509155 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1128.91626, 'y': 181.031677, 'z': 305.004364, 'health': 2883.763672, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-528.296, max=87.269, mean=-193.829
+Unit 27117 chose action MOVE -> target normalized (620.00, 156.00), denormalized (1240.0, 312.0) (score 87.27)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1240.0 312.0 181.031677
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1166.273071 179.595032 302.115997 2785.984619 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1166.273071, 'y': 179.595032, 'z': 302.115997, 'health': 2785.984619, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-525.666, max=63.550, mean=-203.713
+Unit 27117 chose action MOVE -> target normalized (620.00, 156.00), denormalized (1240.0, 312.0) (score 63.55)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1240.0 312.0 179.595032
+[('127.0.0.1', 51381)] ENEMY_UNITS
+24157 corthud 1209.184814 160.532730 315.330292 101.784866 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1166.273071, 'y': 179.595032, 'z': 302.115997, 'health': 2785.984619, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 27117 (24 steps, reward 200.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 27117 with reward 200.00 in 0.00 seconds. Reason: mass_reached
+Unit 27117 reached a mass spot. Segment deferred.
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117 mass destination -> (524.00, 492.00) score=422.65
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-209.016, max=379.369, mean=102.729
+Unit 27117 chose action MOVE -> target normalized (516.92, 366.09), denormalized (1033.8, 732.2) (score 379.37)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1033.836646325845 732.1864486931231 179.595032
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1203.307373 177.564789 299.623566 2791.798340 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1203.307373, 'y': 177.564789, 'z': 299.623566, 'health': 2791.79834, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.005, MOVE scores: min=-207.992, max=378.375, mean=86.344
+Unit 27117 chose action MOVE -> target normalized (534.99, 349.81), denormalized (1070.0, 699.6) (score 378.38)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1069.9740396666666 699.623566 177.564789
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1203.307373, 'y': 177.564789, 'z': 299.623566, 'health': 2791.79834, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-208.003, max=378.369, mean=104.556
+Unit 27117 chose action MOVE -> target normalized (534.99, 349.81), denormalized (1070.0, 699.6) (score 378.37)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1069.9740396666666 699.623566 177.564789
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1240.826416 172.173767 298.776520 2796.798340 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1240.826416, 'y': 172.173767, 'z': 298.77652, 'health': 2796.79834, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-170.422, max=394.962, mean=131.875
+Unit 27117 chose action MOVE -> target normalized (509.30, 349.39), denormalized (1018.6, 698.8) (score 394.96)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1018.6041937777779 698.77652 172.173767
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1240.826416, 'y': 172.173767, 'z': 298.77652, 'health': 2796.79834, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-170.422, max=394.962, mean=131.875
+Unit 27117 chose action MOVE -> target normalized (509.30, 349.39), denormalized (1018.6, 698.8) (score 394.96)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1018.6041937777779 698.77652 172.173767
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1244.836426 155.621262 335.908020 2801.798340 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1244.836426, 'y': 155.621262, 'z': 335.90802, 'health': 2801.79834, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-217.650, max=391.330, mean=102.638
+Unit 27117 chose action MOVE -> target normalized (511.31, 367.95), denormalized (1022.6, 735.9) (score 391.33)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1022.6142037777779 735.9080200000001 155.621262
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1244.836426, 'y': 155.621262, 'z': 335.90802, 'health': 2801.79834, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-217.650, max=391.330, mean=102.638
+Unit 27117 chose action MOVE -> target normalized (511.31, 367.95), denormalized (1022.6, 735.9) (score 391.33)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1022.6142037777779 735.9080200000001 155.621262
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1247.074219 144.400574 376.754974 2686.767578 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1247.074219, 'y': 144.400574, 'z': 376.754974, 'health': 2686.767578, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-259.508, max=386.960, mean=80.471
+Unit 27117 chose action MOVE -> target normalized (512.43, 388.38), denormalized (1024.9, 776.8) (score 386.96)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1024.851996777778 776.754974 144.400574
+[('127.0.0.1', 51381)] ENEMY_UNITS
+26760 corthud 1241.812988 153.395264 321.952332 1005.250488 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1247.074219, 'y': 144.400574, 'z': 376.754974, 'health': 2686.767578, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-259.515, max=386.974, mean=92.684
+Unit 27117 chose action MOVE -> target normalized (512.43, 388.38), denormalized (1024.9, 776.8) (score 386.97)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1024.851996777778 776.754974 144.400574
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1228.781006 138.822571 408.503021 2693.048584 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1228.781006, 'y': 138.822571, 'z': 408.503021, 'health': 2693.048584, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-286.737, max=388.699, mean=70.219
+Unit 27117 chose action MOVE -> target normalized (532.22, 413.71), denormalized (1064.4, 827.4) (score 388.70)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1064.4411292000743 827.4211572669624 138.822571
+[('127.0.0.1', 51381)] ENEMY_UNITS
+26760 corthud 1239.582886 139.024979 366.009216 859.211853 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1228.781006, 'y': 138.822571, 'z': 408.503021, 'health': 2693.048584, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.005, MOVE scores: min=-286.734, max=370.271, mean=70.081
+Unit 27117 chose action MOVE -> target normalized (511.82, 404.51), denormalized (1023.6, 809.0) (score 370.27)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1023.6488342814598 809.0286657795014 138.822571
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1208.528442 134.764771 440.114166 2593.395996 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1208.528442, 'y': 134.764771, 'z': 440.114166, 'health': 2593.395996, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-290.010, max=354.927, mean=59.833
+Unit 27117 chose action MOVE -> target normalized (537.60, 420.06), denormalized (1075.2, 840.1) (score 354.93)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1075.1951086666668 840.1141660000001 134.764771
+[('127.0.0.1', 51381)] ENEMY_UNITS
+26760 corthud 1214.198730 131.468597 402.469421 666.993164 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1208.528442, 'y': 134.764771, 'z': 440.114166, 'health': 2593.395996, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.005, MOVE scores: min=-290.006, max=381.223, mean=65.195
+Unit 27117 chose action MOVE -> target normalized (522.08, 429.51), denormalized (1044.2, 859.0) (score 381.22)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1044.1657223395248 859.0233403872555 134.764771
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1190.811523 132.333710 473.527954 2491.141113 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1190.811523, 'y': 132.33371, 'z': 473.527954, 'health': 2491.141113, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-371.872, max=353.452, mean=27.339
+Unit 27117 chose action MOVE -> target normalized (528.74, 436.76), denormalized (1057.5, 873.5) (score 353.45)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1057.4781896666668 873.527954 132.33371
+[('127.0.0.1', 51381)] ENEMY_UNITS
+26760 corthud 1186.844238 126.577049 435.861023 466.304382 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1190.811523, 'y': 132.33371, 'z': 473.527954, 'health': 2491.141113, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.005, MOVE scores: min=-371.872, max=353.451, mean=27.298
+Unit 27117 chose action MOVE -> target normalized (528.74, 436.76), denormalized (1057.5, 873.5) (score 353.45)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1057.4781896666668 873.527954 132.33371
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1174.851074 131.072601 508.918640 2497.435303 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1174.851074, 'y': 131.072601, 'z': 508.91864, 'health': 2497.435303, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-381.955, max=342.230, mean=16.767
+Unit 27117 chose action MOVE -> target normalized (520.76, 454.46), denormalized (1041.5, 908.9) (score 342.23)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1041.5177406666667 908.91864 131.072601
+[('127.0.0.1', 51381)] ENEMY_UNITS
+26760 corthud 1163.975830 123.521896 472.857330 294.498352 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1174.851074, 'y': 131.072601, 'z': 508.91864, 'health': 2497.435303, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.005, MOVE scores: min=-381.954, max=342.229, mean=18.593
+Unit 27117 chose action MOVE -> target normalized (520.76, 454.46), denormalized (1041.5, 908.9) (score 342.23)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1041.5177406666667 908.91864 131.072601
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1161.671509 130.249695 544.602478 2393.241211 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1161.671509, 'y': 130.249695, 'z': 544.602478, 'health': 2393.241211, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-391.873, max=358.998, mean=6.015
+Unit 27117 chose action MOVE -> target normalized (523.75, 489.94), denormalized (1047.5, 979.9) (score 359.00)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1047.5051653095622 979.8794541523769 130.249695
+[('127.0.0.1', 51381)] ENEMY_UNITS
+26760 corthud 1151.114746 122.526085 496.840424 103.121353 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1161.671509, 'y': 130.249695, 'z': 544.602478, 'health': 2393.241211, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-391.873, max=324.705, mean=4.234
+Unit 27117 chose action MOVE -> target normalized (514.17, 472.30), denormalized (1028.3, 944.6) (score 324.71)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1028.3381756666668 944.602478 130.249695
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1150.077637 129.551117 580.259033 2398.961182 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1150.077637, 'y': 129.551117, 'z': 580.259033, 'health': 2398.961182, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-481.773, max=309.926, mean=-33.090
+Unit 27117 chose action MOVE -> target normalized (508.37, 490.13), denormalized (1016.7, 980.3) (score 309.93)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1016.7443036666667 980.259033 129.551117
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1150.077637, 'y': 129.551117, 'z': 580.259033, 'health': 2398.961182, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-481.783, max=309.913, mean=-52.669
+Unit 27117 chose action MOVE -> target normalized (508.37, 490.13), denormalized (1016.7, 980.3) (score 309.91)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1016.7443036666667 980.259033 129.551117
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1138.338745 129.106171 615.873108 2403.961182 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1138.338745, 'y': 129.106171, 'z': 615.873108, 'health': 2403.961182, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-482.286, max=254.385, mean=-57.996
+Unit 27117 chose action MOVE -> target normalized (502.50, 507.94), denormalized (1005.0, 1015.9) (score 254.38)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1005.0054116666666 1015.873108 129.106171
+[('127.0.0.1', 51381)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1138.338745, 'y': 129.106171, 'z': 615.873108, 'health': 2403.961182, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-482.286, max=254.385, mean=-57.996
+Unit 27117 chose action MOVE -> target normalized (502.50, 507.94), denormalized (1005.0, 1015.9) (score 254.38)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1005.0054116666666 1015.873108 129.106171
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1126.435303 128.985016 651.432922 2408.961182 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1126.435303, 'y': 128.985016, 'z': 651.432922, 'health': 2408.961182, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.000, MOVE scores: min=-484.844, max=235.829, mean=-70.577
+Unit 27117 chose action MOVE -> target normalized (541.00, 481.27), denormalized (1082.0, 962.5) (score 235.83)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1081.9908585555554 962.544033111111 128.985016
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1242.333374 146.294174 315.935455 5000.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1126.435303, 'y': 128.985016, 'z': 651.432922, 'health': 2408.961182, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-484.843, max=235.839, mean=-55.471
+Unit 27117 chose action MOVE -> target normalized (541.00, 481.27), denormalized (1082.0, 962.5) (score 235.84)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1081.9908585555554 962.544033111111 128.985016
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1114.554810 128.984100 687.000305 2188.489258 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1114.55481, 'y': 128.9841, 'z': 687.000305, 'health': 2188.489258, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.002, MOVE scores: min=-485.901, max=217.309, mean=-70.758
+Unit 27117 chose action MOVE -> target normalized (541.22, 492.64), denormalized (1082.4, 985.3) (score 217.31)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1082.4447865804777 985.2769323042488 128.9841
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1245.604858 136.386093 340.192383 5070.398438 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1114.55481, 'y': 128.9841, 'z': 687.000305, 'health': 2188.489258, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-485.900, max=223.925, mean=-70.689
+Unit 27117 chose action MOVE -> target normalized (536.81, 492.10), denormalized (1073.6, 984.2) (score 223.93)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1073.6161356994053 984.1938866038258 128.9841
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1102.682251 128.915329 722.570374 2193.489258 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1102.682251, 'y': 128.915329, 'z': 722.570374, 'health': 2193.489258, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.002, MOVE scores: min=-487.286, max=176.611, mean=-87.811
+Unit 27117 chose action MOVE -> target normalized (531.41, 509.95), denormalized (1062.8, 1019.9) (score 176.61)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1062.8120256381962 1019.9091792871657 128.915329
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1241.413696 124.577072 384.442993 5070.398438 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1102.682251, 'y': 128.915329, 'z': 722.570374, 'health': 2193.489258, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-487.285, max=183.178, mean=-87.925
+Unit 27117 chose action MOVE -> target normalized (526.71, 509.25), denormalized (1053.4, 1018.5) (score 183.18)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1053.4216623216714 1018.4983963349329 128.915329
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1098.215576 128.822449 759.619568 1973.073608 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1098.215576, 'y': 128.822449, 'z': 759.619568, 'health': 1973.073608, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.002, MOVE scores: min=-483.393, max=176.584, mean=-100.783
+Unit 27117 chose action MOVE -> target normalized (526.89, 490.92), denormalized (1053.8, 981.8) (score 176.58)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1053.7711315555557 981.8417902222221 128.822449
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1228.873291 116.998703 433.462128 5139.991211 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1098.215576, 'y': 128.822449, 'z': 759.619568, 'health': 1973.073608, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-483.392, max=176.583, mean=-100.774
+Unit 27117 chose action MOVE -> target normalized (526.89, 490.92), denormalized (1053.8, 981.8) (score 176.58)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1053.7711315555557 981.8417902222221 128.822449
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1094.299194 128.589081 796.913086 1978.073608 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1094.299194, 'y': 128.589081, 'z': 796.913086, 'health': 1978.073608, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.002, MOVE scores: min=-479.208, max=138.301, mean=-116.517
+Unit 27117 chose action MOVE -> target normalized (532.00, 488.00), denormalized (1064.0, 976.0) (score 138.30)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1064.0 976.0 128.589081
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1223.707153 113.289665 483.409637 5139.991211 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1094.299194, 'y': 128.589081, 'z': 796.913086, 'health': 1978.073608, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-479.206, max=138.300, mean=-116.527
+Unit 27117 chose action MOVE -> target normalized (532.00, 488.00), denormalized (1064.0, 976.0) (score 138.30)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1064.0 976.0 128.589081
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1087.843506 128.560455 833.837341 1757.761963 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1087.843506, 'y': 128.560455, 'z': 833.837341, 'health': 1757.761963, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-483.643, max=118.573, mean=-137.655
+Unit 27117 chose action MOVE -> target normalized (528.00, 491.00), denormalized (1056.0, 982.0) (score 118.57)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1056.0 982.0 128.560455
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1216.941895 111.756287 531.743408 5208.777344 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1087.843506, 'y': 128.560455, 'z': 833.837341, 'health': 1757.761963, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-483.641, max=118.572, mean=-137.832
+Unit 27117 chose action MOVE -> target normalized (528.00, 491.00), denormalized (1056.0, 982.0) (score 118.57)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1056.0 982.0 128.560455
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1079.618896 128.719482 870.417175 1537.584351 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1079.618896, 'y': 128.719482, 'z': 870.417175, 'health': 1537.584351, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-490.728, max=94.875, mean=-163.040
+Unit 27117 chose action MOVE -> target normalized (524.00, 492.00), denormalized (1048.0, 984.0) (score 94.87)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1048.0 984.0 128.719482
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1208.970215 110.912071 568.033020 5276.761719 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1079.618896, 'y': 128.719482, 'z': 870.417175, 'health': 1537.584351, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-490.726, max=94.874, mean=-163.145
+Unit 27117 chose action MOVE -> target normalized (524.00, 492.00), denormalized (1048.0, 984.0) (score 94.87)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1048.0 984.0 128.719482
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1073.848511 128.815491 907.448425 1542.989258 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1073.848511, 'y': 128.815491, 'z': 907.448425, 'health': 1542.989258, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-496.919, max=67.181, mean=-189.869
+Unit 27117 chose action MOVE -> target normalized (524.00, 492.00), denormalized (1048.0, 984.0) (score 67.18)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1048.0 984.0 128.815491
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1199.428833 110.097542 620.993347 5217.771484 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1073.848511, 'y': 128.815491, 'z': 907.448425, 'health': 1542.989258, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 27117 (19 steps, reward 200.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 27117 with reward 200.00 in 0.00 seconds. Reason: mass_reached
+Unit 27117 reached a mass spot. Segment deferred.
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117 mass destination -> (836.00, 372.00) score=393.73
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.252, max=351.359, mean=-66.200
+Unit 27117 chose action MOVE -> target normalized (736.92, 387.06), denormalized (1473.8, 774.1) (score 351.36)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1473.848511 774.1150916666667 128.815491
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1065.380615 128.801910 943.949402 1323.623901 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1065.380615, 'y': 128.80191, 'z': 943.949402, 'health': 1323.623901, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.302, max=377.852, mean=-55.523
+Unit 27117 chose action MOVE -> target normalized (732.69, 360.86), denormalized (1465.4, 721.7) (score 377.85)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1465.380615 721.7271797777778 128.80191
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1188.979980 109.961815 673.891357 5162.591309 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1065.380615, 'y': 128.80191, 'z': 943.949402, 'health': 1323.623901, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.302, max=377.854, mean=-55.892
+Unit 27117 chose action MOVE -> target normalized (732.69, 360.86), denormalized (1465.4, 721.7) (score 377.85)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1465.380615 721.7271797777778 128.80191
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1051.994263 128.713242 975.256104 1104.326904 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1051.994263, 'y': 128.713242, 'z': 975.256104, 'health': 1104.326904, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.406, max=410.693, mean=-41.545
+Unit 27117 chose action MOVE -> target normalized (726.00, 376.52), denormalized (1452.0, 753.0) (score 410.69)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1451.994263 753.0338817777779 128.713242
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1171.284546 110.013390 720.586121 5084.130371 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1051.994263, 'y': 128.713242, 'z': 975.256104, 'health': 1104.326904, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.407, max=410.695, mean=-41.692
+Unit 27117 chose action MOVE -> target normalized (726.00, 376.52), denormalized (1452.0, 753.0) (score 410.70)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1451.994263 753.0338817777779 128.713242
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1070.573853 128.714996 988.850037 1109.812134 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1070.573853, 'y': 128.714996, 'z': 988.850037, 'health': 1109.812134, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.383, max=410.664, mean=-38.790
+Unit 27117 chose action MOVE -> target normalized (735.29, 383.31), denormalized (1470.6, 766.6) (score 410.66)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1470.573853 766.6278147777778 128.714996
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1159.187378 109.884842 754.283386 4982.862793 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\autograd\graph.py:865: UserWarning: Error detected in AddmmBackward0. Traceback of forward call that caused the error:
+  File "F:\School\Capstone\Python\PyServer\Main\Socket ML.py", line 177, in <module>
+    finalize_match(True, "user_cancelled")
+  File "F:\School\Capstone\Python\PyServer\Main\Socket ML.py", line 166, in finalize_match
+    PeriodicRewards.finalize_all_units(success, reason)
+  File "F:\School\Capstone\Python\PyServer\Main\Rewards\PeriodicRewards.py", line 446, in finalize_all_units
+    _train_buffer(seg['transitions'], seg['unit_id'], seg['segment_reward'])
+  File "F:\School\Capstone\Python\PyServer\Main\Rewards\PeriodicRewards.py", line 373, in _train_buffer
+    agent_core.train_agent(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 363, in train_agent
+    current_weights, _ = agent(input_seq, hidden)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "F:\School\Capstone\Python\PyServer\Main\agent_model.py", line 93, in forward
+    feature_weights = self.fc2(x)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\nn\modules\linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+ (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\python_anomaly_mode.cpp:127.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1070.573853, 'y': 128.714996, 'z': 988.850037, 'health': 1109.812134, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.383, max=410.666, mean=-38.790
+Unit 27117 chose action MOVE -> target normalized (735.29, 383.31), denormalized (1470.6, 766.6) (score 410.67)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1470.573853 766.6278147777778 128.714996
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1101.832397 128.771393 968.193665 890.300720 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1101.832397, 'y': 128.771393, 'z': 968.193665, 'health': 890.30072, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.352, max=410.428, mean=-40.605
+Unit 27117 chose action MOVE -> target normalized (750.92, 372.99), denormalized (1501.8, 746.0) (score 410.43)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1501.832397 745.9714427777778 128.771393
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1158.875610 109.881042 755.278137 4881.852051 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1101.832397, 'y': 128.771393, 'z': 968.193665, 'health': 890.30072, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.003, MOVE scores: min=-526.352, max=410.428, mean=-40.605
+Unit 27117 chose action MOVE -> target normalized (750.92, 372.99), denormalized (1501.8, 746.0) (score 410.43)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1501.832397 745.9714427777778 128.771393
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1133.597046 128.720078 948.270996 669.498474 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1133.597046, 'y': 128.720078, 'z': 948.270996, 'health': 669.498474, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.305, max=387.350, mean=-47.056
+Unit 27117 chose action MOVE -> target normalized (766.80, 363.02), denormalized (1533.6, 726.0) (score 387.35)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1533.597046 726.0487737777778 128.720078
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1158.875610 109.881042 755.278137 4765.931641 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1133.597046, 'y': 128.720078, 'z': 948.270996, 'health': 669.498474, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.305, max=387.350, mean=-47.056
+Unit 27117 chose action MOVE -> target normalized (766.80, 363.02), denormalized (1533.6, 726.0) (score 387.35)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1533.597046 726.0487737777778 128.720078
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1166.413696 128.675842 930.141296 674.900085 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1166.413696, 'y': 128.675842, 'z': 930.141296, 'health': 674.900085, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.275, max=360.533, mean=-49.392
+Unit 27117 chose action MOVE -> target normalized (783.21, 353.96), denormalized (1566.4, 707.9) (score 360.53)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1566.413696 707.9190737777778 128.675842
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1158.875610 109.881042 755.278137 4624.137695 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1166.413696, 'y': 128.675842, 'z': 930.141296, 'health': 674.900085, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.275, max=360.533, mean=-49.392
+Unit 27117 chose action MOVE -> target normalized (783.21, 353.96), denormalized (1566.4, 707.9) (score 360.53)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1566.413696 707.9190737777778 128.675842
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1199.244629 128.667221 912.021179 450.612946 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1199.244629, 'y': 128.667221, 'z': 912.021179, 'health': 450.612946, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.245, max=371.059, mean=-55.769
+Unit 27117 chose action MOVE -> target normalized (817.51, 399.89), denormalized (1635.0, 799.8) (score 371.06)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1635.0237248405942 799.7866939771064 128.667221
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1158.875610 109.881042 755.278137 4510.153320 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1199.244629, 'y': 128.667221, 'z': 912.021179, 'health': 450.612946, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.245, max=371.059, mean=-55.769
+Unit 27117 chose action MOVE -> target normalized (817.51, 399.89), denormalized (1635.0, 799.8) (score 371.06)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1635.0237248405942 799.7866939771064 128.667221
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1231.969604 128.694168 893.711426 220.611572 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1231.969604, 'y': 128.694168, 'z': 893.711426, 'health': 220.611572, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.230, max=358.455, mean=-60.898
+Unit 27117 chose action MOVE -> target normalized (815.98, 380.19), denormalized (1632.0, 760.4) (score 358.45)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1631.969604 760.3780926666666 128.694168
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1158.875610 109.881042 755.278137 4366.376465 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1231.969604, 'y': 128.694168, 'z': 893.711426, 'health': 220.611572, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.230, max=358.455, mean=-60.898
+Unit 27117 chose action MOVE -> target normalized (815.98, 380.19), denormalized (1632.0, 760.4) (score 358.45)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1631.969604 760.3780926666666 128.694168
+[('127.0.0.1', 51381)] FRIENDLY_UNITS
+27117 armcom 1264.681763 128.773315 875.378906 225.793503 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1264.681763, 'y': 128.773315, 'z': 875.378906, 'health': 225.793503, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.216, max=360.716, mean=-61.899
+Unit 27117 chose action MOVE -> target normalized (832.34, 371.02), denormalized (1664.7, 742.0) (score 360.72)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1664.681763 742.0455726666667 128.773315
+[('127.0.0.1', 51381)] ENEMY_UNITS
+21722 armcroc 1158.875610 109.881042 755.278137 4168.614746 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 27117, 'name': 'armcom', 'x': 1264.681763, 'y': 128.773315, 'z': 875.378906, 'health': 225.793503, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 27117:
+  distance_reduction: 1.3152
+  move_magnitude: -0.0419
+  is_noop: -0.0000
+  danger_zone: 0.0049
+  enemy_distance_change: 0.0078
+  nearest_enemy_proximity: 0.0048
+  escape_alignment: 0.0024
+  dodge_viability: 0.0000
+Unit 27117: NOOP score=-0.004, MOVE scores: min=-526.216, max=360.716, mean=-61.899
+Unit 27117 chose action MOVE -> target normalized (832.34, 371.02), denormalized (1664.7, 742.0) (score 360.72)
+Unit 27117 cancelling in-flight command (penalty 2.0)
+27117 has been sent action: C: MU Q 27117 1664.681763 742.0455726666667 128.773315
+[('127.0.0.1', 51381)] TEAM_DIED
+[AI KILLED] ('127.0.0.1', 51381) sent AI_KILLED. Finalizing results and closing connection.
+Deferred segment for unit 27117 (9 steps, reward -155.70) to match buffer. Reason: death
+Finalized segment for unit 27117 with reward -155.70 in 0.00 seconds. Reason: death
+[Deferred Training] Training on 4 segments, 57 total transitions.
+Cancel received. Finalizing match as success.
+[Deferred Training] Training on 4 segments, 57 total transitions.
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Socket ML.py", line 177, in <module>
+    finalize_match(True, "user_cancelled")
+  File "F:\School\Capstone\Python\PyServer\Main\Socket ML.py", line 166, in finalize_match
+    PeriodicRewards.finalize_all_units(success, reason)
+  File "F:\School\Capstone\Python\PyServer\Main\Rewards\PeriodicRewards.py", line 446, in finalize_all_units
+    _train_buffer(seg['transitions'], seg['unit_id'], seg['segment_reward'])
+  File "F:\School\Capstone\Python\PyServer\Main\Rewards\PeriodicRewards.py", line 373, in _train_buffer
+    agent_core.train_agent(
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 540, in train_agent
+    loss.backward()
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\_tensor.py", line 630, in backward
+    torch.autograd.backward(
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\autograd\__init__.py", line 364, in backward
+    _engine_run_backward(
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\torch\autograd\graph.py", line 865, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation: [torch.FloatTensor [64, 8]], which is output 0 of AsStridedBackward0, is at version 52; expected version 51 instead. Hint: the backtrace further above shows the operation that failed to compute its gradient. The variable in question was changed in there or anywhere later. Good luck!

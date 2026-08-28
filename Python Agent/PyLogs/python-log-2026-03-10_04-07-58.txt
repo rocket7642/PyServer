@@ -1,0 +1,3476 @@
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:96: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if 0 <= idx < feature_weights.shape[-1]:
+Feature-based agent weights loaded.
+Model graph logged to TensorBoard (Graphs tab).
+TensorBoard logging to: runs/feature_based_agent_20260310_040801
+View with: tensorboard --logdir=runs
+Server listening on 127.0.0.1:25000...
+Map dimensions: 2048 x 2048
+Loaded cached map cost fields from cache\map_fields\b0de665e2011ab4cc3ad8ba59dbd470e11cc531159c8faaf1661341bf6967d43.npz
+[NEW CONNECTION] ('127.0.0.1', 63453) connected.
+[unit_defs] Loaded 23 unit definitions from data/unit_defs.json
+[HANDSHAKE] Sent START to ('127.0.0.1', 63453) (attempt 1/30)
+[HANDSHAKE] Received from ('127.0.0.1', 63453): FRIENDLY_UNITS
+14700 corcom 381.339996 145.762054 1545.000000 3700.000000 1.250000
+END
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 63453)] KNOWN_ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 63453)] TURN
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 381.339996 145.762054 1545.000000 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 381.339996, 'y': 145.762054, 'z': 1545.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6633
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700 mass destination -> (196.00, 828.00) score=68.32
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-260.486, max=45.299, mean=-87.746
+Unit 14700 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 45.30)
+14700 has been sent action: C: MU Q 14700 392.0 1656.0 145.762054
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 381.339996, 'y': 145.762054, 'z': 1545.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6647
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-261.046, max=45.397, mean=-87.935
+Unit 14700 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 45.40)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 392.0 1656.0 145.762054
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 381.339996 145.762054 1545.000000 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 381.339996, 'y': 145.762054, 'z': 1545.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6651
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-261.223, max=45.427, mean=-87.994
+Unit 14700 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 45.43)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 392.0 1656.0 145.762054
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 381.339996, 'y': 145.762054, 'z': 1545.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6653
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-261.289, max=45.439, mean=-88.017
+Unit 14700 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 45.44)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 392.0 1656.0 145.762054
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 381.320953 145.804276 1546.079712 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 381.320953, 'y': 145.804276, 'z': 1546.079712, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-261.355, max=44.738, mean=-91.944
+Unit 14700 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 44.74)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 392.0 1656.0 145.804276
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 381.320953, 'y': 145.804276, 'z': 1546.079712, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-261.368, max=44.741, mean=-91.949
+Unit 14700 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 44.74)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 392.0 1656.0 145.804276
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 384.623322 147.016724 1581.853882 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 384.623322, 'y': 147.016724, 'z': 1581.853882, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-264.628, max=31.525, mean=-100.683
+Unit 14700 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 31.53)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 392.0 1656.0 147.016724
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 384.623322, 'y': 147.016724, 'z': 1581.853882, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 14700 (4 steps, reward 200.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 14700 with reward 200.00 in 0.00 seconds. Reason: mass_reached
+Unit 14700 reached a mass spot. Segment deferred.
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700 mass destination -> (492.00, 540.00) score=557.85
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-185.452, max=271.273, mean=41.067
+Unit 14700 chose action MOVE -> target normalized (392.31, 590.93), denormalized (784.6, 1181.9) (score 271.27)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 784.6233219999999 1181.853882 147.016724
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 387.852356 150.239975 1617.601562 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 387.852356, 'y': 150.239975, 'z': 1617.601562, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-152.063, max=272.109, mean=59.098
+Unit 14700 chose action MOVE -> target normalized (393.93, 608.80), denormalized (787.9, 1217.6) (score 272.11)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 787.852356 1217.601562 150.239975
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 387.852356, 'y': 150.239975, 'z': 1617.601562, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-152.062, max=272.108, mean=59.097
+Unit 14700 chose action MOVE -> target normalized (393.93, 608.80), denormalized (787.9, 1217.6) (score 272.11)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 787.852356 1217.601562 150.239975
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 390.916565 155.002838 1651.363403 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 390.916565, 'y': 155.002838, 'z': 1651.363403, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-153.774, max=273.404, mean=67.207
+Unit 14700 chose action MOVE -> target normalized (395.46, 625.68), denormalized (790.9, 1251.4) (score 273.40)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 790.916565 1251.363403 155.002838
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 390.916565, 'y': 155.002838, 'z': 1651.363403, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-153.772, max=273.402, mean=67.207
+Unit 14700 chose action MOVE -> target normalized (395.46, 625.68), denormalized (790.9, 1251.4) (score 273.40)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 790.916565 1251.363403 155.002838
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 417.673157 150.058228 1647.912109 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 417.673157, 'y': 150.058228, 'z': 1647.912109, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-191.169, max=271.943, mean=53.884
+Unit 14700 chose action MOVE -> target normalized (408.84, 623.96), denormalized (817.7, 1247.9) (score 271.94)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 817.673157 1247.912109 150.058228
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 417.673157, 'y': 150.058228, 'z': 1647.912109, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-191.169, max=271.942, mean=53.884
+Unit 14700 chose action MOVE -> target normalized (408.84, 623.96), denormalized (817.7, 1247.9) (score 271.94)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 817.673157 1247.912109 150.058228
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 442.160583 141.722824 1619.551147 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 442.160583, 'y': 141.722824, 'z': 1619.551147, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-236.368, max=269.461, mean=48.766
+Unit 14700 chose action MOVE -> target normalized (421.08, 609.78), denormalized (842.2, 1219.6) (score 269.46)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 842.160583 1219.551147 141.722824
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 442.160583, 'y': 141.722824, 'z': 1619.551147, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-236.368, max=269.460, mean=48.766
+Unit 14700 chose action MOVE -> target normalized (421.08, 609.78), denormalized (842.2, 1219.6) (score 269.46)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 842.160583 1219.551147 141.722824
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 467.915619 136.536179 1592.337646 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 467.915619, 'y': 136.536179, 'z': 1592.337646, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-214.638, max=268.235, mean=35.782
+Unit 14700 chose action MOVE -> target normalized (433.96, 596.17), denormalized (867.9, 1192.3) (score 268.23)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 867.915619 1192.337646 136.536179
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 467.915619, 'y': 136.536179, 'z': 1592.337646, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-214.638, max=268.235, mean=35.782
+Unit 14700 chose action MOVE -> target normalized (433.96, 596.17), denormalized (867.9, 1192.3) (score 268.23)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 867.915619 1192.337646 136.536179
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 494.677002 133.813202 1566.109009 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 494.677002, 'y': 133.813202, 'z': 1566.109009, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-182.171, max=267.546, mean=37.051
+Unit 14700 chose action MOVE -> target normalized (447.34, 583.05), denormalized (894.7, 1166.1) (score 267.55)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 894.677002 1166.109009 133.813202
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 494.677002, 'y': 133.813202, 'z': 1566.109009, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-182.171, max=267.546, mean=37.051
+Unit 14700 chose action MOVE -> target normalized (447.34, 583.05), denormalized (894.7, 1166.1) (score 267.55)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 894.677002 1166.109009 133.813202
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 521.398743 132.262299 1539.795410 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 521.398743, 'y': 132.262299, 'z': 1539.79541, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-250.382, max=267.101, mean=25.776
+Unit 14700 chose action MOVE -> target normalized (460.70, 569.90), denormalized (921.4, 1139.8) (score 267.10)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 921.398743 1139.79541 132.262299
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 521.398743, 'y': 132.262299, 'z': 1539.79541, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-250.383, max=267.101, mean=25.776
+Unit 14700 chose action MOVE -> target normalized (460.70, 569.90), denormalized (921.4, 1139.8) (score 267.10)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 921.398743 1139.79541 132.262299
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 547.915161 131.128326 1513.269653 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 547.915161, 'y': 131.128326, 'z': 1513.269653, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-275.994, max=266.826, mean=18.800
+Unit 14700 chose action MOVE -> target normalized (473.96, 556.63), denormalized (947.9, 1113.3) (score 266.83)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 947.915161 1113.269653 131.128326
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 547.915161, 'y': 131.128326, 'z': 1513.269653, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-275.995, max=266.827, mean=18.800
+Unit 14700 chose action MOVE -> target normalized (473.96, 556.63), denormalized (947.9, 1113.3) (score 266.83)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 947.915161 1113.269653 131.128326
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 574.573853 130.283386 1486.904541 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 574.573853, 'y': 130.283386, 'z': 1486.904541, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-277.021, max=266.601, mean=13.566
+Unit 14700 chose action MOVE -> target normalized (487.29, 543.45), denormalized (974.6, 1086.9) (score 266.60)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 974.573853 1086.904541 130.283386
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 574.573853, 'y': 130.283386, 'z': 1486.904541, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-277.022, max=266.601, mean=13.566
+Unit 14700 chose action MOVE -> target normalized (487.29, 543.45), denormalized (974.6, 1086.9) (score 266.60)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 974.573853 1086.904541 130.283386
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 601.251343 129.814362 1460.552368 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 601.251343, 'y': 129.814362, 'z': 1460.552368, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-312.941, max=242.509, mean=-1.251
+Unit 14700 chose action MOVE -> target normalized (500.63, 530.28), denormalized (1001.3, 1060.6) (score 242.51)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1001.251343 1060.552368 129.814362
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 601.251343, 'y': 129.814362, 'z': 1460.552368, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-312.941, max=242.510, mean=-1.251
+Unit 14700 chose action MOVE -> target normalized (500.63, 530.28), denormalized (1001.3, 1060.6) (score 242.51)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1001.251343 1060.552368 129.814362
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 627.890503 129.553238 1434.159180 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 627.890503, 'y': 129.553238, 'z': 1434.15918, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-308.558, max=209.185, mean=-5.420
+Unit 14700 chose action MOVE -> target normalized (513.95, 561.52), denormalized (1027.9, 1123.0) (score 209.18)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1027.890503 1123.048068888889 129.553238
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 627.890503, 'y': 129.553238, 'z': 1434.15918, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-308.559, max=209.185, mean=-5.420
+Unit 14700 chose action MOVE -> target normalized (513.95, 561.52), denormalized (1027.9, 1123.0) (score 209.19)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1027.890503 1123.048068888889 129.553238
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 654.530029 129.351212 1407.767700 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 654.530029, 'y': 129.351212, 'z': 1407.7677, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-259.550, max=206.490, mean=-2.807
+Unit 14700 chose action MOVE -> target normalized (482.82, 548.33), denormalized (965.6, 1096.7) (score 206.49)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 965.6411401111111 1096.656588888889 129.351212
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 654.530029, 'y': 129.351212, 'z': 1407.7677, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-259.551, max=206.491, mean=-2.807
+Unit 14700 chose action MOVE -> target normalized (482.82, 548.33), denormalized (965.6, 1096.7) (score 206.49)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 965.6411401111111 1096.656588888889 129.351212
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 681.180298 129.229126 1381.386963 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 681.180298, 'y': 129.229126, 'z': 1381.386963, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-290.511, max=195.155, mean=-10.703
+Unit 14700 chose action MOVE -> target normalized (496.15, 535.14), denormalized (992.3, 1070.3) (score 195.16)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 992.2914091111111 1070.2758518888888 129.229126
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 681.180298, 'y': 129.229126, 'z': 1381.386963, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-290.512, max=195.156, mean=-10.703
+Unit 14700 chose action MOVE -> target normalized (496.15, 535.14), denormalized (992.3, 1070.3) (score 195.16)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 992.2914091111111 1070.2758518888888 129.229126
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 710.937012 129.106720 1358.751953 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 710.937012, 'y': 129.10672, 'z': 1358.751953, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6654
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-285.263, max=159.862, mean=-16.149
+Unit 14700 chose action MOVE -> target normalized (475.00, 559.00), denormalized (950.0, 1118.0) (score 159.86)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 950.0 1118.0 129.10672
+[('127.0.0.1', 63453)] ENEMY_UNITS
+26583 armcom 1156.806885 129.863251 1472.009766 3700.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 710.937012, 'y': 129.10672, 'z': 1358.751953, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6661
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-285.579, max=160.029, mean=-23.240
+Unit 14700 chose action MOVE -> target normalized (475.00, 559.00), denormalized (950.0, 1118.0) (score 160.03)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 950.0 1118.0 129.10672
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 737.414551 128.940552 1332.087158 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 737.414551, 'y': 128.940552, 'z': 1332.087158, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6662
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-281.495, max=159.982, mean=-27.154
+Unit 14700 chose action MOVE -> target normalized (488.00, 546.00), denormalized (976.0, 1092.0) (score 159.98)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 976.0 1092.0 128.940552
+[('127.0.0.1', 63453)] ENEMY_UNITS
+26583 armcom 1119.309814 129.856171 1472.009766 3700.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 737.414551, 'y': 128.940552, 'z': 1332.087158, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6662
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-281.511, max=159.990, mean=-26.809
+Unit 14700 chose action MOVE -> target normalized (488.00, 546.00), denormalized (976.0, 1092.0) (score 159.99)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 976.0 1092.0 128.940552
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 763.559692 128.761139 1305.206421 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 763.559692, 'y': 128.761139, 'z': 1305.206421, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6662
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-278.560, max=147.990, mean=-32.031
+Unit 14700 chose action MOVE -> target normalized (492.89, 541.49), denormalized (985.8, 1083.0) (score 147.99)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 985.7819142222222 1082.984198777778 128.761139
+[('127.0.0.1', 63453)] ENEMY_UNITS
+26583 armcom 1081.809814 129.748337 1472.009766 3700.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 763.559692, 'y': 128.761139, 'z': 1305.206421, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-278.578, max=147.997, mean=-31.504
+Unit 14700 chose action MOVE -> target normalized (492.89, 541.49), denormalized (985.8, 1083.0) (score 148.00)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 985.7819142222222 1082.984198777778 128.761139
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 790.148926 128.630310 1278.774536 3700.000000 1.250000
+END
+ENEMY_UNITS
+26583 armcom 1044.309814 129.717590 1472.009766 3700.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 790.148926, 'y': 128.63031, 'z': 1278.774536, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-275.755, max=119.990, mean=-38.977
+Unit 14700 chose action MOVE -> target normalized (485.00, 549.00), denormalized (970.0, 1098.0) (score 119.99)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 970.0 1098.0 128.63031
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 816.673523 128.616882 1252.274536 3588.432129 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 816.673523, 'y': 128.616882, 'z': 1252.274536, 'health': 3588.432129, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-272.474, max=99.970, mean=-47.031
+Unit 14700 chose action MOVE -> target normalized (483.00, 551.00), denormalized (966.0, 1102.0) (score 99.97)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 966.0 1102.0 128.616882
+[('127.0.0.1', 63453)] ENEMY_UNITS
+26583 armcom 1006.853088 129.746063 1470.629395 3622.642578 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 816.673523, 'y': 128.616882, 'z': 1252.274536, 'health': 3588.432129, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-272.496, max=99.976, mean=-46.120
+Unit 14700 chose action MOVE -> target normalized (483.00, 551.00), denormalized (966.0, 1102.0) (score 99.98)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 966.0 1102.0 128.616882
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 843.337830 128.710419 1225.910034 3490.464844 1.250000
+END
+ENEMY_UNITS
+26583 armcom 969.420593 129.751297 1468.400024 3508.328613 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 843.33783, 'y': 128.710419, 'z': 1225.910034, 'health': 3490.464844, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-270.256, max=88.657, mean=-54.713
+Unit 14700 chose action MOVE -> target normalized (488.34, 546.29), denormalized (976.7, 1092.6) (score 88.66)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 976.6711633333333 1092.5767006666665 128.710419
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 869.757568 128.739090 1199.287842 3354.212646 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 869.757568, 'y': 128.73909, 'z': 1199.287842, 'health': 3354.212646, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6662
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-268.791, max=75.966, mean=-65.416
+Unit 14700 chose action MOVE -> target normalized (494.00, 539.00), denormalized (988.0, 1078.0) (score 75.97)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 988.0 1078.0 128.73909
+[('127.0.0.1', 63453)] ENEMY_UNITS
+26583 armcom 931.988342 129.629364 1466.158813 3410.173828 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 869.757568, 'y': 128.73909, 'z': 1199.287842, 'health': 3354.212646, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-268.811, max=75.971, mean=-64.635
+Unit 14700 chose action MOVE -> target normalized (494.00, 539.00), denormalized (988.0, 1078.0) (score 75.97)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 988.0 1078.0 128.73909
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 896.214661 128.652985 1172.713745 3218.947266 1.250000
+END
+ENEMY_UNITS
+26583 armcom 894.556763 129.499588 1463.906616 3276.581543 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 896.214661, 'y': 128.652985, 'z': 1172.713745, 'health': 3218.947266, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6662
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-267.984, max=59.979, mean=-77.656
+Unit 14700 chose action MOVE -> target normalized (492.00, 540.00), denormalized (984.0, 1080.0) (score 59.98)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 984.0 1080.0 128.652985
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 923.006409 128.598633 1146.488525 3134.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 923.006409, 'y': 128.598633, 'z': 1146.488525, 'health': 3134.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6662
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-267.566, max=42.638, mean=-92.452
+Unit 14700 chose action MOVE -> target normalized (492.00, 540.00), denormalized (984.0, 1080.0) (score 42.64)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 984.0 1080.0 128.598633
+[('127.0.0.1', 63453)] ENEMY_UNITS
+26583 armcom 857.128235 129.441101 1461.606812 3193.312012 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 923.006409, 'y': 128.598633, 'z': 1146.488525, 'health': 3134.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 14700 (22 steps, reward -38.86) to match buffer. Reason: mass_reached
+Finalized segment for unit 14700 with reward -38.86 in 0.00 seconds. Reason: mass_reached
+Unit 14700 reached a mass spot. Segment deferred.
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6662
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700 mass destination -> (844.00, 836.00) score=668.56
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-267.157, max=374.972, mean=12.865
+Unit 14700 chose action MOVE -> target normalized (761.00, 828.00), denormalized (1522.0, 1656.0) (score 374.97)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1522.0 1656.0 128.598633
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 949.023071 128.649307 1119.454834 3139.663086 1.250000
+END
+ENEMY_UNITS
+26583 armcom 819.703369 129.425858 1459.256958 3198.312012 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 949.023071, 'y': 128.649307, 'z': 1119.454834, 'health': 3139.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.003, MOVE scores: min=-267.127, max=385.609, mean=15.956
+Unit 14700 chose action MOVE -> target normalized (774.00, 829.00), denormalized (1548.0, 1658.0) (score 385.61)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1548.0 1658.0 128.649307
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 974.296448 128.649323 1091.726685 3144.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 974.296448, 'y': 128.649323, 'z': 1091.726685, 'health': 3144.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-267.026, max=396.117, mean=17.355
+Unit 14700 chose action MOVE -> target normalized (787.00, 830.00), denormalized (1574.0, 1660.0) (score 396.12)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1574.0 1660.0 128.649323
+[('127.0.0.1', 63453)] ENEMY_UNITS
+26583 armcom 782.279236 129.471664 1456.902466 3203.312012 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 974.296448, 'y': 128.649323, 'z': 1091.726685, 'health': 3144.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6663
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-267.037, max=396.133, mean=18.484
+Unit 14700 chose action MOVE -> target normalized (787.00, 830.00), denormalized (1574.0, 1660.0) (score 396.13)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1574.0 1660.0 128.649323
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 980.440552 128.636810 1084.938843 3149.663086 1.250000
+END
+ENEMY_UNITS
+26583 armcom 745.015625 129.415649 1452.810181 3208.312012 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 980.440552, 'y': 128.63681, 'z': 1084.938843, 'health': 3149.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6664
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-267.018, max=395.788, mean=19.428
+Unit 14700 chose action MOVE -> target normalized (790.00, 827.00), denormalized (1580.0, 1654.0) (score 395.79)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1580.0 1654.0 128.63681
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1005.599670 128.618805 1098.387573 3154.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1005.59967, 'y': 128.618805, 'z': 1098.387573, 'health': 3154.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6664
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.929, max=397.941, mean=20.650
+Unit 14700 chose action MOVE -> target normalized (802.00, 834.00), denormalized (1604.0, 1668.0) (score 397.94)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1604.0 1668.0 128.618805
+[('127.0.0.1', 63453)] ENEMY_UNITS
+26583 armcom 707.791565 129.466415 1448.276489 3213.312012 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1005.59967, 'y': 128.618805, 'z': 1098.387573, 'health': 3154.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6664
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.940, max=397.958, mean=21.657
+Unit 14700 chose action MOVE -> target normalized (802.00, 834.00), denormalized (1604.0, 1668.0) (score 397.96)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1604.0 1668.0 128.618805
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1032.277222 128.679840 1124.766235 3159.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1032.277222, 'y': 128.67984, 'z': 1124.766235, 'health': 3159.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6664
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.904, max=388.972, mean=21.855
+Unit 14700 chose action MOVE -> target normalized (816.00, 832.00), denormalized (1632.0, 1664.0) (score 388.97)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1632.0 1664.0 128.67984
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1032.277222, 'y': 128.67984, 'z': 1124.766235, 'health': 3159.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6660
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.729, max=388.716, mean=22.694
+Unit 14700 chose action MOVE -> target normalized (816.00, 832.00), denormalized (1632.0, 1664.0) (score 388.72)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1632.0 1664.0 128.67984
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1059.261230 128.731857 1150.815430 3164.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1059.26123, 'y': 128.731857, 'z': 1150.81543, 'health': 3164.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6660
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.675, max=380.444, mean=23.668
+Unit 14700 chose action MOVE -> target normalized (829.00, 830.00), denormalized (1658.0, 1660.0) (score 380.44)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1658.0 1660.0 128.731857
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1059.26123, 'y': 128.731857, 'z': 1150.81543, 'health': 3164.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6659
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.634, max=380.386, mean=23.665
+Unit 14700 chose action MOVE -> target normalized (829.00, 830.00), denormalized (1658.0, 1660.0) (score 380.39)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1658.0 1660.0 128.731857
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1086.455322 128.740845 1176.641479 3169.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1086.455322, 'y': 128.740845, 'z': 1176.641479, 'health': 3169.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6658
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.562, max=370.406, mean=24.119
+Unit 14700 chose action MOVE -> target normalized (843.00, 828.00), denormalized (1686.0, 1656.0) (score 370.41)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1686.0 1656.0 128.740845
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1114.318726 128.738556 1201.765503 3174.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1114.318726, 'y': 128.738556, 'z': 1201.765503, 'health': 3174.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.544, max=357.561, mean=24.536
+Unit 14700 chose action MOVE -> target normalized (842.00, 840.00), denormalized (1684.0, 1680.0) (score 357.56)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1684.0 1680.0 128.738556
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1114.318726, 'y': 128.738556, 'z': 1201.765503, 'health': 3174.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.519, max=357.527, mean=24.534
+Unit 14700 chose action MOVE -> target normalized (842.00, 840.00), denormalized (1684.0, 1680.0) (score 357.53)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1684.0 1680.0 128.738556
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1142.887939 128.679840 1226.084839 3179.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1142.887939, 'y': 128.67984, 'z': 1226.084839, 'health': 3179.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.460, max=340.846, mean=24.780
+Unit 14700 chose action MOVE -> target normalized (841.00, 838.00), denormalized (1682.0, 1676.0) (score 340.85)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1682.0 1676.0 128.67984
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1172.129272 128.756927 1249.590332 3184.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1172.129272, 'y': 128.756927, 'z': 1249.590332, 'health': 3184.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.434, max=323.040, mean=24.678
+Unit 14700 chose action MOVE -> target normalized (841.00, 834.00), denormalized (1682.0, 1668.0) (score 323.04)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1682.0 1668.0 128.756927
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1172.129272, 'y': 128.756927, 'z': 1249.590332, 'health': 3184.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.426, max=323.031, mean=24.677
+Unit 14700 chose action MOVE -> target normalized (841.00, 834.00), denormalized (1682.0, 1668.0) (score 323.03)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1682.0 1668.0 128.756927
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1200.721924 128.925049 1273.817505 3189.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1200.721924, 'y': 128.925049, 'z': 1273.817505, 'health': 3189.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.415, max=301.855, mean=24.592
+Unit 14700 chose action MOVE -> target normalized (840.00, 831.00), denormalized (1680.0, 1662.0) (score 301.85)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1680.0 1662.0 128.925049
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1229.374146 128.954498 1298.013306 3194.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1229.374146, 'y': 128.954498, 'z': 1298.013306, 'health': 3194.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.438, max=281.740, mean=22.460
+Unit 14700 chose action MOVE -> target normalized (839.00, 829.00), denormalized (1678.0, 1658.0) (score 281.74)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1678.0 1658.0 128.954498
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1229.374146, 'y': 128.954498, 'z': 1298.013306, 'health': 3194.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.436, max=281.738, mean=22.459
+Unit 14700 chose action MOVE -> target normalized (839.00, 829.00), denormalized (1678.0, 1658.0) (score 281.74)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1678.0 1658.0 128.954498
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1258.302368 128.954498 1321.886475 3199.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1258.302368, 'y': 128.954498, 'z': 1321.886475, 'health': 3199.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.002, MOVE scores: min=-266.416, max=266.166, mean=21.030
+Unit 14700 chose action MOVE -> target normalized (839.00, 840.00), denormalized (1678.0, 1680.0) (score 266.17)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1678.0 1680.0 128.954498
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1287.354004 129.072739 1345.601440 3204.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1287.354004, 'y': 129.072739, 'z': 1345.60144, 'health': 3204.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.446, max=251.449, mean=19.127
+Unit 14700 chose action MOVE -> target normalized (838.00, 837.00), denormalized (1676.0, 1674.0) (score 251.45)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1676.0 1674.0 129.072739
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1287.354004, 'y': 129.072739, 'z': 1345.60144, 'health': 3204.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.446, max=251.449, mean=19.127
+Unit 14700 chose action MOVE -> target normalized (838.00, 837.00), denormalized (1676.0, 1674.0) (score 251.45)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1676.0 1674.0 129.072739
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1316.519409 129.245117 1369.173096 3209.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1316.519409, 'y': 129.245117, 'z': 1369.173096, 'health': 3209.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.484, max=232.297, mean=14.294
+Unit 14700 chose action MOVE -> target normalized (838.00, 834.00), denormalized (1676.0, 1668.0) (score 232.30)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1676.0 1668.0 129.245117
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1344.852295 129.475311 1393.697632 3214.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1344.852295, 'y': 129.475311, 'z': 1393.697632, 'health': 3214.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.542, max=215.742, mean=7.408
+Unit 14700 chose action MOVE -> target normalized (849.72, 835.39), denormalized (1699.4, 1670.8) (score 215.74)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1699.432425224788 1670.7769189374621 129.475311
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1344.852295, 'y': 129.475311, 'z': 1393.697632, 'health': 3214.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.545, max=215.744, mean=7.408
+Unit 14700 chose action MOVE -> target normalized (849.72, 835.39), denormalized (1699.4, 1670.8) (score 215.74)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1699.432425224788 1670.7769189374621 129.475311
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1373.353027 129.732239 1418.068848 3219.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1373.353027, 'y': 129.732239, 'z': 1418.068848, 'health': 3219.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.606, max=191.339, mean=1.548
+Unit 14700 chose action MOVE -> target normalized (836.00, 829.00), denormalized (1672.0, 1658.0) (score 191.34)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1672.0 1658.0 129.732239
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1402.130005 130.141907 1442.109375 3224.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1402.130005, 'y': 130.141907, 'z': 1442.109375, 'health': 3224.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.710, max=175.011, mean=-6.958
+Unit 14700 chose action MOVE -> target normalized (836.00, 841.00), denormalized (1672.0, 1682.0) (score 175.01)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1672.0 1682.0 130.141907
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1402.130005, 'y': 130.141907, 'z': 1442.109375, 'health': 3224.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.711, max=175.012, mean=-6.958
+Unit 14700 chose action MOVE -> target normalized (836.00, 841.00), denormalized (1672.0, 1682.0) (score 175.01)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1672.0 1682.0 130.141907
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1431.678711 130.775528 1465.200195 3229.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1431.678711, 'y': 130.775528, 'z': 1465.200195, 'health': 3229.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.001, MOVE scores: min=-266.835, max=160.556, mean=-15.802
+Unit 14700 chose action MOVE -> target normalized (835.00, 837.00), denormalized (1670.0, 1674.0) (score 160.56)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1670.0 1674.0 130.775528
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1460.779419 131.444244 1488.785034 3234.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1460.779419, 'y': 131.444244, 'z': 1488.785034, 'health': 3234.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-267.007, max=141.210, mean=-26.702
+Unit 14700 chose action MOVE -> target normalized (835.00, 834.00), denormalized (1670.0, 1668.0) (score 141.21)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1670.0 1668.0 131.444244
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1460.779419, 'y': 131.444244, 'z': 1488.785034, 'health': 3234.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-267.006, max=141.209, mean=-26.702
+Unit 14700 chose action MOVE -> target normalized (835.00, 834.00), denormalized (1670.0, 1668.0) (score 141.21)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1670.0 1668.0 131.444244
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1488.357056 132.269104 1514.076294 3239.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1488.357056, 'y': 132.269104, 'z': 1514.076294, 'health': 3239.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-267.235, max=120.715, mean=-39.400
+Unit 14700 chose action MOVE -> target normalized (834.00, 832.00), denormalized (1668.0, 1664.0) (score 120.71)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1668.0 1664.0 132.269104
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1516.315552 133.404785 1538.980591 3244.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1516.315552, 'y': 133.404785, 'z': 1538.980591, 'health': 3244.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-267.504, max=106.196, mean=-54.924
+Unit 14700 chose action MOVE -> target normalized (848.00, 829.00), denormalized (1696.0, 1658.0) (score 106.20)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1696.0 1658.0 133.404785
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1516.315552, 'y': 133.404785, 'z': 1538.980591, 'health': 3244.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-267.503, max=106.195, mean=-54.924
+Unit 14700 chose action MOVE -> target normalized (848.00, 829.00), denormalized (1696.0, 1658.0) (score 106.20)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1696.0 1658.0 133.404785
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1544.708862 135.381256 1563.142578 3249.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1544.708862, 'y': 135.381256, 'z': 1563.142578, 'health': 3249.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-267.954, max=87.044, mean=-68.437
+Unit 14700 chose action MOVE -> target normalized (847.00, 826.00), denormalized (1694.0, 1652.0) (score 87.04)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1694.0 1652.0 135.381256
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1572.940796 139.153351 1586.637573 3254.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1572.940796, 'y': 139.153351, 'z': 1586.637573, 'health': 3254.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-268.885, max=76.582, mean=-76.431
+Unit 14700 chose action MOVE -> target normalized (846.00, 838.00), denormalized (1692.0, 1676.0) (score 76.58)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1692.0 1676.0 139.153351
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1572.940796, 'y': 139.153351, 'z': 1586.637573, 'health': 3254.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-268.884, max=76.581, mean=-76.431
+Unit 14700 chose action MOVE -> target normalized (846.00, 838.00), denormalized (1692.0, 1676.0) (score 76.58)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1692.0 1676.0 139.153351
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1603.151733 145.432526 1604.901855 3259.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1603.151733, 'y': 145.432526, 'z': 1604.901855, 'health': 3259.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-270.400, max=62.035, mean=-83.693
+Unit 14700 chose action MOVE -> target normalized (844.00, 836.00), denormalized (1688.0, 1672.0) (score 62.04)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1688.0 1672.0 145.432526
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1632.136108 154.277908 1620.377319 3264.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1632.136108, 'y': 154.277908, 'z': 1620.377319, 'health': 3264.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.639, max=44.489, mean=-91.685
+Unit 14700 chose action MOVE -> target normalized (844.00, 836.00), denormalized (1688.0, 1672.0) (score 44.49)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1688.0 1672.0 154.277908
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1632.136108, 'y': 154.277908, 'z': 1620.377319, 'health': 3264.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 14700 (26 steps, reward 178.97) to match buffer. Reason: mass_reached
+Finalized segment for unit 14700 with reward 178.97 in 0.00 seconds. Reason: mass_reached
+Unit 14700 reached a mass spot. Segment deferred.
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700 mass destination -> (852.00, 180.00) score=697.96
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-242.642, max=153.921, mean=-16.867
+Unit 14700 chose action MOVE -> target normalized (838.29, 610.19), denormalized (1676.6, 1220.4) (score 153.92)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1676.5805524444445 1220.377319 154.277908
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1654.496094 164.864670 1640.838135 3269.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1654.496094, 'y': 164.86467, 'z': 1640.838135, 'health': 3269.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-244.699, max=155.710, mean=-14.616
+Unit 14700 chose action MOVE -> target normalized (849.47, 620.42), denormalized (1698.9, 1240.8) (score 155.71)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1698.9405384444444 1240.838135 164.86467
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1654.496094, 'y': 164.86467, 'z': 1640.838135, 'health': 3269.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-244.697, max=155.709, mean=-14.616
+Unit 14700 chose action MOVE -> target normalized (849.47, 620.42), denormalized (1698.9, 1240.8) (score 155.71)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1698.9405384444444 1240.838135 164.86467
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1675.182983 176.949554 1660.621704 3274.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1675.182983, 'y': 176.949554, 'z': 1660.621704, 'health': 3274.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-247.962, max=143.700, mean=-14.639
+Unit 14700 chose action MOVE -> target normalized (859.81, 630.31), denormalized (1719.6, 1260.6) (score 143.70)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1719.6274274444445 1260.621704 176.949554
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1675.182983, 'y': 176.949554, 'z': 1660.621704, 'health': 3274.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-247.960, max=143.699, mean=-14.639
+Unit 14700 chose action MOVE -> target normalized (859.81, 630.31), denormalized (1719.6, 1260.6) (score 143.70)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1719.6274274444445 1260.621704 176.949554
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1682.736450 181.698074 1667.857178 3279.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1682.73645, 'y': 181.698074, 'z': 1667.857178, 'health': 3279.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-243.634, max=137.622, mean=-22.645
+Unit 14700 chose action MOVE -> target normalized (863.59, 633.93), denormalized (1727.2, 1267.9) (score 137.62)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1727.1808944444447 1267.857178 181.698074
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1682.73645, 'y': 181.698074, 'z': 1667.857178, 'health': 3279.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-243.633, max=137.622, mean=-22.645
+Unit 14700 chose action MOVE -> target normalized (863.59, 633.93), denormalized (1727.2, 1267.9) (score 137.62)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1727.1808944444447 1267.857178 181.698074
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1698.581787 183.573212 1648.015259 3284.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1698.581787, 'y': 183.573212, 'z': 1648.015259, 'health': 3284.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-245.283, max=123.335, mean=-24.971
+Unit 14700 chose action MOVE -> target normalized (871.51, 624.01), denormalized (1743.0, 1248.0) (score 123.34)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1743.0262314444444 1248.015259 183.573212
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1698.581787, 'y': 183.573212, 'z': 1648.015259, 'health': 3284.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-245.282, max=123.335, mean=-24.971
+Unit 14700 chose action MOVE -> target normalized (871.51, 624.01), denormalized (1743.0, 1248.0) (score 123.33)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1743.0262314444444 1248.015259 183.573212
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1700.562500 176.329834 1610.608643 3289.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1700.5625, 'y': 176.329834, 'z': 1610.608643, 'health': 3289.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-243.719, max=119.458, mean=-29.878
+Unit 14700 chose action MOVE -> target normalized (872.50, 605.30), denormalized (1745.0, 1210.6) (score 119.46)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1745.0069444444443 1210.608643 176.329834
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1700.5625, 'y': 176.329834, 'z': 1610.608643, 'health': 3289.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-243.720, max=119.458, mean=-29.878
+Unit 14700 chose action MOVE -> target normalized (872.50, 605.30), denormalized (1745.0, 1210.6) (score 119.46)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1745.0069444444443 1210.608643 176.329834
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1703.543945 173.157593 1573.244263 3294.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1703.543945, 'y': 173.157593, 'z': 1573.244263, 'health': 3294.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-279.197, max=204.051, mean=-37.364
+Unit 14700 chose action MOVE -> target normalized (851.00, 486.00), denormalized (1702.0, 972.0) (score 204.05)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 972.0 173.157593
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1703.543945, 'y': 173.157593, 'z': 1573.244263, 'health': 3294.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-279.198, max=204.051, mean=-37.364
+Unit 14700 chose action MOVE -> target normalized (851.00, 486.00), denormalized (1702.0, 972.0) (score 204.05)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 972.0 173.157593
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1708.077881 173.158569 1536.516846 3299.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1708.077881, 'y': 173.158569, 'z': 1536.516846, 'health': 3299.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.400, max=204.593, mean=-25.378
+Unit 14700 chose action MOVE -> target normalized (854.00, 468.00), denormalized (1708.0, 936.0) (score 204.59)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1708.0 936.0 173.158569
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1708.077881, 'y': 173.158569, 'z': 1536.516846, 'health': 3299.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6655
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.400, max=204.594, mean=-25.378
+Unit 14700 chose action MOVE -> target normalized (854.00, 468.00), denormalized (1708.0, 936.0) (score 204.59)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1708.0 936.0 173.158569
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1712.208618 175.260895 1500.877441 3304.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1712.208618, 'y': 175.260895, 'z': 1500.877441, 'health': 3304.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-301.715, max=204.682, mean=-47.219
+Unit 14700 chose action MOVE -> target normalized (856.00, 450.00), denormalized (1712.0, 900.0) (score 204.68)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1712.0 900.0 175.260895
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1712.208618, 'y': 175.260895, 'z': 1500.877441, 'health': 3304.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-301.716, max=204.683, mean=-47.219
+Unit 14700 chose action MOVE -> target normalized (856.00, 450.00), denormalized (1712.0, 900.0) (score 204.68)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1712.0 900.0 175.260895
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.785889 176.115707 1463.938843 3309.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.785889, 'y': 176.115707, 'z': 1463.938843, 'health': 3309.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-255.792, max=204.832, mean=-35.892
+Unit 14700 chose action MOVE -> target normalized (855.00, 431.00), denormalized (1710.0, 862.0) (score 204.83)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 862.0 176.115707
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.527588 177.768951 1427.711182 3314.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.527588, 'y': 177.768951, 'z': 1427.711182, 'health': 3314.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-298.763, max=204.644, mean=-44.627
+Unit 14700 chose action MOVE -> target normalized (855.00, 413.00), denormalized (1710.0, 826.0) (score 204.64)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 826.0 177.768951
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.527588, 'y': 177.768951, 'z': 1427.711182, 'health': 3314.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-298.764, max=204.645, mean=-44.627
+Unit 14700 chose action MOVE -> target normalized (855.00, 413.00), denormalized (1710.0, 826.0) (score 204.65)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 826.0 177.768951
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.627319 177.646149 1390.461182 3319.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.627319, 'y': 177.646149, 'z': 1390.461182, 'health': 3319.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-257.066, max=194.551, mean=-41.459
+Unit 14700 chose action MOVE -> target normalized (855.00, 410.00), denormalized (1710.0, 820.0) (score 194.55)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 820.0 177.646149
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.531738 178.150803 1353.619751 3324.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.531738, 'y': 178.150803, 'z': 1353.619751, 'health': 3324.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-282.823, max=174.304, mean=-48.810
+Unit 14700 chose action MOVE -> target normalized (855.00, 421.00), denormalized (1710.0, 842.0) (score 174.30)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 842.0 178.150803
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.531738, 'y': 178.150803, 'z': 1353.619751, 'health': 3324.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-282.825, max=174.305, mean=-48.810
+Unit 14700 chose action MOVE -> target normalized (855.00, 421.00), denormalized (1710.0, 842.0) (score 174.31)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 842.0 178.150803
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.419312 178.294617 1316.741577 3329.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.419312, 'y': 178.294617, 'z': 1316.741577, 'health': 3329.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-277.656, max=174.129, mean=-47.472
+Unit 14700 chose action MOVE -> target normalized (855.00, 403.00), denormalized (1710.0, 806.0) (score 174.13)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 806.0 178.294617
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.358276 178.618317 1279.779175 3334.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.358276, 'y': 178.618317, 'z': 1279.779175, 'health': 3334.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.842, max=153.711, mean=-47.317
+Unit 14700 chose action MOVE -> target normalized (855.00, 414.00), denormalized (1710.0, 828.0) (score 153.71)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 828.0 178.618317
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.358276, 'y': 178.618317, 'z': 1279.779175, 'health': 3334.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.844, max=153.712, mean=-47.317
+Unit 14700 chose action MOVE -> target normalized (855.00, 414.00), denormalized (1710.0, 828.0) (score 153.71)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 828.0 178.618317
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.270752 177.921768 1242.350220 3339.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.270752, 'y': 177.921768, 'z': 1242.35022, 'health': 3339.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-270.796, max=133.353, mean=-49.080
+Unit 14700 chose action MOVE -> target normalized (855.00, 426.00), denormalized (1710.0, 852.0) (score 133.35)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 852.0 177.921768
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.214966 179.131851 1205.759766 3344.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.214966, 'y': 179.131851, 'z': 1205.759766, 'health': 3344.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-268.788, max=123.178, mean=-51.388
+Unit 14700 chose action MOVE -> target normalized (855.00, 422.00), denormalized (1710.0, 844.0) (score 123.18)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 844.0 179.131851
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.214966, 'y': 179.131851, 'z': 1205.759766, 'health': 3344.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-268.789, max=123.179, mean=-51.388
+Unit 14700 chose action MOVE -> target normalized (855.00, 422.00), denormalized (1710.0, 844.0) (score 123.18)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 844.0 179.131851
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.159180 180.322784 1169.323120 3349.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.15918, 'y': 180.322784, 'z': 1169.32312, 'health': 3349.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-268.488, max=122.539, mean=-53.000
+Unit 14700 chose action MOVE -> target normalized (833.36, 384.66), denormalized (1666.7, 769.3) (score 122.54)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1666.7147355555558 769.32312 180.322784
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.086182 179.343948 1131.947144 3354.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.086182, 'y': 179.343948, 'z': 1131.947144, 'health': 3354.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-268.568, max=122.414, mean=-53.967
+Unit 14700 chose action MOVE -> target normalized (833.32, 365.97), denormalized (1666.6, 731.9) (score 122.41)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1666.6417375555557 731.947144 179.343948
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.086182, 'y': 179.343948, 'z': 1131.947144, 'health': 3354.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-268.569, max=122.414, mean=-53.968
+Unit 14700 chose action MOVE -> target normalized (833.32, 365.97), denormalized (1666.6, 731.9) (score 122.41)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1666.6417375555557 731.947144 179.343948
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1711.028442 178.548813 1094.800049 3359.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1711.028442, 'y': 178.548813, 'z': 1094.800049, 'health': 3359.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-268.876, max=205.486, mean=-53.475
+Unit 14700 chose action MOVE -> target normalized (855.00, 247.00), denormalized (1710.0, 494.0) (score 205.49)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1710.0 494.0 178.548813
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1706.454346 174.644791 1057.519165 3364.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1706.454346, 'y': 174.644791, 'z': 1057.519165, 'health': 3364.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.604, max=206.057, mean=-49.877
+Unit 14700 chose action MOVE -> target normalized (853.00, 228.00), denormalized (1706.0, 456.0) (score 206.06)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1706.0 456.0 174.644791
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1706.454346, 'y': 174.644791, 'z': 1057.519165, 'health': 3364.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.605, max=206.058, mean=-49.877
+Unit 14700 chose action MOVE -> target normalized (853.00, 228.00), denormalized (1706.0, 456.0) (score 206.06)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1706.0 456.0 174.644791
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1701.943970 171.647369 1020.301453 3369.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1701.94397, 'y': 171.647369, 'z': 1020.301453, 'health': 3369.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-316.751, max=207.246, mean=-54.928
+Unit 14700 chose action MOVE -> target normalized (850.00, 210.00), denormalized (1700.0, 420.0) (score 207.25)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1700.0 420.0 171.647369
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1701.94397, 'y': 171.647369, 'z': 1020.301453, 'health': 3369.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-316.752, max=207.246, mean=-54.928
+Unit 14700 chose action MOVE -> target normalized (850.00, 210.00), denormalized (1700.0, 420.0) (score 207.25)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1700.0 420.0 171.647369
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.294800 169.595734 982.914917 3374.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.2948, 'y': 169.595734, 'z': 982.914917, 'health': 3374.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.543, max=208.785, mean=-43.422
+Unit 14700 chose action MOVE -> target normalized (851.00, 191.00), denormalized (1702.0, 382.0) (score 208.78)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 382.0 169.595734
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.2948, 'y': 169.595734, 'z': 982.914917, 'health': 3374.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.536, max=208.779, mean=-43.421
+Unit 14700 chose action MOVE -> target normalized (851.00, 191.00), denormalized (1702.0, 382.0) (score 208.78)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 382.0 169.595734
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.648560 170.261429 945.956055 3379.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.64856, 'y': 170.261429, 'z': 945.956055, 'health': 3379.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.645, max=199.208, mean=-49.987
+Unit 14700 chose action MOVE -> target normalized (851.00, 187.00), denormalized (1702.0, 374.0) (score 199.21)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 374.0 170.261429
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.64856, 'y': 170.261429, 'z': 945.956055, 'health': 3379.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.641, max=199.206, mean=-49.987
+Unit 14700 chose action MOVE -> target normalized (851.00, 187.00), denormalized (1702.0, 374.0) (score 199.21)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 374.0 170.261429
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.497192 169.156723 908.446960 3384.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.497192, 'y': 169.156723, 'z': 908.44696, 'health': 3384.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.953, max=189.795, mean=-48.393
+Unit 14700 chose action MOVE -> target normalized (851.00, 184.00), denormalized (1702.0, 368.0) (score 189.80)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 368.0 169.156723
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.497192, 'y': 169.156723, 'z': 908.44696, 'health': 3384.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-272.951, max=189.793, mean=-48.392
+Unit 14700 chose action MOVE -> target normalized (851.00, 184.00), denormalized (1702.0, 368.0) (score 189.79)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 368.0 169.156723
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.546631 167.836197 870.951050 3389.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.546631, 'y': 167.836197, 'z': 870.95105, 'health': 3389.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6657
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.248, max=181.720, mean=-46.907
+Unit 14700 chose action MOVE -> target normalized (851.00, 180.00), denormalized (1702.0, 360.0) (score 181.72)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 360.0 167.836197
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.546631, 'y': 167.836197, 'z': 870.95105, 'health': 3389.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.246, max=181.718, mean=-46.907
+Unit 14700 chose action MOVE -> target normalized (851.00, 180.00), denormalized (1702.0, 360.0) (score 181.72)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 360.0 167.836197
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.605225 167.136673 833.451050 3394.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.605225, 'y': 167.136673, 'z': 833.45105, 'health': 3394.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.482, max=163.677, mean=-49.696
+Unit 14700 chose action MOVE -> target normalized (851.00, 176.00), denormalized (1702.0, 352.0) (score 163.68)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 352.0 167.136673
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.605225, 'y': 167.136673, 'z': 833.45105, 'health': 3394.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.480, max=163.675, mean=-49.695
+Unit 14700 chose action MOVE -> target normalized (851.00, 176.00), denormalized (1702.0, 352.0) (score 163.68)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 352.0 167.136673
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663818 166.770752 795.985840 3399.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663818, 'y': 166.770752, 'z': 795.98584, 'health': 3399.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.628, max=148.231, mean=-50.513
+Unit 14700 chose action MOVE -> target normalized (851.00, 187.00), denormalized (1702.0, 374.0) (score 148.23)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 374.0 166.770752
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663818, 'y': 166.770752, 'z': 795.98584, 'health': 3399.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.626, max=148.230, mean=-50.513
+Unit 14700 chose action MOVE -> target normalized (851.00, 187.00), denormalized (1702.0, 374.0) (score 148.23)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 374.0 166.770752
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663818 166.458725 758.576843 3404.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663818, 'y': 166.458725, 'z': 758.576843, 'health': 3404.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.802, max=138.953, mean=-53.530
+Unit 14700 chose action MOVE -> target normalized (851.00, 184.00), denormalized (1702.0, 368.0) (score 138.95)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 368.0 166.458725
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663818, 'y': 166.458725, 'z': 758.576843, 'health': 3404.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.799, max=138.952, mean=-53.529
+Unit 14700 chose action MOVE -> target normalized (851.00, 184.00), denormalized (1702.0, 368.0) (score 138.95)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 402, in receive_messages
+    window.write_event_value('-SOCKET-', message)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\FreeSimpleGUI\window.py", line 2490, in write_event_value
+    self.TKroot.tk.willdispatch()  # brilliant bit of code provided by Giuliano who I owe a million thank yous!
+    ^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'tk'
+Exception in thread Thread-2 (receive_messages):
+14700 has been sent action: C: MU Q 14700 1702.0 368.0 166.458725
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663574 166.928024 721.438660 3409.663086 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663574, 'y': 166.928024, 'z': 721.43866, 'health': 3409.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-273.865, max=131.107, mean=-53.599
+Unit 14700 chose action MOVE -> target normalized (851.00, 180.00), denormalized (1702.0, 360.0) (score 131.11)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 360.0 166.928024
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663818 167.851074 684.737305 3414.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663818, 'y': 167.851074, 'z': 684.737305, 'health': 3414.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-274.133, max=115.312, mean=-58.794
+Unit 14700 chose action MOVE -> target normalized (851.00, 177.00), denormalized (1702.0, 354.0) (score 115.31)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 354.0 167.851074
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663818, 'y': 167.851074, 'z': 684.737305, 'health': 3414.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-274.130, max=115.311, mean=-58.793
+Unit 14700 chose action MOVE -> target normalized (851.00, 177.00), denormalized (1702.0, 354.0) (score 115.31)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 354.0 167.851074
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663818 168.981567 648.088562 3419.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663818, 'y': 168.981567, 'z': 648.088562, 'health': 3419.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-274.363, max=97.687, mean=-63.030
+Unit 14700 chose action MOVE -> target normalized (851.00, 189.00), denormalized (1702.0, 378.0) (score 97.69)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 378.0 168.981567
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663818, 'y': 168.981567, 'z': 648.088562, 'health': 3419.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-274.361, max=97.686, mean=-63.029
+Unit 14700 chose action MOVE -> target normalized (851.00, 189.00), denormalized (1702.0, 378.0) (score 97.69)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 378.0 168.981567
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663574 170.602264 611.825867 3424.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663574, 'y': 170.602264, 'z': 611.825867, 'health': 3424.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-274.960, max=87.609, mean=-70.650
+Unit 14700 chose action MOVE -> target normalized (851.00, 185.00), denormalized (1702.0, 370.0) (score 87.61)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 370.0 170.602264
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663574, 'y': 170.602264, 'z': 611.825867, 'health': 3424.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-274.958, max=87.608, mean=-70.650
+Unit 14700 chose action MOVE -> target normalized (851.00, 185.00), denormalized (1702.0, 370.0) (score 87.61)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 370.0 170.602264
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663696 172.865875 576.312195 3429.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663696, 'y': 172.865875, 'z': 576.312195, 'health': 3429.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-295.650, max=81.812, mean=-77.644
+Unit 14700 chose action MOVE -> target normalized (851.00, 180.00), denormalized (1702.0, 360.0) (score 81.81)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 360.0 172.865875
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663696, 'y': 172.865875, 'z': 576.312195, 'health': 3429.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-295.648, max=81.811, mean=-77.644
+Unit 14700 chose action MOVE -> target normalized (851.00, 180.00), denormalized (1702.0, 360.0) (score 81.81)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 360.0 172.865875
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663696 173.193970 539.458679 3434.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663696, 'y': 173.19397, 'z': 539.458679, 'health': 3434.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-275.686, max=68.691, mean=-81.774
+Unit 14700 chose action MOVE -> target normalized (851.00, 180.00), denormalized (1702.0, 360.0) (score 68.69)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 360.0 173.19397
+[('127.0.0.1', 63453)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+26583 armcom 719.807739 124.071587 1399.875854 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663696, 'y': 173.19397, 'z': 539.458679, 'health': 3434.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-275.684, max=68.690, mean=-81.774
+Unit 14700 chose action MOVE -> target normalized (851.00, 180.00), denormalized (1702.0, 360.0) (score 68.69)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+14700 has been sent action: C: MU Q 14700 1702.0 360.0 173.19397
+[('127.0.0.1', 63453)] FRIENDLY_UNITS
+14700 corcom 1702.663574 176.527023 504.883698 3444.663086 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 14700, 'name': 'corcom', 'x': 1702.663574, 'y': 176.527023, 'z': 504.883698, 'health': 3444.663086, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 14700:
+  distance_reduction: 0.6656
+  move_magnitude: 0.0210
+  is_noop: -0.0000
+  danger_zone: 0.0053
+  enemy_distance_change: -0.0076
+  nearest_enemy_proximity: 0.0049
+  escape_alignment: 0.0000
+  dodge_viability: 0.0000
+Unit 14700: NOOP score=-0.000, MOVE scores: min=-276.347, max=56.718, mean=-90.055
+Unit 14700 chose action MOVE -> target normalized (851.00, 180.00), denormalized (1702.0, 360.0) (score 56.72)
+Unit 14700 cancelling in-flight command (penalty 2.0)
+Feature-based agent weights saved.
+Closing TensorBoard writer...
+14700 has been sent action: C: MU Q 14700 1702.0 360.0 176.527023
+
+!!! ERROR in receive_messages !!!
+Exception type: AttributeError
+Exception message: 'NoneType' object has no attribute 'tk'
+Full traceback:
+!!!
+
+Finalizing unit results, assuming a loss.
+Deferred segment for unit 14700 (34 steps, reward -169.79) to match buffer. Reason: disconnect/death
+TensorBoard logs saved to: runs/feature_based_agent_20260310_040801
+View results with: tensorboard --logdir=runs
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 402, in receive_messages
+    window.write_event_value('-SOCKET-', message)
+  File "F:\School\Capstone\Python\PyServer\.venv\Lib\site-packages\FreeSimpleGUI\window.py", line 2490, in write_event_value

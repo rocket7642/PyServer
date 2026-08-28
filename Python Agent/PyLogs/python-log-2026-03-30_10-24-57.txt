@@ -1,0 +1,2195 @@
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:96: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if 0 <= idx < feature_weights.shape[-1]:
+Feature-based agent weights loaded.
+Model graph logged to TensorBoard (Graphs tab).
+TensorBoard logging to: runs/feature_based_agent_20260330_102500
+View with: tensorboard --logdir=runs
+Server listening on 127.0.0.1:25000...
+Map dimensions: 2048 x 2048
+Loaded cached map cost fields from cache\map_fields\98c88e327a12714937bc2713a893fe407302b9bb7c2d9f723f512b07ba763f98.npz
+[NEW CONNECTION] ('127.0.0.1', 62533) connected.
+[unit_defs] Loaded 29 unit definitions from data/unit_defs.json
+[HANDSHAKE] Sent START to ('127.0.0.1', 62533) (attempt 1/30)
+[HANDSHAKE] Received from ('127.0.0.1', 62533): FRIENDLY_UNITS
+10860 armcom 369.000000 160.273163 476.000031 3700.000000 37.500000
+END
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 62533)] KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 369.000000 160.273163 476.000031 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 369.0, 'y': 160.273163, 'z': 476.000031, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.2289
+  move_magnitude: -0.0206
+  is_noop: -0.0000
+  danger_zone: -0.0143
+  enemy_distance_change: 0.0025
+  nearest_enemy_proximity: -0.0038
+  escape_alignment: -0.0036
+  dodge_viability: 0.0000
+Unit 10860 mass destination -> (188.00, 180.00) score=73.92
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-495.461, max=90.854, mean=-170.256
+Unit 10860 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 90.85)
+10860 has been sent action: C: MU Q 10860 376.0 360.0 160.273163
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 369.0, 'y': 160.273163, 'z': 476.000031, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.2208
+  move_magnitude: -0.0206
+  is_noop: -0.0000
+  danger_zone: -0.0139
+  enemy_distance_change: 0.0024
+  nearest_enemy_proximity: -0.0037
+  escape_alignment: -0.0035
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-492.209, max=90.257, mean=-169.138
+Unit 10860 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 90.26)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 376.0 360.0 160.273163
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 369.000000 160.273163 476.000031 3700.000000 37.500000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 369.0, 'y': 160.273163, 'z': 476.000031, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.2139
+  move_magnitude: -0.0206
+  is_noop: -0.0000
+  danger_zone: -0.0135
+  enemy_distance_change: 0.0024
+  nearest_enemy_proximity: -0.0036
+  escape_alignment: -0.0033
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-489.404, max=89.743, mean=-168.174
+Unit 10860 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 89.74)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 376.0 360.0 160.273163
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 369.099487 160.256790 476.181793 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 369.099487, 'y': 160.25679, 'z': 476.181793, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.2078
+  move_magnitude: -0.0206
+  is_noop: -0.0000
+  danger_zone: -0.0131
+  enemy_distance_change: 0.0023
+  nearest_enemy_proximity: -0.0035
+  escape_alignment: -0.0032
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-486.977, max=89.298, mean=-167.340
+Unit 10860 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 89.30)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 376.0 360.0 160.25679
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 369.099487, 'y': 160.25679, 'z': 476.181793, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.2028
+  move_magnitude: -0.0206
+  is_noop: -0.0000
+  danger_zone: -0.0128
+  enemy_distance_change: 0.0023
+  nearest_enemy_proximity: -0.0034
+  escape_alignment: -0.0031
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-484.939, max=88.925, mean=-166.640
+Unit 10860 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 88.92)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 376.0 360.0 160.25679
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 386.846130 155.343704 474.741852 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 386.84613, 'y': 155.343704, 'z': 474.741852, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1992
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0126
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0033
+  escape_alignment: -0.0031
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-492.904, max=88.865, mean=-170.959
+Unit 10860 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 88.86)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 376.0 360.0 155.343704
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 386.84613, 'y': 155.343704, 'z': 474.741852, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1959
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0124
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-491.561, max=88.623, mean=-170.493
+Unit 10860 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 88.62)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 376.0 360.0 155.343704
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 384.060303 160.786789 440.647003 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 384.060303, 'y': 160.786789, 'z': 440.647003, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1964
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0124
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0033
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-492.841, max=65.945, mean=-172.579
+Unit 10860 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 65.95)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 376.0 360.0 160.786789
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 384.060303, 'y': 160.786789, 'z': 440.647003, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 10860 (5 steps, reward 200.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 10860 with reward 200.00 in 0.00 seconds. Reason: mass_reached
+Unit 10860 reached a mass spot. Segment deferred.
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1946
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0123
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860 mass destination -> (620.00, 156.00) score=518.59
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-346.364, max=328.305, mean=14.885
+Unit 10860 chose action MOVE -> target normalized (392.03, 153.66), denormalized (784.1, 307.3) (score 328.31)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 784.060303 307.3136696666666 160.786789
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 380.906464 168.940186 409.122498 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 380.906464, 'y': 168.940186, 'z': 409.122498, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1959
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0124
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-433.998, max=280.964, mean=0.240
+Unit 10860 chose action MOVE -> target normalized (390.45, 137.89), denormalized (780.9, 275.8) (score 280.96)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 780.906464 275.78916466666664 168.940186
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 380.906464, 'y': 168.940186, 'z': 409.122498, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1949
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0123
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-433.638, max=280.732, mean=0.240
+Unit 10860 chose action MOVE -> target normalized (390.45, 137.89), denormalized (780.9, 275.8) (score 280.73)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 780.906464 275.78916466666664 168.940186
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 377.927734 178.959824 379.345673 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 377.927734, 'y': 178.959824, 'z': 379.345673, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1966
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0124
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0033
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-434.602, max=278.834, mean=-25.047
+Unit 10860 chose action MOVE -> target normalized (388.96, 167.45), denormalized (777.9, 334.9) (score 278.83)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 777.927734 334.9012285555555 178.959824
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 377.927734, 'y': 178.959824, 'z': 379.345673, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1960
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0124
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-434.395, max=278.701, mean=-25.035
+Unit 10860 chose action MOVE -> target normalized (388.96, 167.45), denormalized (777.9, 334.9) (score 278.70)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 777.927734 334.9012285555555 178.959824
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 399.210754 179.496887 360.385773 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 399.210754, 'y': 179.496887, 'z': 360.385773, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1959
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0124
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-345.251, max=282.633, mean=-14.024
+Unit 10860 chose action MOVE -> target normalized (399.61, 157.97), denormalized (799.2, 315.9) (score 282.63)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 799.210754 315.9413285555555 179.496887
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 399.210754, 'y': 179.496887, 'z': 360.385773, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1955
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0124
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-345.126, max=282.531, mean=-14.019
+Unit 10860 chose action MOVE -> target normalized (399.61, 157.97), denormalized (799.2, 315.9) (score 282.53)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 799.210754 315.9413285555555 179.496887
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 435.868988 178.164246 352.563354 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 435.868988, 'y': 178.164246, 'z': 352.563354, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1933
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0122
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-504.963, max=272.266, mean=-41.659
+Unit 10860 chose action MOVE -> target normalized (417.93, 154.06), denormalized (835.9, 308.1) (score 272.27)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 835.868988 308.11890955555555 178.164246
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 435.868988, 'y': 178.164246, 'z': 352.563354, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1929
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0122
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0030
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-504.794, max=272.174, mean=-41.645
+Unit 10860 chose action MOVE -> target normalized (417.93, 154.06), denormalized (835.9, 308.1) (score 272.17)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 835.868988 308.11890955555555 178.164246
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 473.205322 174.102051 349.840912 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 473.205322, 'y': 174.102051, 'z': 349.840912, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1908
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0121
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0032
+  escape_alignment: -0.0029
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-484.479, max=261.550, mean=-61.727
+Unit 10860 chose action MOVE -> target normalized (436.60, 152.70), denormalized (873.2, 305.4) (score 261.55)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 873.205322 305.39646755555555 174.102051
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 473.205322, 'y': 174.102051, 'z': 349.840912, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1905
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0121
+  enemy_distance_change: 0.0022
+  nearest_enemy_proximity: -0.0031
+  escape_alignment: -0.0029
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-484.351, max=261.480, mean=-61.711
+Unit 10860 chose action MOVE -> target normalized (436.60, 152.70), denormalized (873.2, 305.4) (score 261.48)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 873.205322 305.39646755555555 174.102051
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 510.049866 174.468307 346.204895 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 510.049866, 'y': 174.468307, 'z': 346.204895, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1885
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0119
+  enemy_distance_change: 0.0021
+  nearest_enemy_proximity: -0.0031
+  escape_alignment: -0.0029
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-475.592, max=256.421, mean=-63.461
+Unit 10860 chose action MOVE -> target normalized (455.02, 150.88), denormalized (910.0, 301.8) (score 256.42)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 910.0498660000001 301.76045055555556 174.468307
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 510.049866, 'y': 174.468307, 'z': 346.204895, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1883
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0119
+  enemy_distance_change: 0.0021
+  nearest_enemy_proximity: -0.0031
+  escape_alignment: -0.0029
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-475.506, max=256.375, mean=-63.450
+Unit 10860 chose action MOVE -> target normalized (455.02, 150.88), denormalized (910.0, 301.8) (score 256.37)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 910.0498660000001 301.76045055555556 174.468307
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 546.074646 176.032501 342.052429 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 546.074646, 'y': 176.032501, 'z': 342.052429, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1864
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0118
+  enemy_distance_change: 0.0021
+  nearest_enemy_proximity: -0.0031
+  escape_alignment: -0.0029
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-559.563, max=252.033, mean=-84.090
+Unit 10860 chose action MOVE -> target normalized (473.04, 148.80), denormalized (946.1, 297.6) (score 252.03)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 946.074646 297.60798455555556 176.032501
+[('127.0.0.1', 62533)] ENEMY_UNITS
+27336 corthud 947.576782 170.322617 331.929749 1100.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 546.074646, 'y': 176.032501, 'z': 342.052429, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0919
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+Unit 10860 mass destination -> (196.00, 828.00) score=763.82
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 580.663086 179.312775 338.175507 3700.000000 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 580.663086, 'y': 179.312775, 'z': 338.175507, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0918
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+27336 corthud 904.140991 171.846420 334.063751 1100.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 580.663086, 'y': 179.312775, 'z': 338.175507, 'health': 3700.0, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0918
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 616.077332 181.694077 334.294617 3597.682861 37.500000
+END
+ENEMY_UNITS
+27336 corthud 859.932251 172.087189 336.235687 997.796570 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 616.077332, 'y': 181.694077, 'z': 334.294617, 'health': 3597.682861, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0921
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 651.405212 184.186478 330.386963 3604.249023 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 651.405212, 'y': 184.186478, 'z': 330.386963, 'health': 3604.249023, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0921
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+27336 corthud 815.238953 171.320648 338.431519 867.006775 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 651.405212, 'y': 184.186478, 'z': 330.386963, 'health': 3604.249023, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0927
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 686.053345 186.944824 326.510406 3507.198242 37.500000
+END
+ENEMY_UNITS
+27336 corthud 770.829956 168.696136 342.763184 725.997131 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 686.053345, 'y': 186.944824, 'z': 326.510406, 'health': 3507.198242, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0935
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 721.767822 188.702438 320.492920 3404.424316 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 721.767822, 'y': 188.702438, 'z': 320.49292, 'health': 3404.424316, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0934
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+27336 corthud 729.805420 158.925186 361.337646 508.990448 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 721.767822, 'y': 188.702438, 'z': 320.49292, 'health': 3404.424316, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0954
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0061
+  enemy_distance_change: 0.0013
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 757.009583 190.901291 316.134216 3412.921387 37.500000
+END
+ENEMY_UNITS
+27336 corthud 686.020020 155.912323 367.891693 175.536194 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 757.009583, 'y': 190.901291, 'z': 316.134216, 'health': 3412.921387, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1185
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0076
+  enemy_distance_change: 0.0015
+  nearest_enemy_proximity: -0.0018
+  escape_alignment: -0.0017
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 791.247070 194.162140 312.815002 3251.260986 37.500000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 791.24707, 'y': 194.16214, 'z': 312.815002, 'health': 3251.260986, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+  distance_reduction: 1.1699
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0108
+  enemy_distance_change: 0.0020
+  nearest_enemy_proximity: -0.0028
+  escape_alignment: -0.0026
+  dodge_viability: 0.0000
+Unit 10860 mass destination -> (620.00, 156.00) score=240.13
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-479.239, max=269.919, mean=-79.125
+Unit 10860 chose action MOVE -> target normalized (620.00, 150.00), denormalized (1240.0, 300.0) (score 269.92)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1240.0 300.0 194.16214
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 827.421875 195.557693 309.289948 3256.260986 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 827.421875, 'y': 195.557693, 'z': 309.289948, 'health': 3256.260986, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1412
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0090
+  enemy_distance_change: 0.0017
+  nearest_enemy_proximity: -0.0022
+  escape_alignment: -0.0021
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-460.833, max=239.185, mean=-82.355
+Unit 10860 chose action MOVE -> target normalized (623.00, 150.00), denormalized (1246.0, 300.0) (score 239.18)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1246.0 300.0 195.557693
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 827.421875, 'y': 195.557693, 'z': 309.289948, 'health': 3256.260986, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1411
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0090
+  enemy_distance_change: 0.0017
+  nearest_enemy_proximity: -0.0022
+  escape_alignment: -0.0021
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-460.791, max=239.163, mean=-82.347
+Unit 10860 chose action MOVE -> target normalized (623.00, 150.00), denormalized (1246.0, 300.0) (score 239.16)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1246.0 300.0 195.557693
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 863.225403 197.250534 305.763672 3261.260986 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 863.225403, 'y': 197.250534, 'z': 305.763672, 'health': 3261.260986, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1447
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0092
+  enemy_distance_change: 0.0017
+  nearest_enemy_proximity: -0.0023
+  escape_alignment: -0.0021
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-454.844, max=214.225, mean=-82.148
+Unit 10860 chose action MOVE -> target normalized (611.00, 150.00), denormalized (1222.0, 300.0) (score 214.22)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1222.0 300.0 197.250534
+[('127.0.0.1', 62533)] ENEMY_UNITS
+4633 corthud 1232.709961 155.915482 318.151733 1100.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 863.225403, 'y': 197.250534, 'z': 305.763672, 'health': 3261.260986, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0907
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0059
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 900.552612 195.957825 304.702728 3266.260986 37.500000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+4633 corthud 1213.475098 155.393036 338.042999 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 900.552612, 'y': 195.957825, 'z': 304.702728, 'health': 3266.260986, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0981
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0063
+  enemy_distance_change: 0.0013
+  nearest_enemy_proximity: -0.0014
+  escape_alignment: -0.0013
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 938.026489 193.472351 304.234131 3165.961670 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 938.026489, 'y': 193.472351, 'z': 304.234131, 'health': 3165.96167, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1012
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0065
+  enemy_distance_change: 0.0013
+  nearest_enemy_proximity: -0.0014
+  escape_alignment: -0.0013
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+4633 corthud 1213.475098 155.393036 338.042999 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 938.026489, 'y': 193.472351, 'z': 304.234131, 'health': 3165.96167, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1011
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0065
+  enemy_distance_change: 0.0013
+  nearest_enemy_proximity: -0.0014
+  escape_alignment: -0.0013
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 975.522888 192.154434 303.727142 3171.500488 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 975.522888, 'y': 192.154434, 'z': 303.727142, 'health': 3171.500488, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1051
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0067
+  enemy_distance_change: 0.0013
+  nearest_enemy_proximity: -0.0015
+  escape_alignment: -0.0014
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+4633 corthud 1206.588867 155.847916 327.068634 1003.563660 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 975.522888, 'y': 192.154434, 'z': 303.727142, 'health': 3171.500488, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0910
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0059
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1013.019287 189.769379 303.208710 3072.723633 37.500000
+END
+ENEMY_UNITS
+4633 corthud 1206.588867 155.847916 327.068634 931.511841 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1013.019287, 'y': 189.769379, 'z': 303.20871, 'health': 3072.723633, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0910
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0059
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1050.515625 188.583755 302.633759 2975.194824 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1050.515625, 'y': 188.583755, 'z': 302.633759, 'health': 2975.194824, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0907
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0059
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+4633 corthud 1206.588867 155.847916 327.068634 784.117798 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1050.515625, 'y': 188.583755, 'z': 302.633759, 'health': 2975.194824, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0911
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0059
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1088.011963 186.309082 302.058807 2981.917236 37.500000
+END
+ENEMY_UNITS
+4633 corthud 1206.588867 155.847916 327.068634 595.434631 0
+END
+KNOWN_ENEMY_UNITS
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1088.011963, 'y': 186.309082, 'z': 302.058807, 'health': 2981.917236, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0924
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1088.011963, 'y': 186.309082, 'z': 302.058807, 'health': 2981.917236, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0925
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1125.494995 183.207794 301.137695 2884.463135 37.500000
+END
+ENEMY_UNITS
+4633 corthud 1206.588867 155.847916 327.068634 435.201996 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1125.494995, 'y': 183.207794, 'z': 301.137695, 'health': 2884.463135, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0941
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0061
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1162.949707 181.185730 299.310364 2785.936768 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1162.949707, 'y': 181.18573, 'z': 299.310364, 'health': 2785.936768, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0943
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0061
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+4633 corthud 1206.588867 155.847916 327.068634 278.156647 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1162.949707, 'y': 181.18573, 'z': 299.310364, 'health': 2785.936768, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 10860 (24 steps, reward -370.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 10860 with reward -370.00 in 0.00 seconds. Reason: mass_reached
+Unit 10860 reached a mass spot. Segment deferred.
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0963
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0062
+  enemy_distance_change: 0.0013
+  nearest_enemy_proximity: -0.0014
+  escape_alignment: -0.0013
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1200.202393 178.611481 298.243286 2792.830811 37.500000
+END
+ENEMY_UNITS
+4633 corthud 1211.463257 150.456573 338.927124 41.530529 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1200.202393, 'y': 178.611481, 'z': 298.243286, 'health': 2792.830811, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1297
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0083
+  enemy_distance_change: 0.0016
+  nearest_enemy_proximity: -0.0020
+  escape_alignment: -0.0019
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1211.839966 176.608780 299.071625 2798.163330 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1211.839966, 'y': 176.60878, 'z': 299.071625, 'health': 2798.16333, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1320
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0084
+  enemy_distance_change: 0.0016
+  nearest_enemy_proximity: -0.0020
+  escape_alignment: -0.0019
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1211.839966, 'y': 176.60878, 'z': 299.071625, 'health': 2798.16333, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1761
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0112
+  enemy_distance_change: 0.0020
+  nearest_enemy_proximity: -0.0029
+  escape_alignment: -0.0027
+  dodge_viability: 0.0000
+Unit 10860 mass destination -> (524.00, 492.00) score=444.44
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-200.464, max=336.590, mean=87.968
+Unit 10860 chose action MOVE -> target normalized (539.25, 349.54), denormalized (1078.5, 699.1) (score 336.59)
+10860 has been sent action: C: MU Q 10860 1078.5066326666665 699.071625 176.60878
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1211.839966 176.608780 299.071625 2803.163330 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1211.839966, 'y': 176.60878, 'z': 299.071625, 'health': 2803.16333, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1764
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0112
+  enemy_distance_change: 0.0020
+  nearest_enemy_proximity: -0.0029
+  escape_alignment: -0.0027
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-200.507, max=336.662, mean=87.987
+Unit 10860 chose action MOVE -> target normalized (539.25, 349.54), denormalized (1078.5, 699.1) (score 336.66)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1078.5066326666665 699.071625 176.60878
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1211.839966, 'y': 176.60878, 'z': 299.071625, 'health': 2803.16333, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1763
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0112
+  enemy_distance_change: 0.0020
+  nearest_enemy_proximity: -0.0029
+  escape_alignment: -0.0027
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-200.499, max=336.649, mean=87.983
+Unit 10860 chose action MOVE -> target normalized (539.25, 349.54), denormalized (1078.5, 699.1) (score 336.65)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1078.5066326666665 699.071625 176.60878
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1211.839966 176.608780 299.071625 2705.375732 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1211.839966, 'y': 176.60878, 'z': 299.071625, 'health': 2705.375732, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1759
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0112
+  enemy_distance_change: 0.0020
+  nearest_enemy_proximity: -0.0029
+  escape_alignment: -0.0027
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-200.418, max=336.513, mean=87.948
+Unit 10860 chose action MOVE -> target normalized (539.25, 349.54), denormalized (1078.5, 699.1) (score 336.51)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1078.5066326666665 699.071625 176.60878
+[('127.0.0.1', 62533)] ENEMY_UNITS
+12255 corthud 1240.000000 157.826843 312.000000 993.600708 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1211.839966, 'y': 176.60878, 'z': 299.071625, 'health': 2705.375732, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0899
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0059
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1192.818481 177.313461 303.201141 2711.654297 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1192.818481, 'y': 177.313461, 'z': 303.201141, 'health': 2711.654297, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0894
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0058
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+12255 corthud 1241.360596 157.666992 312.093903 849.649536 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1192.818481, 'y': 177.313461, 'z': 303.201141, 'health': 2711.654297, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0898
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0059
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1161.732056 173.433960 315.045044 2718.548828 37.500000
+END
+
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1161.732056, 'y': 173.43396, 'z': 315.045044, 'health': 2718.548828, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0892
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0058
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+12255 corthud 1240.171875 162.048370 304.005127 636.679138 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1161.732056, 'y': 173.43396, 'z': 315.045044, 'health': 2718.548828, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0906
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0059
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1145.571899 160.558502 348.884613 2615.223145 37.500000
+END
+ENEMY_UNITS
+12255 corthud 1235.434448 162.480499 303.945770 431.458527 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1145.571899, 'y': 160.558502, 'z': 348.884613, 'health': 2615.223145, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0924
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1129.969604 149.143555 382.951477 2621.365723 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1129.969604, 'y': 149.143555, 'z': 382.951477, 'health': 2621.365723, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0924
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0060
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+12255 corthud 1246.689819 145.026489 343.345398 292.707855 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1129.969604, 'y': 149.143555, 'z': 382.951477, 'health': 2621.365723, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0941
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0061
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0013
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1118.371704 139.603210 418.612183 2522.255371 37.500000
+END
+ENEMY_UNITS
+12255 corthud 1238.989258 138.380157 368.587952 101.109711 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1118.371704, 'y': 139.60321, 'z': 418.612183, 'health': 2522.255371, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0977
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0062
+  enemy_distance_change: 0.0013
+  nearest_enemy_proximity: -0.0014
+  escape_alignment: -0.0013
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1106.773804 134.476837 454.272888 2528.028809 37.500000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1106.773804, 'y': 134.476837, 'z': 454.272888, 'health': 2528.028809, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0966
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0062
+  enemy_distance_change: 0.0013
+  nearest_enemy_proximity: -0.0014
+  escape_alignment: -0.0013
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1106.773804, 'y': 134.476837, 'z': 454.272888, 'health': 2528.028809, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1482
+  move_magnitude: -0.0205
+  is_noop: -0.0000
+  danger_zone: -0.0094
+  enemy_distance_change: 0.0018
+  nearest_enemy_proximity: -0.0024
+  escape_alignment: -0.0022
+  dodge_viability: 0.0000
+Unit 10860 mass destination -> (524.00, 492.00) score=296.92
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-375.882, max=258.094, mean=-17.641
+Unit 10860 chose action MOVE -> target normalized (531.16, 427.14), denormalized (1062.3, 854.3) (score 258.09)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1062.3293595555556 854.272888 134.476837
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1095.175903 132.142883 489.933594 2533.028809 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1095.175903, 'y': 132.142883, 'z': 489.933594, 'health': 2533.028809, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1457
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0093
+  enemy_distance_change: 0.0017
+  nearest_enemy_proximity: -0.0023
+  escape_alignment: -0.0022
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-423.434, max=256.334, mean=-43.996
+Unit 10860 chose action MOVE -> target normalized (525.37, 444.97), denormalized (1050.7, 889.9) (score 256.33)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1050.7314585555555 889.9335940000001 132.142883
+[('127.0.0.1', 62533)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 334, in receive_messages
+    action, best_target, best_score = agent_core.get_action(
+                                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\School\Capstone\Python\PyServer\Main\agent_core.py", line 372, in get_action
+    if fire_mag < (tx - eu_nx ** 2 + tz - eu_nz ** 2) ** 0.5:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'complex'
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1095.175903, 'y': 132.142883, 'z': 489.933594, 'health': 2533.028809, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1456
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0093
+  enemy_distance_change: 0.0017
+  nearest_enemy_proximity: -0.0023
+  escape_alignment: -0.0021
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-423.400, max=256.313, mean=-43.992
+Unit 10860 chose action MOVE -> target normalized (525.37, 444.97), denormalized (1050.7, 889.9) (score 256.31)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1050.7314585555555 889.9335940000001 132.142883
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1088.477905 130.872192 526.504395 2538.848389 37.500000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1088.477905, 'y': 130.872192, 'z': 526.504395, 'health': 2538.848389, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 10860:
+  distance_reduction: 1.1430
+  move_magnitude: -0.0204
+  is_noop: -0.0000
+  danger_zone: -0.0091
+  enemy_distance_change: 0.0017
+  nearest_enemy_proximity: -0.0023
+  escape_alignment: -0.0021
+  dodge_viability: 0.0000
+Unit 10860: NOOP score=-0.000, MOVE scores: min=-423.635, max=250.574, mean=-47.386
+Unit 10860 chose action MOVE -> target normalized (522.02, 463.25), denormalized (1044.0, 926.5) (score 250.57)
+Unit 10860 cancelling in-flight command (penalty 2.0)
+10860 has been sent action: C: MU Q 10860 1044.0334605555554 926.504395 130.872192
+[('127.0.0.1', 62533)] ENEMY_UNITS
+20194 armcroc 1240.651367 146.456467 315.901215 4931.155762 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1088.477905, 'y': 130.872192, 'z': 526.504395, 'health': 2538.848389, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0860
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0057
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0012
+  escape_alignment: -0.0011
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1085.596313 130.080231 563.892822 2311.398193 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1255.760376 137.611008 335.311401 4887.583008 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1085.596313, 'y': 130.080231, 'z': 563.892822, 'health': 2311.398193, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0860
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0057
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0012
+  escape_alignment: -0.0011
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1081.776733 129.520447 601.195557 2317.070068 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1276.973145 127.083641 376.464691 4824.719238 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1077.535278 129.167862 638.455078 2096.389893 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1272.641357 120.816978 426.106781 4747.891602 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1077.535278, 'y': 129.167862, 'z': 638.455078, 'health': 2096.389893, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0860
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0057
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0012
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1073.232300 128.959503 675.707886 1877.288452 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1267.157715 116.258568 479.595062 4663.407227 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1068.929321 128.819397 712.960693 1883.129395 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1261.752930 113.822884 528.080811 4563.556152 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1068.929321, 'y': 128.819397, 'z': 712.960693, 'health': 1883.129395, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0859
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0057
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0012
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1064.626343 128.711426 750.213501 1664.187134 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1257.634766 112.613419 564.995789 4471.060547 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1060.306519 128.588257 787.464172 1445.293457 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1251.694214 110.808830 618.507019 4373.463867 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1060.306519, 'y': 128.588257, 'z': 787.464172, 'health': 1445.293457, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0859
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0057
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0012
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1055.948853 128.634384 824.709595 1451.174072 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1245.520508 110.170502 672.082275 4233.879883 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1051.591187 128.823608 861.952515 1231.777222 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1239.239990 109.971710 725.715698 4159.641602 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1047.229614 128.900452 899.196777 1012.223755 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1232.959473 109.684593 779.349121 4042.611084 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1047.229614, 'y': 128.900452, 'z': 899.196777, 'health': 1012.223755, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 10860 (17 steps, reward -1553.59) to match buffer. Reason: mass_reached
+Finalized segment for unit 10860 with reward -1553.59 in 0.00 seconds. Reason: mass_reached
+Unit 10860 reached a mass spot. Segment deferred.
+Visited mass spots: 3/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0859
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0057
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0012
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1045.038208 128.920456 917.943665 1017.951538 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1229.538940 109.587875 808.560547 3873.382324 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1045.038208 128.920456 917.943665 797.999512 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1229.538940 109.587875 808.560547 3786.809570 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1045.038208 128.920456 917.943665 578.289368 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1229.538940 109.587875 808.560547 3678.456543 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1045.038208, 'y': 128.920456, 'z': 917.943665, 'health': 578.289368, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0859
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0057
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0012
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1045.038208 128.920456 917.943665 583.694092 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1229.538940 109.587875 808.560547 3509.573242 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1045.038208 128.920456 917.943665 363.895203 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1229.538940 109.587875 808.560547 3379.632324 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 10860, 'name': 'armcom', 'x': 1045.038208, 'y': 128.920456, 'z': 917.943665, 'health': 363.895203, 'speed': 37.5, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 10860:
+  distance_reduction: 1.0859
+  move_magnitude: -0.0203
+  is_noop: -0.0000
+  danger_zone: -0.0057
+  enemy_distance_change: 0.0012
+  nearest_enemy_proximity: -0.0012
+  escape_alignment: -0.0012
+  dodge_viability: -0.0000
+[ERROR during action selection for unit 10860]
+  Exception: '<' not supported between instances of 'float' and 'complex'
+[('127.0.0.1', 62533)] FRIENDLY_UNITS
+10860 armcom 1045.038208 128.920456 917.943665 144.015030 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1229.538940 109.587875 808.560547 3303.056396 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+FRIENDLY_UNITS
+10860 armcom 1045.038208 128.920456 917.943665 149.114731 37.500000
+END
+ENEMY_UNITS
+20194 armcroc 1229.538940 109.587875 808.560547 3134.319824 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+TEAM_DIED
+[AI KILLED] ('127.0.0.1', 62533) sent AI_KILLED. Finalizing results and closing connection.
+Deferred segment for unit 10860 (2 steps, reward -799.86) to match buffer. Reason: death
+Finalized segment for unit 10860 with reward -799.86 in 0.00 seconds. Reason: death
+[Deferred Training] Training on 4 segments, 48 total transitions.
+[Deferred Training] Completed in 25.46 seconds.
+[Replay Export] Match score -2523.46 not in top 15. Discarded agent_match_20260330_102639_score_m2523p46.json.
+Feature-based agent weights saved.
+[DISCONNECTED] ('127.0.0.1', 62533) disconnected.
+Cancel received. Stopping socket thread before finalizing match.
+Finalizing match as success.
+Match outcome already finalized; skipping duplicate save.
+Closing TensorBoard writer...
+TensorBoard logs saved to: runs/feature_based_agent_20260330_102500
+View results with: tensorboard --logdir=runs

@@ -1,0 +1,1829 @@
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:96: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if 0 <= idx < feature_weights.shape[-1]:
+Feature-based agent weights loaded.
+Model graph logged to TensorBoard (Graphs tab).
+TensorBoard logging to: runs/feature_based_agent_20260317_043025
+View with: tensorboard --logdir=runs
+Server listening on 127.0.0.1:25000...
+Map dimensions: 2048 x 2048
+Loaded cached map cost fields from cache\map_fields\f63e908a71dd264b5079ec45ad07e2919a21d30c47639fb0a1ac71f9fc954d5b.npz
+[NEW CONNECTION] ('127.0.0.1', 60531) connected.
+[unit_defs] Loaded 23 unit definitions from data/unit_defs.json
+[HANDSHAKE] Sent START to ('127.0.0.1', 60531) (attempt 1/30)
+[HANDSHAKE] Received from ('127.0.0.1', 60531): FRIENDLY_UNITS
+21554 corcom 368.339996 160.273163 480.000000 3700.000000 1.250000
+END
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 60531)] KNOWN_ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 60531)] TURN
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 368.339996 160.273163 480.000000 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 368.339996, 'y': 160.273163, 'z': 480.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5783
+  move_magnitude: 0.0586
+  is_noop: -0.0000
+  danger_zone: 0.0121
+  enemy_distance_change: 0.0064
+  nearest_enemy_proximity: 0.0341
+  escape_alignment: 0.0042
+  dodge_viability: 0.0000
+Unit 21554 mass destination -> (188.00, 180.00) score=76.34
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-233.129, max=44.104, mean=-76.329
+Unit 21554 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 44.10)
+21554 has been sent action: C: MU Q 21554 376.0 360.0 160.273163
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 368.339996, 'y': 160.273163, 'z': 480.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5697
+  move_magnitude: 0.0671
+  is_noop: -0.0000
+  danger_zone: 0.0144
+  enemy_distance_change: 0.0046
+  nearest_enemy_proximity: 0.0396
+  escape_alignment: 0.0050
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-229.672, max=43.438, mean=-75.201
+Unit 21554 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 43.44)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 376.0 360.0 160.273163
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 368.339996 160.273163 480.000000 3700.000000 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 368.339996, 'y': 160.273163, 'z': 480.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5677
+  move_magnitude: 0.0690
+  is_noop: -0.0000
+  danger_zone: 0.0149
+  enemy_distance_change: 0.0042
+  nearest_enemy_proximity: 0.0408
+  escape_alignment: 0.0051
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-228.876, max=43.285, mean=-74.941
+Unit 21554 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 43.28)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 376.0 360.0 160.273163
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 368.411987 160.216644 480.599426 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 368.411987, 'y': 160.216644, 'z': 480.599426, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5670
+  move_magnitude: 0.0696
+  is_noop: -0.0000
+  danger_zone: 0.0151
+  enemy_distance_change: 0.0041
+  nearest_enemy_proximity: 0.0412
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-228.587, max=43.229, mean=-75.635
+Unit 21554 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 43.23)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 376.0 360.0 160.216644
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 368.411987, 'y': 160.216644, 'z': 480.599426, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5665
+  move_magnitude: 0.0699
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0414
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-228.416, max=43.196, mean=-75.579
+Unit 21554 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 43.20)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 376.0 360.0 160.216644
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 387.876648 155.573105 467.595398 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 387.876648, 'y': 155.573105, 'z': 467.595398, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5662
+  move_magnitude: 0.0702
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0416
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-233.133, max=39.463, mean=-83.240
+Unit 21554 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 39.46)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 376.0 360.0 155.573105
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 387.876648, 'y': 155.573105, 'z': 467.595398, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5660
+  move_magnitude: 0.0704
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0417
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-233.035, max=39.446, mean=-83.205
+Unit 21554 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 39.45)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 376.0 360.0 155.573105
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 384.306061 161.377274 433.691101 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 384.306061, 'y': 161.377274, 'z': 433.691101, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5658
+  move_magnitude: 0.0705
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0418
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-233.607, max=28.567, mean=-86.161
+Unit 21554 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 28.57)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 376.0 360.0 161.377274
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 384.306061, 'y': 161.377274, 'z': 433.691101, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 21554 (5 steps, reward 200.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 21554 with reward 200.00 in 0.00 seconds. Reason: mass_reached
+Unit 21554 reached a mass spot. Segment deferred.
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5657
+  move_magnitude: 0.0706
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554 mass destination -> (620.00, 156.00) score=514.98
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-203.000, max=150.543, mean=-1.018
+Unit 21554 chose action MOVE -> target normalized (392.15, 150.18), denormalized (784.3, 300.4) (score 150.54)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 784.306061 300.35776766666663 161.377274
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 381.025085 169.704605 402.350647 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 381.025085, 'y': 169.704605, 'z': 402.350647, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0707
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-166.138, max=132.279, mean=2.286
+Unit 21554 chose action MOVE -> target normalized (390.51, 178.95), denormalized (781.0, 357.9) (score 132.28)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 781.025085 357.9062025555555 169.704605
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 381.025085, 'y': 169.704605, 'z': 402.350647, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0708
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0420
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-166.109, max=132.255, mean=2.286
+Unit 21554 chose action MOVE -> target normalized (390.51, 178.95), denormalized (781.0, 357.9) (score 132.26)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 781.025085 357.9062025555555 169.704605
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 377.974304 179.925247 372.755615 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 377.974304, 'y': 179.925247, 'z': 372.755615, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5653
+  move_magnitude: 0.0709
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0420
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-205.742, max=131.245, mean=-11.252
+Unit 21554 chose action MOVE -> target normalized (388.99, 164.16), denormalized (778.0, 328.3) (score 131.24)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 777.9743040000001 328.3111705555555 179.925247
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 377.974304, 'y': 179.925247, 'z': 372.755615, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5653
+  move_magnitude: 0.0709
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0420
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-205.717, max=131.229, mean=-11.251
+Unit 21554 chose action MOVE -> target normalized (388.99, 164.16), denormalized (778.0, 328.3) (score 131.23)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 777.9743040000001 328.3111705555555 179.925247
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 402.801941 180.711594 358.223358 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 402.801941, 'y': 180.711594, 'z': 358.223358, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5652
+  move_magnitude: 0.0709
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-198.719, max=130.773, mean=-15.414
+Unit 21554 chose action MOVE -> target normalized (401.40, 156.89), denormalized (802.8, 313.8) (score 130.77)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 802.8019409999999 313.77891355555556 180.711594
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 402.801941, 'y': 180.711594, 'z': 358.223358, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5652
+  move_magnitude: 0.0710
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-198.703, max=130.762, mean=-15.412
+Unit 21554 chose action MOVE -> target normalized (401.40, 156.89), denormalized (802.8, 313.8) (score 130.76)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 802.8019409999999 313.77891355555556 180.711594
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 440.363678 175.406479 357.815613 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 440.363678, 'y': 175.406479, 'z': 357.815613, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0710
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-239.467, max=128.967, mean=-20.267
+Unit 21554 chose action MOVE -> target normalized (420.18, 156.69), denormalized (840.4, 313.4) (score 128.97)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 840.3636779999999 313.3711685555555 175.406479
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 440.363678, 'y': 175.406479, 'z': 357.815613, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0710
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-239.453, max=128.960, mean=-20.265
+Unit 21554 chose action MOVE -> target normalized (420.18, 156.69), denormalized (840.4, 313.4) (score 128.96)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 840.3636779999999 313.3711685555555 175.406479
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 477.702484 172.097000 354.714966 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 477.702484, 'y': 172.097, 'z': 354.714966, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0710
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-193.813, max=126.604, mean=-18.348
+Unit 21554 chose action MOVE -> target normalized (438.85, 155.14), denormalized (877.7, 310.3) (score 126.60)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 877.702484 310.27052155555555 172.097
+[('127.0.0.1', 60531)] ENEMY_UNITS
+11651 corgator 936.037292 120.145164 439.792114 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 477.702484, 'y': 172.097, 'z': 354.714966, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0710
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.018, MOVE scores: min=-201.921, max=126.559, mean=-30.729
+Unit 21554 chose action MOVE -> target normalized (438.85, 155.14), denormalized (877.7, 310.3) (score 126.56)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 877.702484 310.27052155555555 172.097
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 514.348511 172.685120 350.273987 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 514.348511, 'y': 172.68512, 'z': 350.273987, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0711
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.019, MOVE scores: min=-225.710, max=124.953, mean=-40.185
+Unit 21554 chose action MOVE -> target normalized (457.17, 152.91), denormalized (914.3, 305.8) (score 124.95)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 914.348511 305.8295425555555 172.68512
+[('127.0.0.1', 60531)] ENEMY_UNITS
+11651 corgator 853.095581 119.357018 447.870239 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 514.348511, 'y': 172.68512, 'z': 350.273987, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0711
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0422
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.024, MOVE scores: min=-225.708, max=124.950, mean=-39.358
+Unit 21554 chose action MOVE -> target normalized (457.17, 152.91), denormalized (914.3, 305.8) (score 124.95)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 914.348511 305.8295425555555 172.68512
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 550.363525 174.056396 346.297882 3700.704346 1.250000
+END
+ENEMY_UNITS
+11651 corgator 771.704346 121.046791 442.367218 772.851501 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 550.363525, 'y': 174.056396, 'z': 346.297882, 'health': 3700.704346, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0711
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0422
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.029, MOVE scores: min=-267.314, max=122.228, mean=-41.406
+Unit 21554 chose action MOVE -> target normalized (475.18, 150.93), denormalized (950.4, 301.9) (score 122.23)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 950.363525 301.85343755555556 174.056396
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 585.107666 177.149475 342.547485 3655.372803 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 585.107666, 'y': 177.149475, 'z': 342.547485, 'health': 3655.372803, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5650
+  move_magnitude: 0.0711
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0422
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.031, MOVE scores: min=-252.502, max=120.803, mean=-48.147
+Unit 21554 chose action MOVE -> target normalized (492.55, 149.05), denormalized (985.1, 298.1) (score 120.80)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 985.107666 298.10304055555554 177.149475
+[('127.0.0.1', 60531)] ENEMY_UNITS
+11651 corgator 689.173401 122.248688 436.524536 623.552185 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 585.107666, 'y': 177.149475, 'z': 342.547485, 'health': 3655.372803, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5650
+  move_magnitude: 0.0711
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0422
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.035, MOVE scores: min=-252.502, max=120.809, mean=-46.980
+Unit 21554 chose action MOVE -> target normalized (492.55, 149.05), denormalized (985.1, 298.1) (score 120.81)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 985.107666 298.10304055555554 177.149475
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 620.294373 179.727554 338.699799 3600.709961 1.250000
+END
+ENEMY_UNITS
+11651 corgator 605.001038 120.846832 438.945953 499.655853 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 620.294373, 'y': 179.727554, 'z': 338.699799, 'health': 3600.709961, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5650
+  move_magnitude: 0.0711
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0422
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.037, MOVE scores: min=-250.366, max=117.397, mean=-37.651
+Unit 21554 chose action MOVE -> target normalized (510.15, 147.13), denormalized (1020.3, 294.3) (score 117.40)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1020.294373 294.2553545555555 179.727554
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 655.416931 182.092346 334.859283 3453.369141 1.250000
+END
+ENEMY_UNITS
+11651 corgator 526.852112 123.921074 429.340332 271.414307 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 655.416931, 'y': 182.092346, 'z': 334.859283, 'health': 3453.369141, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0710
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.034, MOVE scores: min=-245.826, max=124.459, mean=-33.581
+Unit 21554 chose action MOVE -> target normalized (552.53, 176.30), denormalized (1105.1, 352.6) (score 124.46)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1105.067024654269 352.6016976244861 182.092346
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 690.532532 184.351120 331.019714 3390.423096 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 690.532532, 'y': 184.35112, 'z': 331.019714, 'health': 3390.423096, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0710
+  is_noop: -0.0000
+  danger_zone: 0.0155
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0421
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.032, MOVE scores: min=-240.218, max=160.737, mean=-28.266
+Unit 21554 chose action MOVE -> target normalized (615.00, 150.00), denormalized (1230.0, 300.0) (score 160.74)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1230.0 300.0 184.35112
+[('127.0.0.1', 60531)] ENEMY_UNITS
+11651 corgator 465.351624 132.486969 411.137054 110.793930 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 690.532532, 'y': 184.35112, 'z': 331.019714, 'health': 3390.423096, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0709
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0420
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.029, MOVE scores: min=-240.228, max=160.746, mean=-27.514
+Unit 21554 chose action MOVE -> target normalized (615.00, 150.00), denormalized (1230.0, 300.0) (score 160.75)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1230.0 300.0 184.35112
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 726.623291 184.724930 328.122528 3396.740479 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 726.623291, 'y': 184.72493, 'z': 328.122528, 'health': 3396.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5651
+  move_magnitude: 0.0709
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0420
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-236.927, max=152.343, mean=-36.909
+Unit 21554 chose action MOVE -> target normalized (618.00, 150.00), denormalized (1236.0, 300.0) (score 152.34)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1236.0 300.0 184.72493
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 764.037231 183.795746 330.651215 3401.740479 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 764.037231, 'y': 183.795746, 'z': 330.651215, 'health': 3401.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5652
+  move_magnitude: 0.0708
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0420
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-234.076, max=134.386, mean=-37.358
+Unit 21554 chose action MOVE -> target normalized (607.00, 150.00), denormalized (1214.0, 300.0) (score 134.39)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1214.0 300.0 183.795746
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 764.037231, 'y': 183.795746, 'z': 330.651215, 'health': 3401.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5652
+  move_magnitude: 0.0708
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0038
+  nearest_enemy_proximity: 0.0420
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-234.082, max=134.390, mean=-37.359
+Unit 21554 chose action MOVE -> target normalized (607.00, 150.00), denormalized (1214.0, 300.0) (score 134.39)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1214.0 300.0 183.795746
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 799.329712 186.450256 328.405701 3406.740479 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 799.329712, 'y': 186.450256, 'z': 328.405701, 'health': 3406.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5652
+  move_magnitude: 0.0708
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.000, MOVE scores: min=-231.536, max=125.748, mean=-37.854
+Unit 21554 chose action MOVE -> target normalized (609.00, 150.00), denormalized (1218.0, 300.0) (score 125.75)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1218.0 300.0 186.450256
+[('127.0.0.1', 60531)] ENEMY_UNITS
+21701 corgator 1240.358032 147.420502 313.719788 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 799.329712, 'y': 186.450256, 'z': 328.405701, 'health': 3406.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5653
+  move_magnitude: 0.0707
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.019, MOVE scores: min=-231.550, max=125.701, mean=-49.958
+Unit 21554 chose action MOVE -> target normalized (609.00, 150.00), denormalized (1218.0, 300.0) (score 125.70)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1218.0 300.0 186.450256
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 836.128174 186.386642 326.078003 3411.740479 1.250000
+END
+ENEMY_UNITS
+21701 corgator 1240.358032 147.420502 313.719788 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 836.128174, 'y': 186.386642, 'z': 326.078003, 'health': 3411.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5653
+  move_magnitude: 0.0707
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.021, MOVE scores: min=-229.973, max=116.067, mean=-51.997
+Unit 21554 chose action MOVE -> target normalized (613.00, 150.00), denormalized (1226.0, 300.0) (score 116.07)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1226.0 300.0 186.386642
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 872.100037 188.001328 323.701630 3416.740479 1.250000
+END
+ENEMY_UNITS
+21701 corgator 1240.358032 147.420502 313.719788 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 872.100037, 'y': 188.001328, 'z': 323.70163, 'health': 3416.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5653
+  move_magnitude: 0.0707
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.023, MOVE scores: min=-229.818, max=105.777, mean=-51.889
+Unit 21554 chose action MOVE -> target normalized (616.00, 150.00), denormalized (1232.0, 300.0) (score 105.78)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1232.0 300.0 188.001328
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 909.479492 187.336441 321.232208 3421.740479 1.250000
+END
+ENEMY_UNITS
+21701 corgator 1240.749390 139.873123 331.967224 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 909.479492, 'y': 187.336441, 'z': 321.232208, 'health': 3421.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5653
+  move_magnitude: 0.0707
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.025, MOVE scores: min=-229.284, max=96.655, mean=-55.573
+Unit 21554 chose action MOVE -> target normalized (619.00, 150.00), denormalized (1238.0, 300.0) (score 96.65)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1238.0 300.0 187.336441
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 946.689148 186.277283 318.831116 3426.740479 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 946.689148, 'y': 186.277283, 'z': 318.831116, 'health': 3426.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5653
+  move_magnitude: 0.0707
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.026, MOVE scores: min=-230.140, max=83.520, mean=-60.021
+Unit 21554 chose action MOVE -> target normalized (623.00, 150.00), denormalized (1246.0, 300.0) (score 83.52)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1246.0 300.0 186.277283
+[('127.0.0.1', 60531)] ENEMY_UNITS
+21701 corgator 1242.832764 123.211853 390.687347 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 946.689148, 'y': 186.277283, 'z': 318.831116, 'health': 3426.740479, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5653
+  move_magnitude: 0.0707
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.026, MOVE scores: min=-230.147, max=83.527, mean=-58.620
+Unit 21554 chose action MOVE -> target normalized (623.00, 150.00), denormalized (1246.0, 300.0) (score 83.53)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1246.0 300.0 186.277283
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 984.054932 185.668503 316.433075 3433.430908 1.250000
+END
+ENEMY_UNITS
+21701 corgator 1246.203369 114.572182 474.635712 697.206726 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 984.054932, 'y': 185.668503, 'z': 316.433075, 'health': 3433.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0707
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.026, MOVE scores: min=-230.859, max=68.162, mean=-63.693
+Unit 21554 chose action MOVE -> target normalized (612.00, 150.00), denormalized (1224.0, 300.0) (score 68.16)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1224.0 300.0 185.668503
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1021.483032 184.537231 314.140625 3438.430908 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1021.483032, 'y': 184.537231, 'z': 314.140625, 'health': 3438.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0706
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.027, MOVE scores: min=-231.331, max=58.690, mean=-70.086
+Unit 21554 chose action MOVE -> target normalized (615.00, 150.00), denormalized (1230.0, 300.0) (score 58.69)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1230.0 300.0 184.537231
+[('127.0.0.1', 60531)] ENEMY_UNITS
+21701 corgator 1247.680786 112.060753 559.433838 697.206726 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1021.483032, 'y': 184.537231, 'z': 314.140625, 'health': 3438.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0706
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.024, MOVE scores: min=-231.339, max=58.706, mean=-69.297
+Unit 21554 chose action MOVE -> target normalized (615.00, 150.00), denormalized (1230.0, 300.0) (score 58.71)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1230.0 300.0 184.537231
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1058.636353 184.502274 311.878754 3443.430908 1.250000
+END
+ENEMY_UNITS
+21701 corgator 1248.312866 110.342834 644.360596 697.206726 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1058.636353, 'y': 184.502274, 'z': 311.878754, 'health': 3443.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0706
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0419
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.022, MOVE scores: min=-228.602, max=51.739, mean=-71.109
+Unit 21554 chose action MOVE -> target normalized (619.00, 150.00), denormalized (1238.0, 300.0) (score 51.74)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1238.0 300.0 184.502274
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1096.051025 182.935837 309.364716 3448.430908 1.250000
+END
+ENEMY_UNITS
+21701 corgator 1276.942139 110.158157 724.202148 697.206726 0
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1337.119995 109.526733 727.698486 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1096.051025, 'y': 182.935837, 'z': 309.364716, 'health': 3448.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0706
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0418
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.018, MOVE scores: min=-229.476, max=38.783, mean=-76.428
+Unit 21554 chose action MOVE -> target normalized (623.00, 150.00), denormalized (1246.0, 300.0) (score 38.78)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1246.0 300.0 182.935837
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1133.474121 180.413940 306.950470 3453.430908 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1133.474121, 'y': 180.41394, 'z': 306.95047, 'health': 3453.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0706
+  is_noop: -0.0000
+  danger_zone: 0.0154
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0418
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.019, MOVE scores: min=-229.109, max=35.131, mean=-81.182
+Unit 21554 chose action MOVE -> target normalized (620.00, 156.00), denormalized (1240.0, 312.0) (score 35.13)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1240.0 312.0 180.41394
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1133.474121, 'y': 180.41394, 'z': 306.95047, 'health': 3453.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0705
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0418
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.016, MOVE scores: min=-229.121, max=35.135, mean=-82.577
+Unit 21554 chose action MOVE -> target normalized (620.00, 156.00), denormalized (1240.0, 312.0) (score 35.14)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1240.0 312.0 180.41394
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1170.895020 178.517532 304.640869 3458.430908 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1170.89502, 'y': 178.517532, 'z': 304.640869, 'health': 3458.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5654
+  move_magnitude: 0.0704
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0417
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.017, MOVE scores: min=-228.264, max=24.704, mean=-89.046
+Unit 21554 chose action MOVE -> target normalized (620.00, 156.00), denormalized (1240.0, 312.0) (score 24.70)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1240.0 312.0 178.517532
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1170.89502, 'y': 178.517532, 'z': 304.640869, 'health': 3458.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 21554 (24 steps, reward -20.36) to match buffer. Reason: mass_reached
+Finalized segment for unit 21554 with reward -20.36 in 0.00 seconds. Reason: mass_reached
+Unit 21554 reached a mass spot. Segment deferred.
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0704
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0417
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554 mass destination -> (524.00, 492.00) score=421.95
+Unit 21554: NOOP score=-0.017, MOVE scores: min=-106.957, max=155.657, mean=26.060
+Unit 21554 chose action MOVE -> target normalized (518.78, 352.32), denormalized (1037.6, 704.6) (score 155.66)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1037.5616866666664 704.6408690000001 178.517532
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1208.343750 176.181824 302.686218 3463.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1208.34375, 'y': 176.181824, 'z': 302.686218, 'health': 3463.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0704
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0417
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.017, MOVE scores: min=-93.936, max=162.801, mean=38.630
+Unit 21554 chose action MOVE -> target normalized (537.51, 351.34), denormalized (1075.0, 702.7) (score 162.80)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1075.0104166666665 702.686218 176.181824
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1234.418091 168.646271 310.851837 3468.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1234.418091, 'y': 168.646271, 'z': 310.851837, 'health': 3468.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0703
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0417
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.018, MOVE scores: min=-91.423, max=164.976, mean=39.115
+Unit 21554 chose action MOVE -> target normalized (506.10, 355.43), denormalized (1012.2, 710.9) (score 164.98)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1012.1958687777778 710.8518369999999 168.646271
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1234.890747 168.503494 311.061859 3473.430908 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1234.890747, 'y': 168.503494, 'z': 311.061859, 'health': 3473.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0703
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0417
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.018, MOVE scores: min=-74.844, max=164.979, mean=41.969
+Unit 21554 chose action MOVE -> target normalized (506.33, 355.53), denormalized (1012.7, 711.1) (score 164.98)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1012.6685247777777 711.061859 168.503494
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1234.890747, 'y': 168.503494, 'z': 311.061859, 'health': 3473.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0703
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0039
+  nearest_enemy_proximity: 0.0416
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.018, MOVE scores: min=-74.846, max=164.984, mean=41.970
+Unit 21554 chose action MOVE -> target normalized (506.33, 355.53), denormalized (1012.7, 711.1) (score 164.98)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1012.6685247777777 711.061859 168.503494
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1229.499512 156.095047 342.158264 3478.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1229.499512, 'y': 156.095047, 'z': 342.158264, 'health': 3478.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0703
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0416
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.019, MOVE scores: min=-93.502, max=158.694, mean=34.007
+Unit 21554 chose action MOVE -> target normalized (503.64, 371.08), denormalized (1007.3, 742.2) (score 158.69)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1007.2772897777779 742.1582639999999 156.095047
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1214.185669 146.912674 376.247040 3483.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1214.185669, 'y': 146.912674, 'z': 376.24704, 'health': 3483.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0702
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0416
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.021, MOVE scores: min=-127.045, max=155.444, mean=19.267
+Unit 21554 chose action MOVE -> target normalized (540.43, 388.12), denormalized (1080.9, 776.2) (score 155.44)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1080.8523356666665 776.24704 146.912674
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1194.642090 140.203735 408.255859 3488.430908 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1194.64209, 'y': 140.203735, 'z': 408.255859, 'health': 3488.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0702
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0416
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.022, MOVE scores: min=-126.731, max=153.619, mean=12.693
+Unit 21554 chose action MOVE -> target normalized (530.65, 404.13), denormalized (1061.3, 808.3) (score 153.62)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1061.3087566666668 808.255859 140.203735
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1194.64209, 'y': 140.203735, 'z': 408.255859, 'health': 3488.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0702
+  is_noop: -0.0000
+  danger_zone: 0.0153
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0416
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.022, MOVE scores: min=-126.734, max=153.623, mean=12.694
+Unit 21554 chose action MOVE -> target normalized (530.65, 404.13), denormalized (1061.3, 808.3) (score 153.62)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1061.3087566666668 808.255859 140.203735
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1175.217773 135.200745 440.359802 3493.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1175.217773, 'y': 135.200745, 'z': 440.359802, 'health': 3493.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0702
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0416
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.023, MOVE scores: min=-142.849, max=147.948, mean=6.723
+Unit 21554 chose action MOVE -> target normalized (520.94, 420.18), denormalized (1041.9, 840.4) (score 147.95)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1041.8844396666668 840.359802 135.200745
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1164.870850 132.352966 476.548920 3498.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1164.87085, 'y': 132.352966, 'z': 476.54892, 'health': 3498.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0416
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.024, MOVE scores: min=-173.471, max=141.560, mean=-3.753
+Unit 21554 chose action MOVE -> target normalized (515.77, 438.27), denormalized (1031.5, 876.5) (score 141.56)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1031.5375166666668 876.54892 132.352966
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1153.598877 131.073761 512.314941 3503.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1153.598877, 'y': 131.073761, 'z': 512.314941, 'health': 3503.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0053
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.026, MOVE scores: min=-178.017, max=135.052, mean=-14.530
+Unit 21554 chose action MOVE -> target normalized (510.13, 456.16), denormalized (1020.3, 912.3) (score 135.05)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1020.2655436666665 912.314941 131.073761
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1142.077393 130.248413 547.979370 3508.430908 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1142.077393, 'y': 130.248413, 'z': 547.97937, 'health': 3508.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.027, MOVE scores: min=-212.993, max=128.660, mean=-20.037
+Unit 21554 chose action MOVE -> target normalized (504.37, 473.99), denormalized (1008.7, 948.0) (score 128.66)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1008.7440596666667 947.97937 130.248413
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1142.077393, 'y': 130.248413, 'z': 547.97937, 'health': 3508.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.027, MOVE scores: min=-212.996, max=128.662, mean=-20.038
+Unit 21554 chose action MOVE -> target normalized (504.37, 473.99), denormalized (1008.7, 948.0) (score 128.66)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1008.7440596666667 947.97937 130.248413
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1129.850098 129.609497 583.434326 3513.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1129.850098, 'y': 129.609497, 'z': 583.434326, 'health': 3513.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.027, MOVE scores: min=-191.292, max=125.665, mean=-20.510
+Unit 21554 chose action MOVE -> target normalized (542.70, 491.72), denormalized (1085.4, 983.4) (score 125.67)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1085.4056535555555 983.434326 129.609497
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1117.924927 129.159576 618.989014 3518.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1117.924927, 'y': 129.159576, 'z': 618.989014, 'health': 3518.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.028, MOVE scores: min=-220.017, max=106.370, mean=-35.448
+Unit 21554 chose action MOVE -> target normalized (536.74, 509.49), denormalized (1073.5, 1019.0) (score 106.37)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1073.4804825555557 1018.989014 129.159576
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1105.997437 129.015503 654.540771 3523.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1105.997437, 'y': 129.015503, 'z': 654.540771, 'health': 3523.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.028, MOVE scores: min=-198.514, max=100.149, mean=-36.130
+Unit 21554 chose action MOVE -> target normalized (530.78, 482.83), denormalized (1061.6, 965.7) (score 100.15)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1061.5529925555556 965.651882111111 129.015503
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1102.568970 128.973694 691.926697 3528.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1102.56897, 'y': 128.973694, 'z': 691.926697, 'health': 3528.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.028, MOVE scores: min=-214.652, max=92.729, mean=-41.463
+Unit 21554 chose action MOVE -> target normalized (515.06, 491.52), denormalized (1030.1, 983.0) (score 92.73)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1030.1120616049013 983.0452234214977 128.973694
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1100.127441 128.912064 729.321228 3533.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1100.127441, 'y': 128.912064, 'z': 729.321228, 'health': 3533.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.029, MOVE scores: min=-210.405, max=75.789, mean=-44.084
+Unit 21554 chose action MOVE -> target normalized (527.84, 475.77), denormalized (1055.7, 951.5) (score 75.79)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1055.6829965555557 951.5434502222222 128.912064
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1096.105347 128.810822 766.521606 3538.430908 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1096.105347, 'y': 128.810822, 'z': 766.521606, 'health': 3538.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.028, MOVE scores: min=-208.332, max=73.554, mean=-47.456
+Unit 21554 chose action MOVE -> target normalized (525.83, 494.37), denormalized (1051.7, 988.7) (score 73.55)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1051.6609025555554 988.7438282222222 128.810822
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1096.105347, 'y': 128.810822, 'z': 766.521606, 'health': 3538.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.028, MOVE scores: min=-208.330, max=73.553, mean=-47.455
+Unit 21554 chose action MOVE -> target normalized (525.83, 494.37), denormalized (1051.7, 988.7) (score 73.55)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1051.6609025555554 988.7438282222222 128.810822
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1089.138428 128.578705 803.248352 3543.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1089.138428, 'y': 128.578705, 'z': 803.248352, 'health': 3543.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.028, MOVE scores: min=-209.039, max=59.374, mean=-56.453
+Unit 21554 chose action MOVE -> target normalized (529.00, 491.00), denormalized (1058.0, 982.0) (score 59.37)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1058.0 982.0 128.578705
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1077.759521 128.588287 839.049194 3548.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1077.759521, 'y': 128.588287, 'z': 839.049194, 'health': 3548.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.027, MOVE scores: min=-213.622, max=47.513, mean=-68.553
+Unit 21554 chose action MOVE -> target normalized (523.00, 494.00), denormalized (1046.0, 988.0) (score 47.51)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1046.0 988.0 128.588287
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1071.201416 128.752563 875.969055 3553.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1071.201416, 'y': 128.752563, 'z': 875.969055, 'health': 3553.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.026, MOVE scores: min=-215.586, max=37.334, mean=-77.543
+Unit 21554 chose action MOVE -> target normalized (524.00, 492.00), denormalized (1048.0, 984.0) (score 37.33)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1048.0 984.0 128.752563
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1065.029053 128.832428 912.985657 3558.430908 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1065.029053, 'y': 128.832428, 'z': 912.985657, 'health': 3558.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5656
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.025, MOVE scores: min=-218.356, max=24.911, mean=-87.666
+Unit 21554 chose action MOVE -> target normalized (524.00, 492.00), denormalized (1048.0, 984.0) (score 24.91)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1048.0 984.0 128.832428
+[('127.0.0.1', 60531)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1065.029053, 'y': 128.832428, 'z': 912.985657, 'health': 3558.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 21554 (20 steps, reward 172.43) to match buffer. Reason: mass_reached
+Finalized segment for unit 21554 with reward 172.43 in 0.00 seconds. Reason: mass_reached
+Unit 21554 reached a mass spot. Segment deferred.
+Visited mass spots: 3/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554 mass destination -> (836.00, 372.00) score=400.76
+Unit 21554: NOOP score=-0.025, MOVE scores: min=-226.534, max=151.374, mean=-31.091
+Unit 21554 chose action MOVE -> target normalized (732.51, 389.83), denormalized (1465.0, 779.7) (score 151.37)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1465.029053 779.6523236666666 128.832428
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1059.868896 128.813858 949.820618 3563.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1059.868896, 'y': 128.813858, 'z': 949.820618, 'health': 3563.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.023, MOVE scores: min=-226.562, max=165.678, mean=-23.660
+Unit 21554 chose action MOVE -> target normalized (729.93, 363.80), denormalized (1459.9, 727.6) (score 165.68)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1459.868896 727.5983957777778 128.813858
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1049.350830 128.712891 978.358032 3568.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1049.35083, 'y': 128.712891, 'z': 978.358032, 'health': 3568.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+  danger_zone: 0.0152
+  enemy_distance_change: 0.0040
+  nearest_enemy_proximity: 0.0415
+  escape_alignment: 0.0052
+  dodge_viability: 0.0000
+Unit 21554: NOOP score=-0.022, MOVE scores: min=-226.589, max=176.317, mean=-19.468
+Unit 21554 chose action MOVE -> target normalized (724.68, 378.07), denormalized (1449.4, 756.1) (score 176.32)
+Unit 21554 cancelling in-flight command (penalty 2.0)
+21554 has been sent action: C: MU Q 21554 1449.35083 756.1358097777777 128.712891
+[('127.0.0.1', 60531)] FRIENDLY_UNITS
+21554 corcom 1051.622314 128.693939 987.222900 3573.430908 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+21701 corgator 1346.613525 109.875320 752.667297 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 21554, 'name': 'corcom', 'x': 1051.622314, 'y': 128.693939, 'z': 987.2229, 'health': 3573.430908, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 21554:
+  distance_reduction: 0.5655
+  move_magnitude: 0.0701
+  is_noop: -0.0000
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 360, in receive_messages
+    conn.sendall(action_command.encode('utf-8'))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 107, in receive_messages
+    data = conn.recv(1024)
+           ^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+forrtl: error (200): program aborting due to window-CLOSE event
+Image              PC                Routine            Line        Source             
+KERNELBASE.dll     00007FF8A235D64D  Unknown               Unknown  Unknown
+KERNEL32.DLL       00007FF8A551E8D7  Unknown               Unknown  Unknown
+ntdll.dll          00007FF8A57EC40C  Unknown               Unknown  Unknown
+^C

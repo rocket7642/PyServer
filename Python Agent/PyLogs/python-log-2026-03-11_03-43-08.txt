@@ -1,0 +1,3811 @@
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:96: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if 0 <= idx < feature_weights.shape[-1]:
+Feature-based agent weights loaded.
+Model graph logged to TensorBoard (Graphs tab).
+TensorBoard logging to: runs/feature_based_agent_20260311_034311
+View with: tensorboard --logdir=runs
+Server listening on 127.0.0.1:25000...
+Map dimensions: 2048 x 2048
+Loaded cached map cost fields from cache\map_fields\b0de665e2011ab4cc3ad8ba59dbd470e11cc531159c8faaf1661341bf6967d43.npz
+[NEW CONNECTION] ('127.0.0.1', 62539) connected.
+[unit_defs] Loaded 23 unit definitions from data/unit_defs.json
+[HANDSHAKE] Sent START to ('127.0.0.1', 62539) (attempt 1/30)
+[HANDSHAKE] Received from ('127.0.0.1', 62539): FRIENDLY_UNITS
+26589 corcom 381.339996 145.762054 1545.000000 3700.000000 1.250000
+END
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 62539)] KNOWN_ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 62539)] TURN
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 381.339996 145.762054 1545.000000 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 381.339996, 'y': 145.762054, 'z': 1545.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6402
+  move_magnitude: 0.0219
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0134
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0055
+  dodge_viability: 0.0000
+Unit 26589 mass destination -> (196.00, 828.00) score=68.32
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-251.412, max=43.719, mean=-84.690
+Unit 26589 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 43.72)
+26589 has been sent action: C: MU Q 26589 392.0 1656.0 145.762054
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 381.339996, 'y': 145.762054, 'z': 1545.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6372
+  move_magnitude: 0.0224
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0141
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-250.243, max=43.515, mean=-84.297
+Unit 26589 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 43.52)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 392.0 1656.0 145.762054
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 381.339996 145.762054 1545.000000 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 381.339996, 'y': 145.762054, 'z': 1545.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6365
+  move_magnitude: 0.0225
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0142
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-249.987, max=43.471, mean=-84.211
+Unit 26589 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 43.47)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 392.0 1656.0 145.762054
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 381.339996, 'y': 145.762054, 'z': 1545.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6363
+  move_magnitude: 0.0225
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0142
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-249.880, max=43.452, mean=-84.174
+Unit 26589 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 43.45)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 392.0 1656.0 145.762054
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 381.286102 145.785736 1545.515747 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 381.286102, 'y': 145.785736, 'z': 1545.515747, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6361
+  move_magnitude: 0.0225
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0143
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-249.819, max=43.441, mean=-85.647
+Unit 26589 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 43.44)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 392.0 1656.0 145.785736
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 381.286102, 'y': 145.785736, 'z': 1545.515747, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6360
+  move_magnitude: 0.0226
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0143
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-249.778, max=43.434, mean=-85.633
+Unit 26589 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 43.43)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 392.0 1656.0 145.785736
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 384.514862 146.955078 1580.637939 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 384.514862, 'y': 146.955078, 'z': 1580.637939, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6359
+  move_magnitude: 0.0226
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0143
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-252.891, max=30.125, mean=-96.271
+Unit 26589 chose action MOVE -> target normalized (196.00, 828.00), denormalized (392.0, 1656.0) (score 30.12)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 392.0 1656.0 146.955078
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 384.514862, 'y': 146.955078, 'z': 1580.637939, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 26589 (4 steps, reward 200.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 26589 with reward 200.00 in 0.00 seconds. Reason: mass_reached
+Unit 26589 reached a mass spot. Segment deferred.
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6359
+  move_magnitude: 0.0226
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0143
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589 mass destination -> (492.00, 540.00) score=557.85
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-176.574, max=259.203, mean=39.612
+Unit 26589 chose action MOVE -> target normalized (392.26, 590.32), denormalized (784.5, 1180.6) (score 259.20)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 784.514862 1180.637939 146.955078
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 387.744629 150.113098 1616.414551 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 387.744629, 'y': 150.113098, 'z': 1616.414551, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6358
+  move_magnitude: 0.0226
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0144
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-145.294, max=259.984, mean=52.779
+Unit 26589 chose action MOVE -> target normalized (393.87, 608.21), denormalized (787.7, 1216.4) (score 259.98)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 787.744629 1216.414551 150.113098
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 387.744629, 'y': 150.113098, 'z': 1616.414551, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6358
+  move_magnitude: 0.0226
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0144
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-145.284, max=259.965, mean=52.775
+Unit 26589 chose action MOVE -> target normalized (393.87, 608.21), denormalized (787.7, 1216.4) (score 259.96)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 787.744629 1216.414551 150.113098
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 390.915283 155.000336 1651.349365 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 390.915283, 'y': 155.000336, 'z': 1651.349365, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6357
+  move_magnitude: 0.0226
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0144
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-146.911, max=261.189, mean=64.203
+Unit 26589 chose action MOVE -> target normalized (395.46, 625.67), denormalized (790.9, 1251.3) (score 261.19)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 790.915283 1251.349365 155.000336
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 390.915283, 'y': 155.000336, 'z': 1651.349365, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6357
+  move_magnitude: 0.0226
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0144
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0057
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-146.902, max=261.172, mean=64.198
+Unit 26589 chose action MOVE -> target normalized (395.46, 625.67), denormalized (790.9, 1251.3) (score 261.17)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 790.915283 1251.349365 155.000336
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 416.887054 150.389648 1648.883179 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 416.887054, 'y': 150.389648, 'z': 1648.883179, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6356
+  move_magnitude: 0.0226
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0144
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-181.757, max=259.977, mean=51.693
+Unit 26589 chose action MOVE -> target normalized (408.44, 624.44), denormalized (816.9, 1248.9) (score 259.98)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 816.887054 1248.883179 150.389648
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 416.887054, 'y': 150.389648, 'z': 1648.883179, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6356
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0144
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-181.746, max=259.962, mean=51.690
+Unit 26589 chose action MOVE -> target normalized (408.44, 624.44), denormalized (816.9, 1248.9) (score 259.96)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 816.887054 1248.883179 150.389648
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 441.410156 141.943970 1620.548706 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 441.410156, 'y': 141.94397, 'z': 1620.548706, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6356
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0144
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-224.382, max=257.481, mean=45.769
+Unit 26589 chose action MOVE -> target normalized (420.71, 610.27), denormalized (841.4, 1220.5) (score 257.48)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 841.4101559999999 1220.548706 141.94397
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 441.410156, 'y': 141.94397, 'z': 1620.548706, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6355
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0144
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-224.371, max=257.468, mean=45.766
+Unit 26589 chose action MOVE -> target normalized (420.71, 610.27), denormalized (841.4, 1220.5) (score 257.47)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 841.4101559999999 1220.548706 141.94397
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 467.160004 136.668427 1593.331665 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 467.160004, 'y': 136.668427, 'z': 1593.331665, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6355
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-205.714, max=256.168, mean=32.431
+Unit 26589 chose action MOVE -> target normalized (433.58, 596.67), denormalized (867.2, 1193.3) (score 256.17)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 867.1600040000001 1193.331665 136.668427
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 467.160004, 'y': 136.668427, 'z': 1593.331665, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6355
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-205.705, max=256.157, mean=32.430
+Unit 26589 chose action MOVE -> target normalized (433.58, 596.67), denormalized (867.2, 1193.3) (score 256.16)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 867.1600040000001 1193.331665 136.668427
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 493.954163 133.878326 1567.135376 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 493.954163, 'y': 133.878326, 'z': 1567.135376, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6354
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-174.001, max=255.471, mean=37.988
+Unit 26589 chose action MOVE -> target normalized (446.98, 583.57), denormalized (894.0, 1167.1) (score 255.47)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 893.954163 1167.135376 133.878326
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 493.954163, 'y': 133.878326, 'z': 1567.135376, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6354
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-173.995, max=255.461, mean=37.986
+Unit 26589 chose action MOVE -> target normalized (446.98, 583.57), denormalized (894.0, 1167.1) (score 255.46)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 893.954163 1167.135376 133.878326
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 520.674194 132.313232 1540.818726 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 520.674194, 'y': 132.313232, 'z': 1540.818726, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6354
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-240.061, max=255.040, mean=24.700
+Unit 26589 chose action MOVE -> target normalized (460.34, 570.41), denormalized (920.7, 1140.8) (score 255.04)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 920.674194 1140.818726 132.313232
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 520.674194, 'y': 132.313232, 'z': 1540.818726, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6354
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-240.053, max=255.032, mean=24.699
+Unit 26589 chose action MOVE -> target normalized (460.34, 570.41), denormalized (920.7, 1140.8) (score 255.03)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 920.674194 1140.818726 132.313232
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 547.157104 131.161682 1514.260620 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 547.157104, 'y': 131.161682, 'z': 1514.26062, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6354
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.455, max=254.759, mean=6.468
+Unit 26589 chose action MOVE -> target normalized (473.58, 557.13), denormalized (947.2, 1114.3) (score 254.76)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 947.157104 1114.26062 131.161682
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 547.157104, 'y': 131.161682, 'z': 1514.26062, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6353
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.447, max=254.751, mean=6.468
+Unit 26589 chose action MOVE -> target normalized (473.58, 557.13), denormalized (947.2, 1114.3) (score 254.75)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 947.157104 1114.26062 131.161682
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 573.825195 130.306686 1487.904907 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 573.825195, 'y': 130.306686, 'z': 1487.904907, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6353
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-265.837, max=254.515, mean=10.364
+Unit 26589 chose action MOVE -> target normalized (486.91, 543.95), denormalized (973.8, 1087.9) (score 254.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 973.825195 1087.904907 130.306686
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 573.825195, 'y': 130.306686, 'z': 1487.904907, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6353
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-265.830, max=254.508, mean=10.363
+Unit 26589 chose action MOVE -> target normalized (486.91, 543.95), denormalized (973.8, 1087.9) (score 254.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 973.825195 1087.904907 130.306686
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 600.501343 129.825165 1461.551392 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 600.501343, 'y': 129.825165, 'z': 1461.551392, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6353
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-298.766, max=231.511, mean=0.753
+Unit 26589 chose action MOVE -> target normalized (500.25, 530.78), denormalized (1000.5, 1061.6) (score 231.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1000.501343 1061.551392 129.825165
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 600.501343, 'y': 129.825165, 'z': 1461.551392, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6353
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-298.759, max=231.505, mean=0.753
+Unit 26589 chose action MOVE -> target normalized (500.25, 530.78), denormalized (1000.5, 1061.6) (score 231.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1000.501343 1061.551392 129.825165
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 627.141846 129.562775 1435.159546 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 627.141846, 'y': 129.562775, 'z': 1435.159546, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6353
+  move_magnitude: 0.0227
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0145
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-294.565, max=199.051, mean=-5.651
+Unit 26589 chose action MOVE -> target normalized (513.57, 562.02), denormalized (1027.1, 1124.0) (score 199.05)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1027.141846 1124.048434888889 129.562775
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 627.141846, 'y': 129.562775, 'z': 1435.159546, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6352
+  move_magnitude: 0.0228
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0146
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-294.558, max=199.046, mean=-5.651
+Unit 26589 chose action MOVE -> target normalized (513.57, 562.02), denormalized (1027.1, 1124.0) (score 199.05)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1027.141846 1124.048434888889 129.562775
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 653.781372 129.355042 1408.768066 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 653.781372, 'y': 129.355042, 'z': 1408.768066, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6352
+  move_magnitude: 0.0228
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0146
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-288.304, max=198.371, mean=-5.594
+Unit 26589 chose action MOVE -> target normalized (482.45, 548.83), denormalized (964.9, 1097.7) (score 198.37)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 964.8924831111111 1097.656954888889 129.355042
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 653.781372, 'y': 129.355042, 'z': 1408.768066, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6352
+  move_magnitude: 0.0228
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0146
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-288.299, max=198.367, mean=-5.593
+Unit 26589 chose action MOVE -> target normalized (482.45, 548.83), denormalized (964.9, 1097.7) (score 198.37)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 964.8924831111111 1097.656954888889 129.355042
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 680.430298 129.231995 1382.385986 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 680.430298, 'y': 129.231995, 'z': 1382.385986, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6352
+  move_magnitude: 0.0228
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0146
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-243.512, max=187.546, mean=-7.511
+Unit 26589 chose action MOVE -> target normalized (495.77, 535.64), denormalized (991.5, 1071.3) (score 187.55)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 991.5414091111111 1071.274874888889 129.231995
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 680.430298, 'y': 129.231995, 'z': 1382.385986, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6352
+  move_magnitude: 0.0228
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0146
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-243.508, max=187.543, mean=-7.511
+Unit 26589 chose action MOVE -> target normalized (495.77, 535.64), denormalized (991.5, 1071.3) (score 187.54)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 991.5414091111111 1071.274874888889 129.231995
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 710.187012 129.117188 1359.750977 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 710.187012, 'y': 129.117188, 'z': 1359.750977, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6352
+  move_magnitude: 0.0228
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0146
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-272.296, max=153.829, mean=-15.690
+Unit 26589 chose action MOVE -> target normalized (510.65, 524.32), denormalized (1021.3, 1048.6) (score 153.83)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1021.2981231111111 1048.6398658888888 129.117188
+[('127.0.0.1', 62539)] ENEMY_UNITS
+9735 armcom 1156.806885 129.863251 1472.009766 3700.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 710.187012, 'y': 129.117188, 'z': 1359.750977, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-272.131, max=153.719, mean=-22.475
+Unit 26589 chose action MOVE -> target normalized (510.65, 524.32), denormalized (1021.3, 1048.6) (score 153.72)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1021.2981231111111 1048.6398658888888 129.117188
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 736.664551 128.944366 1333.086182 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 736.664551, 'y': 128.944366, 'z': 1333.086182, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-268.175, max=152.397, mean=-26.279
+Unit 26589 chose action MOVE -> target normalized (488.00, 546.00), denormalized (976.0, 1092.0) (score 152.40)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 976.0 1092.0 128.944366
+[('127.0.0.1', 62539)] ENEMY_UNITS
+9735 armcom 1119.309814 129.856171 1472.009766 3700.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 736.664551, 'y': 128.944366, 'z': 1333.086182, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-268.161, max=152.388, mean=-25.936
+Unit 26589 chose action MOVE -> target normalized (488.00, 546.00), denormalized (976.0, 1092.0) (score 152.39)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 976.0 1092.0 128.944366
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 762.808350 128.765900 1306.204102 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 762.80835, 'y': 128.7659, 'z': 1306.204102, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-265.332, max=141.583, mean=-30.262
+Unit 26589 chose action MOVE -> target normalized (492.52, 541.99), denormalized (985.0, 1084.0) (score 141.58)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 985.0305722222222 1083.9818797777777 128.7659
+[('127.0.0.1', 62539)] ENEMY_UNITS
+9735 armcom 1081.809814 129.748337 1472.009766 3700.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 762.80835, 'y': 128.7659, 'z': 1306.204102, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-265.331, max=141.581, mean=-29.766
+Unit 26589 chose action MOVE -> target normalized (492.52, 541.99), denormalized (985.0, 1084.0) (score 141.58)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 985.0305722222222 1083.9818797777777 128.7659
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 789.494263 128.635696 1279.879150 3700.000000 1.250000
+END
+ENEMY_UNITS
+9735 armcom 1044.309814 129.717590 1472.009766 3700.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 789.494263, 'y': 128.635696, 'z': 1279.87915, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.415, max=114.262, mean=-36.785
+Unit 26589 chose action MOVE -> target normalized (484.00, 549.00), denormalized (968.0, 1098.0) (score 114.26)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 968.0 1098.0 128.635696
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 815.907166 128.613983 1253.248291 3588.341309 1.250000
+END
+ENEMY_UNITS
+9735 armcom 1006.853088 129.746063 1470.629395 3623.005615 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 815.907166, 'y': 128.613983, 'z': 1253.248291, 'health': 3588.341309, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-259.708, max=95.208, mean=-43.662
+Unit 26589 chose action MOVE -> target normalized (482.00, 551.00), denormalized (964.0, 1102.0) (score 95.21)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 964.0 1102.0 128.613983
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 842.576355 128.703766 1226.897339 3490.265625 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 842.576355, 'y': 128.703766, 'z': 1226.897339, 'health': 3490.265625, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-257.379, max=84.428, mean=-52.689
+Unit 26589 chose action MOVE -> target normalized (487.95, 546.78), denormalized (975.9, 1093.6) (score 84.43)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 975.9096883333333 1093.5640056666666 128.703766
+[('127.0.0.1', 62539)] ENEMY_UNITS
+9735 armcom 969.420593 129.751297 1468.400024 3507.981689 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 842.576355, 'y': 128.703766, 'z': 1226.897339, 'health': 3490.265625, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-257.378, max=84.426, mean=-51.803
+Unit 26589 chose action MOVE -> target normalized (487.95, 546.78), denormalized (975.9, 1093.6) (score 84.43)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 975.9096883333333 1093.5640056666666 128.703766
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 869.254333 128.737915 1200.544800 3353.674072 1.250000
+END
+ENEMY_UNITS
+9735 armcom 931.988342 129.629364 1466.158813 3409.996338 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 869.254333, 'y': 128.737915, 'z': 1200.5448, 'health': 3353.674072, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-256.117, max=73.619, mean=-61.126
+Unit 26589 chose action MOVE -> target normalized (494.00, 540.00), denormalized (988.0, 1080.0) (score 73.62)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 988.0 1080.0 128.737915
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 895.375061 128.656158 1173.618286 3218.020996 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 895.375061, 'y': 128.656158, 'z': 1173.618286, 'health': 3218.020996, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-255.268, max=57.760, mean=-73.720
+Unit 26589 chose action MOVE -> target normalized (492.00, 540.00), denormalized (984.0, 1080.0) (score 57.76)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 984.0 1080.0 128.656158
+[('127.0.0.1', 62539)] ENEMY_UNITS
+9735 armcom 894.556763 129.499588 1463.906616 3275.337646 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 895.375061, 'y': 128.656158, 'z': 1173.618286, 'health': 3218.020996, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-255.266, max=57.759, mean=-73.347
+Unit 26589 chose action MOVE -> target normalized (492.00, 540.00), denormalized (984.0, 1080.0) (score 57.76)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 984.0 1080.0 128.656158
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 922.170105 128.602173 1147.413208 3133.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 922.170105, 'y': 128.602173, 'z': 1147.413208, 'health': 3133.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.865, max=40.609, mean=-88.075
+Unit 26589 chose action MOVE -> target normalized (492.00, 540.00), denormalized (984.0, 1080.0) (score 40.61)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 984.0 1080.0 128.602173
+[('127.0.0.1', 62539)] ENEMY_UNITS
+9735 armcom 857.128235 129.441101 1461.606812 3192.508789 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 922.170105, 'y': 128.602173, 'z': 1147.413208, 'health': 3133.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 26589 (22 steps, reward -53.88) to match buffer. Reason: mass_reached
+Finalized segment for unit 26589 with reward -53.88 in 0.00 seconds. Reason: mass_reached
+Unit 26589 reached a mass spot. Segment deferred.
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589 mass destination -> (844.00, 836.00) score=668.56
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.486, max=357.127, mean=12.223
+Unit 26589 chose action MOVE -> target normalized (761.00, 828.00), denormalized (1522.0, 1656.0) (score 357.13)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1522.0 1656.0 128.602173
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 948.517029 128.645660 1120.712280 3138.450928 1.250000
+END
+ENEMY_UNITS
+9735 armcom 819.703369 129.425858 1459.256958 3197.508789 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 948.517029, 'y': 128.64566, 'z': 1120.71228, 'health': 3138.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.436, max=367.227, mean=14.887
+Unit 26589 chose action MOVE -> target normalized (774.00, 830.00), denormalized (1548.0, 1660.0) (score 367.23)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1548.0 1660.0 128.64566
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 973.582886 128.649323 1092.779907 3143.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 973.582886, 'y': 128.649323, 'z': 1092.779907, 'health': 3143.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.327, max=377.216, mean=16.627
+Unit 26589 chose action MOVE -> target normalized (786.00, 831.00), denormalized (1572.0, 1662.0) (score 377.22)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1572.0 1662.0 128.649323
+[('127.0.0.1', 62539)] ENEMY_UNITS
+9735 armcom 782.279236 129.471664 1456.902466 3202.508789 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 973.582886, 'y': 128.649323, 'z': 1092.779907, 'health': 3143.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.325, max=377.214, mean=17.724
+Unit 26589 chose action MOVE -> target normalized (786.00, 831.00), denormalized (1572.0, 1662.0) (score 377.21)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1572.0 1662.0 128.649323
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 980.487915 128.636597 1084.992065 3148.450928 1.250000
+END
+ENEMY_UNITS
+9735 armcom 745.015625 129.415649 1452.810181 3207.508789 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 980.487915, 'y': 128.636597, 'z': 1084.992065, 'health': 3148.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.291, max=376.864, mean=18.540
+Unit 26589 chose action MOVE -> target normalized (790.00, 827.00), denormalized (1580.0, 1654.0) (score 376.86)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1580.0 1654.0 128.636597
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1005.643250 128.618820 1098.300049 3153.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1005.64325, 'y': 128.61882, 'z': 1098.300049, 'health': 3153.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6345
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.197, max=378.900, mean=19.646
+Unit 26589 chose action MOVE -> target normalized (802.00, 834.00), denormalized (1604.0, 1668.0) (score 378.90)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1604.0 1668.0 128.61882
+[('127.0.0.1', 62539)] ENEMY_UNITS
+9735 armcom 707.791565 129.466415 1448.276489 3212.508789 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1005.64325, 'y': 128.61882, 'z': 1098.300049, 'health': 3153.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.195, max=378.898, mean=20.608
+Unit 26589 chose action MOVE -> target normalized (802.00, 834.00), denormalized (1604.0, 1668.0) (score 378.90)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1604.0 1668.0 128.61882
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1032.265259 128.679855 1124.732788 3158.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1032.265259, 'y': 128.679855, 'z': 1124.732788, 'health': 3158.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.150, max=370.328, mean=20.801
+Unit 26589 chose action MOVE -> target normalized (816.00, 832.00), denormalized (1632.0, 1664.0) (score 370.33)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1632.0 1664.0 128.679855
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1032.265259, 'y': 128.679855, 'z': 1124.732788, 'health': 3158.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.172, max=370.362, mean=22.487
+Unit 26589 chose action MOVE -> target normalized (816.00, 832.00), denormalized (1632.0, 1664.0) (score 370.36)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1632.0 1664.0 128.679855
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1059.244873 128.731796 1150.789185 3163.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1059.244873, 'y': 128.731796, 'z': 1150.789185, 'health': 3163.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.125, max=362.489, mean=23.296
+Unit 26589 chose action MOVE -> target normalized (829.00, 830.00), denormalized (1658.0, 1660.0) (score 362.49)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1658.0 1660.0 128.731796
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1059.244873, 'y': 128.731796, 'z': 1150.789185, 'health': 3163.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.126, max=362.489, mean=23.296
+Unit 26589 chose action MOVE -> target normalized (829.00, 830.00), denormalized (1658.0, 1660.0) (score 362.49)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1658.0 1660.0 128.731796
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1086.432251 128.740860 1176.622192 3168.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1086.432251, 'y': 128.74086, 'z': 1176.622192, 'health': 3168.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.094, max=353.031, mean=23.550
+Unit 26589 chose action MOVE -> target normalized (843.00, 828.00), denormalized (1686.0, 1656.0) (score 353.03)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1686.0 1656.0 128.74086
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1086.432251, 'y': 128.74086, 'z': 1176.622192, 'health': 3168.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.094, max=353.031, mean=23.550
+Unit 26589 chose action MOVE -> target normalized (843.00, 828.00), denormalized (1686.0, 1656.0) (score 353.03)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1686.0 1656.0 128.74086
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1114.319092 128.738739 1201.720947 3173.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1114.319092, 'y': 128.738739, 'z': 1201.720947, 'health': 3173.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.104, max=340.827, mean=23.932
+Unit 26589 chose action MOVE -> target normalized (842.00, 840.00), denormalized (1684.0, 1680.0) (score 340.83)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1684.0 1680.0 128.738739
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1142.865601 128.679840 1226.066284 3178.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1142.865601, 'y': 128.67984, 'z': 1226.066284, 'health': 3178.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.058, max=324.940, mean=24.051
+Unit 26589 chose action MOVE -> target normalized (841.00, 838.00), denormalized (1682.0, 1676.0) (score 324.94)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1682.0 1676.0 128.67984
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1142.865601, 'y': 128.67984, 'z': 1226.066284, 'health': 3178.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.058, max=324.940, mean=24.051
+Unit 26589 chose action MOVE -> target normalized (841.00, 838.00), denormalized (1682.0, 1676.0) (score 324.94)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1682.0 1676.0 128.67984
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1172.106934 128.756775 1249.571777 3183.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1172.106934, 'y': 128.756775, 'z': 1249.571777, 'health': 3183.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.038, max=307.972, mean=23.813
+Unit 26589 chose action MOVE -> target normalized (841.00, 834.00), denormalized (1682.0, 1668.0) (score 307.97)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1682.0 1668.0 128.756775
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1172.106934, 'y': 128.756775, 'z': 1249.571777, 'health': 3183.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.038, max=307.972, mean=23.813
+Unit 26589 chose action MOVE -> target normalized (841.00, 834.00), denormalized (1682.0, 1668.0) (score 307.97)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1682.0 1668.0 128.756775
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1200.722778 128.924820 1273.770874 3188.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1200.722778, 'y': 128.92482, 'z': 1273.770874, 'health': 3188.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.027, max=287.784, mean=23.615
+Unit 26589 chose action MOVE -> target normalized (840.00, 831.00), denormalized (1680.0, 1662.0) (score 287.78)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1680.0 1662.0 128.92482
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1229.375000 128.954498 1297.966675 3193.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1229.375, 'y': 128.954498, 'z': 1297.966675, 'health': 3193.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.050, max=267.966, mean=22.151
+Unit 26589 chose action MOVE -> target normalized (839.00, 828.00), denormalized (1678.0, 1656.0) (score 267.97)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1678.0 1656.0 128.954498
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1229.375, 'y': 128.954498, 'z': 1297.966675, 'health': 3193.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.050, max=267.966, mean=22.151
+Unit 26589 chose action MOVE -> target normalized (839.00, 828.00), denormalized (1678.0, 1656.0) (score 267.97)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1678.0 1656.0 128.954498
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1258.285889 128.954498 1321.860596 3198.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1258.285889, 'y': 128.954498, 'z': 1321.860596, 'health': 3198.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.023, max=253.757, mean=20.156
+Unit 26589 chose action MOVE -> target normalized (839.00, 840.00), denormalized (1678.0, 1680.0) (score 253.76)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1678.0 1680.0 128.954498
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1287.337524 129.072693 1345.575562 3203.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1287.337524, 'y': 129.072693, 'z': 1345.575562, 'health': 3203.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.046, max=239.723, mean=18.307
+Unit 26589 chose action MOVE -> target normalized (838.00, 837.00), denormalized (1676.0, 1674.0) (score 239.72)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1676.0 1674.0 129.072693
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1287.337524, 'y': 129.072693, 'z': 1345.575562, 'health': 3203.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.046, max=239.723, mean=18.307
+Unit 26589 chose action MOVE -> target normalized (838.00, 837.00), denormalized (1676.0, 1674.0) (score 239.72)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1676.0 1674.0 129.072693
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1316.572388 129.245239 1369.064331 3208.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1316.572388, 'y': 129.245239, 'z': 1369.064331, 'health': 3208.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.078, max=221.460, mean=13.586
+Unit 26589 chose action MOVE -> target normalized (838.00, 834.00), denormalized (1676.0, 1668.0) (score 221.46)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1676.0 1668.0 129.245239
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1344.923584 129.475586 1393.562744 3213.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1344.923584, 'y': 129.475586, 'z': 1393.562744, 'health': 3213.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.128, max=205.673, mean=7.143
+Unit 26589 chose action MOVE -> target normalized (849.34, 835.85), denormalized (1698.7, 1671.7) (score 205.67)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1698.67581294323 1671.6982514737788 129.475586
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1373.424316 129.731750 1417.933960 3218.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1373.424316, 'y': 129.73175, 'z': 1417.93396, 'health': 3218.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.179, max=181.866, mean=2.592
+Unit 26589 chose action MOVE -> target normalized (836.00, 828.00), denormalized (1672.0, 1656.0) (score 181.87)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1672.0 1656.0 129.73175
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1373.424316, 'y': 129.73175, 'z': 1417.93396, 'health': 3218.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.179, max=181.866, mean=2.592
+Unit 26589 chose action MOVE -> target normalized (836.00, 828.00), denormalized (1672.0, 1656.0) (score 181.87)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1672.0 1656.0 129.73175
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1401.923950 130.141083 1442.290649 3223.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1401.92395, 'y': 130.141083, 'z': 1442.290649, 'health': 3223.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.278, max=164.352, mean=-8.469
+Unit 26589 chose action MOVE -> target normalized (856.52, 832.26), denormalized (1713.0, 1664.5) (score 164.35)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1713.0350611111112 1664.5128712222222 130.141083
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1401.92395, 'y': 130.141083, 'z': 1442.290649, 'health': 3223.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.278, max=164.352, mean=-8.469
+Unit 26589 chose action MOVE -> target normalized (856.52, 832.26), denormalized (1713.0, 1664.5) (score 164.35)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1713.0350611111112 1664.5128712222222 130.141083
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1431.425049 130.774551 1465.449463 3228.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1431.425049, 'y': 130.774551, 'z': 1465.449463, 'health': 3228.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.399, max=153.059, mean=-15.091
+Unit 26589 chose action MOVE -> target normalized (835.00, 837.00), denormalized (1670.0, 1674.0) (score 153.06)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1670.0 1674.0 130.774551
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1431.425049, 'y': 130.774551, 'z': 1465.449463, 'health': 3228.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.399, max=153.059, mean=-15.091
+Unit 26589 chose action MOVE -> target normalized (835.00, 837.00), denormalized (1670.0, 1674.0) (score 153.06)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1670.0 1674.0 130.774551
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1460.650879 131.443268 1488.890137 3233.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1460.650879, 'y': 131.443268, 'z': 1488.890137, 'health': 3233.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.563, max=134.616, mean=-25.593
+Unit 26589 chose action MOVE -> target normalized (835.00, 834.00), denormalized (1670.0, 1668.0) (score 134.62)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1670.0 1668.0 131.443268
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1491.235596 132.265182 1510.585449 3238.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1491.235596, 'y': 132.265182, 'z': 1510.585449, 'health': 3238.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.768, max=114.812, mean=-44.583
+Unit 26589 chose action MOVE -> target normalized (835.00, 830.00), denormalized (1670.0, 1660.0) (score 114.81)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1670.0 1660.0 132.265182
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1491.235596, 'y': 132.265182, 'z': 1510.585449, 'health': 3238.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.768, max=114.812, mean=-44.583
+Unit 26589 chose action MOVE -> target normalized (835.00, 830.00), denormalized (1670.0, 1660.0) (score 114.81)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1670.0 1660.0 132.265182
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1518.864136 133.374298 1535.690796 3243.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1518.864136, 'y': 133.374298, 'z': 1535.690796, 'health': 3243.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.960, max=95.061, mean=-50.684
+Unit 26589 chose action MOVE -> target normalized (834.00, 827.00), denormalized (1668.0, 1654.0) (score 95.06)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1668.0 1654.0 133.374298
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1518.864136, 'y': 133.374298, 'z': 1535.690796, 'health': 3243.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-254.960, max=95.061, mean=-50.684
+Unit 26589 chose action MOVE -> target normalized (834.00, 827.00), denormalized (1668.0, 1654.0) (score 95.06)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1668.0 1654.0 133.374298
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1546.775513 135.326462 1560.414062 3248.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1546.775513, 'y': 135.326462, 'z': 1560.414062, 'health': 3248.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-255.478, max=81.950, mean=-65.128
+Unit 26589 chose action MOVE -> target normalized (840.05, 846.87), denormalized (1680.1, 1693.7) (score 81.95)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1680.1088463333333 1693.7473953333333 135.326462
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1546.775513, 'y': 135.326462, 'z': 1560.414062, 'health': 3248.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-255.478, max=81.950, mean=-65.128
+Unit 26589 chose action MOVE -> target normalized (840.05, 846.87), denormalized (1680.1, 1693.7) (score 81.95)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1680.1088463333333 1693.7473953333333 135.326462
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1575.141968 139.093826 1583.765137 3253.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1575.141968, 'y': 139.093826, 'z': 1583.765137, 'health': 3253.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-256.023, max=73.647, mean=-69.662
+Unit 26589 chose action MOVE -> target normalized (847.00, 836.00), denormalized (1694.0, 1672.0) (score 73.65)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1694.0 1672.0 139.093826
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1575.141968, 'y': 139.093826, 'z': 1583.765137, 'health': 3253.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-256.023, max=73.647, mean=-69.662
+Unit 26589 chose action MOVE -> target normalized (847.00, 836.00), denormalized (1694.0, 1672.0) (score 73.65)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1694.0 1672.0 139.093826
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1602.958862 145.478638 1605.280762 3258.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1602.958862, 'y': 145.478638, 'z': 1605.280762, 'health': 3258.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-257.815, max=59.145, mean=-79.807
+Unit 26589 chose action MOVE -> target normalized (844.00, 836.00), denormalized (1688.0, 1672.0) (score 59.14)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1688.0 1672.0 145.478638
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1602.958862, 'y': 145.478638, 'z': 1605.280762, 'health': 3258.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-257.815, max=59.145, mean=-79.807
+Unit 26589 chose action MOVE -> target normalized (844.00, 836.00), denormalized (1688.0, 1672.0) (score 59.14)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1688.0 1672.0 145.478638
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1624.380005 154.624496 1629.634766 3263.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1624.380005, 'y': 154.624496, 'z': 1629.634766, 'health': 3263.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-259.941, max=42.427, mean=-88.293
+Unit 26589 chose action MOVE -> target normalized (844.00, 836.00), denormalized (1688.0, 1672.0) (score 42.43)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1688.0 1672.0 154.624496
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1624.380005, 'y': 154.624496, 'z': 1629.634766, 'health': 3263.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 26589 (26 steps, reward 186.34) to match buffer. Reason: mass_reached
+Finalized segment for unit 26589 with reward 186.34 in 0.00 seconds. Reason: mass_reached
+Unit 26589 reached a mass spot. Segment deferred.
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589 mass destination -> (852.00, 180.00) score=707.27
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-232.050, max=147.204, mean=-14.334
+Unit 26589 chose action MOVE -> target normalized (834.41, 614.82), denormalized (1668.8, 1229.6) (score 147.20)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1668.8244494444443 1229.634766 154.624496
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1650.356201 165.039948 1646.622192 3268.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1650.356201, 'y': 165.039948, 'z': 1646.622192, 'health': 3268.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-234.333, max=147.115, mean=-21.493
+Unit 26589 chose action MOVE -> target normalized (847.40, 623.31), denormalized (1694.8, 1246.6) (score 147.11)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1694.8006454444444 1246.622192 165.039948
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1650.356201, 'y': 165.039948, 'z': 1646.622192, 'health': 3268.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-234.333, max=147.115, mean=-21.493
+Unit 26589 chose action MOVE -> target normalized (847.40, 623.31), denormalized (1694.8, 1246.6) (score 147.12)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1694.8006454444444 1246.622192 165.039948
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1673.726196 176.954361 1662.973999 3273.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1673.726196, 'y': 176.954361, 'z': 1662.973999, 'health': 3273.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-235.981, max=138.518, mean=-23.177
+Unit 26589 chose action MOVE -> target normalized (859.09, 631.49), denormalized (1718.2, 1263.0) (score 138.52)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1718.1706404444444 1262.973999 176.954361
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1673.726196, 'y': 176.954361, 'z': 1662.973999, 'health': 3273.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-235.981, max=138.518, mean=-23.177
+Unit 26589 chose action MOVE -> target normalized (859.09, 631.49), denormalized (1718.2, 1263.0) (score 138.52)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1718.1706404444444 1262.973999 176.954361
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1690.201782 179.022690 1643.458984 3278.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1690.201782, 'y': 179.02269, 'z': 1643.458984, 'health': 3278.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-234.229, max=123.430, mean=-22.630
+Unit 26589 chose action MOVE -> target normalized (867.32, 621.73), denormalized (1734.6, 1243.5) (score 123.43)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1734.6462264444444 1243.458984 179.02269
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1690.201782, 'y': 179.02269, 'z': 1643.458984, 'health': 3278.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-234.230, max=123.430, mean=-22.630
+Unit 26589 chose action MOVE -> target normalized (867.32, 621.73), denormalized (1734.6, 1243.5) (score 123.43)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1734.6462264444444 1243.458984 179.02269
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1690.643677 171.398911 1606.008423 3283.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1690.643677, 'y': 171.398911, 'z': 1606.008423, 'health': 3283.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-230.737, max=121.899, mean=-27.295
+Unit 26589 chose action MOVE -> target normalized (867.54, 603.00), denormalized (1735.1, 1206.0) (score 121.90)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1735.0881214444444 1206.008423 171.398911
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1690.643677, 'y': 171.398911, 'z': 1606.008423, 'health': 3283.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-230.737, max=121.899, mean=-27.295
+Unit 26589 chose action MOVE -> target normalized (867.54, 603.00), denormalized (1735.1, 1206.0) (score 121.90)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1735.0881214444444 1206.008423 171.398911
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1693.662720 168.241150 1568.680420 3288.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1693.66272, 'y': 168.24115, 'z': 1568.68042, 'health': 3288.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-266.730, max=118.866, mean=-34.544
+Unit 26589 chose action MOVE -> target normalized (869.05, 584.34), denormalized (1738.1, 1168.7) (score 118.87)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1738.1071644444446 1168.68042 168.24115
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1693.66272, 'y': 168.24115, 'z': 1568.68042, 'health': 3288.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-266.731, max=118.866, mean=-34.544
+Unit 26589 chose action MOVE -> target normalized (869.05, 584.34), denormalized (1738.1, 1168.7) (score 118.87)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1738.1071644444446 1168.68042 168.24115
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1698.317871 168.877151 1532.297607 3293.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1698.317871, 'y': 168.877151, 'z': 1532.297607, 'health': 3293.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.915, max=194.511, mean=-32.070
+Unit 26589 chose action MOVE -> target normalized (849.00, 466.00), denormalized (1698.0, 932.0) (score 194.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1698.0 932.0 168.877151
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1698.317871, 'y': 168.877151, 'z': 1532.297607, 'health': 3293.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.916, max=194.512, mean=-32.070
+Unit 26589 chose action MOVE -> target normalized (849.00, 466.00), denormalized (1698.0, 932.0) (score 194.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1698.0 932.0 168.877151
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1702.451904 171.000366 1496.685059 3298.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1702.451904, 'y': 171.000366, 'z': 1496.685059, 'health': 3298.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-232.551, max=194.506, mean=-35.237
+Unit 26589 chose action MOVE -> target normalized (851.00, 448.00), denormalized (1702.0, 896.0) (score 194.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1702.0 896.0 171.000366
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1702.451904, 'y': 171.000366, 'z': 1496.685059, 'health': 3298.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-232.552, max=194.506, mean=-35.237
+Unit 26589 chose action MOVE -> target normalized (851.00, 448.00), denormalized (1702.0, 896.0) (score 194.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1702.0 896.0 171.000366
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1706.353394 173.865845 1461.559814 3303.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1706.353394, 'y': 173.865845, 'z': 1461.559814, 'health': 3303.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-290.116, max=195.214, mean=-47.329
+Unit 26589 chose action MOVE -> target normalized (853.00, 430.00), denormalized (1706.0, 860.0) (score 195.21)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1706.0 860.0 173.865845
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1706.353394, 'y': 173.865845, 'z': 1461.559814, 'health': 3303.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-290.116, max=195.214, mean=-47.329
+Unit 26589 chose action MOVE -> target normalized (853.00, 430.00), denormalized (1706.0, 860.0) (score 195.21)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1706.0 860.0 173.865845
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1706.047241 174.966446 1425.190308 3308.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1706.047241, 'y': 174.966446, 'z': 1425.190308, 'health': 3308.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-287.932, max=185.358, mean=-46.035
+Unit 26589 chose action MOVE -> target normalized (853.00, 427.00), denormalized (1706.0, 854.0) (score 185.36)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1706.0 854.0 174.966446
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1705.749146 174.801575 1387.872803 3313.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.749146, 'y': 174.801575, 'z': 1387.872803, 'health': 3313.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-277.607, max=175.714, mean=-44.878
+Unit 26589 chose action MOVE -> target normalized (852.00, 423.00), denormalized (1704.0, 846.0) (score 175.71)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 846.0 174.801575
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1705.844971 175.231842 1351.223267 3318.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.844971, 'y': 175.231842, 'z': 1351.223267, 'health': 3318.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-271.877, max=146.654, mean=-46.579
+Unit 26589 chose action MOVE -> target normalized (852.00, 450.00), denormalized (1704.0, 900.0) (score 146.65)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 900.0 175.231842
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.844971, 'y': 175.231842, 'z': 1351.223267, 'health': 3318.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-271.877, max=146.655, mean=-46.579
+Unit 26589 chose action MOVE -> target normalized (852.00, 450.00), denormalized (1704.0, 900.0) (score 146.65)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 900.0 175.231842
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1705.957642 175.420990 1314.286255 3323.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.957642, 'y': 175.42099, 'z': 1314.286255, 'health': 3323.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-267.281, max=156.320, mean=-45.665
+Unit 26589 chose action MOVE -> target normalized (852.00, 417.00), denormalized (1704.0, 834.0) (score 156.32)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 834.0 175.42099
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.957642, 'y': 175.42099, 'z': 1314.286255, 'health': 3323.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-267.282, max=156.320, mean=-45.665
+Unit 26589 chose action MOVE -> target normalized (852.00, 417.00), denormalized (1704.0, 834.0) (score 156.32)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 834.0 175.42099
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1705.854004 175.623230 1277.313599 3328.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.854004, 'y': 175.62323, 'z': 1277.313599, 'health': 3328.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-263.222, max=146.545, mean=-46.274
+Unit 26589 chose action MOVE -> target normalized (852.00, 413.00), denormalized (1704.0, 826.0) (score 146.55)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 826.0 175.62323
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1705.699463 175.162811 1239.928345 3333.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.699463, 'y': 175.162811, 'z': 1239.928345, 'health': 3333.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-260.472, max=127.105, mean=-46.957
+Unit 26589 chose action MOVE -> target normalized (852.00, 424.00), denormalized (1704.0, 848.0) (score 127.10)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 848.0 175.162811
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.699463, 'y': 175.162811, 'z': 1239.928345, 'health': 3333.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-260.473, max=127.105, mean=-46.957
+Unit 26589 chose action MOVE -> target normalized (852.00, 424.00), denormalized (1704.0, 848.0) (score 127.11)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 848.0 175.162811
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1705.587891 176.161148 1203.364746 3338.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.587891, 'y': 176.161148, 'z': 1203.364746, 'health': 3338.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-258.798, max=113.827, mean=-50.510
+Unit 26589 chose action MOVE -> target normalized (830.57, 401.68), denormalized (1661.1, 803.4) (score 113.83)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1661.1434465555553 803.364746 176.161148
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1705.476440 177.452499 1166.934448 3343.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.47644, 'y': 177.452499, 'z': 1166.934448, 'health': 3343.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-258.481, max=113.591, mean=-46.745
+Unit 26589 chose action MOVE -> target normalized (830.52, 383.47), denormalized (1661.0, 766.9) (score 113.59)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1661.0319955555556 766.934448 177.452499
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.47644, 'y': 177.452499, 'z': 1166.934448, 'health': 3343.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-258.482, max=113.591, mean=-46.745
+Unit 26589 chose action MOVE -> target normalized (830.52, 383.47), denormalized (1661.0, 766.9) (score 113.59)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1661.0319955555556 766.934448 177.452499
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1705.362915 175.998749 1129.434448 3348.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1705.362915, 'y': 175.998749, 'z': 1129.434448, 'health': 3348.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-258.644, max=113.494, mean=-49.094
+Unit 26589 chose action MOVE -> target normalized (830.46, 364.72), denormalized (1660.9, 729.4) (score 113.49)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1660.9184705555554 729.434448 175.998749
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1700.781128 172.871994 1092.154907 3353.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1700.781128, 'y': 172.871994, 'z': 1092.154907, 'health': 3353.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-287.354, max=195.357, mean=-53.404
+Unit 26589 chose action MOVE -> target normalized (850.00, 246.00), denormalized (1700.0, 492.0) (score 195.36)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1700.0 492.0 172.871994
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1700.781128, 'y': 172.871994, 'z': 1092.154907, 'health': 3353.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-287.355, max=195.358, mean=-53.404
+Unit 26589 chose action MOVE -> target normalized (850.00, 246.00), denormalized (1700.0, 492.0) (score 195.36)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1700.0 492.0 172.871994
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1696.282471 169.538300 1054.935547 3358.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1696.282471, 'y': 169.5383, 'z': 1054.935547, 'health': 3358.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-287.652, max=195.845, mean=-50.704
+Unit 26589 chose action MOVE -> target normalized (848.00, 227.00), denormalized (1696.0, 454.0) (score 195.84)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1696.0 454.0 169.5383
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.232544 166.733444 1017.663330 3363.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.232544, 'y': 166.733444, 'z': 1017.66333, 'health': 3363.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-310.139, max=197.239, mean=-48.751
+Unit 26589 chose action MOVE -> target normalized (846.00, 208.00), denormalized (1692.0, 416.0) (score 197.24)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 416.0 166.733444
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.232544, 'y': 166.733444, 'z': 1017.66333, 'health': 3363.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-310.140, max=197.240, mean=-48.751
+Unit 26589 chose action MOVE -> target normalized (846.00, 208.00), denormalized (1692.0, 416.0) (score 197.24)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 416.0 166.733444
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.614258 165.177597 980.276672 3368.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.614258, 'y': 165.177597, 'z': 980.276672, 'health': 3368.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-260.774, max=199.356, mean=-37.883
+Unit 26589 chose action MOVE -> target normalized (846.00, 190.00), denormalized (1692.0, 380.0) (score 199.36)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 380.0 165.177597
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.924438 165.519684 943.130188 3373.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.924438, 'y': 165.519684, 'z': 943.130188, 'health': 3373.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6346
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-260.984, max=190.170, mean=-41.181
+Unit 26589 chose action MOVE -> target normalized (846.00, 186.00), denormalized (1692.0, 372.0) (score 190.17)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 372.0 165.519684
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.924438, 'y': 165.519684, 'z': 943.130188, 'health': 3373.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-260.985, max=190.171, mean=-41.182
+Unit 26589 chose action MOVE -> target normalized (846.00, 186.00), denormalized (1692.0, 372.0) (score 190.17)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 372.0 165.519684
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.879761 164.976715 905.664795 3378.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.879761, 'y': 164.976715, 'z': 905.664795, 'health': 3378.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0059
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.141, max=181.039, mean=-43.072
+Unit 26589 chose action MOVE -> target normalized (846.00, 182.00), denormalized (1692.0, 364.0) (score 181.04)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 364.0 164.976715
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.821167 163.622696 868.164795 3383.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.821167, 'y': 163.622696, 'z': 868.164795, 'health': 3383.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.460, max=168.488, mean=-41.935
+Unit 26589 chose action MOVE -> target normalized (846.00, 179.00), denormalized (1692.0, 358.0) (score 168.49)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 358.0 163.622696
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.821167, 'y': 163.622696, 'z': 868.164795, 'health': 3383.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.461, max=168.489, mean=-41.935
+Unit 26589 chose action MOVE -> target normalized (846.00, 179.00), denormalized (1692.0, 358.0) (score 168.49)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 358.0 163.622696
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.762573 163.198334 830.681641 3388.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.762573, 'y': 163.198334, 'z': 830.681641, 'health': 3388.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.577, max=150.978, mean=-43.464
+Unit 26589 chose action MOVE -> target normalized (846.00, 190.00), denormalized (1692.0, 380.0) (score 150.98)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 380.0 163.198334
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.762573, 'y': 163.198334, 'z': 830.681641, 'health': 3388.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.578, max=150.979, mean=-43.464
+Unit 26589 chose action MOVE -> target normalized (846.00, 190.00), denormalized (1692.0, 380.0) (score 150.98)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 380.0 163.198334
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.703979 162.545731 793.181641 3393.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.703979, 'y': 162.545731, 'z': 793.181641, 'health': 3393.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.625, max=141.921, mean=-45.870
+Unit 26589 chose action MOVE -> target normalized (846.00, 186.00), denormalized (1692.0, 372.0) (score 141.92)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 372.0 162.545731
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.703979, 'y': 162.545731, 'z': 793.181641, 'health': 3393.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.627, max=141.921, mean=-45.870
+Unit 26589 chose action MOVE -> target normalized (846.00, 186.00), denormalized (1692.0, 372.0) (score 141.92)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 372.0 162.545731
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.657104 162.355438 755.801270 3398.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.657104, 'y': 162.355438, 'z': 755.80127, 'health': 3398.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.767, max=132.802, mean=-47.098
+Unit 26589 chose action MOVE -> target normalized (846.00, 182.00), denormalized (1692.0, 364.0) (score 132.80)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 364.0 162.355438
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.657104 162.810196 718.706482 3403.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.657104, 'y': 162.810196, 'z': 718.706482, 'health': 3403.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.977, max=120.370, mean=-48.757
+Unit 26589 chose action MOVE -> target normalized (846.00, 179.00), denormalized (1692.0, 358.0) (score 120.37)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 358.0 162.810196
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.657104, 'y': 162.810196, 'z': 718.706482, 'health': 3403.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-261.978, max=120.371, mean=-48.758
+Unit 26589 chose action MOVE -> target normalized (846.00, 179.00), denormalized (1692.0, 358.0) (score 120.37)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 358.0 162.810196
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.657104 163.681763 681.880188 3408.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.657104, 'y': 163.681763, 'z': 681.880188, 'health': 3408.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.219, max=102.731, mean=-52.800
+Unit 26589 chose action MOVE -> target normalized (846.00, 190.00), denormalized (1692.0, 380.0) (score 102.73)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 380.0 163.681763
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.657227 164.706772 645.229858 3413.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.657227, 'y': 164.706772, 'z': 645.229858, 'health': 3413.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.569, max=93.127, mean=-59.399
+Unit 26589 chose action MOVE -> target normalized (846.00, 187.00), denormalized (1692.0, 374.0) (score 93.13)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 374.0 164.706772
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.657227 166.324173 608.895020 3418.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.657227, 'y': 166.324173, 'z': 608.89502, 'health': 3418.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0148
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.965, max=83.483, mean=-68.073
+Unit 26589 chose action MOVE -> target normalized (846.00, 184.00), denormalized (1692.0, 368.0) (score 83.48)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 368.0 166.324173
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.657227, 'y': 166.324173, 'z': 608.89502, 'health': 3418.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-262.967, max=83.483, mean=-68.073
+Unit 26589 chose action MOVE -> target normalized (846.00, 184.00), denormalized (1692.0, 368.0) (score 83.48)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 368.0 166.324173
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.656982 167.600769 572.590088 3423.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.656982, 'y': 167.600769, 'z': 572.590088, 'health': 3423.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-274.368, max=73.421, mean=-73.577
+Unit 26589 chose action MOVE -> target normalized (846.00, 180.00), denormalized (1692.0, 360.0) (score 73.42)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 360.0 167.600769
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.656982, 'y': 167.600769, 'z': 572.590088, 'health': 3423.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-274.369, max=73.421, mean=-73.577
+Unit 26589 chose action MOVE -> target normalized (846.00, 180.00), denormalized (1692.0, 360.0) (score 73.42)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 360.0 167.600769
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.656982 168.315445 535.735168 3428.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.656982, 'y': 168.315445, 'z': 535.735168, 'health': 3428.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-263.535, max=61.070, mean=-79.846
+Unit 26589 chose action MOVE -> target normalized (846.00, 180.00), denormalized (1692.0, 360.0) (score 61.07)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 360.0 168.315445
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.660034 171.642593 500.897949 3433.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.660034, 'y': 171.642593, 'z': 500.897949, 'health': 3433.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-305.727, max=49.460, mean=-88.147
+Unit 26589 chose action MOVE -> target normalized (846.00, 180.00), denormalized (1692.0, 360.0) (score 49.46)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 360.0 171.642593
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.660034, 'y': 171.642593, 'z': 500.897949, 'health': 3433.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-305.729, max=49.461, mean=-88.147
+Unit 26589 chose action MOVE -> target normalized (846.00, 180.00), denormalized (1692.0, 360.0) (score 49.46)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1692.0 360.0 171.642593
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.660156 174.615555 465.979767 3443.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.660156, 'y': 174.615555, 'z': 465.979767, 'health': 3443.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-265.127, max=44.315, mean=-90.391
+Unit 26589 chose action MOVE -> target normalized (852.00, 180.00), denormalized (1704.0, 360.0) (score 44.32)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 360.0 174.615555
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.660034 179.496796 432.526672 3453.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.660034, 'y': 179.496796, 'z': 432.526672, 'health': 3453.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-266.329, max=32.964, mean=-97.436
+Unit 26589 chose action MOVE -> target normalized (852.00, 180.00), denormalized (1704.0, 360.0) (score 32.96)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1704.0 360.0 179.496796
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.660034, 'y': 179.496796, 'z': 432.526672, 'health': 3453.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 26589 (36 steps, reward 175.92) to match buffer. Reason: mass_reached
+Finalized segment for unit 26589 with reward 175.92 in 0.00 seconds. Reason: mass_reached
+Unit 26589 reached a mass spot. Segment deferred.
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589 mass destination -> (188.00, 180.00) score=732.32
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-239.056, max=153.444, mean=-2.503
+Unit 26589 chose action MOVE -> target normalized (646.33, 194.04), denormalized (1292.7, 388.1) (score 153.44)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1292.660034 388.08222755555556 179.496796
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1692.659790 186.461029 401.137970 3463.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1692.65979, 'y': 186.461029, 'z': 401.13797, 'health': 3463.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-227.270, max=150.561, mean=-3.976
+Unit 26589 chose action MOVE -> target normalized (646.33, 178.35), denormalized (1292.7, 356.7) (score 150.56)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1292.65979 356.69352555555554 186.461029
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1700.259766 196.570389 373.819702 3473.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1700.259766, 'y': 196.570389, 'z': 373.819702, 'health': 3473.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-273.117, max=129.314, mean=-11.823
+Unit 26589 chose action MOVE -> target normalized (650.13, 164.69), denormalized (1300.3, 329.4) (score 129.31)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1300.259766 329.37525755555555 196.570389
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1700.259766, 'y': 196.570389, 'z': 373.819702, 'health': 3473.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-273.118, max=129.315, mean=-11.823
+Unit 26589 chose action MOVE -> target normalized (650.13, 164.69), denormalized (1300.3, 329.4) (score 129.31)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1300.259766 329.37525755555555 196.570389
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1702.662964 199.380020 366.371857 3483.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1702.662964, 'y': 199.38002, 'z': 366.371857, 'health': 3483.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-191.279, max=124.688, mean=-9.480
+Unit 26589 chose action MOVE -> target normalized (651.33, 160.96), denormalized (1302.7, 321.9) (score 124.69)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1302.662964 321.9274125555555 199.38002
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1702.662964, 'y': 199.38002, 'z': 366.371857, 'health': 3483.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-191.280, max=124.689, mean=-9.480
+Unit 26589 chose action MOVE -> target normalized (651.33, 160.96), denormalized (1302.7, 321.9) (score 124.69)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1302.662964 321.9274125555555 199.38002
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1675.751709 193.689148 353.856384 3493.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1675.751709, 'y': 193.689148, 'z': 353.856384, 'health': 3493.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-157.274, max=126.513, mean=-1.409
+Unit 26589 chose action MOVE -> target normalized (637.88, 199.15), denormalized (1275.8, 398.3) (score 126.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1275.751709 398.30082844444445 193.689148
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1675.751709, 'y': 193.689148, 'z': 353.856384, 'health': 3493.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-157.274, max=126.513, mean=-1.409
+Unit 26589 chose action MOVE -> target normalized (637.88, 199.15), denormalized (1275.8, 398.3) (score 126.51)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1275.751709 398.30082844444445 193.689148
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1638.378906 181.795105 351.490265 3503.450928 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1638.378906, 'y': 181.795105, 'z': 351.490265, 'health': 3503.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-218.891, max=126.432, mean=-21.080
+Unit 26589 chose action MOVE -> target normalized (619.19, 197.97), denormalized (1238.4, 395.9) (score 126.43)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1238.378906 395.9347094444445 181.795105
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1601.041260 175.022552 348.194214 3513.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1601.04126, 'y': 175.022552, 'z': 348.194214, 'health': 3513.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-217.001, max=125.322, mean=-19.626
+Unit 26589 chose action MOVE -> target normalized (600.52, 196.32), denormalized (1201.0, 392.6) (score 125.32)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1201.04126 392.63865844444445 175.022552
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1601.04126, 'y': 175.022552, 'z': 348.194214, 'health': 3513.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-217.001, max=125.323, mean=-19.626
+Unit 26589 chose action MOVE -> target normalized (600.52, 196.32), denormalized (1201.0, 392.6) (score 125.32)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1201.04126 392.63865844444445 175.022552
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1563.809692 167.546005 353.255035 3523.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1563.809692, 'y': 167.546005, 'z': 353.255035, 'health': 3523.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-257.023, max=121.375, mean=-40.773
+Unit 26589 chose action MOVE -> target normalized (581.90, 198.85), denormalized (1163.8, 397.7) (score 121.38)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1163.809692 397.6994794444445 167.546005
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1563.809692, 'y': 167.546005, 'z': 353.255035, 'health': 3523.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-257.023, max=121.375, mean=-40.773
+Unit 26589 chose action MOVE -> target normalized (581.90, 198.85), denormalized (1163.8, 397.7) (score 121.38)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1163.809692 397.6994794444445 167.546005
+[('127.0.0.1', 62539)] FRIENDLY_UNITS
+26589 corcom 1526.642090 163.288544 358.107697 3533.450928 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1526.64209, 'y': 163.288544, 'z': 358.107697, 'health': 3533.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-253.985, max=117.177, mean=-39.938
+Unit 26589 chose action MOVE -> target normalized (563.32, 201.28), denormalized (1126.6, 402.6) (score 117.18)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1126.64209 402.55214144444443 163.288544
+[('127.0.0.1', 62539)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9735 armcom 678.715637 132.270599 1398.160889 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 26589, 'name': 'corcom', 'x': 1526.64209, 'y': 163.288544, 'z': 358.107697, 'health': 3533.450928, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 4/5
+
+Feature weights for unit 26589:
+  distance_reduction: 0.6347
+  move_magnitude: 0.0229
+  is_noop: -0.0000
+  danger_zone: -0.0005
+  enemy_distance_change: -0.0147
+  nearest_enemy_proximity: 0.0002
+  escape_alignment: -0.0058
+  dodge_viability: 0.0000
+Unit 26589: NOOP score=-0.000, MOVE scores: min=-253.986, max=117.178, mean=-39.938
+Unit 26589 chose action MOVE -> target normalized (563.32, 201.28), denormalized (1126.6, 402.6) (score 117.18)
+Unit 26589 cancelling in-flight command (penalty 2.0)
+26589 has been sent action: C: MU Q 26589 1126.64209 402.55214144444443 163.288544
+Feature-based agent weights saved.
+Closing TensorBoard writer...
+TensorBoard logs saved to: runs/feature_based_agent_20260311_034311
+View results with: tensorboard --logdir=runs

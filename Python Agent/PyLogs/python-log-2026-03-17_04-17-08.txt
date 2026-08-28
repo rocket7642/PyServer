@@ -1,0 +1,1915 @@
+F:\School\Capstone\Python\PyServer\Main\agent_model.py:96: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+  if 0 <= idx < feature_weights.shape[-1]:
+Feature-based agent weights loaded.
+Model graph logged to TensorBoard (Graphs tab).
+TensorBoard logging to: runs/feature_based_agent_20260317_041712
+View with: tensorboard --logdir=runs
+Server listening on 127.0.0.1:25000...
+Map dimensions: 2048 x 2048
+Loaded cached map cost fields from cache\map_fields\f63e908a71dd264b5079ec45ad07e2919a21d30c47639fb0a1ac71f9fc954d5b.npz
+[NEW CONNECTION] ('127.0.0.1', 58346) connected.
+[unit_defs] Loaded 23 unit definitions from data/unit_defs.json
+[HANDSHAKE] Sent START to ('127.0.0.1', 58346) (attempt 1/30)
+[HANDSHAKE] Received from ('127.0.0.1', 58346): FRIENDLY_UNITS
+9076 corcom 368.339996 160.273163 480.000000 3700.000000 1.250000
+END
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 58346)] KNOWN_ENEMY_UNITS
+END
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 58346)] TURN
+
+Parsed 0 friendly units, 0 enemy units
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 368.339996 160.273163 480.000000 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 368.339996, 'y': 160.273163, 'z': 480.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6162
+  move_magnitude: -0.0228
+  is_noop: 0.0000
+  danger_zone: 0.0035
+  enemy_distance_change: 0.0467
+  nearest_enemy_proximity: 0.0099
+  escape_alignment: 0.0049
+  dodge_viability: -0.0000
+Unit 9076 mass destination -> (188.00, 180.00) score=76.34
+Unit 9076: NOOP score=0.000, MOVE scores: min=-248.142, max=47.057, mean=-81.206
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 47.06)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 160.273163
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 368.339996, 'y': 160.273163, 'z': 480.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6107
+  move_magnitude: -0.0383
+  is_noop: 0.0000
+  danger_zone: 0.0039
+  enemy_distance_change: 0.0571
+  nearest_enemy_proximity: 0.0113
+  escape_alignment: 0.0059
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-245.910, max=46.654, mean=-80.468
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 46.65)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 160.273163
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 368.339996 160.273163 480.000000 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 368.339996, 'y': 160.273163, 'z': 480.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6088
+  move_magnitude: -0.0424
+  is_noop: 0.0000
+  danger_zone: 0.0040
+  enemy_distance_change: 0.0601
+  nearest_enemy_proximity: 0.0118
+  escape_alignment: 0.0061
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-245.118, max=46.510, mean=-80.207
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 46.51)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 160.273163
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 368.339996, 'y': 160.273163, 'z': 480.0, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6082
+  move_magnitude: -0.0438
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0611
+  nearest_enemy_proximity: 0.0119
+  escape_alignment: 0.0062
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-244.858, max=46.462, mean=-80.121
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 46.46)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 160.273163
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 368.298798 160.256790 480.155975 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 368.298798, 'y': 160.25679, 'z': 480.155975, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6079
+  move_magnitude: -0.0443
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0614
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-244.755, max=46.443, mean=-80.087
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 46.44)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 160.25679
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 368.298798, 'y': 160.25679, 'z': 480.155975, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6078
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-244.702, max=46.434, mean=-80.070
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 46.43)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 160.25679
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 388.251923 155.204330 471.263092 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 388.251923, 'y': 155.20433, 'z': 471.263092, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6077
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-249.777, max=44.352, mean=-84.383
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 44.35)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 155.20433
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 388.251923, 'y': 155.20433, 'z': 471.263092, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 0/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6077
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-249.755, max=44.348, mean=-84.375
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 44.35)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 155.20433
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 384.646667 160.614319 436.944763 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 384.646667, 'y': 160.614319, 'z': 436.944763, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6076
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-250.942, max=31.533, mean=-92.616
+Unit 9076 chose action MOVE -> target normalized (188.00, 180.00), denormalized (376.0, 360.0) (score 31.53)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 376.0 360.0 160.614319
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 384.646667, 'y': 160.614319, 'z': 436.944763, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 9076 (5 steps, reward 200.00) to match buffer. Reason: mass_reached
+Finalized segment for unit 9076 with reward 200.00 in 0.00 seconds. Reason: mass_reached
+Unit 9076 reached a mass spot. Segment deferred.
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6076
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076 mass destination -> (620.00, 156.00) score=515.57
+Unit 9076: NOOP score=0.000, MOVE scores: min=-218.614, max=162.759, mean=-3.054
+Unit 9076 chose action MOVE -> target normalized (392.32, 151.81), denormalized (784.6, 303.6) (score 162.76)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 784.646667 303.61142966666665 160.614319
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 381.348358 168.790466 405.438538 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 381.348358, 'y': 168.790466, 'z': 405.438538, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6075
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-176.851, max=140.827, mean=1.650
+Unit 9076 chose action MOVE -> target normalized (390.67, 180.50), denormalized (781.3, 361.0) (score 140.83)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 781.348358 360.99409355555554 168.790466
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 381.348358, 'y': 168.790466, 'z': 405.438538, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6075
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-176.844, max=140.821, mean=1.650
+Unit 9076 chose action MOVE -> target normalized (390.67, 180.50), denormalized (781.3, 361.0) (score 140.82)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 781.348358 360.99409355555554 168.790466
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 378.272797 178.817581 375.649536 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 378.272797, 'y': 178.817581, 'z': 375.649536, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6075
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-220.726, max=142.130, mean=-10.256
+Unit 9076 chose action MOVE -> target normalized (389.14, 165.60), denormalized (778.3, 331.2) (score 142.13)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 778.2727970000001 331.20509155555555 178.817581
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 378.272797, 'y': 178.817581, 'z': 375.649536, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6075
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-220.718, max=142.124, mean=-10.255
+Unit 9076 chose action MOVE -> target normalized (389.14, 165.60), denormalized (778.3, 331.2) (score 142.12)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 778.2727970000001 331.20509155555555 178.817581
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 405.872620 178.399902 362.236725 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 405.87262, 'y': 178.399902, 'z': 362.236725, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6075
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-213.621, max=141.906, mean=-7.309
+Unit 9076 chose action MOVE -> target normalized (402.94, 158.90), denormalized (805.9, 317.8) (score 141.91)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 805.87262 317.7922805555555 178.399902
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 405.87262, 'y': 178.399902, 'z': 362.236725, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6074
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-213.613, max=141.901, mean=-7.309
+Unit 9076 chose action MOVE -> target normalized (402.94, 158.90), denormalized (805.9, 317.8) (score 141.90)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 805.87262 317.7922805555555 178.399902
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 443.330444 172.806656 362.197479 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 443.330444, 'y': 172.806656, 'z': 362.197479, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6074
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-256.674, max=140.903, mean=-20.671
+Unit 9076 chose action MOVE -> target normalized (421.67, 158.88), denormalized (843.3, 317.8) (score 140.90)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 843.3304439999999 317.75303455555553 172.806656
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 443.330444, 'y': 172.806656, 'z': 362.197479, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6074
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-256.665, max=140.898, mean=-20.671
+Unit 9076 chose action MOVE -> target normalized (421.67, 158.88), denormalized (843.3, 317.8) (score 140.90)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 843.3304439999999 317.75303455555553 172.806656
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 480.704010 170.170151 358.531372 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 480.70401, 'y': 170.170151, 'z': 358.531372, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6074
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0120
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-222.904, max=140.278, mean=-26.896
+Unit 9076 chose action MOVE -> target normalized (440.35, 157.04), denormalized (880.7, 314.1) (score 140.28)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 880.7040099999999 314.0869275555555 170.170151
+[('127.0.0.1', 58346)] ENEMY_UNITS
+9429 corgator 936.037292 120.145164 439.792114 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 480.70401, 'y': 170.170151, 'z': 358.531372, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6074
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0618
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.005, MOVE scores: min=-222.788, max=140.154, mean=-38.849
+Unit 9076 chose action MOVE -> target normalized (440.35, 157.04), denormalized (880.7, 314.1) (score 140.15)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 880.7040099999999 314.0869275555555 170.170151
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 517.357117 170.919388 354.093658 3700.000000 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 517.357117, 'y': 170.919388, 'z': 354.093658, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6073
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0618
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.006, MOVE scores: min=-241.309, max=137.279, mean=-42.388
+Unit 9076 chose action MOVE -> target normalized (458.68, 154.82), denormalized (917.4, 309.6) (score 137.28)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 917.357117 309.64921355555555 170.919388
+[('127.0.0.1', 58346)] ENEMY_UNITS
+9429 corgator 853.095581 119.357018 447.870239 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 517.357117, 'y': 170.919388, 'z': 354.093658, 'health': 3700.0, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6073
+  move_magnitude: -0.0446
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0618
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-241.299, max=137.303, mean=-41.493
+Unit 9076 chose action MOVE -> target normalized (458.68, 154.82), denormalized (917.4, 309.6) (score 137.30)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 917.357117 309.64921355555555 170.919388
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 553.526917 172.246887 350.138641 3700.717773 1.250000
+END
+ENEMY_UNITS
+9429 corgator 771.704346 121.046791 442.367218 771.954468 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 553.526917, 'y': 172.246887, 'z': 350.138641, 'health': 3700.717773, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6073
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0618
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-286.763, max=135.050, mean=-44.734
+Unit 9076 chose action MOVE -> target normalized (476.76, 152.85), denormalized (953.5, 305.7) (score 135.05)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 953.526917 305.69419655555555 172.246887
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 588.161804 175.195923 346.397736 3654.697998 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 588.161804, 'y': 175.195923, 'z': 346.397736, 'health': 3654.697998, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6072
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0618
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-270.193, max=131.637, mean=-52.502
+Unit 9076 chose action MOVE -> target normalized (494.08, 150.98), denormalized (988.2, 302.0) (score 131.64)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 988.161804 301.95329155555555 175.195923
+[('127.0.0.1', 58346)] ENEMY_UNITS
+9429 corgator 689.173401 122.248688 436.524536 621.795959 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 588.161804, 'y': 175.195923, 'z': 346.397736, 'health': 3654.697998, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6072
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0618
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.010, MOVE scores: min=-270.183, max=131.677, mean=-50.810
+Unit 9076 chose action MOVE -> target normalized (494.08, 150.98), denormalized (988.2, 302.0) (score 131.68)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 988.161804 301.95329155555555 175.195923
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 623.160645 178.005753 342.570862 3599.296875 1.250000
+END
+ENEMY_UNITS
+9429 corgator 605.060181 120.626915 440.058533 494.397278 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 623.160645, 'y': 178.005753, 'z': 342.570862, 'health': 3599.296875, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6072
+  move_magnitude: -0.0445
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0618
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.011, MOVE scores: min=-268.374, max=130.717, mean=-36.968
+Unit 9076 chose action MOVE -> target normalized (511.58, 149.06), denormalized (1023.2, 298.1) (score 130.72)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1023.160645 298.1264175555555 178.005753
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 658.553101 180.232773 338.700928 3449.625244 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 658.553101, 'y': 180.232773, 'z': 338.700928, 'health': 3449.625244, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6072
+  move_magnitude: -0.0444
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0618
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.010, MOVE scores: min=-262.329, max=135.152, mean=-37.728
+Unit 9076 chose action MOVE -> target normalized (554.12, 177.63), denormalized (1108.2, 355.3) (score 135.15)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1108.2482234165925 355.26283835858845 180.232773
+[('127.0.0.1', 58346)] ENEMY_UNITS
+9429 corgator 526.931396 123.822372 429.732147 263.084015 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 658.553101, 'y': 180.232773, 'z': 338.700928, 'health': 3449.625244, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6071
+  move_magnitude: -0.0444
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.010, MOVE scores: min=-262.347, max=129.144, mean=-36.033
+Unit 9076 chose action MOVE -> target normalized (553.75, 184.67), denormalized (1107.5, 369.3) (score 129.14)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1107.5093114454558 369.3329553970834 180.232773
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 693.902039 182.283981 334.835785 3386.257568 1.250000
+END
+ENEMY_UNITS
+9429 corgator 465.444183 132.414368 411.372467 100.297188 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 693.902039, 'y': 182.283981, 'z': 334.835785, 'health': 3386.257568, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6071
+  move_magnitude: -0.0444
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-257.129, max=140.879, mean=-36.244
+Unit 9076 chose action MOVE -> target normalized (570.85, 145.21), denormalized (1141.7, 290.4) (score 140.88)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1141.7046896555826 290.41972860330714 182.283981
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 730.207520 182.977188 331.429535 3392.446777 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 730.20752, 'y': 182.977188, 'z': 331.429535, 'health': 3392.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6071
+  move_magnitude: -0.0443
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-254.001, max=163.635, mean=-30.199
+Unit 9076 chose action MOVE -> target normalized (620.00, 150.00), denormalized (1240.0, 300.0) (score 163.64)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1240.0 300.0 182.977188
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 730.20752, 'y': 182.977188, 'z': 331.429535, 'health': 3392.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6071
+  move_magnitude: -0.0442
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-254.002, max=163.470, mean=-37.965
+Unit 9076 chose action MOVE -> target normalized (620.00, 150.00), denormalized (1240.0, 300.0) (score 163.47)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1240.0 300.0 182.977188
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 767.620850 182.257706 333.937317 3397.446777 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 767.62085, 'y': 182.257706, 'z': 333.937317, 'health': 3397.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6071
+  move_magnitude: -0.0442
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-251.114, max=145.371, mean=-41.379
+Unit 9076 chose action MOVE -> target normalized (608.00, 150.00), denormalized (1216.0, 300.0) (score 145.37)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1216.0 300.0 182.257706
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 767.62085, 'y': 182.257706, 'z': 333.937317, 'health': 3397.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6070
+  move_magnitude: -0.0442
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-251.102, max=145.364, mean=-41.377
+Unit 9076 chose action MOVE -> target normalized (608.00, 150.00), denormalized (1216.0, 300.0) (score 145.36)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1216.0 300.0 182.257706
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 802.478333 185.148376 330.810699 3402.446777 1.250000
+END
+
+Parsed 1 friendly units, 0 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 802.478333, 'y': 185.148376, 'z': 330.810699, 'health': 3402.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6070
+  move_magnitude: -0.0442
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=0.000, MOVE scores: min=-248.261, max=135.347, mean=-40.845
+Unit 9076 chose action MOVE -> target normalized (611.00, 150.00), denormalized (1222.0, 300.0) (score 135.35)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1222.0 300.0 185.148376
+[('127.0.0.1', 58346)] ENEMY_UNITS
+9413 corgator 1240.358032 147.420502 313.719788 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 802.478333, 'y': 185.148376, 'z': 330.810699, 'health': 3402.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6070
+  move_magnitude: -0.0443
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.005, MOVE scores: min=-248.084, max=135.189, mean=-52.573
+Unit 9076 chose action MOVE -> target normalized (611.00, 150.00), denormalized (1222.0, 300.0) (score 135.19)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1222.0 300.0 185.148376
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 839.414001 185.364502 328.259033 3407.446777 1.250000
+END
+ENEMY_UNITS
+9413 corgator 1240.358032 147.420502 313.719788 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 839.414001, 'y': 185.364502, 'z': 328.259033, 'health': 3407.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6069
+  move_magnitude: -0.0443
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.006, MOVE scores: min=-245.814, max=125.993, mean=-53.020
+Unit 9076 chose action MOVE -> target normalized (614.00, 150.00), denormalized (1228.0, 300.0) (score 125.99)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1228.0 300.0 185.364502
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 875.358093 186.913132 325.681549 3412.446777 1.250000
+END
+ENEMY_UNITS
+9413 corgator 1240.352783 147.244293 314.130585 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 875.358093, 'y': 186.913132, 'z': 325.681549, 'health': 3412.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6069
+  move_magnitude: -0.0442
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-246.190, max=114.426, mean=-54.127
+Unit 9076 chose action MOVE -> target normalized (617.00, 150.00), denormalized (1234.0, 300.0) (score 114.43)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1234.0 300.0 186.913132
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 912.710083 186.383194 322.995544 3417.446777 1.250000
+END
+ENEMY_UNITS
+9413 corgator 1240.931152 137.327469 338.822205 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 912.710083, 'y': 186.383194, 'z': 322.995544, 'health': 3417.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6068
+  move_magnitude: -0.0442
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-246.189, max=103.219, mean=-61.003
+Unit 9076 chose action MOVE -> target normalized (621.00, 150.00), denormalized (1242.0, 300.0) (score 103.22)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1242.0 300.0 186.383194
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 949.908752 185.334412 320.365906 3422.446777 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 949.908752, 'y': 185.334412, 'z': 320.365906, 'health': 3422.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6068
+  move_magnitude: -0.0442
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-246.048, max=84.889, mean=-64.041
+Unit 9076 chose action MOVE -> target normalized (609.00, 150.00), denormalized (1218.0, 300.0) (score 84.89)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1218.0 300.0 185.334412
+[('127.0.0.1', 58346)] ENEMY_UNITS
+9413 corgator 1243.350220 120.895073 404.494324 820.000000 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 949.908752, 'y': 185.334412, 'z': 320.365906, 'health': 3422.446777, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6068
+  move_magnitude: -0.0442
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-246.048, max=84.901, mean=-62.970
+Unit 9076 chose action MOVE -> target normalized (609.00, 150.00), denormalized (1218.0, 300.0) (score 84.90)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1218.0 300.0 185.334412
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 987.247498 184.692871 317.754395 3429.145020 1.250000
+END
+ENEMY_UNITS
+9413 corgator 1246.789917 113.898186 488.743042 696.532593 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 987.247498, 'y': 184.692871, 'z': 317.754395, 'health': 3429.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6067
+  move_magnitude: -0.0441
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-247.297, max=73.392, mean=-70.491
+Unit 9076 chose action MOVE -> target normalized (613.00, 150.00), denormalized (1226.0, 300.0) (score 73.39)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1226.0 300.0 184.692871
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1024.662964 183.929016 315.219543 3434.145020 1.250000
+END
+ENEMY_UNITS
+9413 corgator 1247.690430 111.709282 573.598511 696.532593 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1024.662964, 'y': 183.929016, 'z': 315.219543, 'health': 3434.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6067
+  move_magnitude: -0.0441
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-247.837, max=63.389, mean=-74.863
+Unit 9076 chose action MOVE -> target normalized (617.00, 150.00), denormalized (1234.0, 300.0) (score 63.39)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1234.0 300.0 183.929016
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1061.475952 183.996475 312.447083 3439.145020 1.250000
+END
+ENEMY_UNITS
+9413 corgator 1251.214600 110.300896 658.198547 696.532593 0
+END
+KNOWN_ENEMY_UNITS
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1061.475952, 'y': 183.996475, 'z': 312.447083, 'health': 3439.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6067
+  move_magnitude: -0.0441
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.006, MOVE scores: min=-246.488, max=54.767, mean=-76.332
+Unit 9076 chose action MOVE -> target normalized (620.00, 150.00), denormalized (1240.0, 300.0) (score 54.77)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1240.0 300.0 183.996475
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1098.869263 182.505692 309.670166 3444.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1098.869263, 'y': 182.505692, 'z': 309.670166, 'health': 3444.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6066
+  move_magnitude: -0.0441
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.006, MOVE scores: min=-245.946, max=40.282, mean=-84.004
+Unit 9076 chose action MOVE -> target normalized (624.00, 150.00), denormalized (1248.0, 300.0) (score 40.28)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1248.0 300.0 182.505692
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1098.869263, 'y': 182.505692, 'z': 309.670166, 'health': 3444.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6066
+  move_magnitude: -0.0440
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.004, MOVE scores: min=-245.974, max=40.284, mean=-84.370
+Unit 9076 chose action MOVE -> target normalized (624.00, 150.00), denormalized (1248.0, 300.0) (score 40.28)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1248.0 300.0 182.505692
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1136.270752 180.160828 307.062500 3449.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1136.270752, 'y': 180.160828, 'z': 307.0625, 'health': 3449.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 1/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6066
+  move_magnitude: -0.0440
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0063
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.004, MOVE scores: min=-245.530, max=36.490, mean=-87.513
+Unit 9076 chose action MOVE -> target normalized (620.00, 156.00), denormalized (1240.0, 312.0) (score 36.49)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1240.0 312.0 180.160828
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1173.699097 178.238724 304.807343 3454.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1173.699097, 'y': 178.238724, 'z': 304.807343, 'health': 3454.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6065
+  move_magnitude: -0.0440
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.004, MOVE scores: min=-244.504, max=25.959, mean=-94.582
+Unit 9076 chose action MOVE -> target normalized (620.00, 156.00), denormalized (1240.0, 312.0) (score 25.96)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1240.0 312.0 178.238724
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1173.699097, 'y': 178.238724, 'z': 304.807343, 'health': 3454.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 9076 (24 steps, reward 62.80) to match buffer. Reason: mass_reached
+Finalized segment for unit 9076 with reward 62.80 in 0.00 seconds. Reason: mass_reached
+Unit 9076 reached a mass spot. Segment deferred.
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6065
+  move_magnitude: -0.0439
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076 mass destination -> (524.00, 492.00) score=422.95
+Unit 9076: NOOP score=-0.004, MOVE scores: min=-121.282, max=168.971, mean=25.873
+Unit 9076 chose action MOVE -> target normalized (520.18, 352.40), denormalized (1040.4, 704.8) (score 168.97)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1040.3657636666667 704.807343 178.238724
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1211.140503 175.790451 302.737335 3459.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1211.140503, 'y': 175.790451, 'z': 302.737335, 'health': 3459.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6065
+  move_magnitude: -0.0439
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.004, MOVE scores: min=-90.509, max=174.137, mean=42.245
+Unit 9076 chose action MOVE -> target normalized (538.90, 351.37), denormalized (1077.8, 702.7) (score 174.14)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1077.8071696666666 702.737335 175.790451
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1244.249390 172.161682 302.315338 3464.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1244.24939, 'y': 172.161682, 'z': 302.315338, 'health': 3464.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6064
+  move_magnitude: -0.0439
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.004, MOVE scores: min=-84.006, max=184.026, mean=48.149
+Unit 9076 chose action MOVE -> target normalized (511.01, 351.16), denormalized (1022.0, 702.3) (score 184.03)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1022.0271677777778 702.315338 172.161682
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1244.24939, 'y': 172.161682, 'z': 302.315338, 'health': 3464.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6064
+  move_magnitude: -0.0439
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.004, MOVE scores: min=-84.002, max=184.017, mean=48.147
+Unit 9076 chose action MOVE -> target normalized (511.01, 351.16), denormalized (1022.0, 702.3) (score 184.02)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1022.0271677777778 702.315338 172.161682
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1244.648071 168.486664 308.315796 3469.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1244.648071, 'y': 168.486664, 'z': 308.315796, 'health': 3469.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6064
+  move_magnitude: -0.0439
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0617
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.005, MOVE scores: min=-85.008, max=182.999, mean=45.927
+Unit 9076 chose action MOVE -> target normalized (511.21, 354.16), denormalized (1022.4, 708.3) (score 183.00)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1022.4258487777779 708.315796 168.486664
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1228.692139 157.147919 339.375580 3474.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1228.692139, 'y': 157.147919, 'z': 339.37558, 'health': 3474.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6063
+  move_magnitude: -0.0438
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.005, MOVE scores: min=-100.063, max=170.383, mean=35.834
+Unit 9076 chose action MOVE -> target normalized (503.23, 369.69), denormalized (1006.5, 739.4) (score 170.38)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1006.4699167777778 739.37558 157.147919
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1228.692139, 'y': 157.147919, 'z': 339.37558, 'health': 3474.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6063
+  move_magnitude: -0.0438
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.005, MOVE scores: min=-100.059, max=170.375, mean=35.832
+Unit 9076 chose action MOVE -> target normalized (503.23, 369.69), denormalized (1006.5, 739.4) (score 170.38)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1006.4699167777778 739.37558 157.147919
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1210.044678 148.558960 371.781525 3479.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1210.044678, 'y': 148.55896, 'z': 371.781525, 'health': 3479.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6063
+  move_magnitude: -0.0438
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.005, MOVE scores: min=-136.372, max=166.961, mean=26.089
+Unit 9076 chose action MOVE -> target normalized (538.36, 385.89), denormalized (1076.7, 771.8) (score 166.96)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1076.7113446666667 771.781525 148.55896
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1191.609863 141.164291 404.447662 3484.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1191.609863, 'y': 141.164291, 'z': 404.447662, 'health': 3484.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6063
+  move_magnitude: -0.0438
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.006, MOVE scores: min=-136.316, max=164.559, mean=19.226
+Unit 9076 chose action MOVE -> target normalized (529.14, 402.22), denormalized (1058.3, 804.4) (score 164.56)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1058.2765296666666 804.447662 141.164291
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1191.609863, 'y': 141.164291, 'z': 404.447662, 'health': 3484.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6062
+  move_magnitude: -0.0438
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.006, MOVE scores: min=-136.310, max=164.551, mean=19.226
+Unit 9076 chose action MOVE -> target normalized (529.14, 402.22), denormalized (1058.3, 804.4) (score 164.55)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1058.2765296666666 804.447662 141.164291
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1174.252686 135.601959 437.772278 3489.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1174.252686, 'y': 135.601959, 'z': 437.772278, 'health': 3489.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6062
+  move_magnitude: -0.0437
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.006, MOVE scores: min=-152.054, max=158.918, mean=6.082
+Unit 9076 chose action MOVE -> target normalized (520.46, 418.89), denormalized (1040.9, 837.8) (score 158.92)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1040.9193526666668 837.7722779999999 135.601959
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1174.252686, 'y': 135.601959, 'z': 437.772278, 'health': 3489.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6062
+  move_magnitude: -0.0437
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.006, MOVE scores: min=-152.047, max=158.910, mean=6.081
+Unit 9076 chose action MOVE -> target normalized (520.46, 418.89), denormalized (1040.9, 837.8) (score 158.91)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1040.9193526666668 837.7722779999999 135.601959
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1163.652344 132.515961 473.669250 3494.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1163.652344, 'y': 132.515961, 'z': 473.66925, 'health': 3494.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6061
+  move_magnitude: -0.0437
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-186.014, max=151.389, mean=-10.065
+Unit 9076 chose action MOVE -> target normalized (515.16, 436.83), denormalized (1030.3, 873.7) (score 151.39)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1030.3190106666666 873.6692499999999 132.515961
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1163.652344, 'y': 132.515961, 'z': 473.66925, 'health': 3494.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6061
+  move_magnitude: -0.0437
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-186.005, max=151.383, mean=-10.064
+Unit 9076 chose action MOVE -> target normalized (515.16, 436.83), denormalized (1030.3, 873.7) (score 151.38)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1030.3190106666666 873.6692499999999 132.515961
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1152.107056 131.172852 509.333801 3499.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1152.107056, 'y': 131.172852, 'z': 509.333801, 'health': 3499.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6061
+  move_magnitude: -0.0437
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.007, MOVE scores: min=-189.706, max=144.392, mean=-15.044
+Unit 9076 chose action MOVE -> target normalized (509.39, 454.67), denormalized (1018.8, 909.3) (score 144.39)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1018.7737226666667 909.333801 131.172852
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1139.999146 130.337372 544.827637 3504.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1139.999146, 'y': 130.337372, 'z': 544.827637, 'health': 3504.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6061
+  move_magnitude: -0.0436
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-192.621, max=136.321, mean=-19.586
+Unit 9076 chose action MOVE -> target normalized (503.33, 472.41), denormalized (1006.7, 944.8) (score 136.32)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1006.6658126666667 944.827637 130.337372
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1128.016724 129.662201 580.361084 3509.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1128.016724, 'y': 129.662201, 'z': 580.361084, 'health': 3509.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6060
+  move_magnitude: -0.0436
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-236.695, max=135.561, mean=-34.980
+Unit 9076 chose action MOVE -> target normalized (541.79, 490.18), denormalized (1083.6, 980.4) (score 135.56)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1083.5722795555557 980.361084 129.662201
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1116.083008 129.200256 615.911865 3514.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1116.083008, 'y': 129.200256, 'z': 615.911865, 'health': 3514.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6060
+  move_magnitude: -0.0436
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-236.308, max=117.279, mean=-41.072
+Unit 9076 chose action MOVE -> target normalized (535.82, 507.96), denormalized (1071.6, 1015.9) (score 117.28)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1071.6385635555557 1015.911865 129.200256
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1104.416504 129.030594 651.611877 3519.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1104.416504, 'y': 129.030594, 'z': 651.611877, 'health': 3519.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6060
+  move_magnitude: -0.0436
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-236.986, max=108.714, mean=-43.662
+Unit 9076 chose action MOVE -> target normalized (529.99, 481.36), denormalized (1060.0, 962.7) (score 108.71)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1059.9720595555555 962.7229881111111 129.030594
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1102.145874 128.984283 689.146179 3524.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1102.145874, 'y': 128.984283, 'z': 689.146179, 'health': 3524.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6060
+  move_magnitude: -0.0436
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-230.207, max=99.019, mean=-46.417
+Unit 9076 chose action MOVE -> target normalized (528.85, 500.13), denormalized (1057.7, 1000.3) (score 99.02)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1057.7014295555555 1000.257290111111 128.984283
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1102.145874, 'y': 128.984283, 'z': 689.146179, 'health': 3524.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6059
+  move_magnitude: -0.0436
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-230.198, max=99.015, mean=-46.415
+Unit 9076 chose action MOVE -> target normalized (528.85, 500.13), denormalized (1057.7, 1000.3) (score 99.01)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1057.7014295555555 1000.257290111111 128.984283
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1099.523071 128.909790 726.530090 3529.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1099.523071, 'y': 128.90979, 'z': 726.53009, 'health': 3529.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6059
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 360, in receive_messages
+    conn.sendall(action_command.encode('utf-8'))
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+Traceback (most recent call last):
+  File "F:\School\Capstone\Python\PyServer\Main\Connection\GameMessager.py", line 107, in receive_messages
+    data = conn.recv(1024)
+           ^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+  move_magnitude: -0.0435
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-226.665, max=80.758, mean=-50.939
+Unit 9076 chose action MOVE -> target normalized (527.54, 474.38), denormalized (1055.1, 948.8) (score 80.76)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1055.0786265555557 948.7523122222221 128.90979
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1093.266479 128.815231 763.467957 3534.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1093.266479, 'y': 128.815231, 'z': 763.467957, 'health': 3534.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6059
+  move_magnitude: -0.0435
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-225.069, max=80.775, mean=-53.501
+Unit 9076 chose action MOVE -> target normalized (524.41, 492.85), denormalized (1048.8, 985.7) (score 80.77)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1048.8220345555555 985.6901792222221 128.815231
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1087.593872 128.591019 800.535828 3539.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1087.593872, 'y': 128.591019, 'z': 800.535828, 'health': 3539.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6059
+  move_magnitude: -0.0435
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-225.006, max=63.773, mean=-61.841
+Unit 9076 chose action MOVE -> target normalized (528.00, 490.00), denormalized (1056.0, 980.0) (score 63.77)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1056.0 980.0 128.591019
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1087.593872, 'y': 128.591019, 'z': 800.535828, 'health': 3539.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6058
+  move_magnitude: -0.0435
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-224.997, max=63.771, mean=-61.839
+Unit 9076 chose action MOVE -> target normalized (528.00, 490.00), denormalized (1056.0, 980.0) (score 63.77)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1056.0 980.0 128.591019
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1081.692871 128.578461 837.499695 3544.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1081.692871, 'y': 128.578461, 'z': 837.499695, 'health': 3544.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6058
+  move_magnitude: -0.0435
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-226.358, max=53.454, mean=-70.049
+Unit 9076 chose action MOVE -> target normalized (525.00, 493.00), denormalized (1050.0, 986.0) (score 53.45)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1050.0 986.0 128.578461
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1073.392578 128.737091 874.078918 3549.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1073.392578, 'y': 128.737091, 'z': 874.078918, 'health': 3549.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 2/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6058
+  move_magnitude: -0.0435
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-229.224, max=40.700, mean=-82.351
+Unit 9076 chose action MOVE -> target normalized (524.00, 492.00), denormalized (1048.0, 984.0) (score 40.70)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1048.0 984.0 128.737091
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1067.056030 128.825546 911.070618 3554.145020 1.250000
+END
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1067.05603, 'y': 128.825546, 'z': 911.070618, 'health': 3554.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6058
+  move_magnitude: -0.0435
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-232.291, max=27.934, mean=-93.479
+Unit 9076 chose action MOVE -> target normalized (524.00, 492.00), denormalized (1048.0, 984.0) (score 27.93)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1048.0 984.0 128.825546
+[('127.0.0.1', 58346)] ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1067.05603, 'y': 128.825546, 'z': 911.070618, 'health': 3554.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Deferred segment for unit 9076 (20 steps, reward 178.97) to match buffer. Reason: mass_reached
+Finalized segment for unit 9076 with reward 178.97 in 0.00 seconds. Reason: mass_reached
+Unit 9076 reached a mass spot. Segment deferred.
+Visited mass spots: 3/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6058
+  move_magnitude: -0.0434
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076 mass destination -> (836.00, 372.00) score=398.74
+Unit 9076: NOOP score=-0.009, MOVE scores: min=-242.146, max=162.435, mean=-32.704
+Unit 9076 chose action MOVE -> target normalized (733.53, 388.87), denormalized (1467.1, 777.7) (score 162.43)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1467.05603 777.7372846666666 128.825546
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1060.001465 128.813461 947.711365 3559.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1060.001465, 'y': 128.813461, 'z': 947.711365, 'health': 3559.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6057
+  move_magnitude: -0.0434
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-242.166, max=176.573, mean=-25.815
+Unit 9076 chose action MOVE -> target normalized (730.00, 362.74), denormalized (1460.0, 725.5) (score 176.57)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1460.001465 725.4891427777777 128.813461
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1049.524414 128.716354 977.628479 3564.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1049.524414, 'y': 128.716354, 'z': 977.628479, 'health': 3564.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6057
+  move_magnitude: -0.0434
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-242.186, max=189.139, mean=-21.031
+Unit 9076 chose action MOVE -> target normalized (724.76, 377.70), denormalized (1449.5, 755.4) (score 189.14)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+9076 has been sent action: C: MU Q 9076 1449.524414 755.4062567777778 128.716354
+[('127.0.0.1', 58346)] FRIENDLY_UNITS
+9076 corcom 1049.633423 128.701050 981.691040 3569.145020 1.250000
+END
+ENEMY_UNITS
+END
+KNOWN_ENEMY_UNITS
+9413 corgator 1264.554443 108.751404 807.000244 -1.000000 0
+END
+TURN
+
+Parsed 1 friendly units, 1 enemy units
+Sample unit: {'id': 9076, 'name': 'corcom', 'x': 1049.633423, 'y': 128.70105, 'z': 981.69104, 'health': 3569.14502, 'speed': 1.25, 'weapon_type': 'hitscan', 'weapon_one_hot': [1.0, 0.0, 0.0, 0.0], 'projectile_speed': 0, 'aoe_radius': 12, 'dps': 187.5, 'range': 300}
+Visited mass spots: 3/6
+
+Feature weights for unit 9076:
+  distance_reduction: 0.6057
+  move_magnitude: -0.0434
+  is_noop: 0.0000
+  danger_zone: 0.0041
+  enemy_distance_change: 0.0616
+  nearest_enemy_proximity: 0.0121
+  escape_alignment: 0.0064
+  dodge_viability: -0.0000
+Unit 9076: NOOP score=-0.008, MOVE scores: min=-242.181, max=189.058, mean=-20.602
+Unit 9076 chose action MOVE -> target normalized (724.82, 379.73), denormalized (1449.6, 759.5) (score 189.06)
+Unit 9076 cancelling in-flight command (penalty 2.0)
+[ERROR during command sending for unit 9076]
+  Exception: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+!!! ERROR in receive_messages !!!
+Exception type: ConnectionResetError
+Exception message: [WinError 10054] An existing connection was forcibly closed by the remote host
+Full traceback:
+!!!
+
+Finalizing unit results, assuming a loss.
+Deferred segment for unit 9076 (3 steps, reward -153.99) to match buffer. Reason: disconnect/death
+Finalized segment for unit 9076 with reward -153.99 in 0.00 seconds. Reason: disconnect/death
+[Deferred Training] Training on 4 segments, 52 total transitions.
+Feature-based agent weights saved.
+Closing TensorBoard writer...
+TensorBoard logs saved to: runs/feature_based_agent_20260317_041712
+View results with: tensorboard --logdir=runs
