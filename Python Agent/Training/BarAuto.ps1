@@ -1,4 +1,4 @@
-# --- Configuration ---
+# Configuration
 $programPath = "C:\Path\To\Your\Program.exe" # Full path to the .exe
 $PythonVenvDir = "F:\School\Capstone\Python\PyServer\.venv\Scripts"
 $PythonExe = "F:\School\Capstone\Python\PyServer\.venv\Scripts\python.exe" 
@@ -27,9 +27,9 @@ $scriptArg = $engineDir + "\_scriptL.txt"
 $scriptArgEval = "\_scriptShowcase.txt"
 $scriptArgTraining = "\_scriptTraining.txt"
 
-$totalRunTimeHours = 1                       # How long the script should loop
+$totalRunTimeHours = 1 # How long real time the script should loop
 
-# --- Script Logic ---
+# Script Logic
 $endTime = (Get-Date).AddHours($totalRunTimeHours)
 Write-Host "Script started. Will loop until: $endTime" -ForegroundColor Cyan
 

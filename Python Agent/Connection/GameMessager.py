@@ -10,8 +10,9 @@ import agent_core
 import unit_defs
 from Rewards import PeriodicRewards
 
+# Parse unit data from socket messages and supply missing information from the unit defs
+# Acts between a header and the END marker
 def parse_units(message, header):
-	"""Parse a socket message into a list of unit dictionaries by extracting lines between a header and END marker."""
 	units_list = []
 	lines = message.strip().split('\n')
 	i = 0
@@ -60,9 +61,8 @@ def parse_units(message, header):
 
 	return units_list
 
-
+# Format an action into a command string to send to the game, choosing queued or immediate based on distance.
 def format_action(action, unit_id, unit_x, unit_z, unit_y, target_x=None, target_z=None):
-	"""Format an action into a command string to send to the game, choosing queued or immediate based on distance."""
 	if action == config.NOOP_ACTION or target_x is None or target_z is None:
 		return None
 	
@@ -77,9 +77,8 @@ def format_action(action, unit_id, unit_x, unit_z, unit_y, target_x=None, target
 	command = "C: MU Q" if distance > 50 else "C: MU I"
 	return f"{command} {unit_id} {target_x} {target_z} {unit_y}\n"
 
-
+# Perform a handshake with the game client, sending "START" and waiting for "READY" with retries and timeout.
 def perform_handshake(conn, addr):
-	"""Send START first and wait for READY with a timeout before entering the main receive loop."""
 	handshake_timeout = getattr(config, 'HANDSHAKE_TIMEOUT_SECONDS', 5.0)
 	handshake_retries = getattr(config, 'HANDSHAKE_MAX_RETRIES', 30)
 	original_timeout = conn.gettimeout()
@@ -111,9 +110,9 @@ def perform_handshake(conn, addr):
 	finally:
 		conn.settimeout(original_timeout)
 
-
+# Main loop that receives game state messages, runs the agent's decision-making, trains on transitions, and sends commands back.
 def receive_messages(conn, addr):
-	"""Main loop that receives game state messages, runs the agent's decision-making, trains on transitions, and sends commands back."""
+	# Internal function to finalize the match, save the agent, and prevent further training if already finalized or if training is disabled.
 	def finalize_match(success, reason):
 		if state.match_finalized or not config.SHOULD_TRAIN:
 			return
@@ -132,6 +131,7 @@ def receive_messages(conn, addr):
 		conn.close()
 		return
 
+	# Main message processing loop
 	while True:
 		try:
 			data = conn.recv(1024)
@@ -143,6 +143,7 @@ def receive_messages(conn, addr):
 			message = data.decode('utf-8')
 			print(f"[{addr}] {message}")
 
+			# Parse units from the message and update the runtime state
 			if "FRIENDLY_UNITS" in message:
 				state.units = parse_units(message, "FRIENDLY_UNITS")
 			if "ENEMY_UNITS" in message:
@@ -229,6 +230,7 @@ def receive_messages(conn, addr):
 			if friendly_units:
 				print(f"Sample unit: {friendly_units[0]}")
 
+			# Increment step counter for each TURN message received, which indicates a new game tick.
 			if "TURN" in message:
 				state.step_counter += 1
 
@@ -241,6 +243,7 @@ def receive_messages(conn, addr):
 				state_vec = agent_core.get_state(unit, friendly_units, enemy_units)
 				state_no_map = agent_core.get_state_no_map(unit, friendly_units, enemy_units)
 
+				# Process the state and take an action if a turn has been received
 				if "TURN" in message:
 					try:
 						# state.step_counter += 1
@@ -608,6 +611,7 @@ def receive_messages(conn, addr):
 										f"(penalty {config.CANCEL_COMMAND_PENALTY})"
 									)
 
+						# send command package
 						conn.sendall(action_command.encode('utf-8'))
 						print(f"{unit['id']} has been sent action: {action_command.strip()}")
 						state.previous_actions[unit['id']] = action
@@ -622,6 +626,7 @@ def receive_messages(conn, addr):
 					print(f"  Exception: {send_err}")
 					traceback.print_exc()
 
+				# Log images for visualization every 20 steps
 				try:
 					if state.step_counter % 20 == 0:
 						local_view = map_utils.get_local_view_image(
