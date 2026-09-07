@@ -1,6 +1,9 @@
 """
 Loader and lookup helpers for unit definition data (weapon types, projectile speeds, etc.).
 Reads from data/unit_defs.json at startup and provides per-unit enrichment for the neural net.
+
+This file was AI designed to pull from a manually created JSON file containing unit definitions. 
+It provides functions to load the definitions, retrieve specific unit information, and normalize various attributes for use in the agent's decision-making process.
 """
 
 import json

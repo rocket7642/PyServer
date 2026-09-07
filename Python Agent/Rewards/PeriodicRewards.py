@@ -15,9 +15,13 @@ import agent_core
 import unit_defs
 from Rewards import MoveJudger
 
+# Utilities for recording and exporting top-match replay data.
+# This module provides utilities for recording and exporting top-match replay data in JSON format.
+# It includes functions for sanitizing unit data, recording live decisions, computing match scores,
+# filtering samples for export, and resolving map-related metadata for export paths.
 
-def _sanitize_units_for_json(units):
-	"""Return a JSON-safe shallow copy of unit dicts, converting tuple values to lists."""
+# Return a JSON-safe copy of unit data for replay export.
+def sanitize_units_for_json(units):
 	clean_units = []
 	for unit in units:
 		clean = {}
@@ -29,9 +33,8 @@ def _sanitize_units_for_json(units):
 		clean_units.append(clean)
 	return clean_units
 
-
+# Record a single match sample for potential top-match export.
 def record_match_sample(unit_id, friendly_units, enemy_units, action_type, target_x, target_y, target_z, action_score, cmd_id=None):
-	"""Record one live decision in replay-compatible format for optional top-match export."""
 	if not getattr(config, 'SAVE_TOP_MATCH_DATASET', False):
 		return
 
@@ -49,26 +52,23 @@ def record_match_sample(unit_id, friendly_units, enemy_units, action_type, targe
 		'timestamp': float(time.time()),
 		'step': int(state.step_counter),
 		'unit_id': int(unit_id),
-		'friendly_units': _sanitize_units_for_json(friendly_units),
-		'enemy_units': _sanitize_units_for_json(enemy_units),
+		'friendly_units': sanitize_units_for_json(friendly_units),
+		'enemy_units': sanitize_units_for_json(enemy_units),
 		'action': action_payload,
 	})
 
-
-def _compute_match_score():
-	"""Compute a scalar match score from finalized segment rewards."""
+# Compute the overall match score from the accumulated segment rewards.
+def compute_match_score():
 	if not state.match_segment_summaries:
 		return 0.0
 	return float(sum(seg['segment_reward'] for seg in state.match_segment_summaries))
 
-
-def _run_log_prefix():
-	"""Return the TensorBoard prefix for the current run mode."""
+# Return the TensorBoard log prefix for the current run mode.
+def run_log_prefix():
 	return 'Eval' if getattr(state, 'evalRun', False) else 'Run'
 
-
-def _filtered_samples_for_export(samples, seed_value):
-	"""Downsample NOOP actions to align online exports with manual replay class balance."""
+# Filter and downsample match samples for export, prioritizing non-NOOP actions.
+def filtered_samples_for_export(samples, seed_value):
 	noop_ratio = max(0.0, min(1.0, float(getattr(config, 'AGENT_REPLAY_NOOP_KEEP_RATIO', 0.2))))
 	rng = random.Random(seed_value)
 	filtered = []
@@ -79,15 +79,13 @@ def _filtered_samples_for_export(samples, seed_value):
 		filtered.append(sample)
 	return filtered
 
-
-def _sanitize_map_slug(map_name):
-	"""Convert a map label into a filesystem-safe slug."""
+# Convert a map name into a filesystem-safe slug.
+def sanitize_map_slug(map_name):
 	slug = re.sub(r'[^A-Za-z0-9]+', '_', str(map_name).strip()).strip('_').lower()
 	return slug or 'unknown_map'
 
-
-def _get_current_map_name():
-	"""Resolve the current map name from runtime state or the parsed map metadata file."""
+# Resolve the current map name from runtime state or the parsed map metadata file.
+def get_current_map_name():
 	map_name = str(getattr(state, 'map_name', '')).strip()
 	if map_name:
 		return map_name
@@ -121,19 +119,17 @@ def _get_current_map_name():
 
 	return 'unknown_map'
 
-
-def _get_map_export_paths(main_dir):
-	"""Return the per-map export directory and index path."""
-	map_name = _get_current_map_name()
-	map_slug = _sanitize_map_slug(map_name)
+# Get the export paths for the current map, including the per-map export directory and index path.
+def get_map_export_paths(main_dir):
+	map_name = get_current_map_name()
+	map_slug = sanitize_map_slug(map_name)
 	export_root = main_dir / getattr(config, 'AGENT_REPLAY_EXPORT_DIR', 'Recordings/AgentReplayTop')
 	map_export_dir = export_root / map_slug
 	index_path = map_export_dir / 'top_matches_index.json'
 	return map_name, map_slug, map_export_dir, index_path
 
-
-def _save_top_match_dataset(success, reason):
-	"""Save this match in replay JSON format and keep only the top-K matches by score."""
+# Save the current match to the top match dataset, maintaining only the top-K matches by score.
+def save_top_match_dataset(success, reason):
 	if not getattr(config, 'SAVE_TOP_MATCH_DATASET', False):
 		state.current_match_samples.clear()
 		state.match_segment_summaries.clear()
@@ -144,15 +140,15 @@ def _save_top_match_dataset(success, reason):
 		return
 
 	main_dir = Path(__file__).resolve().parents[1]
-	map_name, map_slug, export_dir, index_path = _get_map_export_paths(main_dir)
+	map_name, map_slug, export_dir, index_path = get_map_export_paths(main_dir)
 	export_dir.mkdir(parents=True, exist_ok=True)
 
-	match_score = _compute_match_score()
+	match_score = compute_match_score()
 	now = datetime.datetime.now()
 	timestamp = now.strftime('%Y%m%d_%H%M%S')
 	seed_value = f"{timestamp}_{match_score:.4f}_{len(state.current_match_samples)}"
 
-	samples_to_save = _filtered_samples_for_export(state.current_match_samples, seed_value)
+	samples_to_save = filtered_samples_for_export(state.current_match_samples, seed_value)
 	if not samples_to_save:
 		samples_to_save = list(state.current_match_samples)
 
@@ -240,9 +236,8 @@ def _save_top_match_dataset(success, reason):
 	state.current_match_samples.clear()
 	state.match_segment_summaries.clear()
 
-
+# Old compute reward function, designed only for movement, saved as a reference
 # def compute_reward(agent_unit, prev_health):
-# 	"""Calculate the total step reward for a unit based on damage, mass collection, distance, inactivity, and danger."""
 # 	reward = 0
 # 	unit_id = agent_unit['id']
 
@@ -378,9 +373,8 @@ def _save_top_match_dataset(success, reason):
 # 	print(f"Unit {unit_id} reward: {reward}")
 # 	return reward
 
-
+# Segment tracking and movement-related reward calculations.
 def init_segment_tracking(unit):
-	"""Initialize per-unit segment tracking stats and buffer if not already present."""
 	unit_id = unit['id']
 	if unit_id not in state.segment_stats:
 		now = time.time()
@@ -398,17 +392,15 @@ def init_segment_tracking(unit):
 		state.segment_buffers[unit_id] = deque(maxlen=config.MAX_SEGMENT_STEPS)
 		state.last_mass_visit[unit_id] = now
 
-
+# Compute the terrain-adjusted distance between two positions, factoring in height changes.
 def terrain_adjusted_distance(prev_pos, curr_pos, prev_y, curr_y):
-	"""Compute the movement distance between positions, adding a height-change penalty factor."""
 	raw_dist = ((prev_pos[0] - curr_pos[0]) ** 2 + (prev_pos[1] - curr_pos[1]) ** 2) ** 0.5
 	raw_dist = map_utils.normalize_distance(raw_dist)
 	height_delta = abs(map_utils.normalize_y(curr_y) - map_utils.normalize_y(prev_y))
 	return raw_dist + height_delta * config.HEIGHT_DISTANCE_FACTOR
 
-
+# Compute a penalty for moving through areas covered by enemy weapon range.
 def _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image):
-	"""Compute a penalty based on the fraction of the movement path that passes through enemy weapon range."""
 	if enemy_range_image is None:
 		return 0.0
 
@@ -434,9 +426,8 @@ def _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image):
 
 	return -(danger_ratio * config.PATH_DANGER_PENALTY_SCALE + config.PATH_DANGER_MIN_HIT_PENALTY)
 
-
-def _compute_path_terrain_penalty(prev_pos, curr_pos):
-	"""Compute a terrain traversal penalty along the movement path using the cost map."""
+# Compute a penalty for traversing difficult terrain along the movement path.
+def compute_path_terrain_penalty(prev_pos, curr_pos):
 	prev_nx = map_utils.normalize_x(prev_pos[0])
 	prev_nz = map_utils.normalize_z(prev_pos[1])
 	curr_nx = map_utils.normalize_x(curr_pos[0])
@@ -450,9 +441,9 @@ def _compute_path_terrain_penalty(prev_pos, curr_pos):
 		sample_count=config.PATH_SAMPLE_COUNT,
 	)
 
-
+# Compute the potential-based shaping reward for a movement step, combining various factors.
+# This function integrates distance traveled, height changes, enemy avoidance, and terrain difficulty into a single reward signal.
 def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, enemy_range_image=None, vision_image=None, unit_id=None):
-	"""Compute the potential-based shaping reward for a movement step, combining distance, direction, height, danger, terrain, and enemy avoidance."""
 	unit_nx = map_utils.normalize_x(prev_pos[0])
 	unit_nz = map_utils.normalize_z(prev_pos[1])
 	curr_nx = map_utils.normalize_x(curr_pos[0])
@@ -501,7 +492,7 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 
 	if not unvisited_mass:
 		path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
-		path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
+		path_terrain_penalty = compute_path_terrain_penalty(prev_pos, curr_pos)
 		total = path_danger_penalty + path_terrain_penalty + enemy_avoidance_reward
 		return total, {
 			'distance': 0.0,
@@ -517,7 +508,7 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	# If no reachable mass spot, treat like no mass spots
 	if nearest is None:
 		path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
-		path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
+		path_terrain_penalty = compute_path_terrain_penalty(prev_pos, curr_pos)
 		total = path_danger_penalty + path_terrain_penalty + enemy_avoidance_reward
 		return total, {
 			'distance': 0.0,
@@ -551,7 +542,7 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	height_delta = abs(map_utils.normalize_y(curr_y) - map_utils.normalize_y(prev_y))
 	height_jump_penalty = -max(0.0, height_delta - config.HEIGHT_JUMP_TOLERANCE) * config.HEIGHT_JUMP_PENALTY_SCALE
 	path_danger_penalty = _compute_path_danger_penalty(prev_pos, curr_pos, enemy_range_image)
-	path_terrain_penalty = _compute_path_terrain_penalty(prev_pos, curr_pos)
+	path_terrain_penalty = compute_path_terrain_penalty(prev_pos, curr_pos)
 
 	# Building reward parameters
 	
@@ -589,12 +580,10 @@ def compute_move_potential(prev_pos, curr_pos, prev_y, curr_y, unvisited_mass, e
 	}
 	return total, components
 
+# Compute the potential-based shaping reward for a build action step, considering progress, vision, and safety.
+# This does not penalize standing still.
 def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
                              enemy_range_image=None, vision_image=None, unit=None):
-    """Compute the potential-based shaping reward for a build action step.
-    Rewards construction progress, vision expansion, and safe placement.
-    Does not penalize standing still — that is intentional during builds.
-    """
     unit_id = unit['id']
     is_constructing = int(unit.get('is_constructing', 0))
     build_progress = float(unit.get('active_build_progress', 0.0))
@@ -613,7 +602,6 @@ def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
 
     total = 0.0
 
-    # --- Build progress reward ---
     # Reward each step of active construction proportional to progress made.
     # This gives the agent a dense signal during the 20-100 steps construction takes.
     if is_constructing == 1 and build_progress > 0.0:
@@ -623,7 +611,6 @@ def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
         total += build_progress_reward
         components['build_progress'] = build_progress_reward
 
-	# --- A5: approach shaping toward the committed build site ---
     # Mirrors the move head's distance potential so a build decision starts
     # paying immediately during transit, not only once construction begins.
     committed = state.build_committed_target.get(unit_id)
@@ -634,7 +621,7 @@ def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
         total += approach_reward
         components['build_approach'] = approach_reward
 
-    # --- Vision coverage reward (sustained, using frozen baseline) ---
+    # Vision coverage reward (sustained, using frozen baseline)
     if vision_image is not None:
         currentVisionScore = float(np.sum(vision_image > 0))
         pre_build_baseline = state.previous_build_vision_baseline
@@ -647,7 +634,6 @@ def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
         total += vision_reward
         components['vision_coverage'] = vision_reward
 
-    # --- Danger penalty (same as move) ---
     # Unit should not be standing in enemy range while building.
     unit_nx = map_utils.normalize_x(curr_pos[0])
     unit_nz = map_utils.normalize_z(curr_pos[1])
@@ -662,9 +648,8 @@ def compute_build_potential(prev_pos, curr_pos, prev_y, curr_y,
 
     return total, components
 
-
+# Check if a unit has reached a mass spot and update the state accordingly.
 def check_mass_reached(unit):
-	"""Check if the unit is close enough to any unvisited mass spot to mark it as collected."""
 	unit_id = unit['id']
 	for spot in state.mass_spots:
 		if spot not in state.visited_mass_spots:
@@ -679,9 +664,8 @@ def check_mass_reached(unit):
 				return True, spot
 	return False, None
 
-
+# Compute the reward for a segment based on success, time, distance, damage, and building progress.
 def compute_segment_reward(unit_id, success, now):
-	"""Compute the end-of-segment reward or penalty based on time, distance traveled, and damage sustained."""
 	stats = state.segment_stats.get(unit_id, None)
 	if not stats:
 		return 0.0
@@ -706,9 +690,8 @@ def compute_segment_reward(unit_id, success, now):
 		return config.SEGMENT_BASE_REWARD - time_penalty - distance_penalty - damage_penalty + build_reward
 	return -config.FAILURE_BASE_PENALTY - time_penalty - distance_penalty - damage_penalty + build_reward
 
-
-def _train_buffer(buffer, unit_id, segment_reward):
-	"""Train on a segment using discounted Monte-Carlo returns (no bootstrapping)."""
+# Train the agent on a buffered segment of transitions using discounted Monte-Carlo returns.
+def train_buffer(buffer, unit_id, segment_reward):
 	per_step_bonus = segment_reward / max(1, len(buffer))
 	transitions = list(buffer)
 
@@ -732,10 +715,10 @@ def _train_buffer(buffer, unit_id, segment_reward):
 			decision_snapshot=transition['decision_snapshot'],
 		)
 
-
+# Finalize training for a segment, either immediately or by deferring to the match buffer.
+# This function handles the end-of-segment logic, including computing the segment reward,
+# TRAIN_AT_EACH_MASS_POINT determines when it occurs
 def finalize_segment_training(unit_id, success, reason):
-	"""Train the agent on all buffered transitions for a segment, distributing the segment reward evenly across steps.
-	When TRAIN_AT_EACH_MASS_POINT is False, transitions are deferred to the match buffer instead of being trained immediately."""
 	buffer = state.segment_buffers.get(unit_id, [])
 	if not buffer:
 		return
@@ -755,7 +738,7 @@ def finalize_segment_training(unit_id, success, reason):
 
 	if config.TRAIN_AT_EACH_MASS_POINT:
 		# Immediate training mode: train on the segment now
-		_train_buffer(list(buffer), unit_id, segment_reward)
+		train_buffer(list(buffer), unit_id, segment_reward)
 	else:
 		# Deferred training mode: stash transitions with their computed reward for end-of-match training
 		state.match_buffer.append({
@@ -788,10 +771,8 @@ def finalize_segment_training(unit_id, success, reason):
 	state.pause_time = sum(state.process_times) / len(state.process_times)
 	print(f"Finalized segment for unit {unit_id} with reward {segment_reward:.2f} in {end_time - start_time:.2f} seconds. Reason: {reason}")
 
-
+# Finalize training for all units at the end of a match, taking into account survival time and deferred segments.
 def finalize_all_units(success, reason):
-	"""Finalize segment training for every tracked unit, used when all mass spots are reached.
-	When TRAIN_AT_EACH_MASS_POINT is False, this also drains the deferred match buffer."""
 
 	# Check sentinel file for survival time (a number)
 	# This can override success/failure based on whether the agent survived for a certain duration, even if not all mass spots were reached.
@@ -829,7 +810,7 @@ def finalize_all_units(success, reason):
 		total_transitions = sum(len(seg['transitions']) for seg in state.match_buffer)
 		print(f"[Deferred Training] Training on {len(state.match_buffer)} segments, {total_transitions} total transitions.")
 		for seg in state.match_buffer:
-			_train_buffer(seg['transitions'], seg['unit_id'], seg['segment_reward'])
+			train_buffer(seg['transitions'], seg['unit_id'], seg['segment_reward'])
 		state.match_buffer.clear()
 		end_time = time.time()
 		print(f"[Deferred Training] Completed in {end_time - start_time:.2f} seconds.")
@@ -837,22 +818,21 @@ def finalize_all_units(success, reason):
 		state.match_buffer.clear()
 
 	# Log explicit run-level summary metrics for cross-run analysis.
-	final_match_score = _compute_match_score()
+	final_match_score = compute_match_score()
 	runtime_seconds = max(0.0, float(time.time() - getattr(state, 'run_started_at', time.time())))
 	# Expose the most recent run metrics on the global state so the runner
 	# (Socket ML) can make decisions such as best-checkpoint promotion.
 	setattr(state, 'last_run_final_match_score', float(final_match_score))
 	setattr(state, 'last_run_runtime_seconds', float(runtime_seconds))
-	prefix = _run_log_prefix()
+	prefix = run_log_prefix()
 	state.writer.add_scalar(f'{prefix}/score', final_match_score, state.step_counter)
 	state.writer.add_scalar(f'{prefix}/final_match_score', final_match_score, state.step_counter)
 	state.writer.add_scalar(f'{prefix}/runtime_seconds', runtime_seconds, state.step_counter)
 	state.writer.add_scalar(f'{prefix}/success', 1.0 if success else 0.0, state.step_counter)
 
-	_save_top_match_dataset(success, reason)
+	save_top_match_dataset(success, reason)
 
-
+# Finalize all active segment buffers at the end of a cycle without ending the full match.
 def finalize_cycle_segments(success, reason):
-	"""Finalize active segment buffers for a cycle boundary without ending the full match."""
 	for uid in list(state.segment_buffers.keys()):
 		finalize_segment_training(uid, success, reason)

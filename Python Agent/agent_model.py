@@ -9,8 +9,13 @@ import unit_defs
 
 
 class RTSAgent(nn.Module):
+    # RTSAgent is a neural network model for real-time strategy game agents. It encodes self, economy, mass, map, and vision features, processes them through CNNs and LSTMs, and outputs action decisions.
+    # The network takes as input a concatenation of encoded features and outputs action logits and move/build predictions.
+    # The input features include self state, economy, mass, map, and vision embeddings.
+    # The output includes action logits, move predictions, and build predictions.
+
+    # Initialize the RTS agent with the specified input size for the LSTM.
     def __init__(self, input_size):
-        """Initialize the RTS agent with encoder networks, CNN map processor, LSTM, and output layers."""
         super().__init__()
         self.self_encoder = nn.Sequential(
             nn.Linear(config.SELF_FEATURES_SIZE, 32),
@@ -72,7 +77,8 @@ class RTSAgent(nn.Module):
             nn.Linear(16, config.VISION_EMBED_SIZE)
         )
 
-        self._initialize_cnn_weights()
+        # Initialize CNN weights for map and vision encoders.
+        self.initialize_cnn_weights()
 
         self.friendly_unit_encoder = nn.Sequential(
             nn.Linear(config.UNIT_FEATURES_SIZE, 32),
@@ -101,9 +107,10 @@ class RTSAgent(nn.Module):
         self.move_head = nn.Linear(64, config.NUM_ACTION_FEATURES)
         self.build_head = nn.Linear(64, config.NUM_BUILD_FEATURES)
 
-
-    def _initialize_cnn_weights(self):
-        """Apply Kaiming normal init to Conv2d layers and Xavier uniform init to the map FC layer."""
+    # Initialize CNN weights for map and vision encoders.
+    # This method applies Kaiming normal initialization to all Conv2d layers
+    # and Xavier uniform initialization to all Linear layers in the map and vision encoders.
+    def initialize_cnn_weights(self):
         for module in self.map_cnn.modules():
             if isinstance(module, nn.Conv2d):
                 nn.init.kaiming_normal_(module.weight, mode='fan_out', nonlinearity='relu')
@@ -134,9 +141,9 @@ class RTSAgent(nn.Module):
                 if module.bias is not None:
                     nn.init.constant_(module.bias, 0)
 
+    # Apply softplus constraints to selected output indices to enforce known sign constraints.
     @staticmethod
     def _apply_sign_constraints(w, indices, positive=True):
-        """Softplus-constrain selected output indices to a fixed sign."""
         for idx in indices:
             if 0 <= idx < w.shape[-1]:
                 seg = F.softplus(w[..., idx:idx+1])
@@ -145,8 +152,8 @@ class RTSAgent(nn.Module):
                 w = torch.cat([w[..., :idx], seg, w[..., idx+1:]], dim=-1)
         return w
 
+    # Forward pass through the LSTM and fully connected layers to produce action logits and feature weights.
     def forward(self, x, hidden=None):
-        """Forward pass: run encoded state through the LSTM and FC layers to produce action feature weights."""
         lstm_out, new_hidden = self.lstm(x, hidden)
         last_out = lstm_out[:, -1, :]
         x = torch.relu(self.fc1(last_out))
@@ -161,8 +168,9 @@ class RTSAgent(nn.Module):
         build_features = self._apply_sign_constraints(build_features, config.BUILD_NONPOS_INDICES, positive=False)
         return action_logits, move_features, build_features, new_hidden
 
+    # Encode different parts of the game state into separate embedding vectors.
     def encode_state_parts(self, agent_unit, friendly_units, enemy_units):
-        """Encode self, mass, map, friendly, and enemy observations into separate embedding vectors."""
+        # Encode self, mass, map, friendly, and enemy observations into separate embedding vectors.
         device = next(self.parameters()).device
 
         unit_nx = map_utils.normalize_x(agent_unit['x'])
@@ -267,8 +275,9 @@ class RTSAgent(nn.Module):
 
         return self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb, vision_emb
 
+    # Encode the full game state into a single vector by concatenating all embeddings.
     def encode_state(self, agent_unit, friendly_units, enemy_units):
-        """Produce a full state vector by concatenating all encoder outputs including the map embedding."""
+        # Produce a full state vector by concatenating all encoder outputs including the map embedding.
         self_emb, eco_emb, mass_emb, map_emb, friendly_emb, enemy_emb, vision_emb = self.encode_state_parts(
             agent_unit, friendly_units, enemy_units
         )
@@ -276,8 +285,10 @@ class RTSAgent(nn.Module):
         state_vec = torch.nan_to_num(state_vec, nan=0.0, posinf=0.0, neginf=0.0)
         return state_vec
 
+    # Encode the full game state into a single vector without the map embedding. 
+    # This is the one used primarlly currently due to the memory cost that a long training session could have with the above method.
     def encode_state_no_map(self, agent_unit, friendly_units, enemy_units):
-        """Produce a state vector without the map embedding, for lightweight replay buffer storage."""
+        # Produce a state vector without the map embedding, for lightweight replay buffer storage.
         self_emb, eco_emb, mass_emb, _, friendly_emb, enemy_emb, vision_emb = self.encode_state_parts(
             agent_unit, friendly_units, enemy_units
         )

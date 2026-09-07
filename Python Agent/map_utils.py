@@ -6,60 +6,52 @@ import hashlib
 import unit_defs
 import config
 import runtime_state as state
+import math
 
-
+# Convert a world x to a standardized x
 def normalize_x(x):
-    """Convert a world X coordinate to the standardized map coordinate space."""
     return (x / state.map_width) * config.STANDARD_MAP_WIDTH if state.map_width > 0 else x
 
-
+# Convert a world z to a standardized z
 def normalize_z(z):
-    """Convert a world Z coordinate to the standardized map coordinate space."""
     return (z / state.map_height) * config.STANDARD_MAP_HEIGHT if state.map_height > 0 else z
 
-
+# Convert a standardized x back to a world x
 def denormalize_x(nx):
-    """Convert a standardized X coordinate back to world space."""
     return (nx / config.STANDARD_MAP_WIDTH) * state.map_width if state.map_width > 0 else nx
 
-
+# Convert a standardized z back to a world z
 def denormalize_z(nz):
-    """Convert a standardized Z coordinate back to world space."""
     return (nz / config.STANDARD_MAP_HEIGHT) * state.map_height if state.map_height > 0 else nz
 
-
+# Woops appeared to make 2, must have been tired that night
+# Convert a range value to the standardized map coordinate space
 def normalize_range(rng):
-    """Scale a range value (e.g. weapon range) to the standardized map coordinate space."""
     if state.map_width > 0 and state.map_height > 0:
         scale = (config.STANDARD_MAP_WIDTH / state.map_width + config.STANDARD_MAP_HEIGHT / state.map_height) / 2.0
         return rng * scale
     return rng
-
-
+# Convert a distance value to the standardized map coordinate space
 def normalize_distance(dist):
-    """Scale a distance value to the standardized map coordinate space."""
     if state.map_width > 0 and state.map_height > 0:
         scale = (config.STANDARD_MAP_WIDTH / state.map_width + config.STANDARD_MAP_HEIGHT / state.map_height) / 2.0
         return dist * scale
     return dist
 
-
+# Convert a world y (height) to a standardized y
 def normalize_y(y):
-    """Normalize a world Y (height) value to the standard range using the map's min/max heights."""
     if np.isfinite(state.map_height_min) and np.isfinite(state.map_height_max) and state.map_height_max > state.map_height_min:
         return (y - state.map_height_min) / (state.map_height_max - state.map_height_min) * config.STANDARD_MAP_Y
     return y
 
-
+# Convert a standardized y (height) back to a world y (height)
 def denormalize_y(ny):
-    """Convert a normalized Y (height) value back to the original world height."""
     if np.isfinite(state.map_height_min) and np.isfinite(state.map_height_max) and state.map_height_max > state.map_height_min:
         return state.map_height_min + (ny / config.STANDARD_MAP_Y) * (state.map_height_max - state.map_height_min)
     return ny
 
-
+# Build and normalize the height map for the neural network.
 def build_normalized_height_map():
-    """Resample the raw height map to the standard resolution and normalize heights for the neural network."""
     if state.map_heights is None or state.map_heights.size == 0:
         state.normalized_map_heights = None
         return
@@ -85,9 +77,8 @@ def build_normalized_height_map():
     state.cached_map_embedding = None
     state.cached_map_embedding_device = None
 
-
+# Look up the normalized height at a given normalized (x, z) position.
 def height_at_normalized(nx, nz):
-    """Look up the normalized height value at a given standardized (x, z) position."""
     if state.normalized_map_heights is None:
         return -1000.0
 
@@ -95,9 +86,8 @@ def height_at_normalized(nx, nz):
     map_z = int(max(0, min(config.STANDARD_MAP_HEIGHT - 1, nz)))
     return float(state.normalized_map_heights[map_z, map_x])
 
-
+# Get the cached map embedding for the given agent and device, computing it if necessary.
 def get_cached_map_embedding(agent, device):
-    """Return the CNN-encoded map embedding, computing and caching it on the first call per device."""
     if state.normalized_map_heights is None:
         return torch.zeros(config.MAP_EMBED_SIZE, dtype=torch.float32, device=device)
 
@@ -125,8 +115,8 @@ def get_cached_map_embedding(agent, device):
     state.cached_map_embedding_device = device
     return state.cached_map_embedding
 
+# Get the vision embedding for the given vision image using the agent's vision CNN.
 def get_vision_embedding(agent, vision_image, device):
-    """Encode the vision image using the agent's vision CNN to produce a fixed-size embedding."""
     if vision_image is None:
         return torch.zeros(config.VISION_EMBED_SIZE, dtype=torch.float32, device=device)
 
@@ -139,9 +129,9 @@ def get_vision_embedding(agent, vision_image, device):
         vision_emb = torch.nan_to_num(vision_emb, nan=0.0, posinf=0.0, neginf=0.0)
     return vision_emb
 
-
+# Reconstruct a full state vector by reinserting the cached map embedding.
 def reconstruct_state_with_map(agent, state_no_map):
-    """Reinsert the cached map embedding into a state vector that was stored without it."""
+    # Reinsert the cached map embedding into a state vector that was stored without it.
     split_idx = config.SELF_EMBED_SIZE + config.ECO_EMBED_SIZE + config.MASS_EMBED_SIZE 
     device = state_no_map.device
     map_emb = get_cached_map_embedding(agent, device)
@@ -149,9 +139,8 @@ def reconstruct_state_with_map(agent, state_no_map):
     suffix = state_no_map[split_idx:]
     return torch.cat([prefix, map_emb, suffix], dim=0)
 
-
+# Normalize an image array to the [0, 1] range for visualization. This is a tensorboard suppoert function
 def normalize_image(img_array):
-    """Min-max normalize an image array to [0, 1] for visualization."""
     if img_array.size == 0:
         return img_array
     arr = np.array(img_array, dtype=np.float32, copy=True)
@@ -170,22 +159,18 @@ def normalize_image(img_array):
     arr[~finite_mask] = max_val
     return ((arr - min_val) / (max_val - min_val)).astype(np.float32)
 
-
+# Convert a scalar reward map to an RGB heatmap for visualization. This is a tensorboard support function
 def reward_map_to_rgb(reward_map):
-    """Convert a scalar reward map [0,1] into an RGB heatmap (red=bad, green=good)."""
     reward = np.clip(np.array(reward_map, dtype=np.float32), 0.0, 1.0)
     red = 1.0 - reward
     green = reward
     blue = np.clip(0.25 * (1.0 - np.abs(2.0 * reward - 1.0)), 0.0, 0.25)
     return np.stack([red, green, blue], axis=-1).astype(np.float32)
 
-import math
-
+# Generate a vision image representing sight and radar coverage for friendly units. This is a tensorboard support function.
+# Returns a normalized float32 array: 1.0 = spotted by sight, 0.5 = spotted by radar, 0.0 = fog.
+# Calculates simple raycasts to simulate terrain blocking for radar and LOS. (This is a costly operation compared to everything else)
 def generate_vision_image(friendly_units, map_w, map_h, map_heights):
-    """Generate a vision and radar coverage map.
-    Returns a normalized float32 array: 1.0 = spotted by sight, 0.5 = spotted by radar, 0.0 = fog.
-    Calculates simple raycasts to simulate terrain blocking for radar and LOS.
-    """
     if map_heights is None:
         return None
         
@@ -201,6 +186,7 @@ def generate_vision_image(friendly_units, map_w, map_h, map_heights):
         scale_z = float(h) / map_h
         range_scale = (scale_x + scale_z) / 2.0
 
+    # The height step simply checks large change, not up or down movement. Technically a radar can see perfectly on a straight vertical surface as long as it goes up
     height_range = float(state.map_height_max - state.map_height_min) if np.isfinite(state.map_height_max) else 1.0
     y_world_per_norm = height_range / max(float(config.STANDARD_MAP_Y), 1e-6)
     x_world_step = max(((state.map_width/8) / float(config.STANDARD_MAP_WIDTH)) if hasattr(state, 'map_width') and state.map_width > 0 else 1.0, 1e-6)
@@ -212,7 +198,8 @@ def generate_vision_image(friendly_units, map_w, map_h, map_heights):
     angles = np.linspace(0, 2 * math.pi, num_rays, endpoint=False)
     dx_all = np.cos(angles)
     dz_all = np.sin(angles)
-    
+
+    # Iterate over each friendly unit to update the vision image based on sight and radar ranges.
     for unit in friendly_units:
         radar_range = unit.get('radar_range', 0)
         sight_range = unit.get('sight_range', 0)
@@ -262,14 +249,14 @@ def generate_vision_image(friendly_units, map_w, map_h, map_heights):
 
     return vis_img
 
+# Generate a vision image for immobile structures only. 
+# This is used for evaluating permanent coverage without considering the agent's own moving vision bubble.
+# technically not permanent as radars can be destroyed, but it does the job
 def generate_structure_vision_image(friendly_units, map_w, map_h, map_heights):
-    """Vision/radar coverage from immobile units only. This is the *permanent*
-    coverage used for build-value evaluation: the agent unit's own moving vision
-    bubble must not count, or approach shrinks the apparent gain and the target
-    horizon recedes."""
     structures = [u for u in friendly_units if u.get('speed', 0) == 0]
     return generate_vision_image(structures, map_w, map_h, map_heights)
 
+# Check if a given position is already covered by an existing radar.
 def covered_by_existing_radar(tx, tz, coverage_frac=0.5):
     for u in state.units:
         if u.get('name') == 'armrad':
@@ -279,8 +266,8 @@ def covered_by_existing_radar(tx, tz, coverage_frac=0.5):
                 return True
     return False
 
+# Check if a given position is buildable for a specific unit type based on the terrain cost map.
 def is_position_buildable(tx, tz, unit="armrad"):
-    """Check if a position is buildable based on terrain cost map (e.g. not blocked by impassable terrain)."""
     if state.terrain_cost_map is None:
         return False
     unit_size = unit_defs.get_unit_size(unit)
@@ -299,9 +286,8 @@ def is_position_buildable(tx, tz, unit="armrad"):
 
     return np.all(np.isfinite(state.terrain_cost_map[top:bottom+1, left:right+1]))
 
-
+# Generate a gradient danger image representing enemy weapon ranges with intensity falloff.
 def generate_enemy_range_image(enemy_units, map_w, map_h, map_heights_shape, enemy_range=None):
-    """Generate a gradient danger image using per-unit weapon range with intensity falloff from each enemy."""
     if map_heights_shape is None:
         return None
     h, w = map_heights_shape
@@ -339,9 +325,8 @@ def generate_enemy_range_image(enemy_units, map_w, map_h, map_heights_shape, ene
                     img[z, x] = max(img[z, x], intensity)
     return img
 
-
+# Find the nearest enemy to a given normalized position.
 def find_nearest_enemy(unit_nx, unit_nz, enemy_units):
-    """Find the nearest enemy to a normalized position, returning (distance, enemy_nx, enemy_nz) or None if no enemies."""
     if not enemy_units:
         return None
     best_dist = float('inf')
@@ -356,9 +341,8 @@ def find_nearest_enemy(unit_nx, unit_nz, enemy_units):
             best_ez = ez
     return best_dist, best_ex, best_ez
 
-
+# Compute the best escape direction away from nearby enemies.
 def compute_enemy_escape_direction(unit_nx, unit_nz, enemy_units):
-    """Compute the best escape direction (dx, dz) as a unit vector pointing away from nearby enemies."""
     if not enemy_units:
         return 0.0, 0.0
     flee_dx = 0.0
@@ -379,9 +363,8 @@ def compute_enemy_escape_direction(unit_nx, unit_nz, enemy_units):
         return flee_dx / mag, flee_dz / mag
     return 0.0, 0.0
 
-
+# Sample values along a straight path between two points in a grid.
 def sample_path_values(grid, start_x, start_z, end_x, end_z, sample_count=None):
-    """Sample values from a grid along a straight line between two points."""
     if grid is None:
         return None
 
@@ -395,9 +378,8 @@ def sample_path_values(grid, start_x, start_z, end_x, end_z, sample_count=None):
     z_idx = np.clip(zs.astype(int), 0, h - 1)
     return grid[z_idx, x_idx]
 
-
+# Estimate the terrain traversal penalty along a path by sampling the terrain cost map.
 def estimate_path_terrain_penalty(start_x, start_z, end_x, end_z, sample_count=None):
-    """Estimate a terrain traversal penalty along a path by sampling the cost map between two points."""
     if state.terrain_cost_map is None:
         return 0.0
 
@@ -428,9 +410,9 @@ def estimate_path_terrain_penalty(start_x, start_z, end_x, end_z, sample_count=N
 
     return -float(excess_cost.mean() * config.PATH_TERRAIN_WEIGHT)
 
-
-def _collect_action_candidates_for_view(unit_nx, unit_nz, enemies, mass_destination):
-    """Collect candidate points using the same generation logic used during action selection."""
+# Collect candidate action points for a unit's view, including grid positions, NOOP, and escape options.
+def collect_action_candidates_for_view(unit_nx, unit_nz, enemies, mass_destination):
+    # Collect candidate points using the same generation logic used during action selection.
     candidates = []
 
     for dx in np.linspace(-200, 200, num=10):
@@ -542,9 +524,8 @@ def _collect_action_candidates_for_view(unit_nx, unit_nz, enemies, mass_destinat
 
     return candidates
 
-
+# Extract a local view image around a unit, overlaying action candidates for visualization.
 def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500, unit_id=None, enemy_units=None):
-    """Extract a local height-map patch with overlaid action candidates for TensorBoard visualization."""
     if map_heights_array is None:
         return None
     h, w = map_heights_array.shape
@@ -578,7 +559,7 @@ def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500, unit_
     unit_nx = normalize_x(unit_x)
     unit_nz = normalize_z(unit_z)
     mass_destination = state.mass_destinations.get(unit_id) if unit_id is not None else None
-    candidates = _collect_action_candidates_for_view(unit_nx, unit_nz, enemies, mass_destination)
+    candidates = collect_action_candidates_for_view(unit_nx, unit_nz, enemies, mass_destination)
 
     marker_height = {
         'grid': base_max + 1.0,
@@ -601,10 +582,10 @@ def get_local_view_image(unit_x, unit_z, map_heights_array, view_size=500, unit_
 
     return padded
 
+# Generate a full-map view image for a unit, including terrain cost, enemy positions, and the unit's location.
+# This function is useful for visualizing the overall tactical situation for a unit on the map.
+# Units are represented as bright spots with enemy ranges as red zones
 def get_total_map_view_image(unit_x, unit_z, map_heights_array, enemy_units):
-    """Generate a full-map view image with cost and enemy positions for TensorBoard visualization."""
-    """This function creates a visualization of the entire map's cost data and overlays enemy positions as bright spots."""
-    """Contains the units current position as a bright spot as well for reference, enemy ranges as light red zones and the terrain cost map as a base layer."""
     if map_heights_array is None:
         return None
     h, w = map_heights_array.shape
@@ -630,8 +611,9 @@ def get_total_map_view_image(unit_x, unit_z, map_heights_array, enemy_units):
         combined_rgb[unit_ez, unit_ex] = np.array([0.0, 1.0, 0.0], dtype=np.float32)
     return combined_rgb
 
-def _get_map_signature():
-    """Compute a SHA-256 hash of the map data and config to uniquely identify cached cost fields."""
+# Compute a unique signature for the current map configuration to identify cached cost fields. Used to prevent having to reprocess a map on future runs
+def get_map_signature():
+    # Compute a SHA-256 hash of the map data
     if state.map_heights is None:
         return None
 
@@ -654,10 +636,9 @@ def _get_map_signature():
 
     return hasher.hexdigest()
 
-
-def _get_map_cache_path():
-    """Return the filesystem path for the cached cost fields file based on the map's signature hash."""
-    map_signature = _get_map_signature()
+# Get the filesystem path for the cached cost fields file based on the current map's signature.
+def get_map_cache_path():
+    map_signature = get_map_signature()
     if map_signature is None:
         return None
 
@@ -665,10 +646,9 @@ def _get_map_cache_path():
     cache_dir.mkdir(parents=True, exist_ok=True)
     return cache_dir / f"{map_signature}.npz"
 
-
+# Load cached cost fields from disk if available and valid. Returns True if successful, False otherwise.
 def load_cached_cost_fields():
-    """Load previously saved terrain and mass cost fields from the cache if the map signature matches."""
-    cache_path = _get_map_cache_path()
+    cache_path = get_map_cache_path()
     if cache_path is None or not cache_path.exists():
         return False
 
@@ -716,10 +696,9 @@ def load_cached_cost_fields():
         print(f"Failed to load map cache ({cache_path}): {exc}")
         return False
 
-
+# Save the current terrain and mass cost fields to the cache for future use. Returns True if successful, False otherwise.
 def save_cached_cost_fields():
-    """Save the current terrain and mass cost fields to disk so they can be reused on the same map."""
-    cache_path = _get_map_cache_path()
+    cache_path = get_map_cache_path()
     if cache_path is None or state.terrain_cost_map is None:
         return False
 
@@ -760,22 +739,24 @@ def save_cached_cost_fields():
         print(f"Failed to save map cache ({cache_path}): {exc}")
         return False
 
+# Build a cost map and per-edge slope arrays for terrain traversal.
 
+# Slope is an *edge* property: whether a unit can move from cell A to adjacent
+# cell B depends on the height difference between A and B divided by the
+# real-world horizontal distance of that step.
+
+# A cell is marked impassable (inf) only when all adjacent edges exceed
+# MAX_TRAVERSABLE_SLOPE. This prevents cliff bases, dips and gradual
+# slopes from being falsely blocked just because one neighbouring cell is a
+# cliff face.
+
+# The per-edge slope arrays (state.edge_slope_*) are stored so that
+# Dijkstra can reject individual steep edges without needing to mark cells.
+
+# A lot of experimentation was done to make this effective, documented in the comments
+# I am bad at math
 def build_terrain_cost_map():
-    """Build a cost map and per-edge slope arrays for terrain traversal.
-
-    Slope is an *edge* property: whether a unit can move from cell A to adjacent
-    cell B depends on the height difference between A and B divided by the
-    real-world horizontal distance of that step.
-
-    A cell is marked impassable (inf) only when **every** adjacent edge exceeds
-    ``MAX_TRAVERSABLE_SLOPE``.  This prevents cliff bases, dips and gradual
-    slopes from being falsely blocked just because one neighbouring cell is a
-    cliff face.
-
-    The per-edge slope arrays (``state.edge_slope_*``) are stored so that
-    Dijkstra can reject individual steep edges without needing to mark cells.
-    """
+    
     if state.normalized_map_heights is None:
         state.terrain_cost_map = None
         return
@@ -879,13 +860,9 @@ def build_terrain_cost_map():
     #     print(f"Terrain cost map built: {w}x{h}, all cells impassable")
     # print(f"  Impassable cells: {impassable_count} ({passable_pct:.1f}% passable)")
 
-
+# Build mass cost fields using Dijkstra's algorithm with edge slope checks.
+# This utilizes the map's terrain cost map and edge slope arrays to determine cost to reach from a position
 def build_mass_cost_fields():
-    """Precompute cost fields from each mass point using Dijkstra.
-
-    Edge slope is checked per move: even if both cells are passable, the
-    transition is blocked when the edge slope exceeds MAX_TRAVERSABLE_SLOPE.
-    """
     if state.terrain_cost_map is None or not state.map_spots_norm:
         state.mass_cost_fields = {}
         return
@@ -967,9 +944,10 @@ def build_mass_cost_fields():
     
     print(f"Built {len(state.mass_cost_fields)} mass cost fields")
 
-    # --- Second pass: mark cells unreachable from ALL mass points as impassable ---
+    # Second pass: mark cells unreachable from ALL mass points as impassable
     # If no mass point's Dijkstra can reach a cell, that cell is isolated
     # (e.g. an island mountain top) and should be treated as impassable.
+    # CRUCIALLY IMPORTANT, otherwise the agent attempts to path to what might be valid terrain, that can never be actually reached
     if state.mass_cost_fields:
         reachable = np.zeros((h, w), dtype=bool)
         for cf in state.mass_cost_fields.values():
@@ -981,9 +959,8 @@ def build_mass_cost_fields():
             state.terrain_cost_map[newly_blocked] = np.inf
             print(f"  Second pass: marked {blocked_count} isolated cells as impassable")
 
-
+# Check if a given position is reachable based on the terrain cost map.
 def is_position_reachable(pos_nx, pos_nz):
-    """Check if a position is reachable based on terrain cost map."""
     if state.terrain_cost_map is None:
         return True  # No terrain data, assume reachable
     
@@ -994,12 +971,9 @@ def is_position_reachable(pos_nx, pos_nz):
     cost = state.terrain_cost_map[grid_z, grid_x]
     return not np.isinf(cost)
 
-
+# Get the precomputed mass cost at a specific unit position relative to a mass spot.
+# Accepts `mass_spot` as either a dict key (mx, mz) or a triple (mx, mz, value_norm).
 def get_mass_cost_at(mass_spot, unit_nx, unit_nz):
-    """Query the precomputed cost from a mass spot to a unit position. Returns np.inf if unreachable.
-
-    Accepts `mass_spot` as either the stored dict key (mx, mz) or a triple (mx, mz, value_norm).
-    """
     # Resolve key format
     if mass_spot in state.mass_cost_fields:
         key = mass_spot
@@ -1020,12 +994,9 @@ def get_mass_cost_at(mass_spot, unit_nx, unit_nz):
     cost = cost_field[grid_z, grid_x]
     return float(cost)  # May be inf if unreachable
 
-
+# Extract terrain-aware waypoint candidates from the mass cost field.
+# Accepts `mass_spot` as either a dict key (mx, mz) or a triple (mx, mz, value_norm).
 def extract_terrain_waypoints(mass_spot, unit_nx, unit_nz, count=None, search_radius=None):
-    """Extract waypoint candidates from cost field that follow terrain-aware gradient descent.
-
-    Accepts `mass_spot` as either a dict key (mx, mz) or a triple (mx, mz, value_norm).
-    """
     # Resolve possible mass_spot formats to a key used in state.mass_cost_fields
     key = None
     if mass_spot in state.mass_cost_fields:

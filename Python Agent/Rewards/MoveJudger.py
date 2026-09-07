@@ -3,19 +3,15 @@ import map_utils
 import unit_defs
 import numpy as np
 
-
+# Compute terrain-aware cost to reach a mass spot using precomputed cost field.
 def compute_mass_spot_score(unit_x, unit_z, spot):
-	"""Compute terrain-aware cost to reach a mass spot using precomputed cost field."""
 	return map_utils.get_mass_cost_at(spot, unit_x, unit_z)
 
-
+# Find the unvisited mass spot with the lowest value-weighted cost from the unit's position.
+# Weighting combines terrain cost with mass point value: higher-value spots receive a reduced effective cost,
+# making them more attractive when terrain costs are similar.
+# Spot format: (mx, mz) for key or (mx, mz, value_norm) for full triple.
 def select_best_mass_spot(unit_x, unit_z, unvisited_mass, return_score=False):
-	"""Find the unvisited mass spot with the lowest value-weighted cost from the unit's position.
-	
-	Weighting combines terrain cost with mass point value: higher-value spots receive a reduced effective cost,
-	making them more attractive when terrain costs are similar.
-	Spot format: (mx, mz) for key or (mx, mz, value_norm) for full triple.
-	"""
 	if not unvisited_mass:
 		return (None, None) if return_score else None
 	
@@ -60,12 +56,9 @@ def select_best_mass_spot(unit_x, unit_z, unvisited_mass, return_score=False):
 		return best_spot, best_terrain_score if best_terrain_score is not None else best_weighted_score
 	return best_spot
 
-
+# Get the top N nearest reachable mass spots ranked by value-weighted terrain cost.
+# Weighting prefers higher-value spots: weighted_score = terrain_cost * (1 - alpha * value_norm).
 def get_top_mass_spots(unit_x, unit_z, unvisited_mass, limit=4):
-	"""Return the top N nearest reachable mass spots ranked by value-weighted terrain cost.
-	
-	Weighting prefers higher-value spots: weighted_score = terrain_cost * (1 - alpha * value_norm).
-	"""
 	if not unvisited_mass:
 		return []
 
@@ -97,9 +90,20 @@ def get_top_mass_spots(unit_x, unit_z, unvisited_mass, limit=4):
 	ranked.sort(key=lambda item: item[1])
 	return ranked[:limit]
 
+# Compute the feature vector for an action (NOOP or MOVE) used to score candidates via dot product with learned weights.
 
+# Feature indices correspond to `config.NUM_MOVE_FEATURES`:
+# 0: distance_reduction (prefer moves that reduce distance to best mass spot)
+# 1: move_magnitude (prefer smaller moves to reduce exposure)
+# 2: is_noop (prefer NOOP when appropriate)
+# 3: danger_zone (avoid moving into high-danger areas)
+# 4: enemy_distance_change (prefer moves that increase distance from nearest enemy)
+# 5: nearest_enemy_proximity (avoid moving close to enemies)
+# 6: escape_alignment (prefer moves aligned with escape direction from enemies)
+# 7: skirt_alignment (prefer moves that skirt around enemies rather than directly approach)
+# 8: dodge_viability (prefer moves that allow dodging incoming projectiles)
+# 9: hazard_prediction (prefer moves that avoid predicted hazards, filled by caller in agent_core)
 def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, target_x=None, target_z=None, enemy_range_image=None, enemy_units=None, vision_image=None):
-	"""Compute the feature vector for an action (NOOP or MOVE) used to score candidates via dot product with learned weights."""
 	features = []
 
 	if action == config.NOOP_ACTION:
@@ -208,8 +212,6 @@ def compute_action_features(action, unit_x, unit_z, unit_y, unvisited_mass, targ
 			features.append(0.0)
 	else:
 		features.append(0.0)
-
-	# === NEW ENEMY AVOIDANCE FEATURES ===
 
 	# enemy_distance_change: positive when moving away from nearest enemy, negative when approaching
 	nearest_info = map_utils.find_nearest_enemy(unit_x, unit_z, enemy_units) if enemy_units else None

@@ -5,6 +5,18 @@ import runtime_state as state
 
 import unit_defs
 
+
+# Compute features for evaluating a potential building placement location.
+    
+#     Feature indices correspond to `config.NUM_BUILD_FEATURES`:
+#     0: friendly_proximity (Place near friendlies, away from enemies)
+#     1: is_building (noop - if we just want to build on the exact spot without moving ie finish the current building, this should be high)
+#     2: enemy_proximity (Don't build near enemies)
+#     3: mass_spot_proximity (Prefer building near mass spots)
+#     4: terrain_suitability (Prefer building on flatter terrain)
+#     5: blocking_proximity (Don't build on top of existing units/buildings)
+#     6: transit_progress (If already moving towards this build location, encourage completion)
+#     7: prospective_vision_gain (Prefer building where it will reveal more of the map)
 def compute_build_features(
     unit_nx, unit_nz, unit_ny,
     target_nx, target_nz,
@@ -17,18 +29,6 @@ def compute_build_features(
     unit_id=None,
     structure_vision_image=None
 ):
-    """
-    Compute features for evaluating a potential building placement location.
-    
-    Feature indices correspond to `config.NUM_BUILD_FEATURES`:
-    0: friendly_proximity (Place near friendlies, away from enemies)
-    1: is_building (noop - if we just want to build on the exact spot without moving ie finish the current building, this should be high)
-    2: enemy_proximity (Don't build near enemies)
-    3: mass_spot_proximity (Prefer building near mass spots)
-    4: terrain_suitability (Prefer building on flatter terrain)
-    5: blocking_proximity (Don't build on top of existing units/buildings)
-    6: transit_progress (If already moving towards this build location, encourage completion)
-    """
     features = np.zeros(config.NUM_BUILD_FEATURES, dtype=np.float32)
 
     # Feature 0: friendly_proximity
