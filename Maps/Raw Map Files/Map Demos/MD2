@@ -1,0 +1,26 @@
+-o
+Empty 1S Mixed.smf
+-t
+F:/School/Capstone/Map Demos/Maps/Empty Map Texture Scaled.bmp
+-a
+F:/School/Capstone/Map Demos/Maps/Empty Map Scaled.png
+-m
+F:/School/Capstone/Metal Uneven.png
+--normalizemetal
+0.0
+-x
+100.0
+-n
+-50.0
+-g
+./resources/geovent.bmp
+--specularscale
+1
+--splatdistributionscale
+1
+-q
+4
+-v
+-Sinc -quality_highest
+--highresheightmapfilter
+nearest

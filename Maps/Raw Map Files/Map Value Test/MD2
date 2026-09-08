@@ -1,0 +1,26 @@
+-o
+Value Test 2.smf
+-t
+F:/School/Capstone/Map Value Test/ValueTest_texture.bmp
+-a
+F:/School/Capstone/Map Value Test/ValueTest_height_final.png
+-m
+F:/School/Capstone/Metal Value Test2.png
+--normalizemetal
+0.0
+-x
+100.0
+-n
+-50.0
+-g
+./resources/geovent.bmp
+--specularscale
+1
+--splatdistributionscale
+1
+-q
+4
+-v
+-Sinc -quality_highest
+--highresheightmapfilter
+nearest

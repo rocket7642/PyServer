@@ -1,0 +1,28 @@
+-o
+CombatTest.smf
+-t
+F:/School/Capstone/Map 3/Crescent_Bay_Clean_v3_textureV2.bmp
+-a
+F:/School/Capstone/Map 3/Crescent_Bay_Clean_v3_height_finalV2.png
+-m
+F:/School/Capstone/CTMetal.png
+--normalizemetal
+0.0
+-x
+100.0
+-n
+-50.0
+-g
+./resources/geovent.bmp
+-p
+F:/School/Capstone/Map 3/Crescent_Bay_Clean_v3_minimap.png
+--specularscale
+1
+--splatdistributionscale
+1
+-q
+4
+-v
+-Sinc -quality_highest
+--highresheightmapfilter
+nearest
