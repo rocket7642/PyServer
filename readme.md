@@ -1,8 +1,8 @@
-*Capstone Archive*
+# Capstone Archive
 This archive contains the final form of the prototype for the Adaptive AI Opponent capstone project. The version within in is a prototype that displays navigation, radar build and avoidance behaviour.
 
 There are many routes that the agent can continue to be improve upon and all the files uploaded contain all components needed to run the agent.
-*Requirements*
+# Requirements
 The agent requires a BAR sided component so enable enable debugmode. To do so make an empty `devmode.txt` in the BAR game install directory (`/data/`), and then the `Settings/Developer` tab will appear in the lobby. Within you can disable Simplified AI Selection to see the added agent.
 
 To add the agent and other contained AI, they should be placed within the current engine version's Skirmish AI Folder (`/data/engine/engine version/AI/Skirmish`). Unfortunately, on engine update you will need to shift the AIs over to the new version as they are not maintained.
