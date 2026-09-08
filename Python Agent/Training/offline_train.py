@@ -1,409 +1,264 @@
+"""Offline imitation-learning pretrainer, rebuilt against the CURRENT live agent.
+
+Design goal: zero duplicated encoder logic. Instead of maintaining a second,
+parallel copy of RTSAgent (which is what silently rotted last time), this
+script imports the real `agent_model.RTSAgent` and the real `Rewards`
+judgers, and only adds the data-loading / contrastive-imitation-loss glue
+that is specific to offline training.
+
+Two live-agent quirks that offline data must accommodate:
+  1. Map files changed format. Socket ML.py now writes/reads:
+       - mapHeightInfo.txt : a bare numeric CSV grid (no header)
+       - massInfo.txt      : "x,y,z,value" per line (no header)
+     Legacy Hooked recordings (via hooked_converter.py) still describe maps
+     with the OLD header-based format. Both are auto-detected below so a
+     combined dataset spanning both eras can still be trained on in one run.
+  2. The agent now has two action heads (MOVE vs BUILD) instead of one.
+     Samples are routed to MoveJudger/move_head or BuildJudger/build_head
+     based on their recorded action type, and the discrete action_head is
+     trained with a cross-entropy loss against that same label.
+
+KNOWN SIMPLIFICATIONS (intentional, to keep this tractable — see summary
+notes delivered alongside this file for the full list):
+  - No LSTM temporal context: each sample is encoded with a fresh zero
+    hidden state, matching the original offline script's stateless design.
+    This is a real gap vs. the live agent's per-unit persistent hidden
+    state, and is the most valuable thing to fix if this pipeline is
+    revived (would require reconstructing per-unit sample ORDER within a
+    match, which today's exported JSON does preserve via 'step'/'timestamp').
+  - hazard_prediction feature is left at 0.0 for MOVE samples (matching how
+    it's injected live) rather than recomputing compute_direct_approach_penalty
+    per candidate, since that requires per-sample HP/speed context that
+    isn't always present in older exports.
+  - state.fEnergy / state.fMass are not present in exported samples (they
+    weren't part of the recorded schema), so the economy embedding sees 0
+    for every sample. Cheap future fix: add fEnergy/fMass to
+    PeriodicRewards.record_match_sample() so future exports carry it.
+  - Legacy Hooked-converted samples have generic unit dicts (name='unit',
+    no weapon/type info), so they'll encode through unit_defs' "_default"
+    fallback rather than real per-unit-type stats. This is a property of
+    what Hooked recorded, not something this script can recover.
+"""
+
 import json
-import math
 import random
 import sys
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 import numpy as np
+import pandas as pd
 import torch
-import torch.nn as nn
 import torch.optim as optim
 
-# Add parent directory to path to import main modules
+# Add parent directory to path to import the live agent's modules.
+# NOTE: run this script from the "Python Agent" root (e.g.
+#   python Training/offline_train.py some_dataset.json
+# ) so config's relative paths (data/unit_defs.json, cache/map_fields, ...)
+# resolve the same way they do for Socket ML.py.
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import config
 import map_utils
 import runtime_state as state
-from Rewards import MoveJudger
-
-# === ACTION SETTINGS ===
-NOOP_ACTION = "NOOP"
-NUM_ACTION_FEATURES = 4
-
-# === STANDARDIZED MAP SETTINGS ===
-STANDARD_MAP_WIDTH = 1024
-STANDARD_MAP_HEIGHT = 1024
-STANDARD_MAP_Y = 256
-
-# === ENCODER SETTINGS (match Socket ML Feature-Based.py) ===
-SELF_FEATURES_SIZE = 6   # x, z, y, health, friendly_count, enemy_count
-SELF_EMBED_SIZE = 16
-MASS_FEATURES_SIZE = 3   # dx, dz, distance to nearest mass
-MASS_EMBED_SIZE = 8
-MAP_FEATURES_SIZE = 6    # summary stats of surrounding heights
-MAP_EMBED_SIZE = 16
-UNIT_FEATURES_SIZE = 3   # dx, dz, health
-ENEMY_FEATURES_SIZE = 4  # dx, dz, health, range
-FRIENDLY_EMBED_SIZE = 16
-ENEMY_EMBED_SIZE = 16
-
-LSTM_HIDDEN_SIZE = 64
-LSTM_NUM_LAYERS = 1
+import unit_defs
+from Rewards import MoveJudger, BuildJudger
+from agent_model import RTSAgent
 
 # === TRAINING SETTINGS ===
-LEARNING_RATE = 1e-3
+LEARNING_RATE = 1e-4
+WEIGHT_DECAY = 0.05          # matches agent_core.py's live optimizer
 NEGATIVE_SAMPLES = 8
+DISCRETE_LOSS_WEIGHT = 0.5
+OFFLINE_CHECKPOINT_PATH = str(Path(__file__).resolve().parent.parent / "agent_weights_offline.pth")
 
-map_heights = {}
-normalized_map_heights = None
-terrain_cost_map = None
-mass_cost_fields = {}
-map_spots = []
-map_spots_norm = []
-visited_mass_spots_norm = set()
+# === ENCODER SIZE (mirrors agent_core.py exactly; do not hand-roll this) ===
+ENCODER_OUTPUT_SIZE = (
+    config.SELF_EMBED_SIZE
+    + config.ECO_EMBED_SIZE
+    + config.MASS_EMBED_SIZE
+    + config.MAP_EMBED_SIZE
+    + config.FRIENDLY_EMBED_SIZE
+    + config.ENEMY_EMBED_SIZE
+    + config.VISION_EMBED_SIZE
+)
+
+agent = RTSAgent(input_size=ENCODER_OUTPUT_SIZE)
+optimizer = optim.Adam(agent.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
+
+# Local mirrors of map globals (kept alongside runtime_state's copies so the
+# rest of this file reads naturally; state.* is what map_utils/agent_model
+# actually consult).
 map_width = 0
 map_height = 0
-map_height_min = 0.0
-map_height_max = 1.0
-eUnits = []
+map_spots_norm: List[Tuple[float, float, float]] = []
 
 
-class RTSAgent(nn.Module):
-    def __init__(self, input_size, num_features):
-        super().__init__()
-        self.self_encoder = nn.Sequential(
-            nn.Linear(SELF_FEATURES_SIZE, 32),
-            nn.ReLU(),
-            nn.Linear(32, SELF_EMBED_SIZE)
-        )
-        self.mass_encoder = nn.Sequential(
-            nn.Linear(MASS_FEATURES_SIZE, 16),
-            nn.ReLU(),
-            nn.Linear(16, MASS_EMBED_SIZE)
-        )
-        self.map_encoder = nn.Sequential(
-            nn.Linear(MAP_FEATURES_SIZE, 32),
-            nn.ReLU(),
-            nn.Linear(32, MAP_EMBED_SIZE)
-        )
-        self.map_cnn = nn.Sequential(
-            nn.Conv2d(1, 16, kernel_size=3, padding=1),
-            nn.BatchNorm2d(16),
-            nn.ReLU(),
-            nn.MaxPool2d(2),
-            nn.Conv2d(16, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32),
-            nn.ReLU(),
-            nn.MaxPool2d(2),
-            nn.Conv2d(32, 16, kernel_size=3, padding=1),
-            nn.BatchNorm2d(16),
-            nn.ReLU(),
-            nn.AdaptiveAvgPool2d((1, 1)),
-            nn.Flatten()
-        )
-        self.map_fc = nn.Sequential(
-            nn.LayerNorm(16),
-            nn.Linear(16, MAP_EMBED_SIZE)
-        )
-        
-        self.friendly_unit_encoder = nn.Sequential(
-            nn.Linear(UNIT_FEATURES_SIZE, 32),
-            nn.ReLU(),
-            nn.Linear(32, FRIENDLY_EMBED_SIZE)
-        )
-        self.enemy_unit_encoder = nn.Sequential(
-            nn.Linear(ENEMY_FEATURES_SIZE, 32),
-            nn.ReLU(),
-            nn.Linear(32, ENEMY_EMBED_SIZE)
-        )
+# ---------------------------------------------------------------------------
+# Map loading (format auto-detected: legacy Hooked headers vs. current raw grid)
+# ---------------------------------------------------------------------------
 
-        self.lstm = nn.LSTM(
-            input_size=input_size,
-            hidden_size=LSTM_HIDDEN_SIZE,
-            num_layers=LSTM_NUM_LAYERS,
-            batch_first=True
-        )
-        self.fc1 = nn.Linear(LSTM_HIDDEN_SIZE, 64)
-        self.fc2 = nn.Linear(64, num_features)
-        
-        # Initialize CNN weights properly to prevent NaN
-        self._initialize_cnn_weights()
-    
-    def _initialize_cnn_weights(self):
-        """Initialize CNN weights using He/Kaiming initialization for ReLU."""
-        for module in self.map_cnn.modules():
-            if isinstance(module, nn.Conv2d):
-                nn.init.kaiming_normal_(module.weight, mode='fan_out', nonlinearity='relu')
-                if module.bias is not None:
-                    nn.init.constant_(module.bias, 0)
-            elif isinstance(module, nn.BatchNorm2d):
-                nn.init.constant_(module.weight, 1)
-                nn.init.constant_(module.bias, 0)
-        
-        for module in self.map_fc.modules():
-            if isinstance(module, nn.Linear):
-                nn.init.xavier_uniform_(module.weight)
-                if module.bias is not None:
-                    nn.init.constant_(module.bias, 0)
-
-    def forward(self, x, hidden=None):
-        lstm_out, new_hidden = self.lstm(x, hidden)
-        last_out = lstm_out[:, -1, :]
-        x = torch.relu(self.fc1(last_out))
-        feature_weights = self.fc2(x)
-        return feature_weights, new_hidden
-
-    def encode_state(self, agent_unit, friendly_units, enemy_units, seed=None):
-        device = next(self.parameters()).device
-
-        self_features = torch.tensor([
-            agent_unit['x'],
-            agent_unit['z'],
-            agent_unit['y'],
-            agent_unit['health'],
-            float(len(friendly_units)),
-            float(len(enemy_units))
-        ], dtype=torch.float32, device=device)
-        self_emb = self.self_encoder(self_features)
-
-        if map_spots:
-            nearest_mass = min(map_spots, key=lambda p: (p[0] - agent_unit['x'])**2 + (p[1] - agent_unit['z'])**2)
-            dx = nearest_mass[0] - agent_unit['x']
-            dz = nearest_mass[1] - agent_unit['z']
-            dist = (dx ** 2 + dz ** 2) ** 0.5
-        else:
-            dx, dz, dist = 0.0, 0.0, 0.0
-        mass_features = torch.tensor([dx, dz, dist], dtype=torch.float32, device=device)
-        mass_emb = self.mass_encoder(mass_features)
-
-        # Map branch (full map CNN) - normalized coordinates
-        if normalized_map_heights is not None:
-            # Normalize the height map to mean=0, std=1 for numerical stability
-            map_array = np.array(normalized_map_heights, dtype=np.float32, copy=True)
-            map_array = np.nan_to_num(map_array, nan=0.0, posinf=0.0, neginf=0.0)
-            map_mean = np.mean(map_array)
-            map_std = np.std(map_array)
-            if np.isfinite(map_std) and map_std > 0:
-                map_array = (map_array - map_mean) / map_std
-            else:
-                map_array = map_array - map_mean
-            map_array = np.nan_to_num(map_array, nan=0.0, posinf=0.0, neginf=0.0)
-            
-            map_tensor = torch.tensor(map_array, dtype=torch.float32, device=device)
-            map_tensor = map_tensor.unsqueeze(0).unsqueeze(0)  # (1, 1, 1024, 1024)
-            map_cnn_out = self.map_cnn(map_tensor)
-            map_emb = self.map_fc(map_cnn_out.squeeze(0))
-            map_emb = torch.nan_to_num(map_emb, nan=0.0, posinf=0.0, neginf=0.0)
-        else:
-            map_emb = torch.zeros(MAP_EMBED_SIZE, dtype=torch.float32, device=device)
-
-        friendly_vectors = []
-        for u in friendly_units:
-            if u['id'] == agent_unit['id']:
-                continue
-            friendly_vectors.append([
-                u['x'] - agent_unit['x'],
-                u['z'] - agent_unit['z'],
-                u['health']
-            ])
-        if friendly_vectors:
-            friendly_tensor = torch.tensor(friendly_vectors, dtype=torch.float32, device=device)
-            friendly_embeds = self.friendly_unit_encoder(friendly_tensor)
-            friendly_emb = torch.mean(friendly_embeds, dim=0)
-        else:
-            friendly_emb = torch.zeros(FRIENDLY_EMBED_SIZE, dtype=torch.float32, device=device)
-
-        enemy_vectors = []
-        for u in enemy_units:
-            enemy_vectors.append([
-                u['x'] - agent_unit['x'],
-                u['z'] - agent_unit['z'],
-                u['health'],
-                u.get('range', 0.0)
-            ])
-        if enemy_vectors:
-            enemy_tensor = torch.tensor(enemy_vectors, dtype=torch.float32, device=device)
-            enemy_embeds = self.enemy_unit_encoder(enemy_tensor)
-            enemy_emb = torch.mean(enemy_embeds, dim=0)
-        else:
-            enemy_emb = torch.zeros(ENEMY_EMBED_SIZE, dtype=torch.float32, device=device)
-
-        state = torch.cat([self_emb, mass_emb, map_emb, friendly_emb, enemy_emb], dim=0)
-        state = torch.nan_to_num(state, nan=0.0, posinf=0.0, neginf=0.0)
-        return state
+def _looks_legacy_heights(filepath: Path) -> bool:
+    with filepath.open("r", encoding="utf-8", errors="ignore") as f:
+        first_line = f.readline().strip()
+    return first_line.startswith("MapSizeX")
 
 
-ENCODER_OUTPUT_SIZE = SELF_EMBED_SIZE + MASS_EMBED_SIZE + MAP_EMBED_SIZE + FRIENDLY_EMBED_SIZE + ENEMY_EMBED_SIZE
-agent = RTSAgent(input_size=ENCODER_OUTPUT_SIZE, num_features=NUM_ACTION_FEATURES)
-optimizer = optim.Adam(agent.parameters(), lr=LEARNING_RATE)
-
-
-def load_map_heights(filepath: str):
-    global map_heights, map_width, map_height, normalized_map_heights, map_height_min, map_height_max
-    map_heights = {}
-    map_width = 0
-    map_height = 0
-
-    with open(filepath, 'r') as f:
+def _load_map_heights_legacy(filepath: Path) -> None:
+    """Old Hooked-recording format: header lines + sparse 'x,z,height' rows."""
+    global map_width, map_height
+    heights: Dict[Tuple[int, int], float] = {}
+    local_w = local_h = 0
+    with filepath.open("r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line:
                 continue
             if line.startswith("MapSizeX"):
-                try:
-                    map_width = int(line.split(',')[1])
-                except ValueError:
-                    pass
+                local_w = int(line.split(",")[1])
                 continue
             if line.startswith("MapSizeZ"):
-                try:
-                    map_height = int(line.split(',')[1])
-                except ValueError:
-                    pass
+                local_h = int(line.split(",")[1])
                 continue
             if line.startswith("WaterLevel") or line.startswith("x,z,height"):
                 continue
-
-            parts = line.split(',')
+            parts = line.split(",")
             if len(parts) >= 3:
                 try:
                     x = int(float(parts[0]))
                     z = int(float(parts[1]))
                     h = float(parts[2])
-                    map_heights[(x, z)] = h
+                    heights[(x, z)] = h
                 except ValueError:
                     continue
-    
-    # Build standardized height map after loading
-    build_normalized_height_map()
 
-
-def build_normalized_height_map():
-    # \"\"\"Build 1024x1024 standardized height map from loaded map_heights.\"\"\"
-    global normalized_map_heights, map_height_min, map_height_max
-    
-    if not map_heights or map_width == 0 or map_height == 0:
-        normalized_map_heights = None
+    map_width, map_height = local_w, local_h
+    if not heights or map_width <= 0 or map_height <= 0:
+        state.map_heights = None
         return
-    
-    # Convert dict to 2D array
-    heights_array = np.zeros((map_height, map_width), dtype=np.float32)
-    for (x, z), h in map_heights.items():
+
+    grid = np.zeros((map_height, map_width), dtype=np.float32)
+    for (x, z), h in heights.items():
         if 0 <= z < map_height and 0 <= x < map_width:
-            heights_array[z, x] = h
-
-    heights_array = np.nan_to_num(heights_array, nan=0.0, posinf=0.0, neginf=0.0)
-    map_height_min = float(np.nanmin(heights_array))
-    map_height_max = float(np.nanmax(heights_array))
-    if not np.isfinite(map_height_min) or not np.isfinite(map_height_max):
-        map_height_min = 0.0
-        map_height_max = 1.0
-    
-    # Resample to standard 1024x1024
-    src_h, src_w = heights_array.shape
-    x_idx = np.linspace(0, src_w - 1, STANDARD_MAP_WIDTH).astype(int)
-    z_idx = np.linspace(0, src_h - 1, STANDARD_MAP_HEIGHT).astype(int)
-    normalized = heights_array[np.ix_(z_idx, x_idx)]
-    
-    # Normalize heights to [0, STANDARD_MAP_Y]
-    if map_height_max > map_height_min:
-        normalized = (normalized - map_height_min) / (map_height_max - map_height_min) * STANDARD_MAP_Y
-    
-    normalized_map_heights = np.nan_to_num(normalized, nan=0.0, posinf=0.0, neginf=0.0)
+            grid[z, x] = h
+    state.map_heights = grid
 
 
-def load_map_spots(filepath: str):
-    global map_spots
-    map_spots = []
-    with open(filepath, 'r') as f:
-        for idx, line in enumerate(f):
-            if idx == 0:
+def _load_map_heights_raw_grid(filepath: Path, meta_width: int, meta_height: int) -> None:
+    """Current live format: bare numeric CSV grid, no header (see Socket ML.py)."""
+    global map_width, map_height
+    grid = pd.read_csv(filepath, header=None).values.astype(np.float32)
+    # Metadata (recorded at export time) already carries world-unit dims;
+    # fall back to the grid's own shape if metadata is missing.
+    map_width = int(meta_width) if meta_width else grid.shape[1]
+    map_height = int(meta_height) if meta_height else grid.shape[0]
+    state.map_heights = grid
+
+
+def load_map_heights(filepath: str, meta_width: int = 0, meta_height: int = 0) -> None:
+    path = Path(filepath)
+    if not path.exists():
+        print(f"[WARNING] Map heights file not found: {path}")
+        state.map_heights = None
+        return
+
+    if _looks_legacy_heights(path):
+        _load_map_heights_legacy(path)
+    else:
+        _load_map_heights_raw_grid(path, meta_width, meta_height)
+
+    state.map_width = map_width
+    state.map_height = map_height
+    # Delegates to the REAL map_utils implementation (array-based), so
+    # normalization/height stats stay identical to the live agent's.
+    map_utils.build_normalized_height_map()
+
+
+def _looks_legacy_spots(filepath: Path) -> bool:
+    with filepath.open("r", encoding="utf-8", errors="ignore") as f:
+        first_line = f.readline().strip().lower()
+    return first_line.startswith("type") or "index" in first_line
+
+
+def _load_map_spots_legacy(filepath: Path) -> List[Tuple[float, float, float]]:
+    """Old format: CSV with a header, columns include x/z, no value weighting."""
+    import csv
+    spots = []
+    with filepath.open("r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            try:
+                spots.append((float(row["x"]), float(row["z"]), 1.0))
+            except (ValueError, KeyError):
                 continue
-            parts = line.strip().split(',')
-            if len(parts) >= 4:
-                try:
-                    x = float(parts[2])
-                    z = float(parts[3])
-                    map_spots.append((x, z))
-                except ValueError:
-                    continue
+    return spots
 
 
-def height_at(x: float, z: float) -> float:
-    map_x = int(x / 8) * 8
-    map_z = int(z / 8) * 8
-    return map_heights.get((map_x, map_z), -1000.0)
+def _load_map_spots_raw(filepath: Path) -> List[Tuple[float, float, float]]:
+    """Current live format: 'x,y,z,value' per line, no header (see Socket ML.py)."""
+    spots = []
+    with filepath.open("r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                x, _y, z, value = map(float, line.split(","))
+                spots.append((x, z, value))
+            except ValueError:
+                continue
+    return spots
 
 
-def sample_surrounding_heights(unit_x: float, unit_z: float, seed=None) -> List[float]:
-    if not map_heights:
-        return []
+def load_map_spots(filepath: str) -> None:
+    global map_spots_norm
+    path = Path(filepath)
+    if not path.exists():
+        print(f"[WARNING] Map spots file not found: {path}")
+        state.mass_spots = []
+        map_spots_norm = []
+        return
 
-    rnd = random.Random(seed)
-    heights = []
+    if _looks_legacy_spots(path):
+        raw_spots = _load_map_spots_legacy(path)
+    else:
+        raw_spots = _load_map_spots_raw(path)
 
-    for _ in range(6):
-        angle = rnd.uniform(0, 2 * math.pi)
-        dx = unit_x + 100 * math.cos(angle)
-        dz = unit_z + 100 * math.sin(angle)
-        heights.append(height_at(dx, dz))
+    max_val = max((v for (_, _, v) in raw_spots), default=1.0) or 1.0
+    state.mass_spots = raw_spots
 
-    for _ in range(12):
-        angle = rnd.uniform(0, 2 * math.pi)
-        dx = unit_x + 200 * math.cos(angle)
-        dz = unit_z + 200 * math.sin(angle)
-        heights.append(height_at(dx, dz))
-
-    return heights
-
-
-def danger_zone_feature(target_x: float, target_z: float, enemy_units: List[Dict]) -> float:
-    for enemy in enemy_units:
-        rng = enemy.get('range', 0.0)
-        if rng <= 0:
-            continue
-        dist = ((enemy['x'] - target_x) ** 2 + (enemy['z'] - target_z) ** 2) ** 0.5
-        if dist <= rng:
-            return -1.0
-    return 0.0
+    map_spots_norm = [
+        (map_utils.normalize_x(x), map_utils.normalize_z(z), float(v) / float(max_val))
+        for x, z, v in raw_spots
+    ]
+    state.map_spots_norm = map_spots_norm
 
 
-def compute_action_features(action_type: str, unit_x: float, unit_z: float, unit_y: float,
-                            target_x: float, target_z: float, enemy_units: List[Dict]) -> List[float]:
-    if action_type == NOOP_ACTION:
-        return [0.0, 0.0, 0.0, 0.0]
-    
-    # Normalize coordinates
-    unit_nx = map_utils.normalize_x(unit_x) if map_width > 0 else unit_x
-    unit_nz = map_utils.normalize_z(unit_z) if map_height > 0 else unit_z
-    unit_ny = map_utils.normalize_y(unit_y)
-    target_nx = map_utils.normalize_x(target_x) if map_width > 0 else target_x
-    target_nz = map_utils.normalize_z(target_z) if map_height > 0 else target_z
-    
-    # Get unvisited mass spots
-    unvisited_mass = [p for p in map_spots_norm if p not in visited_mass_spots_norm]
-    
-    # Use MoveJudger to compute features consistent with main training
-    features = MoveJudger.compute_action_features(
-        action_type,
-        unit_nx,
-        unit_nz,
-        unit_ny,
-        unvisited_mass,
-        target_nx,
-        target_nz,
-        enemy_range_image=None
-    )
-    
-    return features
+def _apply_map_context(signature: Tuple[str, str, int, int]) -> None:
+    """Load map assets + rebuild terrain/mass cost fields for one map group."""
+    map_heights_file, map_spots_file, meta_width, meta_height = signature
+
+    if map_heights_file:
+        load_map_heights(map_heights_file, meta_width, meta_height)
+    if map_spots_file:
+        load_map_spots(map_spots_file)
+
+    state.visited_mass_spots_norm = set()  # imitation samples are stateless snapshots
+
+    # Reuse the live cache so repeated offline runs on the same map don't
+    # re-pay the Dijkstra cost-field build every time.
+    if state.normalized_map_heights is not None:
+        if not map_utils.load_cached_cost_fields():
+            map_utils.build_terrain_cost_map()
+            map_utils.build_mass_cost_fields()
+            map_utils.save_cached_cost_fields()
 
 
-def load_imitation_data(filepath: str) -> Dict:
-    if not Path(filepath).exists():
-        print(f"File {filepath} not found.")
-        return {}
-
-    with open(filepath, 'r') as f:
-        data = json.load(f)
-
-    print(f"Loaded {len(data.get('samples', []))} samples from {filepath}")
-    return data
-
+# ---------------------------------------------------------------------------
+# Dataset loading / grouping (unchanged contract with combine_recordings.py)
+# ---------------------------------------------------------------------------
 
 def _safe_int(value: Any, default: int = 0) -> int:
-    """Best-effort integer conversion for map metadata values."""
     try:
         return int(float(value))
     except (TypeError, ValueError):
@@ -411,209 +266,277 @@ def _safe_int(value: Any, default: int = 0) -> int:
 
 
 def _map_signature_from_metadata(meta: Dict[str, Any]) -> Tuple[str, str, int, int]:
-    """Build a stable map signature tuple from dataset-level metadata."""
     return (
-        str(meta.get('map_heights_file', '') or ''),
-        str(meta.get('map_spots_file', '') or ''),
-        _safe_int(meta.get('map_width', 0), 0),
-        _safe_int(meta.get('map_height', 0), 0),
+        str(meta.get("map_heights_file", "") or ""),
+        str(meta.get("map_spots_file", "") or ""),
+        _safe_int(meta.get("map_width", 0), 0),
+        _safe_int(meta.get("map_height", 0), 0),
     )
 
 
-def _map_signature_from_sample(sample: Dict[str, Any], fallback: Tuple[str, str, int, int]) -> Tuple[str, str, int, int]:
-    """Read per-sample map signature when present, otherwise fallback to dataset metadata."""
-    raw = sample.get('_map_signature')
+def _map_signature_from_sample(sample: Dict[str, Any], fallback):
+    raw = sample.get("_map_signature")
     if isinstance(raw, (list, tuple)) and len(raw) == 4:
-        return (
-            str(raw[0] or ''),
-            str(raw[1] or ''),
-            _safe_int(raw[2], 0),
-            _safe_int(raw[3], 0),
-        )
+        return (str(raw[0] or ""), str(raw[1] or ""), _safe_int(raw[2], 0), _safe_int(raw[3], 0))
     return fallback
 
 
-def _apply_map_context(map_signature: Tuple[str, str, int, int]):
-    """Load map assets and rebuild derived map state for the active training group."""
-    global map_spots_norm, visited_mass_spots_norm
+def load_imitation_data(filepath: str) -> Dict:
+    if not Path(filepath).exists():
+        print(f"File {filepath} not found.")
+        return {}
+    with open(filepath, "r") as f:
+        data = json.load(f)
+    print(f"Loaded {len(data.get('samples', []))} samples from {filepath}")
+    return data
 
-    map_heights_file, map_spots_file, _, _ = map_signature
 
-    # Keep loader behavior deterministic: always rebuild from declared files when available.
-    if map_heights_file:
-        load_map_heights(map_heights_file)
-    if map_spots_file:
-        load_map_spots(map_spots_file)
+# ---------------------------------------------------------------------------
+# Per-sample feature computation (delegates entirely to the real judgers)
+# ---------------------------------------------------------------------------
 
-    state.map_heights = map_heights
-    state.map_width = map_width
-    state.map_height = map_height
-    state.map_height_min = map_height_min
-    state.map_height_max = map_height_max
-    state.mass_spots = map_spots
+def _build_range_and_vision_images(friendly_units, enemy_units):
+    if state.normalized_map_heights is None:
+        return None, None
+    enemy_range_image = map_utils.generate_enemy_range_image(
+        enemy_units, state.map_width, state.map_height, state.normalized_map_heights.shape
+    )
+    vision_image = map_utils.generate_vision_image(
+        friendly_units, state.map_width, state.map_height, state.normalized_map_heights
+    )
+    return enemy_range_image, vision_image
 
-    build_normalized_height_map()
-    state.normalized_map_heights = normalized_map_heights
 
-    if state.normalized_map_heights is not None:
-        map_utils.build_terrain_cost_map()
-        map_utils.build_mass_cost_fields()
+def compute_move_features(unit_nx, unit_nz, unit_ny, target_nx, target_nz,
+                           enemy_range_image, enemy_units, vision_image, is_noop):
+    action_type = config.NOOP_ACTION if is_noop else "MOVE"
+    unvisited_mass = list(map_spots_norm)  # imitation: treat every spot as still active
+    features = MoveJudger.compute_action_features(
+        action_type, unit_nx, unit_nz, unit_ny, unvisited_mass,
+        target_nx, target_nz,
+        enemy_range_image=enemy_range_image,
+        enemy_units=enemy_units,
+        vision_image=vision_image,
+    )
+    # hazard_prediction left at its default 0.0 placeholder — see module
+    # docstring "KNOWN SIMPLIFICATIONS".
+    return features
 
-    map_spots_norm = [
-        (map_utils.normalize_x(x) if map_width > 0 else x,
-         map_utils.normalize_z(z) if map_height > 0 else z)
-        for x, z in map_spots
-    ]
-    state.map_spots_norm = map_spots_norm
-    # Reset visited state per map group to avoid cross-map contamination.
-    visited_mass_spots_norm = set()
 
+def compute_build_features_for_sample(unit_nx, unit_nz, unit_ny, target_nx, target_nz,
+                                       enemy_units, friendly_units, is_noop,
+                                       vision_image, unit_id):
+    active_mass = list(map_spots_norm)
+    return BuildJudger.compute_build_features(
+        unit_nx, unit_nz, unit_ny,
+        target_nx, target_nz,
+        active_mass,
+        enemy_units,
+        friendly_units,
+        is_noop,
+        vision_image=vision_image,
+        target_structure_name="armrad",
+        unit_id=unit_id,
+        structure_vision_image=vision_image,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Training
+# ---------------------------------------------------------------------------
 
 def train_imitation(dataset_file: str, epochs: int = 10, shuffle: bool = True):
     data = load_imitation_data(dataset_file)
-    samples = data.get('samples', [])
+    samples = data.get("samples", [])
     if not samples:
         print("No samples to train on.")
         return
 
-    meta = data.get('metadata', {})
-
+    meta = data.get("metadata", {})
     default_signature = _map_signature_from_metadata(meta)
 
-    # Group samples by map signature so each batch uses the correct terrain/mass context.
-    grouped_samples: Dict[Tuple[str, str, int, int], List[Dict[str, Any]]] = {}
+    grouped: Dict[Tuple[str, str, int, int], List[Dict[str, Any]]] = {}
     for sample in samples:
-        signature = _map_signature_from_sample(sample, default_signature)
-        grouped_samples.setdefault(signature, []).append(sample)
+        sig = _map_signature_from_sample(sample, default_signature)
+        grouped.setdefault(sig, []).append(sample)
 
-    if not grouped_samples:
+    if not grouped:
         print("No valid grouped samples to train on.")
         return
 
-    print(f"Detected {len(grouped_samples)} map group(s) in dataset.")
-    for idx, (signature, group) in enumerate(grouped_samples.items(), start=1):
-        print(
-            f"  Group {idx}: samples={len(group)}, "
-            f"map_heights='{signature[0]}', map_spots='{signature[1]}'"
-        )
+    print(f"Detected {len(grouped)} map group(s) in dataset.")
+    for idx, (sig, group) in enumerate(grouped.items(), start=1):
+        print(f"  Group {idx}: samples={len(group)}, map_heights='{sig[0]}', map_spots='{sig[1]}'")
 
-    print(f"Training for {epochs} epochs...")
+    ce_loss = torch.nn.CrossEntropyLoss()
 
     for epoch in range(epochs):
-        # Shuffle each map group independently to preserve map-aware batching.
         if shuffle:
-            for group in grouped_samples.values():
+            for group in grouped.values():
                 random.shuffle(group)
 
         epoch_loss = 0.0
         sample_count = 0
+        skipped = 0
 
-        for group_idx, (signature, group_samples) in enumerate(grouped_samples.items(), start=1):
-            print(f"Epoch {epoch + 1}: loading map context for group {group_idx}/{len(grouped_samples)}")
-            _apply_map_context(signature)
-            print("Building terrain cost map...")
-            print("Building mass point cost fields...")
+        for group_idx, (sig, group_samples) in enumerate(grouped.items(), start=1):
+            print(f"Epoch {epoch + 1}: loading map context for group {group_idx}/{len(grouped)}")
+            _apply_map_context(sig)
 
             for sample in group_samples:
-                unit_id = sample['unit_id']
-                friendly_units = sample['friendly_units']
-                enemy_units = sample['enemy_units']
-
-                agent_unit = next((u for u in friendly_units if u['id'] == unit_id), None)
+                unit_id = sample["unit_id"]
+                friendly_units = sample["friendly_units"]
+                enemy_units = sample["enemy_units"]
+                agent_unit = next((u for u in friendly_units if u["id"] == unit_id), None)
                 if agent_unit is None:
+                    skipped += 1
                     continue
 
-                seed = int(sample.get('timestamp', 0) * 1000) ^ unit_id
-                state_vec = agent.encode_state(agent_unit, friendly_units, enemy_units, seed=seed)
+                action = sample["action"]
+                action_type = action.get("type", config.NOOP_ACTION)
+                target_x = action.get("x", agent_unit["x"])
+                target_z = action.get("z", agent_unit["z"])
+                is_build = action_type == "BUILD"
+                discrete_label = config.ACTION_BUILD if is_build else config.ACTION_MOVE
 
-                action = sample['action']
-                action_type = action.get('type', NOOP_ACTION)
-                target_x = action.get('x', agent_unit['x'])
-                target_z = action.get('z', agent_unit['z'])
+                # Vision/enemy-range images depend on this sample's live positions,
+                # so they're rebuilt per sample (this is the main cost of this loop).
+                state.fEnergy = 0.0  # not present in exported schema — see docstring
+                state.fMass = 0.0
+                enemy_range_image, vision_image = _build_range_and_vision_images(friendly_units, enemy_units)
+                state.vision_image = vision_image
 
+                state_vec = agent.encode_state(agent_unit, friendly_units, enemy_units)
                 input_seq = state_vec.unsqueeze(0).unsqueeze(0)
-                feature_weights, _ = agent(input_seq)
-                feature_weights = feature_weights.squeeze(0)
+                action_logits, move_features, build_features, _ = agent(input_seq)
 
-                pos_features = compute_action_features(
-                    action_type,
-                    agent_unit['x'],
-                    agent_unit['z'],
-                    agent_unit['y'],
-                    target_x,
-                    target_z,
-                    enemy_units
-                )
-                pos_score = torch.dot(feature_weights, torch.tensor(pos_features, dtype=torch.float32))
+                unit_nx = map_utils.normalize_x(agent_unit["x"])
+                unit_nz = map_utils.normalize_z(agent_unit["z"])
+                unit_ny = map_utils.normalize_y(agent_unit["y"])
+                target_nx = map_utils.normalize_x(target_x)
+                target_nz = map_utils.normalize_z(target_z)
+                is_noop = (abs(target_nx - unit_nx) < 1e-3 and abs(target_nz - unit_nz) < 1e-3)
 
-                scores = [pos_score]
-                for _ in range(NEGATIVE_SAMPLES):
-                    rx = random.uniform(0, map_width) if map_width > 0 else agent_unit['x']
-                    rz = random.uniform(0, map_height) if map_height > 0 else agent_unit['z']
-                    neg_features = compute_action_features(
-                        "MOVE",
-                        agent_unit['x'],
-                        agent_unit['z'],
-                        agent_unit['y'],
-                        rx,
-                        rz,
-                        enemy_units
+                if is_build:
+                    weights = build_features.squeeze(0)
+                    pos_feats = compute_build_features_for_sample(
+                        unit_nx, unit_nz, unit_ny, target_nx, target_nz,
+                        enemy_units, friendly_units, is_noop, vision_image, unit_id,
                     )
-                    neg_score = torch.dot(feature_weights, torch.tensor(neg_features, dtype=torch.float32))
+                else:
+                    weights = move_features.squeeze(0)
+                    pos_feats = compute_move_features(
+                        unit_nx, unit_nz, unit_ny, target_nx, target_nz,
+                        enemy_range_image, enemy_units, vision_image, is_noop,
+                    )
+
+                pos_score = torch.dot(weights, torch.tensor(pos_feats, dtype=torch.float32))
+                scores = [pos_score]
+
+                for _ in range(NEGATIVE_SAMPLES):
+                    rx = random.uniform(0, config.STANDARD_MAP_WIDTH)
+                    rz = random.uniform(0, config.STANDARD_MAP_HEIGHT)
+                    if is_build:
+                        neg_feats = compute_build_features_for_sample(
+                            unit_nx, unit_nz, unit_ny, rx, rz,
+                            enemy_units, friendly_units, False, vision_image, unit_id,
+                        )
+                    else:
+                        neg_feats = compute_move_features(
+                            unit_nx, unit_nz, unit_ny, rx, rz,
+                            enemy_range_image, enemy_units, vision_image, False,
+                        )
+                    neg_score = torch.dot(weights, torch.tensor(neg_feats, dtype=torch.float32))
                     scores.append(neg_score)
 
                 scores_tensor = torch.stack(scores)
-                loss = -torch.log_softmax(scores_tensor, dim=0)[0]
+                contrastive_loss = -torch.log_softmax(scores_tensor, dim=0)[0]
 
+                discrete_target = torch.tensor([discrete_label], dtype=torch.long)
+                discrete_loss = ce_loss(action_logits, discrete_target)
+
+                loss = contrastive_loss + DISCRETE_LOSS_WEIGHT * discrete_loss
+
+                # Fixed vs. original: step every sample instead of only at epoch end
+                # (previously the optimizer.step() at the end of the epoch loop only
+                # ever applied the LAST sample's gradient — every other sample's
+                # zero_grad()+backward() pair was discarded before a step ran).
                 optimizer.zero_grad()
                 loss.backward()
+                torch.nn.utils.clip_grad_norm_(agent.parameters(), max_norm=1.0)
+                optimizer.step()
+
                 epoch_loss += loss.item()
                 sample_count += 1
-        # Clip gradients to prevent exploding gradients that cause NaN
-        torch.nn.utils.clip_grad_norm_(agent.parameters(), max_norm=1.0)
-        optimizer.step()
 
         avg_loss = epoch_loss / max(1, sample_count)
-        print(f"Epoch {epoch + 1}/{epochs} - Avg Loss: {avg_loss:.4f}")
+        print(f"Epoch {epoch + 1}/{epochs} - Avg Loss: {avg_loss:.4f} (skipped {skipped} samples)")
 
     print("Imitation training complete!")
 
 
-def save_agent(filepath='agent_weights_feature_based.pth'):
+# ---------------------------------------------------------------------------
+# Checkpointing — deliberately a SEPARATE file from the live agent's, using
+# the SAME unified format, so it can be inspected/promoted intentionally
+# rather than silently overwriting agent_weights_feature_based.pth.
+# ---------------------------------------------------------------------------
+
+def save_agent(filepath: str = OFFLINE_CHECKPOINT_PATH):
     has_nan = any(torch.isnan(p).any().item() for p in agent.parameters())
     if has_nan:
         print("Warning: NaN detected in weights. Skipping save to avoid corrupting checkpoint.")
         return
-    torch.save(agent.state_dict(), filepath)
+    checkpoint = {
+        "checkpoint_version": 1,
+        "model_state_dict": agent.state_dict(),
+        "optimizer_state_dict": optimizer.state_dict(),
+        "adaptive_candidate_templates": {},
+        "adaptive_template_next_id": 1,
+    }
+    torch.save(checkpoint, filepath)
     print(f"Agent weights saved to {filepath}")
 
 
-def load_agent(filepath='agent_weights_feature_based.pth'):
+def load_agent(filepath: str = OFFLINE_CHECKPOINT_PATH):
+    """Loads either this script's own unified checkpoints, or the LIVE
+    agent's unified checkpoint (agent_weights_feature_based.pth) if you want
+    to fine-tune offline starting from the online agent's current weights."""
     try:
-        agent.load_state_dict(torch.load(filepath))
-        print(f"Agent weights loaded from {filepath}")
+        checkpoint_data = torch.load(filepath)
+        if isinstance(checkpoint_data, dict) and "checkpoint_version" in checkpoint_data:
+            agent.load_state_dict(checkpoint_data["model_state_dict"])
+            if "optimizer_state_dict" in checkpoint_data:
+                try:
+                    optimizer.load_state_dict(checkpoint_data["optimizer_state_dict"])
+                except Exception as e:
+                    print(f"Warning: could not restore optimizer state: {e}")
+            print("Unified checkpoint loaded successfully.")
+        else:
+            # Raw state_dict (e.g. hand-exported weights only).
+            agent.load_state_dict(checkpoint_data)
+            print("Legacy/raw weights loaded (model only).")
+
         has_nan = any(torch.isnan(p).any().item() for p in agent.parameters())
         if has_nan:
             print("Warning: NaN detected in loaded weights. Reinitializing model.")
-            for module in agent.modules():
-                if hasattr(module, "reset_parameters"):
-                    module.reset_parameters()
-            if hasattr(agent, "_initialize_cnn_weights"):
-                agent._initialize_cnn_weights()
+            agent.initialize_cnn_weights()
     except FileNotFoundError:
-        print(f"No saved weights found at {filepath}")
+        print(f"No saved weights found at {filepath}; starting fresh.")
+    except RuntimeError as exc:
+        print(f"Checkpoint at {filepath} is incompatible with the current architecture: {exc}")
+        print("Starting with fresh weights.")
 
 
 if __name__ == "__main__":
-    import sys
+    dataset_file = sys.argv[1] if len(sys.argv) > 1 else "replay.json"
+    epochs = int(sys.argv[2]) if len(sys.argv) > 2 else 10
 
-    if len(sys.argv) > 1:
-        dataset_file = sys.argv[1]
-    else:
-        dataset_file = 'replay.json'
+    unit_defs.load_unit_defs(str(Path(__file__).resolve().parent.parent / config.UNIT_DEFS_PATH))
+    state.unit_defs_loaded = True
 
-    load_agent('agent_weights_feature_based.pth')
-    train_imitation(dataset_file, epochs=10)
-    save_agent('agent_weights_feature_based.pth')
+    load_agent(OFFLINE_CHECKPOINT_PATH)
+    train_imitation(dataset_file, epochs=epochs)
+    save_agent(OFFLINE_CHECKPOINT_PATH)
 
-    print("\nUsage: python offline_train.py [imitation_dataset.json]")
+    print(f"\nUsage: python offline_train.py [imitation_dataset.json] [epochs]")
+    print(f"Checkpoint path: {OFFLINE_CHECKPOINT_PATH}")

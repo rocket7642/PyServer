@@ -1,9 +1,43 @@
+"""Converts Hooked game recording files into training replay format.
+
+UPDATE (offline-pipeline rebuild): this converter still only distinguishes
+MOVE vs NOOP. It does NOT emit BUILD samples, and it does NOT enrich units
+with name/weapon/type data.
+
+Why these weren't fixed here (rather than silently guessed):
+  1. Build detection: BAR's engine command ID for a build order needs to be
+     confirmed against whatever CmdID Hooked actually logged for build
+     orders in your recordings (the live socket protocol's own build command
+     is a custom string "C: BU I ..." — a different scheme entirely — so it
+     can't be inferred from GameMessager.py). Set BUILD_CMD_ID below once
+     you've confirmed it against a sample recording, and the branch in
+     _parse_commands()/convert_to_replay() will start emitting BUILD
+     samples. Left as None (disabled) so this never mislabels data.
+  2. Unit enrichment: Hooked's runtime_data.txt lines (see _parse_units)
+     only ever contained id/range/health/position — there is no unit name,
+     so there's no reliable way to recover weapon_type/is_constructing/etc.
+     for legacy recordings. offline_train.py's live encoder falls back to
+     unit_defs' "_default" entry for these, which is a known fidelity loss
+     specific to Hooked-sourced data, not a bug to fix here.
+
+Everything else (loading, MOVE/NOOP sample emission) is unchanged from the
+original and still works, since it doesn't depend on any of the live
+agent's newer per-unit fields.
+"""
+
 import json
 import csv
 import re
 import random
 from pathlib import Path
 from typing import List, Dict, Tuple
+
+# Set this to BAR's real build-order CmdID once confirmed (see module
+# docstring). Leaving it None disables BUILD emission entirely — samples
+# that were actually build orders will keep showing up as MOVE, which is
+# the previous (safe, if incomplete) behavior.
+BUILD_CMD_ID = None
+
 
 class HookedDataConverter:
     """Converts Hooked game recording files into training replay format"""
@@ -169,6 +203,9 @@ class HookedDataConverter:
                 else:
                     continue
 
+                # NOTE: 'name' stays generic — Hooked's log format never
+                # captured unit type, so live-encoder enrichment (unit_defs)
+                # will resolve these through the "_default" fallback entry.
                 units.append({
                     'id': unit_id,
                     'name': 'unit',
@@ -243,6 +280,7 @@ class HookedDataConverter:
         print("Converting to replay format...")
 
         samples = []
+        build_samples_emitted = 0
 
         for update in self.runtime_data:
             friendly_units = update['friendly_units']
@@ -275,13 +313,21 @@ class HookedDataConverter:
                     target_y = cmd['params'][1]
                     target_z = cmd['params'][2]
 
+                    # See BUILD_CMD_ID docstring at top of file: emits a
+                    # BUILD sample only once that CmdID has been confirmed.
+                    if BUILD_CMD_ID is not None and cmd.get('cmd_id') == BUILD_CMD_ID:
+                        action_type = 'BUILD'
+                        build_samples_emitted += 1
+                    else:
+                        action_type = 'MOVE'
+
                     samples.append({
                         'timestamp': update['timestamp'],
                         'unit_id': unit_id,
                         'friendly_units': friendly_units,
                         'enemy_units': merged_enemy_units,
                         'action': {
-                            'type': 'MOVE',
+                            'type': action_type,
                             'x': target_x,
                             'y': target_y,
                             'z': target_z,
@@ -303,6 +349,11 @@ class HookedDataConverter:
                                 'z': unit['z']
                             }
                         })
+
+        if BUILD_CMD_ID is None:
+            print("[NOTE] BUILD_CMD_ID is unset — all commands emitted as MOVE. See module docstring.")
+        else:
+            print(f"Emitted {build_samples_emitted} BUILD samples (BUILD_CMD_ID={BUILD_CMD_ID}).")
 
         output = {
             'metadata': {
