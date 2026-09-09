@@ -18,4 +18,4 @@ To add the maps place the compiled versions within the BAR maps folder (`/data/m
 
 # Notes
 
-The final changes to this repository focuses on fixes towards the offline training pipeline, as during the final conclusion of the project it was somewhat left behind. It should now function with respect to the current agent and be more secure for moving forward but might need improvements.
+The final changes to this repository focuses on fixes towards the offline training pipeline, as during the final conclusion of the project it was somewhat left behind. It should now function with respect to the current agent and be more secure for moving forward but might need improvements. The changes, limitations and other circumstances are listed in their appropriate files.
